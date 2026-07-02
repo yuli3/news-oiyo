@@ -1,0 +1,182 @@
+---
+// OIYO News — 개인용 트렌드 뷰어 (HN/GeekNews 스타일, noindex).
+import data from "../data/news.json";
+
+type Item = { src: string; score: number | null; title: string; url: string; domain: string };
+type Day = { date: string; summary: string; items: Item[]; ideas: { title: string; hypothesis: string }[] };
+type MarketRow = { name: string; date?: string; last?: number; dayChange?: number; ret20?: number; vsMa20?: number; signal?: string };
+
+const days = (data.days as Day[]).slice(0, 21);
+const updated = data.generatedAt?.slice(0, 16).replace("T", " ") ?? "";
+const market = (data as { market?: { generatedAt?: string; groups?: Record<string, MarketRow[]> } }).market ?? null;
+const indices = market?.groups?.indices ?? [];
+const stocks = [...(market?.groups?.stocks ?? []), ...(market?.groups?.dividend_etf ?? [])];
+const chg = (v?: number) => (v == null ? "" : `${v > 0 ? "+" : ""}${v.toFixed(2)}%`);
+const tone = (v?: number) => (v == null || v === 0 ? "flat" : v > 0 ? "up" : "down");
+
+const srcColor: Record<string, string> = {
+  HN: "#ff6600",
+  Lobsters: "#ac130d",
+  GeekNews: "#0abf53",
+};
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>OIYO News — 트렌드 정찰</title>
+    <style>
+      :root {
+        --bg: #fbfbf6;
+        --card: #ffffff;
+        --ink: #23241f;
+        --muted: #7a7d70;
+        --accent: #4d7c0f;
+        --border: #e6e8da;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+      header {
+        background: var(--accent);
+        color: #fff;
+        padding: 10px 16px;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+      header b { font-size: 17px; letter-spacing: -0.02em; }
+      header span { font-size: 12px; opacity: 0.85; }
+      main { max-width: 780px; margin: 0 auto; padding: 18px 14px 80px; }
+      .day { margin-bottom: 30px; }
+      .day-head {
+        display: flex; align-items: baseline; gap: 10px;
+        border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin-bottom: 10px;
+      }
+      .day-head h2 { font-size: 16px; margin: 0; }
+      .summary {
+        background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+        border-radius: 10px; padding: 10px 14px; font-size: 13.5px; color: #4a4c42; margin-bottom: 12px;
+      }
+      ol { margin: 0; padding-left: 30px; }
+      li { margin: 7px 0; }
+      li a.t { color: var(--ink); text-decoration: none; font-weight: 600; }
+      li a.t:visited { color: #82857a; }
+      li a.t:hover { color: var(--accent); }
+      .meta { font-size: 12px; color: var(--muted); margin-left: 6px; white-space: nowrap; }
+      .src { font-weight: 700; }
+      details.ideas { margin-top: 10px; font-size: 13px; }
+      details.ideas summary { cursor: pointer; color: var(--accent); font-weight: 700; }
+      details.ideas li { color: #4a4c42; }
+      footer { text-align: center; font-size: 12px; color: var(--muted); padding: 20px; }
+      .market {
+        display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 4px; margin-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .idx {
+        flex: 0 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+        padding: 8px 12px; min-width: 128px;
+      }
+      .idx .n { font-size: 11px; font-weight: 700; color: var(--muted); }
+      .idx .v { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+      .idx .c { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+      .up { color: #dc2626; }   /* 한국 관례: 상승=빨강 */
+      .down { color: #2563eb; }
+      .flat { color: var(--muted); }
+      .idx .s { font-size: 11px; color: var(--muted); }
+      details.stocks { font-size: 13px; margin: 2px 0 18px; }
+      details.stocks summary { cursor: pointer; color: var(--accent); font-weight: 700; }
+      details.stocks table { width: 100%; border-collapse: collapse; margin-top: 8px; background: var(--card); border-radius: 10px; }
+      details.stocks th, details.stocks td { text-align: right; padding: 5px 10px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
+      details.stocks th:first-child, details.stocks td:first-child { text-align: left; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <b>OIYO NEWS</b>
+      <span>HN · Lobsters · GeekNews 정찰 큐레이션 (trend_scout)</span>
+      <span style="margin-left:auto">sync {updated}</span>
+    </header>
+    <main>
+      {indices.length > 0 && (
+        <>
+          <div class="market">
+            {indices.map((r) => (
+              <div class="idx">
+                <div class="n">{r.name} <span style="font-weight:400">{r.date?.slice(5)}</span></div>
+                <div class="v">{r.last?.toLocaleString()}</div>
+                <div class={`c ${tone(r.dayChange)}`}>{chg(r.dayChange)} <span class="s">/ 20d {chg(r.ret20)}</span></div>
+                {r.signal && <div class="s">{r.signal}</div>}
+              </div>
+            ))}
+          </div>
+          {stocks.length > 0 && (
+            <details class="stocks">
+              <summary>📈 관심 종목 · 배당 ETF {stocks.length}</summary>
+              <table>
+                <thead><tr><th>종목</th><th>종가</th><th>일간</th><th>20일</th><th>vs MA20</th><th>시그널</th></tr></thead>
+                <tbody>
+                  {stocks.map((r) => (
+                    <tr>
+                      <td>{r.name}</td>
+                      <td>{r.last?.toLocaleString()}</td>
+                      <td class={tone(r.dayChange)}>{chg(r.dayChange)}</td>
+                      <td class={tone(r.ret20)}>{chg(r.ret20)}</td>
+                      <td class={tone(r.vsMa20)}>{chg(r.vsMa20)}</td>
+                      <td style="text-align:left">{r.signal ?? ""}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </details>
+          )}
+        </>
+      )}
+      {days.length === 0 && <p>아직 데이터가 없습니다. <code>npm run sync</code>를 먼저 실행하세요.</p>}
+      {days.map((d) => (
+        <section class="day">
+          <div class="day-head">
+            <h2>{d.date}</h2>
+            <span class="meta">{d.items.length}건</span>
+          </div>
+          {d.summary && <p class="summary">{d.summary}</p>}
+          <ol>
+            {d.items.map((it) => (
+              <li>
+                <a class="t" href={it.url} target="_blank" rel="noopener noreferrer">{it.title}</a>
+                <span class="meta">
+                  <span class="src" style={`color:${srcColor[it.src] ?? "var(--muted)"}`}>{it.src}</span>
+                  {it.score != null && <> ▲{it.score}</>}
+                  {it.domain && <> · {it.domain}</>}
+                </span>
+              </li>
+            ))}
+          </ol>
+          {d.ideas.length > 0 && (
+            <details class="ideas">
+              <summary>💡 도출된 아이디어 {d.ideas.length}건</summary>
+              <ul>
+                {d.ideas.map((i) => (
+                  <li><b>{i.title}</b> — {i.hypothesis}</li>
+                ))}
+              </ul>
+            </details>
+          )}
+        </section>
+      ))}
+    </main>
+    <footer>OIYO 내부용 · 매일 cron(trend_scout)이 수집 → sync → 배포</footer>
+  </body>
+</html>
