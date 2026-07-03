@@ -22,7 +22,7 @@ for (const f of readdirSync(TRENDS).filter((x) => /^\d{4}-\d{2}-\d{2}\.md$/.test
   const md = readFileSync(join(TRENDS, f), "utf8");
   const date = f.replace(".md", "");
 
-  const summary = (md.match(/## Summary\s+([\s\S]*?)\n##/) || [])[1]?.trim() ?? "";
+  const summary = (md.match(/## Summary\s+([\s\S]*?)(\n## |$)/) || [])[1]?.trim() ?? "";
 
   const items = [];
   const signals = (md.match(/## Top signals\s+([\s\S]*?)(\n## |$)/) || [])[1] ?? "";
