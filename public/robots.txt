@@ -1,2 +1,7 @@
+# 개인용 — 전체 크롤 차단. 단 네이버 인증봇(Yeti)은 루트만 허용(메타 인증 확인용).
+User-agent: Yeti
+Allow: /$
+Disallow: /
+
 User-agent: *
 Disallow: /
