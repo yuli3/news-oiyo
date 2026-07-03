@@ -1,8 +1,9 @@
 import { defineConfig } from "astro/config";
+import sitemap from "@astrojs/sitemap";
 
-// news.oiyo.net — 개인용 트렌드 뉴스 뷰어 (HN/GeekNews 스타일).
-// 데이터는 scripts/sync-news.mjs가 company-brain 트렌드 노트에서 레포 안
-// src/data/news.json으로 복사해 두고, 빌드는 레포 안 파일만 읽는다.
+// news.oiyo.net — OIYO 패밀리 뉴스 (디자인·코딩·AI·프로그래밍·경제·주식 데일리 큐레이션).
+// 2026-07-04 공개 전환: noindex 해제, sitemap 추가. 데이터는 sync가 레포 안으로 복사.
 export default defineConfig({
   site: "https://news.oiyo.net",
+  integrations: [sitemap()],
 });
