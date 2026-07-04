@@ -9,8 +9,16 @@ type MarketRow = { name: string; date?: string; last?: number; dayChange?: numbe
 const days = (data.days as Day[]).slice(0, 21);
 const updated = data.generatedAt?.slice(0, 16).replace("T", " ") ?? "";
 const market = (data as { market?: { generatedAt?: string; groups?: Record<string, MarketRow[]> } }).market ?? null;
-const indices = market?.groups?.indices ?? [];
-const stocks = [...(market?.groups?.stocks ?? []), ...(market?.groups?.dividend_etf ?? [])];
+const G = market?.groups ?? {};
+const indices = G.indices ?? [];
+// 테마별 접이식 섹션 (사용자 요청: AI 개별주식·AI ETF·월배당 개별주식·월배당 ETF)
+const themed: { label: string; rows: MarketRow[] }[] = [
+  { label: "🤖 AI 개별주식", rows: G.ai_stocks ?? [] },
+  { label: "🤖 AI ETF", rows: G.ai_etf ?? [] },
+  { label: "💰 월배당 개별주식", rows: G.monthly_div_stocks ?? [] },
+  { label: "💰 월배당 ETF", rows: G.monthly_div_etf ?? [] },
+  { label: "📊 관심 종목 · 배당 ETF", rows: [...(G.stocks ?? []), ...(G.dividend_etf ?? [])] },
+].filter((s) => s.rows.length > 0);
 const chg = (v?: number) => (v == null ? "" : `${v > 0 ? "+" : ""}${v.toFixed(2)}%`);
 const tone = (v?: number) => (v == null || v === 0 ? "flat" : v > 0 ? "up" : "down");
 
@@ -136,13 +144,13 @@ const srcColor: Record<string, string> = {
               </div>
             ))}
           </div>
-          {stocks.length > 0 && (
+          {themed.map((sec) => (
             <details class="stocks">
-              <summary>📈 관심 종목 · 배당 ETF {stocks.length}</summary>
+              <summary>{sec.label} {sec.rows.length}</summary>
               <table>
                 <thead><tr><th>종목</th><th>종가</th><th>일간</th><th>20일</th><th>vs MA20</th><th>시그널</th></tr></thead>
                 <tbody>
-                  {stocks.map((r) => (
+                  {sec.rows.map((r) => (
                     <tr>
                       <td>{r.name}</td>
                       <td>{r.last?.toLocaleString()}</td>
@@ -155,7 +163,7 @@ const srcColor: Record<string, string> = {
                 </tbody>
               </table>
             </details>
-          )}
+          ))}
         </>
       )}
       {days.length === 0 && <p>아직 데이터가 없습니다. <code>npm run sync</code>를 먼저 실행하세요.</p>}
