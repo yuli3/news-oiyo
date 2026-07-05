@@ -1,6 +1,127 @@
 {
- "generatedAt": "2026-07-04T06:24:34.211Z",
+ "generatedAt": "2026-07-05T01:30:09.104Z",
  "days": [
+  {
+   "date": "2026-07-05",
+   "summary": "최근 기술 트렌드는 복잡한 인프라 관리보다는 유지보수가 필요 없는 정적 구조와 효율적인 데이터 표현에 집중하고 있습니다. 특히 AI 생성 콘텐츠의 신뢰성 문제가 대두됨에 따라, 우리 사이트의 테스트 결과나 콘텐츠의 투명성을 확보하는 것이 중요해졌습니다. 우리 스택(Astro)에서는 복잡한 백엔드 의존성을 제거하고, 데이터 구조를 최적화하여 운영 부하를 최소화하는 방향이 유효합니다.",
+   "items": [
+    {
+     "src": "HN",
+     "score": 757,
+     "title": "The bottleneck might be the air in the room",
+     "url": "https://blog.mikebowler.ca/2026/07/03/co2-and-decision-making/",
+     "domain": "blog.mikebowler.ca"
+    },
+    {
+     "src": "HN",
+     "score": 384,
+     "title": "Explanation of everything you can see in htop/top on Linux (2019)",
+     "url": "https://peteris.rocks/blog/htop/",
+     "domain": "peteris.rocks"
+    },
+    {
+     "src": "HN",
+     "score": 190,
+     "title": "Astrophysicists Puzzle over Webb’s New Universe",
+     "url": "https://www.quantamagazine.org/astrophysicists-puzzle-over-webbs-new-universe-20260702/",
+     "domain": "quantamagazine.org"
+    },
+    {
+     "src": "HN",
+     "score": 165,
+     "title": "Postgres data stored in Parquet on S3: LTAP architecture explained",
+     "url": "https://www.databricks.com/blog/lakebase-ltap-rethinking-database-storage",
+     "domain": "databricks.com"
+    },
+    {
+     "src": "HN",
+     "score": 134,
+     "title": "Zig: All Package Management Functionality Moved from Compiler to Build System",
+     "url": "https://ziglang.org/devlog/2026/#2026-06-30",
+     "domain": "ziglang.org"
+    },
+    {
+     "src": "HN",
+     "score": 127,
+     "title": "GPT-5.5 Codex reasoning-token clustering may be leading to degraded performance",
+     "url": "https://github.com/openai/codex/issues/30364",
+     "domain": "github.com"
+    },
+    {
+     "src": "HN",
+     "score": 88,
+     "title": "Scientists reverse brain aging, with a nasal spray",
+     "url": "https://stories.tamu.edu/news/2026/04/14/scientists-reverse-brain-aging-with-a-nasal-spray/",
+     "domain": "stories.tamu.edu"
+    },
+    {
+     "src": "HN",
+     "score": 58,
+     "title": "Designing DB partitions you don't have to babysit",
+     "url": "https://explainanalyze.com/p/designing-partitioning-you-dont-have-to-babysit/",
+     "domain": "explainanalyze.com"
+    },
+    {
+     "src": "HN",
+     "score": 56,
+     "title": "Plein Air",
+     "url": "https://art.joonas.wtf/",
+     "domain": "art.joonas.wtf"
+    },
+    {
+     "src": "Lobsters",
+     "score": 45,
+     "title": "What should a personal website be?",
+     "url": "https://ratfactor.com/cards/personal-website",
+     "domain": "ratfactor.com"
+    },
+    {
+     "src": "Lobsters",
+     "score": 33,
+     "title": "I Don't Maintain My Homelab",
+     "url": "https://cleberg.net/blog/homelab-maintenance.html",
+     "domain": "cleberg.net"
+    },
+    {
+     "src": "HN",
+     "score": 24,
+     "title": "Australian influencer Lily Jay's tangled web of AI manipulation",
+     "url": "https://www.abc.net.au/news/2026-07-05/lily-jay-foundation-posts-ai-generated-misleading-videos/106866422",
+     "domain": "abc.net.au"
+    },
+    {
+     "src": "HN",
+     "score": 19,
+     "title": "My AI-built PHP engine in Rust passes 17% of PHP-src tests, renders WordPress",
+     "url": "https://ekinertac.com/blog/i-dont-know-rust-my-ai-is-rewriting-php-in-it/",
+     "domain": "ekinertac.com"
+    },
+    {
+     "src": "HN",
+     "score": 19,
+     "title": "Can you build a recognizable World Map in under 500 bytes?",
+     "url": "https://www.experimentlog.com/blog/building-a-world-map-with-only-500-bytes",
+     "domain": "experimentlog.com"
+    },
+    {
+     "src": "Lobsters",
+     "score": 13,
+     "title": "The Lion, The Witch, and the audacity of recruiters",
+     "url": "https://hauleth.dev/post/the-lion-the-witch-and-the-aduacity-of-recruiter/",
+     "domain": "hauleth.dev"
+    }
+   ],
+   "ideas": [
+    {
+     "title": "500바이트 미만 세계 지도 기법을 활용한 테스트 결과 시각화",
+     "hypothesis": "oiyo.net의 성격 테스트 결과 페이지에서 무거운 차트 라이브러리 대신, 500바이트 내외의 초경량 SVG/Canvas 로직을 사용하면 페이지 로딩 속도를 획기적으로 개선하고 Core Web Vitals 점수를 높일 수 있습니다."
+    },
+    {
+     "title": "콘텐츠 신뢰성 강화를 위한 'AI 생성/편집' 투명성 메타데이터 도입",
+     "hypothesis": "blog.oiyo.net의 기사나 wiki.oiyo.net의 정의에 AI 활용 여부를 구조화된 데이터(Schema.org)로 명시하면, 최근 AI 조작 이슈에 민감한 사용자들에게 신뢰를 주고 검색 엔진의 AIEO(AI Experience Optimization) 대응력을 높일 수 있습니다."
+    }
+   ]
+  },
   {
    "date": "2026-07-01",
    "summary": "최신 AI 모델들은 성능 향상보다 데이터 출처 관리와 특정 도메인(과학, 추론) 최적화에 집중하고 있습니다. 웹 생태계에서는 성능 최적화의 한계와 실질적 가치에 대한 회의론이 대두되고 있으며, 우리와 같은 소규모 콘텐츠 사이트는 복잡한 AI 도입보다 콘텐츠의 본질적 가치와 구조적 안정성에 집중하는 것이 유리합니다.",
