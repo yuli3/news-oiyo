@@ -1,0 +1,18 @@
+# OIYO News (news.oiyo.net)
+
+> Daily curated news and market briefs from the OIYO family — concise, source-linked
+> summaries across economy, markets and technology. Editorial guardrails: no hidden
+> conflicts of interest, no hype, one-paragraph summary → causes → correlation.
+
+## Key pages
+- https://news.oiyo.net/ — daily curated briefs (6 locales: en/ko/ja/zh/fr/es)
+
+## OIYO family
+oiyo.net (tests & tools) · blog.oiyo.net (guides) · wiki.oiyo.net (dictionary)
+· game.oiyo.net (games) · news.oiyo.net (this site) · ai.oiyo.net (AX showcase)
+
+## Machine-readable identity
+- [brand-facts.json](https://news.oiyo.net/brand-facts.json): organization identity (shared @id), the 6-site network, locales, and citation guidance.
+
+## Publisher
+Oiyo — https://oiyo.net/#organization
