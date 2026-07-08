@@ -17,6 +17,23 @@ if (!existsSync(TRENDS)) {
   process.exit(1);
 }
 
+// Cross-day dedup key: same story (HN topstories persist for days, so a headline
+// recurs across consecutive trend notes). Prefer normalized URL, fall back to title.
+const dedupKey = (it) => {
+  if (it.url) {
+    try {
+      const u = new URL(it.url);
+      return "u:" + u.hostname.replace(/^www\./, "") + u.pathname.replace(/\/$/, "");
+    } catch { /* fall through to title */ }
+  }
+  return "t:" + it.title.trim().toLowerCase();
+};
+
+// Days are read newest-first, so the FIRST time we see a story we keep it (its most
+// recent appearance) and drop the older repeats — each headline shows exactly once.
+const seenGlobal = new Set();
+let dropped = 0;
+
 const days = [];
 for (const f of readdirSync(TRENDS).filter((x) => /^\d{4}-\d{2}-\d{2}\.md$/.test(x)).sort().reverse()) {
   const md = readFileSync(join(TRENDS, f), "utf8");
@@ -33,7 +50,11 @@ for (const f of readdirSync(TRENDS).filter((x) => /^\d{4}-\d{2}-\d{2}\.md$/.test
     const url = m[4];
     let domain = "";
     try { domain = new URL(url).hostname.replace(/^www\./, ""); } catch { /* keep empty */ }
-    items.push({ src: m[1], score: m[2] ? Number(m[2]) : null, title: m[3], url, domain });
+    const it = { src: m[1], score: m[2] ? Number(m[2]) : null, title: m[3], url, domain };
+    const key = dedupKey(it);
+    if (seenGlobal.has(key)) { dropped++; continue; }
+    seenGlobal.add(key);
+    items.push(it);
   }
 
   const ideas = [];
@@ -52,4 +73,4 @@ if (existsSync(MARKET)) {
 }
 
 writeFileSync(OUT, JSON.stringify({ generatedAt: new Date().toISOString(), days, market }, null, 1), "utf8");
-console.log(`synced ${days.length} day(s), ${days.reduce((s, d) => s + d.items.length, 0)} items, market=${market ? "ok" : "none"} → src/data/news.json`);
+console.log(`synced ${days.length} day(s), ${days.reduce((s, d) => s + d.items.length, 0)} items (deduped ${dropped} cross-day repeat${dropped === 1 ? "" : "s"}), market=${market ? "ok" : "none"} → src/data/news.json`);

@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-07-08T01:33:55.614Z",
+ "generatedAt": "2026-07-08T05:28:57.413Z",
  "days": [
   {
    "date": "2026-07-05",
@@ -223,13 +223,6 @@
      "title": "Show HN: My 13-year-old built an ant colony tracker",
      "url": "https://formicarium.es",
      "domain": "formicarium.es"
-    },
-    {
-     "src": "Lobsters",
-     "score": 36,
-     "title": "Claude Code Is Steganographically Marking Requests",
-     "url": "https://thereallo.dev/blog/claude-code-prompt-steganography",
-     "domain": "thereallo.dev"
     }
    ],
    "ideas": [
@@ -328,13 +321,6 @@
      "domain": "htmx.org"
     },
     {
-     "src": "Lobsters",
-     "score": 55,
-     "title": "When Impressive Performance Gains Do Not Matter",
-     "url": "https://blog.colinbreck.com/when-impressive-performance-gains-do-not-matter/",
-     "domain": "blog.colinbreck.com"
-    },
-    {
      "src": "HN",
      "score": 52,
      "title": "Ornith-1.0: Self-scaffolding LLMs for agentic coding",
@@ -431,13 +417,6 @@
      "title": "Show HN: NanoEuler – GPT-2 scale model in pure C/CUDA from scratch",
      "url": "https://github.com/JustVugg/nanoeuler",
      "domain": "github.com"
-    },
-    {
-     "src": "HN",
-     "score": 34,
-     "title": "Linux Kills Strncpy",
-     "url": "https://smist08.wordpress.com/2026/06/25/linux-kills-strncpy/",
-     "domain": "smist08.wordpress.com"
     },
     {
      "src": "HN",
