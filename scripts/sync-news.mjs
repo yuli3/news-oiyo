@@ -34,8 +34,31 @@ const dedupKey = (it) => {
 const seenGlobal = new Set();
 let dropped = 0;
 
+const dateFiles = readdirSync(TRENDS).filter((x) => /^\d{4}-\d{2}-\d{2}\.md$/.test(x)).sort();
+
+// gap 감지 전용(로그만 남긴다, 파일은 안 만든다) — trend_scout.py가 며칠 못 돌면
+// (맥 오프라인 등) 조용히 파일이 비고, sync는 있는 파일만 처리하느라 이걸 못 알아챈다.
+// 여기서 콘솔에 명시적으로 남기면 news_daily_push.sh의 cron 로그(hermes jobs.json에
+// stdout으로 캡처됨)에서 공백을 바로 확인할 수 있다.
+if (dateFiles.length) {
+  const missing = [];
+  // UTC로 파싱+포맷 양쪽을 고정해야 로컬 타임존(Asia/Seoul 등)에서 날짜가
+  // 하루씩 밀리는 off-by-one을 피할 수 있다.
+  let d = new Date(dateFiles[0].replace(".md", "") + "T00:00:00Z");
+  const last = new Date(dateFiles[dateFiles.length - 1].replace(".md", "") + "T00:00:00Z");
+  const have = new Set(dateFiles.map((f) => f.replace(".md", "")));
+  while (d < last) {
+    const iso = d.toISOString().slice(0, 10);
+    if (!have.has(iso)) missing.push(iso);
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  if (missing.length) {
+    console.warn(`gap detected in trends dir: ${missing.length} day(s) missing (${missing[0]}..${missing[missing.length - 1]}) — not backfilled, see trend_scout.py gap notice`);
+  }
+}
+
 const days = [];
-for (const f of readdirSync(TRENDS).filter((x) => /^\d{4}-\d{2}-\d{2}\.md$/.test(x)).sort().reverse()) {
+for (const f of dateFiles.slice().reverse()) {
   const md = readFileSync(join(TRENDS, f), "utf8");
   const date = f.replace(".md", "");
 
