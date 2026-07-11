@@ -1,6 +1,120 @@
 {
- "generatedAt": "2026-07-10T01:57:09.710Z",
+ "generatedAt": "2026-07-11T01:30:01.688Z",
  "days": [
+  {
+   "date": "2026-07-11",
+   "summary": "오늘의 기술 트렌드 중 우리 서비스에 직접 적용 가능한 것은 LLM 비용 최적화 도구와 복잡한 인터랙티브 시뮬레이션 인터페이스 설계입니다. 특히 정적 사이트의 운영 효율성을 높이고 사용자 경험을 개선하는 데 초점을 맞춘 기술들이 눈에 띕니다. 우리 서비스의 인프라를 유지하면서도 콘텐츠 생성 및 운영 비용을 줄일 수 있는 실질적인 도구들을 선별했습니다.",
+   "items": [
+    {
+     "src": "HN",
+     "score": 456,
+     "title": "Apple sues OpenAI, accuses ex-employees of stealing trade secrets",
+     "url": "https://9to5mac.com/2026/07/10/apple-sues-openai-trade-secret-theft/",
+     "domain": "9to5mac.com"
+    },
+    {
+     "src": "HN",
+     "score": 174,
+     "title": "How the terrorist group Boko Haram uses frontier AI",
+     "url": "https://casp.ac/reports/ai-enabled-terrorism",
+     "domain": "casp.ac"
+    },
+    {
+     "src": "HN",
+     "score": 154,
+     "title": "Snails' teeth beats spider silk as nature's strongest material (2015)",
+     "url": "https://www.smithsonianmag.com/smart-news/spider-silk-loses-top-spot-natures-strongest-material-snails-teeth-180954346/",
+     "domain": "smithsonianmag.com"
+    },
+    {
+     "src": "HN",
+     "score": 138,
+     "title": "AI 2040: Plan A",
+     "url": "https://ai-2040.com/",
+     "domain": "ai-2040.com"
+    },
+    {
+     "src": "Lobsters",
+     "score": 129,
+     "title": "You paid me, a long-time Linux user, to use Windows 11 exclusively for a month: here’s how it went",
+     "url": "https://www.osnews.com/story/145459/you-paid-me-a-long-time-linux-user-to-use-windows-11-exclusively-for-a-month-heres-how-it-went/",
+     "domain": "osnews.com"
+    },
+    {
+     "src": "HN",
+     "score": 117,
+     "title": "Combustion engine web-based simulator",
+     "url": "https://combustionlab.net",
+     "domain": "combustionlab.net"
+    },
+    {
+     "src": "HN",
+     "score": 93,
+     "title": "Alternate clock designs and time systems",
+     "url": "https://serialc.github.io/altClocks/",
+     "domain": "serialc.github.io"
+    },
+    {
+     "src": "HN",
+     "score": 55,
+     "title": "Show HN: Frugon – Find which LLM calls a cheaper model could handle (local, MIT)",
+     "url": "https://github.com/Rodiun/frugon",
+     "domain": "github.com"
+    },
+    {
+     "src": "HN",
+     "score": 50,
+     "title": "Show HN: Reviving my 2001 college band with AI",
+     "url": "https://www.fadingmaize.com",
+     "domain": "fadingmaize.com"
+    },
+    {
+     "src": "HN",
+     "score": 49,
+     "title": "Show HN: Wyrm – Solve algebra by touch, built on an open-source soundness engine",
+     "url": "https://github.com/dicroce/wyrm_math",
+     "domain": "github.com"
+    },
+    {
+     "src": "Lobsters",
+     "score": 39,
+     "title": "Hannah Montana Linux v26.0",
+     "url": "https://gitlab.com/DecaCagle/hannahmontanalinux26",
+     "domain": "gitlab.com"
+    },
+    {
+     "src": "HN",
+     "score": 38,
+     "title": "Count Binface, Nigel Farage's space-warrior foe",
+     "url": "https://www.economist.com/the-world-in-brief/2026/07/11/b240d63f-2768-43dd-89b6-2bdceb6df745",
+     "domain": "economist.com"
+    },
+    {
+     "src": "HN",
+     "score": 31,
+     "title": "GhostLock, a stack-UAF that has existed in ALL Linux distributions for 15 years",
+     "url": "https://nebusec.ai/research/ionstack-part-2/",
+     "domain": "nebusec.ai"
+    },
+    {
+     "src": "Lobsters",
+     "score": 22,
+     "title": "How to build a circular LCD clock",
+     "url": "https://blinry.org/lcd-clock/",
+     "domain": "blinry.org"
+    }
+   ],
+   "ideas": [
+    {
+     "title": "Frugon을 활용한 테스트 결과 생성 비용 최적화",
+     "hypothesis": "oiyo.net의 성격 테스트 결과 페이지에서 LLM을 호출할 때, Frugon을 통해 간단한 로직은 저렴한 모델로, 복잡한 분석은 고성능 모델로 라우팅하면 API 비용을 30% 이상 절감할 수 있습니다."
+    },
+    {
+     "title": "CombustionLab 스타일의 인터랙티브 심리학 도구 UI 도입",
+     "hypothesis": "wiki.oiyo.net의 심리학 용어 설명 페이지에 정적인 텍스트 대신, CombustionLab과 같은 인터랙티브 시뮬레이터 UI를 도입하면 사용자 체류 시간과 이해도를 높일 수 있습니다."
+    }
+   ]
+  },
   {
    "date": "2026-07-09",
    "summary": "오늘의 기술 트렌드는 복잡한 AI 에이전트 도입보다는 기존 정적 사이트의 유지보수 효율성과 콘텐츠 간의 연결성을 강화하는 방향으로 흐르고 있습니다. 특히 코드베이스의 가독성을 높이거나, 문서 간의 내구적인 링크를 생성하는 방식이 우리와 같은 소규모 정적 사이트 운영에 실질적인 도움이 될 것으로 보입니다. 불필요한 인프라 확장보다는 현재의 Astro 기반 스택을 최적화하는 데 집중해야 합니다.",
