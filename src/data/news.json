@@ -1,6 +1,120 @@
 {
- "generatedAt": "2026-07-11T01:30:01.688Z",
+ "generatedAt": "2026-07-12T01:30:12.981Z",
  "days": [
+  {
+   "date": "2026-07-12",
+   "summary": "오늘의 기술 트렌드는 AI의 무분별한 스크래핑에 대응하는 방어적 기술과, 복잡한 프레임워크 대신 웹의 본질인 '문서'로서의 가치를 회복하려는 움직임이 핵심입니다. 우리 서비스인 oiyo.net의 테스트 결과물이나 wiki.oiyo.net의 콘텐츠가 AI 모델의 무단 학습 데이터로 소비되는 것을 방지하고, 사용자에게는 더 명확한 가치를 전달하는 방향으로 기술적 대응이 필요합니다.",
+   "items": [
+    {
+     "src": "HN",
+     "score": 243,
+     "title": "Female US rower completes historic solo journey from California to Hawaii",
+     "url": "https://www.theguardian.com/us-news/2026/jul/04/california-hawaii-rowing-solo-journey",
+     "domain": "theguardian.com"
+    },
+    {
+     "src": "HN",
+     "score": 193,
+     "title": "Ghost Font: A font that humans can read but AI cannot",
+     "url": "https://www.mixfont.com/ghost-font",
+     "domain": "mixfont.com"
+    },
+    {
+     "src": "HN",
+     "score": 179,
+     "title": "AI 2040 and the cult of intelligence",
+     "url": "https://geohot.github.io//blog/jekyll/update/2026/07/11/ai-2040.html",
+     "domain": "geohot.github.io"
+    },
+    {
+     "src": "HN",
+     "score": 153,
+     "title": "Stop Telling Me to Ask an LLM",
+     "url": "https://blog.yaelwrites.com/stop-telling-me-to-ask-an-llm/",
+     "domain": "blog.yaelwrites.com"
+    },
+    {
+     "src": "Lobsters",
+     "score": 143,
+     "title": "You paid me, a long-time Linux user, to use Windows 11 exclusively for a month: here’s how it went",
+     "url": "https://www.osnews.com/story/145459/you-paid-me-a-long-time-linux-user-to-use-windows-11-exclusively-for-a-month-heres-how-it-went/",
+     "domain": "osnews.com"
+    },
+    {
+     "src": "HN",
+     "score": 119,
+     "title": "Show HN: Learn by rebuilding Redis, Git, a database from scratch",
+     "url": "https://shipthatcode.com",
+     "domain": "shipthatcode.com"
+    },
+    {
+     "src": "HN",
+     "score": 107,
+     "title": "Book: RISC-V System-on-Chip Design",
+     "url": "https://www.amazon.com/RISC-V-Microprocessor-System-Chip-Design/dp/0323994989",
+     "domain": "amazon.com"
+    },
+    {
+     "src": "HN",
+     "score": 91,
+     "title": "Reverse centaurs are the answer to the AI paradox (2025)",
+     "url": "https://pluralistic.net/2025/09/11/vulgar-thatcherism/#there-is-an-alternative",
+     "domain": "pluralistic.net"
+    },
+    {
+     "src": "Lobsters",
+     "score": 72,
+     "title": "Hannah Montana Linux v26.0",
+     "url": "https://gitlab.com/DecaCagle/hannahmontanalinux26",
+     "domain": "gitlab.com"
+    },
+    {
+     "src": "HN",
+     "score": 59,
+     "title": "Mesh LLM: distributed AI computing on iroh",
+     "url": "https://www.iroh.computer/blog/mesh-llm",
+     "domain": "iroh.computer"
+    },
+    {
+     "src": "HN",
+     "score": 51,
+     "title": "AI Can't Recreate the Thrust Game (But It Can Help You Understand It)",
+     "url": "https://www.jamesdrandall.com/posts/thrust_ai_powered_software_archaeology/",
+     "domain": "jamesdrandall.com"
+    },
+    {
+     "src": "HN",
+     "score": 49,
+     "title": "RISCBoy is an open-source portable games console, designed from scratch",
+     "url": "https://github.com/Wren6991/RISCBoy",
+     "domain": "github.com"
+    },
+    {
+     "src": "Lobsters",
+     "score": 41,
+     "title": "I converted an Android app to a webpage",
+     "url": "https://danq.me/2026/07/09/your-app-could-have-been-a-webpage/",
+     "domain": "danq.me"
+    },
+    {
+     "src": "Lobsters",
+     "score": 15,
+     "title": "AI Surveillance and Social Progress",
+     "url": "https://www.schneier.com/blog/archives/2026/07/ai-surveillance-and-social-progress.html",
+     "domain": "schneier.com"
+    }
+   ],
+   "ideas": [
+    {
+     "title": "테스트 결과 페이지에 Ghost Font 적용",
+     "hypothesis": "oiyo.net의 성격 테스트 결과 페이지에 Ghost Font를 도입하면, 인간 사용자는 가독성을 유지하면서도 AI 스크래퍼가 텍스트를 수집하여 우리 콘텐츠를 무단 학습하거나 요약하는 것을 기술적으로 방해할 수 있습니다."
+    },
+    {
+     "title": "UI 텍스트 변경 사항 추적을 위한 diff 도구 도입",
+     "hypothesis": "blog.oiyo.net의 강좌 및 매거진 콘텐츠는 지속적인 업데이트가 필요합니다. 'gap'과 같은 가벼운 UI 텍스트 diff 도구를 내부 ops 대시보드에 통합하면, 콘텐츠 수정 시 변경 사항을 시각적으로 명확히 확인하여 편집 실수를 줄이고 버전 관리를 자동화할 수 있습니다."
+    }
+   ]
+  },
   {
    "date": "2026-07-11",
    "summary": "오늘의 기술 트렌드 중 우리 서비스에 직접 적용 가능한 것은 LLM 비용 최적화 도구와 복잡한 인터랙티브 시뮬레이션 인터페이스 설계입니다. 특히 정적 사이트의 운영 효율성을 높이고 사용자 경험을 개선하는 데 초점을 맞춘 기술들이 눈에 띕니다. 우리 서비스의 인프라를 유지하면서도 콘텐츠 생성 및 운영 비용을 줄일 수 있는 실질적인 도구들을 선별했습니다.",
@@ -32,13 +146,6 @@
      "title": "AI 2040: Plan A",
      "url": "https://ai-2040.com/",
      "domain": "ai-2040.com"
-    },
-    {
-     "src": "Lobsters",
-     "score": 129,
-     "title": "You paid me, a long-time Linux user, to use Windows 11 exclusively for a month: here’s how it went",
-     "url": "https://www.osnews.com/story/145459/you-paid-me-a-long-time-linux-user-to-use-windows-11-exclusively-for-a-month-heres-how-it-went/",
-     "domain": "osnews.com"
     },
     {
      "src": "HN",
@@ -74,13 +181,6 @@
      "title": "Show HN: Wyrm – Solve algebra by touch, built on an open-source soundness engine",
      "url": "https://github.com/dicroce/wyrm_math",
      "domain": "github.com"
-    },
-    {
-     "src": "Lobsters",
-     "score": 39,
-     "title": "Hannah Montana Linux v26.0",
-     "url": "https://gitlab.com/DecaCagle/hannahmontanalinux26",
-     "domain": "gitlab.com"
     },
     {
      "src": "HN",
