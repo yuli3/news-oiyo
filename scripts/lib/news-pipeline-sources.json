@@ -1,0 +1,62 @@
+{
+  "schema": "oiyo.news-source",
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "hacker-news",
+      "name": "Hacker News",
+      "homepage": "https://news.ycombinator.com",
+      "type": "secondary",
+      "aliases": ["HN"]
+    },
+    {
+      "id": "lobsters",
+      "name": "Lobsters",
+      "homepage": "https://lobste.rs",
+      "type": "secondary",
+      "aliases": ["Lobsters"]
+    },
+    {
+      "id": "geeknews",
+      "name": "GeekNews",
+      "homepage": "https://news.hada.io",
+      "type": "secondary",
+      "aliases": ["GeekNews"]
+    },
+    {
+      "id": "reddit",
+      "name": "Reddit",
+      "homepage": "https://www.reddit.com",
+      "type": "secondary",
+      "aliases": ["Reddit"]
+    },
+    {
+      "id": "openai-news",
+      "name": "OpenAI News",
+      "homepage": "https://openai.com/news",
+      "type": "primary",
+      "aliases": ["OpenAI"]
+    },
+    {
+      "id": "deepmind-blog",
+      "name": "Google DeepMind Blog",
+      "homepage": "https://deepmind.google/discover/blog",
+      "type": "primary",
+      "aliases": ["DeepMind"]
+    },
+    {
+      "id": "karpathy-blog",
+      "name": "Andrej Karpathy's blog",
+      "homepage": "https://karpathy.bearblog.dev",
+      "type": "primary",
+      "aliases": ["Karpathy"]
+    },
+    {
+      "id": "yahoo-finance",
+      "name": "Yahoo Finance",
+      "homepage": "https://finance.yahoo.com",
+      "type": "secondary",
+      "aliases": ["YahooFinance"]
+    }
+  ]
+}

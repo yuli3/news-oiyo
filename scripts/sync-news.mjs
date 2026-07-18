@@ -5,34 +5,27 @@
 import { readFileSync, readdirSync, writeFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { adaptTrendSignals } from "./lib/news-pipeline-adapter.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BRAIN = join(process.env.HOME, "coding", "company-brain");
 const TRENDS = join(BRAIN, "AI-Sessions", "wiki", "sources", "trends");
 const MARKET = join(BRAIN, "reports", "market-latest.json");
 const OUT = join(__dirname, "..", "src", "data", "news.json");
+const SOURCE_REGISTRY = JSON.parse(readFileSync(new URL("./lib/news-pipeline-sources.json", import.meta.url), "utf8"));
 
 if (!existsSync(TRENDS)) {
   console.error("trends dir not found:", TRENDS);
   process.exit(1);
 }
 
-// Cross-day dedup key: same story (HN topstories persist for days, so a headline
-// recurs across consecutive trend notes). Prefer normalized URL, fall back to title.
-const dedupKey = (it) => {
-  if (it.url) {
-    try {
-      const u = new URL(it.url);
-      return "u:" + u.hostname.replace(/^www\./, "") + u.pathname.replace(/\/$/, "");
-    } catch { /* fall through to title */ }
-  }
-  return "t:" + it.title.trim().toLowerCase();
-};
-
 // Days are read newest-first, so the FIRST time we see a story we keep it (its most
-// recent appearance) and drop the older repeats — each headline shows exactly once.
-const seenGlobal = new Set();
+// recent appearance) and drop the older repeats. oiyo.news-source v1 supplies
+// canonicalUrl + contentHash, so URL mirrors and same-title mirrors share one rule.
+const seenCanonicalUrls = new Set();
+const seenContentHashes = new Set();
 let dropped = 0;
+let evergreenProposalCount = 0;
 
 const dateFiles = readdirSync(TRENDS).filter((x) => /^\d{4}-\d{2}-\d{2}\.md$/.test(x)).sort();
 
@@ -64,20 +57,47 @@ for (const f of dateFiles.slice().reverse()) {
 
   const summary = (md.match(/## Summary\s+([\s\S]*?)(\n## |$)/) || [])[1]?.trim() ?? "";
 
-  const items = [];
+  const parsedItems = [];
   const signals = (md.match(/## Top signals\s+([\s\S]*?)(\n## |$)/) || [])[1] ?? "";
   // 형식: - [HN ▲1392] [title](url)
   const re = /^- \[(\w+)[^\d\]]*(\d+)?\] \[([^\]]+)\]\(([^)]+)\)/gm;
   let m;
   while ((m = re.exec(signals))) {
-    const url = m[4];
+    parsedItems.push({ src: m[1], score: m[2] ? Number(m[2]) : null, title: m[3], url: m[4] });
+  }
+
+  const sourcePath = join(TRENDS, `${date}.sources.json`);
+  let rawItems = parsedItems;
+  let fetchedAt = `${date}T00:00:00.000Z`;
+  let corrections = [];
+  if (existsSync(sourcePath)) {
+    const envelope = JSON.parse(readFileSync(sourcePath, "utf8"));
+    if (envelope.schema !== "oiyo.trend-signals.raw" || envelope.schemaVersion !== 1) {
+      throw new TypeError(`raw source schema/version mismatch: ${sourcePath}`);
+    }
+    rawItems = envelope.items;
+    fetchedAt = envelope.fetchedAt;
+    corrections = envelope.corrections ?? [];
+  }
+  // Fail closed per item: malformed/unregistered/non-HTTPS signals are omitted
+  // and counted, while one legacy record cannot prevent all valid news syncing.
+  const batch = adaptTrendSignals(rawItems, SOURCE_REGISTRY, { fetchedAt, corrections, strict: false });
+  for (const rejected of batch.dropped.filter(({ index }) => index !== undefined)) {
+    console.warn(`${date}: dropped source item ${rejected.index}: ${rejected.reason}`);
+  }
+  dropped += batch.dropped.length;
+  evergreenProposalCount += batch.evergreenProposals.length;
+  const items = [];
+  for (const item of batch.items) {
+    if (seenCanonicalUrls.has(item.canonicalUrl) || seenContentHashes.has(item.contentHash)) {
+      dropped++;
+      continue;
+    }
+    seenCanonicalUrls.add(item.canonicalUrl);
+    seenContentHashes.add(item.contentHash);
     let domain = "";
-    try { domain = new URL(url).hostname.replace(/^www\./, ""); } catch { /* keep empty */ }
-    const it = { src: m[1], score: m[2] ? Number(m[2]) : null, title: m[3], url, domain };
-    const key = dedupKey(it);
-    if (seenGlobal.has(key)) { dropped++; continue; }
-    seenGlobal.add(key);
-    items.push(it);
+    try { domain = new URL(item.canonicalUrl).hostname.replace(/^www\./, ""); } catch { /* already validated */ }
+    items.push({ ...item, domain });
   }
 
   const ideas = [];
@@ -95,5 +115,13 @@ if (existsSync(MARKET)) {
   try { market = JSON.parse(readFileSync(MARKET, "utf8")); } catch { /* skip broken file */ }
 }
 
-writeFileSync(OUT, JSON.stringify({ generatedAt: new Date().toISOString(), days, market }, null, 1), "utf8");
-console.log(`synced ${days.length} day(s), ${days.reduce((s, d) => s + d.items.length, 0)} items (deduped ${dropped} cross-day repeat${dropped === 1 ? "" : "s"}), market=${market ? "ok" : "none"} → src/data/news.json`);
+const sourceContract = {
+  schema: "oiyo.news-source",
+  schemaVersion: 1,
+  corrections: "append-only",
+  evergreenMode: "propose-only",
+};
+const payload = { generatedAt: new Date().toISOString(), sourceContract, days, market };
+const dryRun = process.env.NEWS_SYNC_DRY_RUN === "1";
+if (!dryRun) writeFileSync(OUT, JSON.stringify(payload, null, 1), "utf8");
+console.log(`${dryRun ? "validated" : "synced"} ${days.length} day(s), ${days.reduce((s, d) => s + d.items.length, 0)} items (deduped/dropped ${dropped}), evergreen proposals=${evergreenProposalCount} (not published), market=${market ? "ok" : "none"}${dryRun ? "" : " → src/data/news.json"}`);
