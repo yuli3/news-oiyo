@@ -1,17 +1,127 @@
 {
- "generatedAt": "2026-07-17T01:30:48.381Z",
+ "generatedAt": "2026-07-18T01:30:06.626Z",
  "days": [
   {
-   "date": "2026-07-17",
-   "summary": "오늘의 기술 트렌드는 복잡한 AI 인프라보다는 기존 콘텐츠의 구조화와 품질 제어, 그리고 자동화된 디버깅 도구의 활용에 집중되어 있습니다. 특히 대규모 모델 학습보다는 정교한 데이터 스키마 관리와 기존 정적 사이트의 운영 효율을 높이는 도구들이 우리 스택에 유의미한 통찰을 제공합니다.",
+   "date": "2026-07-18",
+   "summary": "현재 기술 트렌드는 AI 모델의 무분별한 도입보다는 시스템의 견고함과 데이터 구조의 최적화에 집중하고 있습니다. 특히 복잡한 프레임워크 의존성을 줄이고, 정적 사이트의 성능과 유지보수성을 극대화하는 방향이 우리와 같은 소규모 콘텐츠 비즈니스에 유효합니다. 최신 GUI 라이브러리나 도구들은 더 가볍고 직관적인 인터페이스 구축을 지향하고 있습니다.",
    "items": [
     {
      "src": "HN",
-     "score": 513,
+     "score": 372,
+     "title": "Apple targets dozens of OpenAI employees with legal letters",
+     "url": "https://www.ft.com/content/1b8c9d52-88a9-426b-ba47-f1811f859166",
+     "domain": "ft.com"
+    },
+    {
+     "src": "HN",
+     "score": 363,
+     "title": "The state of open source AI",
+     "url": "https://stateofopensource.ai/",
+     "domain": "stateofopensource.ai"
+    },
+    {
+     "src": "HN",
+     "score": 221,
+     "title": "Kaiser nurses say AI, workplace surveillance are making their jobs, care worse",
+     "url": "https://localnewsmatters.org/2026/07/15/kaiser-nurses-say-ai-workplace-surveillance-are-making-their-jobs-and-patient-care-worse/",
+     "domain": "localnewsmatters.org"
+    },
+    {
+     "src": "Lobsters",
+     "score": 146,
+     "title": "Linus Torvalds on LLM usage in kernel development",
+     "url": "https://lore.kernel.org/linux-media/CAHk-=wi4zC+Ze8e+p3tMv8TtG_80KzsZ1syL9anBtmEh5Z40vg@mail.gmail.com/",
+     "domain": "lore.kernel.org"
+    },
+    {
+     "src": "HN",
+     "score": 107,
+     "title": "FAA lets Boeing sign off on 737 MAX, 787 airworthiness certificates again",
+     "url": "https://www.cnbc.com/2026/07/17/faa-boeing-737-max-787.html",
+     "domain": "cnbc.com"
+    },
+    {
+     "src": "HN",
+     "score": 95,
+     "title": "Texas wins court order to suspend domain name for violating age-verification law",
+     "url": "https://www.texasattorneygeneral.gov/news/releases/attorney-general-ken-paxton-secures-landmark-legal-victory-lock-pornographic-website-domain-and",
+     "domain": "texasattorneygeneral.gov"
+    },
+    {
+     "src": "HN",
+     "score": 82,
+     "title": "AI Meets Cryptography 2: What AI Found in OpenVM's ZkVM",
+     "url": "https://blog.zksecurity.xyz/posts/openvm-bugs/",
+     "domain": "blog.zksecurity.xyz"
+    },
+    {
+     "src": "Lobsters",
+     "score": 75,
+     "title": "Forgejo v16.0 is available",
+     "url": "https://forgejo.org/2026-07-release-v16-0/",
+     "domain": "forgejo.org"
+    },
+    {
+     "src": "HN",
+     "score": 54,
+     "title": "Lego building instructions through time",
+     "url": "https://www.lego.com/en-us/history/articles/d-lego-building-instructions-through-time",
+     "domain": "lego.com"
+    },
+    {
+     "src": "HN",
+     "score": 54,
+     "title": "Designing emoji for the way we communicate today",
+     "url": "https://blog.google/products-and-platforms/platforms/android/world-emoji-day-noto-3d/",
+     "domain": "blog.google"
+    },
+    {
+     "src": "HN",
+     "score": 48,
+     "title": "MoonBASIC: A modern BASIC for building 2D and 3D games",
+     "url": "https://github.com/CharmingBlaze/moonbasic",
+     "domain": "github.com"
+    },
+    {
+     "src": "Lobsters",
+     "score": 48,
      "title": "Microsoft Comic Chat is now open source",
      "url": "https://opensource.microsoft.com/blog/2026/07/16/microsoft-comic-chat-is-now-open-source/",
      "domain": "opensource.microsoft.com"
     },
+    {
+     "src": "Lobsters",
+     "score": 34,
+     "title": "Here's how I host my own AIM server",
+     "url": "https://veronicaexplains.net/open-oscar-server/",
+     "domain": "veronicaexplains.net"
+    },
+    {
+     "src": "HN",
+     "score": 32,
+     "title": "Painting the sides of railroad rails white to reduce derailment",
+     "url": "https://www.up.com/news/safety/Tracking-Rail-Heat-260608",
+     "domain": "up.com"
+    },
+    {
+     "src": "Lobsters",
+     "score": 30,
+     "title": "We're building Postgres in Rust. Using the LLVM of databases",
+     "url": "https://turso.tech/blog/a-new-modern-version-of-postgres-in-rust",
+     "domain": "turso.tech"
+    }
+   ],
+   "ideas": [
+    {
+     "title": "데이터 그리드 컴포넌트 최적화",
+     "hypothesis": "내부 운영 대시보드(ops dashboard)의 데이터 관리 페이지에서 복잡한 라이브러리 없이 직접 구현한 고성능 데이터 그리드를 사용하면, 로딩 속도와 데이터 바인딩 직관성을 크게 개선할 수 있습니다."
+    }
+   ]
+  },
+  {
+   "date": "2026-07-17",
+   "summary": "오늘의 기술 트렌드는 복잡한 AI 인프라보다는 기존 콘텐츠의 구조화와 품질 제어, 그리고 자동화된 디버깅 도구의 활용에 집중되어 있습니다. 특히 대규모 모델 학습보다는 정교한 데이터 스키마 관리와 기존 정적 사이트의 운영 효율을 높이는 도구들이 우리 스택에 유의미한 통찰을 제공합니다.",
+   "items": [
     {
      "src": "HN",
      "score": 224,
@@ -48,13 +158,6 @@
      "domain": "onatm.dev"
     },
     {
-     "src": "Lobsters",
-     "score": 120,
-     "title": "Linus Torvalds on LLM usage in kernel development",
-     "url": "https://lore.kernel.org/linux-media/CAHk-=wi4zC+Ze8e+p3tMv8TtG_80KzsZ1syL9anBtmEh5Z40vg@mail.gmail.com/",
-     "domain": "lore.kernel.org"
-    },
-    {
      "src": "HN",
      "score": 109,
      "title": "Guide to data tools landscape for developers",
@@ -81,13 +184,6 @@
      "title": "Schema Harness Achieves ~99% on Arc‑AGI‑3 Public",
      "url": "https://schema-harness.github.io/",
      "domain": "schema-harness.github.io"
-    },
-    {
-     "src": "Lobsters",
-     "score": 55,
-     "title": "Forgejo v16.0 is available",
-     "url": "https://forgejo.org/2026-07-release-v16-0/",
-     "domain": "forgejo.org"
     },
     {
      "src": "HN",
