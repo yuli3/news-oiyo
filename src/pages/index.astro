@@ -213,7 +213,7 @@ const srcColor: Record<string, string> = {
       {days.map((d) => (
         <section class="day">
           <div class="day-head">
-            <h2>{d.date}</h2>
+            <h2><a href={`/${d.date}/`} style="color:inherit;text-decoration:none">{d.date}</a></h2>
             <span class="meta">{d.items.length}건</span>
           </div>
           {d.summary && <p class="summary">{d.summary}</p>}

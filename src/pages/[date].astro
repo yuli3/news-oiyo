@@ -1,0 +1,151 @@
+---
+// 일자별 영구 URL. 홈은 최근 21일을 롤링으로만 보여주고 이전 글은 사라졌었다 —
+// 이 페이지가 매일 생성한 요약·아이디어(원본 합성 콘텐츠, 단순 링크 목록이 아님)를
+// 각각 고정 주소로 남겨 색인·인용 가능하게 만든다.
+import data from "../data/news.json";
+
+type Item = { src: string; score: number | null; title: string; url: string; domain: string };
+type Day = { date: string; summary: string; items: Item[]; ideas: { title: string; hypothesis: string }[] };
+
+export async function getStaticPaths() {
+  const days = data.days as Day[];
+  return days.map((d) => ({ params: { date: d.date }, props: { day: d } }));
+}
+
+const { day } = Astro.props as { day: Day };
+const url = `https://news.oiyo.net/${day.date}/`;
+
+const srcColor: Record<string, string> = {
+  HN: "#ff6600",
+  Lobsters: "#ac130d",
+  GeekNews: "#0abf53",
+};
+
+const title = `${day.date} 기술·경제 트렌드 요약 — OIYO News`;
+const description = day.summary || `${day.date} HN·Lobsters·GeekNews 큐레이션 ${day.items.length}건.`;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={url} />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:type" content="article" />
+    <meta property="article:published_time" content={`${day.date}T00:00:00+09:00`} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      headline: title,
+      datePublished: `${day.date}T00:00:00+09:00`,
+      description,
+      url,
+      isPartOf: { "@id": "https://news.oiyo.net/#website" },
+      publisher: { "@id": "https://oiyo.net/#organization" },
+    })} />
+    <title>{title}</title>
+    <style>
+      :root {
+        --bg: oklch(0.988 0.003 106.5);
+        --card: oklch(0.990 0.005 106.5);
+        --ink: oklch(0.153 0.006 107.1);
+        --muted: oklch(0.580 0.031 107.3);
+        --accent: oklch(0.532 0.157 131.589);
+        --border: oklch(0.930 0.007 106.5);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+      header {
+        background: var(--accent);
+        color: #fff;
+        padding: 10px 16px;
+        display: flex;
+        align-items: baseline;
+        gap: 10px;
+      }
+      header b { font-size: 17px; letter-spacing: -0.02em; }
+      main { max-width: 780px; margin: 0 auto; padding: 18px 14px 80px; }
+      .day-head {
+        display: flex; align-items: baseline; gap: 10px;
+        border-bottom: 2px solid var(--accent); padding-bottom: 6px; margin-bottom: 10px;
+      }
+      .day-head h1 { font-size: 20px; margin: 0; }
+      .summary {
+        background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+        border-radius: 10px; padding: 10px 14px; font-size: 13.5px; color: #4a4c42; margin-bottom: 12px;
+      }
+      ol { margin: 0; padding-left: 30px; }
+      li { margin: 7px 0; }
+      li a.t { color: var(--ink); text-decoration: none; font-weight: 600; }
+      li a.t:visited { color: #82857a; }
+      li a.t:hover { color: var(--accent); }
+      .meta { font-size: 12px; color: var(--muted); margin-left: 6px; white-space: nowrap; }
+      .src { font-weight: 700; }
+      details.ideas { margin-top: 10px; font-size: 13px; }
+      details.ideas summary { cursor: pointer; color: var(--accent); font-weight: 700; }
+      details.ideas li { color: #4a4c42; }
+      footer { text-align: center; font-size: 12px; color: var(--muted); padding: 20px; }
+      .back { color: #fff; font-size: 12px; font-weight: 700; margin-left: auto; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <b>OIYO NEWS</b>
+      <a class="back" href="/">← 최신으로</a>
+    </header>
+    <main>
+      <section class="day">
+        <div class="day-head">
+          <h1>{day.date}</h1>
+          <span class="meta">{day.items.length}건</span>
+        </div>
+        {day.summary && <p class="summary">{day.summary}</p>}
+        <ol>
+          {day.items.map((it) => (
+            <li>
+              <a class="t" href={it.url} target="_blank" rel="noopener noreferrer">{it.title}</a>
+              <span class="meta">
+                <span class="src" style={`color:${srcColor[it.src] ?? "var(--muted)"}`}>{it.src}</span>
+                {it.score != null && <> ▲{it.score}</>}
+                {it.domain && <> · {it.domain}</>}
+              </span>
+            </li>
+          ))}
+        </ol>
+        {day.ideas.length > 0 && (
+          <details class="ideas">
+            <summary>💡 도출된 아이디어 {day.ideas.length}건</summary>
+            <ul>
+              {day.ideas.map((i) => (
+                <li><b>{i.title}</b> — {i.hypothesis}</li>
+              ))}
+            </ul>
+          </details>
+        )}
+      </section>
+    </main>
+    <footer>
+      OIYO 내부용 · 매일 cron(trend_scout)이 수집 → sync → 배포
+      <div style="margin-top:10px">
+        OIYO Family:
+        <a href="https://oiyo.net/ko/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">테스트·도구</a>
+        <a href="https://blog.oiyo.net/ko/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">강의·매거진</a>
+        <a href="https://wiki.oiyo.net/ko/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">사전</a>
+        <a href="https://game.oiyo.net/ko/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">게임</a>
+        <a href="https://ai.oiyo.net/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">AI</a>
+      </div>
+    </footer>
+  </body>
+</html>
