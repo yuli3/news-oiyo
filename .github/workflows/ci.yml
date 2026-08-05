@@ -6,6 +6,14 @@ on:
   pull_request:
     branches: [main]
 
+# wait-cloudflare-check.py 가 GitHub Checks API 로 Cloudflare Pages 배포를 기다린다.
+# repo 기본 워크플로 권한이 contents:read 뿐이면 /check-runs 가 403 을 내고, 배포가
+# 실제로는 성공했는데 게이트만 타임아웃으로 죽는다(2026-08-05 실측 — 사이트는 살아
+# 있었고 CI 만 빨갰다). oiyo·wiki·blog·game 에는 있는데 여기 둘만 빠져 있었다.
+permissions:
+  contents: read
+  checks: read
+
 jobs:
   build-check:
     name: Build & Type Check
