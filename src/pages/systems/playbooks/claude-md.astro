@@ -1,0 +1,81 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout crumbs={[{label:"Systems",href:"/systems/"},{label:"Playbooks",href:"/systems/playbooks/"}]} title="플레이북 — CLAUDE.md 잘 쓰는 법 + 복붙 템플릿" description="Claude Code 등 코딩 에이전트가 매번 읽는 CLAUDE.md(AGENTS.md) 작성 가이드. '없으면 모델이 틀리는 것만 담는' lean 원칙, 실전 템플릿, 흔한 실수까지.">
+  <span class="tag">Playbook · 템플릿</span>
+  <h1>CLAUDE.md 잘 쓰는 법</h1>
+  <p class="sub">CLAUDE.md는 코딩 에이전트가 <b>세션마다 자동으로 읽는 단 하나의 파일</b>입니다. 이 파일의 품질이 곧 에이전트의 품질입니다. (Codex 등은 AGENTS.md — 원리는 동일)</p>
+
+  <h2>단 하나의 원칙 — lean</h2>
+  <div class="card">
+    <p style="margin:0"><b>"이 파일에는 '없으면 모델이 틀리는 것'만 담는다. 아는 것 전부가 아니라."</b></p>
+    <p class="sub" style="margin:.4em 0 0">Andrej Karpathy가 강조한 기준을 우리는 이렇게 운영합니다: 한 줄을 추가하기 전에 "이게 없으면 에이전트가 실제로 실수하는가?"를 물을 것. 답이 '아니오'면 넣지 않습니다.</p>
+  </div>
+  <p>
+    CLAUDE.md가 길어질수록 에이전트는 중요한 규칙을 놓칩니다. 모든 세션의 컨텍스트를 차지하는 비용도 있습니다.
+    잘 쓴 CLAUDE.md는 <b>백과사전이 아니라 안전수칙</b>입니다.
+  </p>
+
+  <h2>들어가야 하는 것 / 빼야 하는 것</h2>
+  <div class="grid">
+    <div class="card"><b>✅ 들어가야 하는 것</b>
+      <ul style="margin:.4em 0 0;padding-left:18px;font-size:13.5px">
+        <li>어기면 사고 나는 하드 규칙 (커밋·배포 승인, 민감정보 금지)</li>
+        <li>이 저장소만의 함정 (예: "규칙당 splat 1개만 유효")</li>
+        <li>검증 명령어 (빌드·테스트·타입체크를 정확한 명령으로)</li>
+        <li>문서·폴더의 진입점 지도 ("어디부터 읽어라")</li>
+        <li>반복되는 실수의 교정 ("zh는 간체 기준")</li>
+      </ul>
+    </div>
+    <div class="card"><b>❌ 빼야 하는 것</b>
+      <ul style="margin:.4em 0 0;padding-left:18px;font-size:13.5px">
+        <li>코드만 봐도 아는 것 (폴더 구조 나열, 프레임워크 소개)</li>
+        <li>일반 상식 ("깨끗한 코드를 쓰세요")</li>
+        <li>바뀌기 쉬운 세부 (파일 개수, 버전 번호)</li>
+        <li>한 번만 쓰인 지시 (그 세션 프롬프트로 충분)</li>
+        <li>비밀키·토큰 (절대 금지 — 이 파일은 커밋됨)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>복붙 템플릿</h2>
+  <pre is:raw style="background:#1e2415;color:#e6e8dc;border-radius:12px;padding:14px 16px;font-size:12.5px;overflow-x:auto;line-height:1.55"># CLAUDE.md
+
+## 하드 규칙 (어기면 사고)
+- 커밋/푸시/배포는 명시 승인 후에만. 승인은 그 1회에만 유효.
+- 비밀키·토큰·개인정보는 어떤 파일에도 저장하지 않는다.
+- [이 프로젝트 고유의 레드라인 1~3개]
+
+## 검증 (완료 선언 전 반드시 실행)
+- 타입체크: `npm run typecheck`
+- 테스트: `npm test`
+- 빌드: `npm run build`
+- 하나라도 실패하면 "완료"라고 보고하지 않는다. 실패 로그를 첨부한다.
+
+## 이 저장소의 함정 (반복 실수 교정)
+- [예: 새 Record&lt;Locale,…&gt; 맵은 cn 로케일 제외]
+- [예: _redirects는 규칙당 splat 1개만 유효]
+
+## 작업 방식
+- 모호하면 가정을 명시하고 진행하거나, 해석을 나열하고 물을 것.
+- 요청 범위 밖 리팩터 금지. 변경된 모든 줄은 요청으로 소급 가능해야 함.
+- 다단계 작업은 계획 → 구현 → 검증 → 보고 순서.
+
+## 진입점
+- 로드맵: docs/ROADMAP.md · 작업 로그: docs/WORKLOG.md
+- 막히면 먼저 볼 문서: [경로]</pre>
+  <p class="sub">시작은 이 정도면 충분합니다. 이후 <b>에이전트가 실제로 틀릴 때마다 한 줄씩</b> 추가하는 게 정석입니다 — 처음부터 완벽한 파일을 쓰려 하지 마세요.</p>
+
+  <h2>운영 팁</h2>
+  <div class="card">
+    <ul style="margin:0;padding-left:20px">
+      <li><b>계층화</b> — 사용자 전역(~/.claude/CLAUDE.md)에는 모든 프로젝트 공통 규칙, 프로젝트 루트에는 그 저장소 고유 규칙. 프로젝트가 우선.</li>
+      <li><b>실수 → 규칙 승격 루프</b> — 에이전트가 같은 실수를 2번 하면 그 교정을 CLAUDE.md에 한 줄로. 우리 파일의 절반은 이렇게 자랐습니다.</li>
+      <li><b>정기 다이어트</b> — 분기에 한 번 "이 줄이 최근에 실제로 필요했나"를 점검하고 죽은 규칙을 삭제.</li>
+      <li><b>명령은 정확하게</b> — "테스트 돌려봐"가 아니라 정확한 명령어와 통과 기준. 에이전트는 모호함에서 가장 많이 틀립니다.</li>
+    </ul>
+  </div>
+
+  <p class="sub" style="margin-top:24px"><a href="/systems/playbooks/">← 플레이북 목록</a> · <a href="/systems/playbooks/llm-coding-principles/">LLM 코딩 4원칙 →</a></p>
+</BaseLayout>

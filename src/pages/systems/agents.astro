@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="AX 심화 — 에이전트와 직원: 역할·도구경계·토큰" description="OIYO AI-native OS의 워크포스 계층. 역할 기반 에이전트 조직, 도구 하드 경계, 사람+AI 직원 관리, 토큰 사용량 가시화." canonical="https://news.oiyo.net/systems/agents/" crumbs={[{label:"Systems",href:"/systems/"},{label:"에이전트"}]}>
+  <span class="tag">AX 심화</span>
+  <h1>에이전트와 직원</h1>
+  <p class="sub">AI-native 회사에서 "직원"은 사람과 에이전트가 섞여 있습니다. 각자 역할이 있고, <b>역할이 곧 권한의 경계</b>입니다.</p>
+
+  <h2>역할 기반 조직</h2>
+  <p>
+    한 에이전트에게 모든 걸 맡기지 않습니다. 그리스 신화 이름을 딴 7역할로 나누고,
+    <b>각 역할이 쓸 수 있는 도구를 하드 경계</b>로 제한합니다.
+  </p>
+  <div class="card">
+    <ul style="margin:0;padding-left:20px">
+      <li><b>Metis</b>(PM) — 우선순위·스코프 · <span class="sub">코드 불가</span></li>
+      <li><b>Athena</b>(아키텍트) — 설계·스키마</li>
+      <li><b>Hephaestus</b>(빌더) — 구현·테스트</li>
+      <li><b>Apollo</b>(리서처) — 조사 · <span class="sub">읽기 전용</span></li>
+      <li><b>Iris</b>(디자이너) — UI/UX·접근성</li>
+      <li><b>Themis</b>(검증자) — 게이트 실행 · <span class="sub">수정 불가, PASS/FAIL만</span></li>
+      <li><b>Prometheus</b>(정찰) — 트렌드 학습 · <span class="sub">두뇌 쓰기만</span></li>
+    </ul>
+  </div>
+
+  <h2>도구 경계 = 진짜 안전장치</h2>
+  <p>
+    "너는 신중한 검증자야" 같은 캐릭터 설정은 지켜지지 않을 수 있습니다. 하지만 도구 목록에서
+    편집·쓰기 도구를 빼면 <b>물리적으로 코드를 못 고칩니다.</b> 각 역할은 에이전트 정의 파일의
+    <code>tools:</code> 필드로 허용 도구가 명시되어, 프롬프트 지시보다 강한 경계를 만듭니다.
+  </p>
+
+  <h2>사람+AI 직원 관리</h2>
+  <p>
+    대시보드의 직원 뷰는 사람 멤버(가족·협업자)와 에이전트를 함께 다룹니다. 역할·직위·담당 영역을
+    한눈에 보고, 가족은 Slack으로 시스템과 소통합니다. AI-native 회사의 HR은 사람과 에이전트를
+    같은 틀에서 관리하는 것입니다.
+  </p>
+
+  <h2>토큰 사용량 가시화</h2>
+  <p>
+    다중 모델을 쓰면 각 모델의 사용량·한도·리셋 시간을 놓치기 쉽습니다. 한도에 걸린 줄 모르고
+    재시도를 반복하면 시간과 비용을 낭비합니다. OIYO는 <b>모델별 토큰·비용·한도·리셋을 대시보드에 상시 표시</b>하고,
+    파이프라인이 한도를 감지하면 자동 중단·플래그 후 리셋되면 재개합니다.
+    (이 시스템 자체가 실제 rate-limit 삽질을 겪고 만든 것입니다.)
+  </p>
+
+  <p class="sub" style="margin-top:24px"><a href="/systems/">← Systems 개요</a> · 관련: <a href="/systems/manual/agents/">에이전트 조직 설계 매뉴얼</a> · <a href="/systems/hermes/">Hermes 런타임</a></p>
+</BaseLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import DocItem from "../../../components/DocItem.astro";
+
+const CHAPTERS = [
+  { href: "/systems/manual/setup/", n: "01", title: "시작하기 — 최소 구성", sub: "코딩 에이전트 + 회사 두뇌 + 정적 사이트. 1인이 하루 만에 세우는 최소 AI-native 스택." },
+  { href: "/systems/manual/agents/", n: "02", title: "에이전트 조직 설계", sub: "역할별 도구 경계, 위임 흐름, soul 파일 대신 하드 경계로 안전하게 굴리는 법." },
+  { href: "/systems/manual/brain/", n: "03", title: "회사 두뇌 운영", sub: "raw/synthesis 분리, 5가지 저장 필터, 맥락 오염을 막는 위키 규율." },
+  { href: "/systems/manual/gates/", n: "04", title: "검증 게이트와 배포 규율", sub: "자율 작업을 신뢰하려면 — quick/full 게이트, 커밋 배치, 롤백 리컨실러." },
+  { href: "/systems/manual/loop-engineering/", n: "05", title: "루프 엔지니어링", sub: "관측→제안→실행→검증→학습 루프 설계, 사람 게이트를 어디에 둘지 정하는 법." },
+  { href: "/systems/manual/prompts/", n: "06", title: "명령어·프롬프트·템플릿", sub: "save/reference/ingest/lint 명령어, 재사용 프롬프트, 구조가 품질을 만드는 템플릿." },
+];
+---
+
+<BaseLayout crumbs={[{label:"Systems",href:"/systems/"},{label:"Manual",href:"/systems/manual/"}]} title="AI-native 회사 운영 매뉴얼" description="OIYO가 실제로 쓰는 AI-native 회사 운영 매뉴얼. 최소 스택 구성부터 에이전트 조직 설계, 회사 두뇌 운영, 검증 게이트까지 단계별로 공개합니다.">
+  <span class="tag">Manual</span>
+  <h1>AI-native 회사 운영 매뉴얼</h1>
+  <p class="sub">이론이 아니라 <b>OIYO 패밀리 6사이트를 실제로 운영하는 방법</b>을 단계별로 옮겼습니다. 재현 가능한 최소 구성부터 시작합니다.</p>
+
+  <div style="margin-top:24px">
+    {CHAPTERS.map((c) => (
+      <DocItem href={c.href} meta={c.n} title={c.title} description={c.sub} />
+    ))}
+  </div>
+
+  <p class="sub" style="margin-top:24px">매뉴얼은 순차 확장됩니다. 각 장은 실제 코드·설정·의사결정 근거를 포함합니다.</p>
+</BaseLayout>

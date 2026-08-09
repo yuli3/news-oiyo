@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout crumbs={[{label:"Systems",href:"/systems/"},{label:"Playbooks",href:"/systems/playbooks/"}]} title="플레이북 — AI 주식·시장 분석 자동화 구성하기" description="AI로 주식 투자를 자동화하고 싶다면 무엇부터 해야 할까. 데이터 수집→지표 계산→AI 해석→리포트→사람 확인의 5단계 아키텍처와 실제 크론 구성, 반드시 지켜야 할 경계를 정리한 실전 가이드.">
+  <span class="tag">Playbook · 실전</span>
+  <h1>AI 주식·시장 분석 자동화 구성하기</h1>
+  <p class="sub">목표를 정확히 잡는 게 절반입니다. 만들 것은 <b>"매일 아침 시장을 정리해 주는 분석 비서"</b>이지, 돈을 대신 굴리는 기계가 아닙니다.</p>
+
+  <div class="card" style="border-color:var(--accent)">
+    <b>⚠️ 시작 전에 — 이 가이드의 경계</b>
+    <ul style="margin:.4em 0 0;padding-left:20px">
+      <li>이 문서는 <b>소프트웨어 구성 교육 자료</b>입니다. 투자 자문이 아니며, 특정 종목·매매 시점을 추천하지 않습니다.</li>
+      <li><b>자동 주문 실행(자동 매매)은 다루지 않습니다.</b> 매수·매도 결정과 실행은 항상 사람이 합니다.</li>
+      <li>AI는 사실을 지어낼 수 있습니다(환각). 수치는 반드시 <b>API 원본 데이터</b>에서 오게 하고, AI에게는 해석만 맡기세요.</li>
+    </ul>
+  </div>
+
+  <h2>전체 그림 — 5단계 파이프라인</h2>
+  <div class="card">
+    <p style="margin-top:0"><b>① 데이터 수집 → ② 지표 계산 → ③ AI 해석 → ④ 리포트 생성 → ⑤ 사람 확인</b></p>
+    <p class="sub" style="margin:0">핵심 원칙: <b>숫자는 코드가, 해석은 AI가, 결정은 사람이.</b> 각 단계는 실패해도 다음 실행에서 복구되도록 독립적으로 만듭니다.</p>
+  </div>
+
+  <h2>① 데이터 수집 — 공식·1차 출처에서</h2>
+  <p>
+    유료 단말기 없이도 시작할 수 있습니다. 무료 축: <b>yfinance</b>(파이썬 라이브러리, 주가·지수·환율),
+    한국 시장은 <b>KRX 정보데이터시스템</b>·<b>DART 전자공시</b>(공식 API), 거시 지표는 <b>FRED</b>(미 연준 데이터, 무료 API).
+    수집 스크립트는 "원본 JSON을 날짜별 파일로 저장"까지만 담당하게 하세요 — 수집과 분석을 분리하면 장애 원인을 바로 찾을 수 있습니다.
+  </p>
+
+  <h2>② 지표 계산 — AI가 아니라 코드로</h2>
+  <p>
+    이동평균(MA20/60), 등락률, 거래량 변화, 52주 고점 대비 위치 같은 지표는 <b>결정론적 코드</b>로 계산합니다.
+    AI에게 "이 주식 20일 이동평균 구해줘"라고 시키는 것이 대표적 안티패턴입니다 — 느리고, 비싸고, 틀립니다.
+    계산 결과는 <code>signal</code> 필드(예: "MA20 상회", "거래량 급증")로 구조화해 두면 다음 단계가 깨끗해집니다.
+  </p>
+
+  <h2>③ AI 해석 — 구조화된 입력, 제한된 역할</h2>
+  <div class="card">
+    <p style="margin-top:0">AI에게 주는 것: <b>계산된 지표 JSON + 오늘의 주요 뉴스 헤드라인</b>. AI에게 시키는 것:</p>
+    <ul style="margin:0;padding-left:20px">
+      <li>"강세/약세 신호가 몇 개 그룹에서 나타나는지 요약" — 집계·요약</li>
+      <li>"어제 대비 달라진 점 3가지" — 변화 감지</li>
+      <li>"이 지표 조합이 일반적으로 어떻게 해석되는지 교육적 설명" — 맥락 제공</li>
+    </ul>
+    <p class="sub" style="margin:.5em 0 0">금지: "살까요?", "목표가는?", "이 종목 어때요?" — 개인화 자문 요청은 파이프라인에 넣지 않습니다.</p>
+  </div>
+
+  <h2>④ 리포트 생성 — 매일 같은 형식으로</h2>
+  <p>
+    마크다운 한 장(시장 요약 → 그룹별 지표 표 → 변화점 → 뉴스 3줄)으로 고정하세요. 형식이 고정돼야
+    "어제와 뭐가 다른가"가 눈에 들어오고, AI 출력 품질 저하도 바로 알아챕니다.
+    OIYO는 이 방식으로 평일 아침 시장 리포트를 자동 생성해 대시보드와 알림으로 받습니다.
+  </p>
+
+  <h2>⑤ 사람 확인 — 유일하게 자동화하지 않는 단계</h2>
+  <p>
+    리포트는 참고 자료입니다. 결정(매수·매도·비중 조절)은 리포트를 읽은 사람이 자기 기준으로 합니다.
+    이 단계를 자동화하고 싶어지는 순간이 오는데, 그게 이 시스템의 <b>사람 게이트</b>입니다 — 넘지 마세요.
+  </p>
+
+  <h2>실제 크론 구성 예시 (OIYO 운영 중)</h2>
+  <pre is:raw style="background:#1e2415;color:#e6e8dc;border-radius:12px;padding:14px 16px;font-size:12.5px;overflow-x:auto;line-height:1.5"># 평일 아침 파이프라인 (로컬 맥 미니에서 실행)
+07:00  stock_analysis.py   # ①② 수집+지표 계산 → market-latest.json
+07:30  watcher.py          # 이상 신호 감시 (급락·데이터 누락 알림)
+08:00  daily_briefing.mjs  # ③④ AI 해석 + 리포트 생성
+08:10  member_notify.mjs   # 리포트 전달 (⑤ 사람이 읽음)</pre>
+  <p class="sub">포인트: 각 단계가 별도 스크립트 = 하나가 죽어도 나머지는 돕니다. 실패는 조용히 넘기지 말고 알림으로.</p>
+
+  <h2>시작 순서 (첫 주말 프로젝트)</h2>
+  <div class="card">
+    <ol style="margin:0;padding-left:20px">
+      <li>yfinance로 관심 지수·종목 10개의 종가·거래량을 JSON으로 저장하는 스크립트 (1시간)</li>
+      <li>MA20·등락률 계산을 붙이고 signal 필드 생성 (1시간)</li>
+      <li>Claude/ChatGPT API에 JSON을 주고 "3줄 요약 + 변화점" 프롬프트 고정 (1시간)</li>
+      <li>cron(맥/리눅스) 또는 작업 스케줄러(윈도우)에 아침 실행 등록 (30분)</li>
+      <li>일주일 돌려보고 형식·프롬프트 다듬기</li>
+    </ol>
+  </div>
+
+  <p class="sub" style="margin-top:24px"><a href="/systems/playbooks/">← 플레이북 목록</a> · <a href="/systems/playbooks/web-service-ops/">AI로 웹서비스 운영 →</a></p>
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+interface Props {
+  id?: string;
+  title?: string;
+  description?: string;
+  href?: string;
+  action?: string;
+}
+
+const {
+  id = "news-empty-title",
+  title = "아직 수집된 뉴스가 없습니다",
+  description = "다음 동기화가 끝나면 최신 큐레이션이 이곳에 표시됩니다.",
+  href = "https://oiyo.net/ko/",
+  action = "OIYO 둘러보기",
+} = Astro.props;
+---
+
+<section data-slot="empty" class="empty-state" aria-labelledby={id}>
+  <div aria-hidden="true" class="empty-icon">○</div>
+  <h2 id={id}>{title}</h2>
+  <p>{description}</p>
+  <a href={href}>{action}</a>
+</section>
+
+<style>
+  .empty-state { margin:18px 0;padding:28px 18px;text-align:center;border:1px dashed var(--border);border-radius:14px;background:var(--card) }
+  .empty-icon { color:var(--accent);font-size:28px;line-height:1 }
+  h2 { margin:8px 0 4px;font-size:17px }
+  p { margin:0 auto 14px;max-width:34rem;color:var(--muted);font-size:13.5px }
+  a { display:inline-flex;min-height:44px;align-items:center;justify-content:center;border-radius:10px;background:var(--accent);color:#fff;padding:8px 16px;text-decoration:none;font-weight:750 }
+  a:focus-visible { outline:2px solid var(--ink);outline-offset:3px }
+</style>

@@ -1,0 +1,71 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// 직접 실무에 편입한 도구만 등재 (광고 아님·제휴 없음). 정기 갱신.
+const CATS: { name: string; items: { name: string; url: string; why: string }[] }[] = [
+  {
+    name: "코딩 에이전트",
+    items: [
+      { name: "Claude Code", url: "https://claude.com/claude-code", why: "오케스트레이터. 계획-실행-검증 루프와 서브에이전트 위임의 중심." },
+      { name: "Codex CLI", url: "https://openai.com/codex", why: "대량 생성·번역 워커. 헤드리스 실행으로 파이프라인에 편입." },
+      { name: "Gemini API", url: "https://ai.google.dev", why: "무료 티어 대량 번역·큐레이션 워커. 정찰 cron의 요약 엔진." },
+      { name: "Ollama", url: "https://ollama.com", why: "로컬 모델 폴백. 외부 한도와 무관한 최후의 보루." },
+    ],
+  },
+  {
+    name: "검색·데이터",
+    items: [
+      { name: "Google Search Console API", url: "https://developers.google.com/webmaster-tools", why: "대시보드 없이 쿼리·순위 조회, striking-distance 기회 자동 산출." },
+      { name: "Bing Webmaster / IndexNow", url: "https://www.bing.com/webmasters", why: "색인 제출 자동화. 배포 직후 URL 푸시." },
+      { name: "Hacker News API", url: "https://github.com/HackerNews/API", why: "무료·무키. 데일리 기술 정찰의 1차 소스." },
+    ],
+  },
+  {
+    name: "인프라",
+    items: [
+      { name: "Cloudflare Pages", url: "https://pages.cloudflare.com", why: "6개 사이트 전부 호스팅. 빌드 무료, 엣지 리다이렉트(_redirects)로 도메인 이전까지." },
+      { name: "GitHub Actions", url: "https://github.com/features/actions", why: "타입체크·i18n 검증 게이트. 푸시는 배치로 모아 비용 관리." },
+      { name: "Astro", url: "https://astro.build", why: "정적 우선 + 아일랜드. 1,200페이지를 10초에 빌드." },
+    ],
+  },
+  {
+    name: "운영·관제",
+    items: [
+      { name: "Obsidian(위키형 두뇌)", url: "https://obsidian.md", why: "회사 두뇌의 뷰어. 결정·실패·규칙을 위키링크로 축적." },
+      { name: "자체 관제 대시보드", url: "/systems/", why: "목표·칸반·품질 게이트·트래픽·모델 한도를 한 화면에. (구조는 Systems 소개 참고)" },
+    ],
+  },
+];
+
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "OIYO AI 서비스 큐레이션",
+  itemListElement: CATS.flatMap((c) => c.items).map((t, i) => ({
+    "@type": "ListItem", position: i + 1, name: t.name, url: t.url,
+  })),
+};
+---
+
+<BaseLayout title="AI 서비스 큐레이션 — 실무에 편입한 도구들" description="1인 AI 회사가 직접 써보고 파이프라인에 편입한 AI 도구·API·인프라 큐레이션. 무엇을, 왜 쓰는지 실사용 관점으로 정리했습니다." canonical="https://news.oiyo.net/ai/tools/" crumbs={[{label:"AI",href:"/ai/"},{label:"실무 도구"}]}>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd)} />
+  <span class="tag">Curation</span>
+  <h1>AI 서비스 큐레이션</h1>
+  <p class="sub">광고·제휴 없음. <b>실제 파이프라인에 편입한 것만</b> 올리고, 빠지면 내립니다.</p>
+
+  {CATS.map((c) => (
+    <>
+      <h2>{c.name}</h2>
+      <div class="grid">
+        {c.items.map((t) => (
+          <div class="card">
+            <a href={t.url} target="_blank" rel="noopener noreferrer">{t.name} ↗</a>
+            <p class="sub" style="margin:.4em 0 0;font-size:13.5px">{t.why}</p>
+          </div>
+        ))}
+      </div>
+    </>
+  ))}
+
+  <p class="sub" style="margin-top:28px">추천 기준: ①실사용 4주 이상 ②파이프라인 자동화 편입 ③대체재 대비 명확한 강점.</p>
+</BaseLayout>

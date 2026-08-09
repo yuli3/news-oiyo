@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { AI_CATEGORIES } from "../../data/ai-services";
+
+const total = AI_CATEGORIES.reduce((n, c) => n + c.items.length, 0);
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "OIYO AI 큐레이터 — AI 서비스 모음",
+  numberOfItems: total,
+  itemListElement: AI_CATEGORIES.flatMap((c) => c.items).map((s, i) => ({
+    "@type": "ListItem", position: i + 1, name: s.name, url: s.url,
+  })),
+};
+---
+
+<BaseLayout title="AI 큐레이터 — 카테고리별 AI 서비스 모음" description="ChatGPT·Claude·Gemini·DeepSeek·Qwen·Seedance·Adobe Firefly 등 대화형 AI, 이미지·영상 생성, 코딩, 생산성 도구를 카테고리별로 정리한 AI 서비스 큐레이션." canonical="https://news.oiyo.net/ai/curator/" crumbs={[{label:"AI",href:"/ai/"},{label:"AI 큐레이터"}]}>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd)} />
+  <span class="tag">AI Curator</span>
+  <h1>AI 큐레이터</h1>
+  <p class="sub">쏟아지는 AI 서비스를 <b>카테고리별로</b> 정리했습니다. 각 항목은 실사용 관점의 한 줄 평입니다. 광고·제휴 없음, {total}개 수록.</p>
+
+  <nav style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0">
+    {AI_CATEGORIES.map((c) => (
+      <a href={`#${c.id}`} style="background:#eef1e2;color:var(--accent);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;text-decoration:none">{c.label}</a>
+    ))}
+  </nav>
+
+  {AI_CATEGORIES.map((c) => (
+    <section id={c.id}>
+      <h2>{c.label}</h2>
+      <p class="sub" style="margin-top:-4px">{c.desc}</p>
+      <div class="grid">
+        {c.items.map((s) => (
+          <div class="card">
+            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.name} ↗</a>
+            <span style="font-size:11px;color:var(--muted);margin-left:6px">{s.by}{s.free ? " · 무료 티어" : ""}</span>
+            <p class="sub" style="margin:.4em 0 0;font-size:13.5px">{s.note}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  ))}
+
+  <p class="sub" style="margin-top:28px">
+    이 목록은 정기적으로 갱신됩니다. AI-native 회사 운영에 실제 편입한 도구는 <a href="/ai/tools/">AI 서비스 큐레이션(실무 편입)</a>에서 확인하세요.
+  </p>
+</BaseLayout>

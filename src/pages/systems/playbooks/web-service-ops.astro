@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout crumbs={[{label:"Systems",href:"/systems/"},{label:"Playbooks",href:"/systems/playbooks/"}]} title="플레이북 — AI 에이전트로 웹서비스 운영하기" description="1인이 AI 에이전트 조직으로 웹사이트 6개를 운영하는 실제 구성. 역할 분리, 자동화 크론, 검증 게이트, 회사 두뇌, 배포 규율까지 — 재현 가능한 아키텍처를 단계별로 공개합니다.">
+  <span class="tag">Playbook · 실전</span>
+  <h1>AI 에이전트로 웹서비스 운영하기</h1>
+  <p class="sub">OIYO는 사람 1명 + AI 에이전트 조직이 <b>사이트 6개(테스트·강의·사전·게임·뉴스·AI)</b>를 운영합니다. 이 페이지는 그 실제 구성을 그대로 옮긴 것입니다.</p>
+
+  <h2>운영의 4개 기둥</h2>
+  <div class="grid">
+    <div class="card"><b>① 에이전트 조직</b><p class="sub" style="margin:.3em 0 0;font-size:13.5px">역할별로 권한을 나눈 AI 직원들. 설계는 Athena, 구현은 Hephaestus, 검증은 Themis처럼 도구 경계를 하드로 강제.</p></div>
+    <div class="card"><b>② 회사 두뇌</b><p class="sub" style="margin:.3em 0 0;font-size:13.5px">모든 결정·실패·맥락을 마크다운 위키(Obsidian)에 축적. 새 세션의 AI가 이걸 읽고 이어받음.</p></div>
+    <div class="card"><b>③ 자동화 크론</b><p class="sub" style="margin:.3em 0 0;font-size:13.5px">시장 분석·트렌드 정찰·SEO 감사·검증 게이트 등 22개 작업이 로컬 머신에서 매일 자동 실행.</p></div>
+    <div class="card"><b>④ 검증 게이트</b><p class="sub" style="margin:.3em 0 0;font-size:13.5px">빌드·타입체크·테스트·감사를 통과해야만 "완료". AI의 주장보다 게이트의 판정을 믿음.</p></div>
+  </div>
+
+  <h2>하루가 굴러가는 방식</h2>
+  <pre is:raw style="background:#1e2415;color:#e6e8dc;border-radius:12px;padding:14px 16px;font-size:12.5px;overflow-x:auto;line-height:1.5">07:00~08:10  시장 분석 → 감시 → 브리핑 → 알림     (평일 자동)
+09:00~09:40  주간 리서치·GSC 스냅샷·성과 리포트·목표 자동제안 (월요일)
+10:00~10:30  기술 트렌드 정찰 → 뉴스 사이트 자동 발행
+21:00~22:30  사이트별 full 검증 게이트 (staggered)
+23:00~23:20  하루 다이제스트 → done 승격 reconcile
+사람이 하는 일: 아침에 브리핑 읽기, 배포 승인, 방향 결정</pre>
+
+  <h2>핵심 설계 결정 5가지</h2>
+  <div class="card">
+    <ol style="margin:0;padding-left:20px">
+      <li><b>완료는 게이트가 정의한다</b> — AI가 "끝났다"고 말해도 빌드·테스트·감사가 green이어야 done. 검증 없는 완료 보고를 금지하는 게 규율의 시작.</li>
+      <li><b>배포는 사람 승인 + 배치</b> — 로컬 커밋은 자유, 푸시(=배포)는 모아서 명시 승인 후. 비용과 사고를 동시에 줄임.</li>
+      <li><b>실패를 두뇌에 남긴다</b> — 같은 실수를 반복하지 않도록 "실패한 접근" 문서를 별도로 축적. 성공보다 실패 기록이 더 값짐.</li>
+      <li><b>역할별 도구 경계</b> — 검증 에이전트는 읽기 전용, 리서치 에이전트는 코드 수정 불가. 프롬프트가 아니라 권한으로 강제.</li>
+      <li><b>비싼 모델은 판단에, 싼 모델은 물량에</b> — 설계·판단은 상위 모델, 대량 번역·정찰은 무료·경량 모델로 라우팅.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <b>거버넌스 원문</b>
+    <p class="sub" style="margin:.4em 0 0;font-size:13.5px">AI 위험은 기능 하나가 아니라 수명주기 전체에서 식별·측정·관리·운영해야 합니다. 이 운영 원칙의 공공 기준으로 <a href="https://www.nist.gov/itl/ai-risk-management-framework" rel="noopener noreferrer" target="_blank">NIST AI Risk Management Framework</a>를 참고합니다. NIST 링크는 OIYO의 개별 구현을 인증하거나 보증한다는 뜻이 아닙니다.</p>
+  </div>
+
+  <h2>최소 구성으로 시작하기 (첫 달)</h2>
+  <p>
+    6사이트 규모가 아니라 <b>사이트 1개</b>로 시작해도 구조는 같습니다:
+  </p>
+  <div class="card">
+    <ol style="margin:0;padding-left:20px">
+      <li><b>정적 사이트 + 무료 호스팅</b> — Astro/Next + Cloudflare Pages·GitHub Pages. 서버 관리 비용 0.</li>
+      <li><b>코딩 에이전트 1개</b> — Claude Code 또는 무료로 시작하려면 Gemini CLI. 저장소 루트에 CLAUDE.md부터 작성(<a href="/systems/playbooks/claude-md/">가이드</a>).</li>
+      <li><b>두뇌 폴더 1개</b> — 마크다운 폴더에 결정·실패·할일을 기록. Obsidian으로 열면 위키가 됨.</li>
+      <li><b>검증 스크립트 1개</b> — "빌드 + 링크 체크"만이라도. 게이트 없는 자동화는 사고로 이어짐.</li>
+      <li><b>크론 1개</b> — 주 1회 "깨진 링크·빌드 상태 점검"부터. 자동화는 관측에서 시작.</li>
+    </ol>
+  </div>
+  <p class="sub">이 최소 구성의 상세 절차는 <a href="/systems/manual/setup/">매뉴얼 01 — 시작하기</a>에, 에이전트 조직 확장은 <a href="/systems/manual/agents/">매뉴얼 02</a>에 있습니다.</p>
+
+  <h2>흔한 실패 (우리가 겪은 것)</h2>
+  <div class="card">
+    <ul style="margin:0;padding-left:20px">
+      <li><b>대량 생성의 유혹</b> — AI로 페이지 수천 개를 찍으면 검색엔진이 저품질 신호로 봅니다. 실제로 색인 예산만 태웠습니다. 수요가 증명된 것만 깊게.</li>
+      <li><b>CI green ≠ 실제 작동</b> — 배포 설정(리다이렉트 규칙 등)은 CI를 통과해도 라이브에서 조용히 무효일 수 있음. 배포 후 실제 URL 확인이 최종 게이트.</li>
+      <li><b>무제한 자동 배포</b> — 배포 자동화를 풀로 열면 무료 티어 한도(빌드 횟수·CI 분)를 순식간에 소진. 배치 배포로 전환했습니다.</li>
+      <li><b>맥락 없는 새 세션</b> — 두뇌 없이 매번 처음부터 설명하면 품질이 롤러코스터. 세션 시작 시 읽을 문서를 고정하세요.</li>
+    </ul>
+  </div>
+
+  <p class="sub" style="margin-top:24px"><a href="/systems/playbooks/">← 플레이북 목록</a> · <a href="/systems/">AI-native OS 아키텍처 →</a></p>
+</BaseLayout>

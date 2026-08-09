@@ -1,6 +1,9 @@
 ---
-// OIYO News — 개인용 트렌드 뷰어 (HN/GeekNews 스타일, noindex).
+// OIYO News — 날짜별 기술·경제 큐레이션과 시장 브리핑.
 import data from "../data/news.json";
+import Empty from "../components/Empty.astro";
+import NewsItem from "../components/NewsItem.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
 type Item = { src: string; score: number | null; title: string; url: string; domain: string };
 type Day = { date: string; summary: string; items: Item[]; ideas: { title: string; hypothesis: string }[] };
@@ -44,65 +47,9 @@ const srcColor: Record<string, string> = {
   GeekNews: "#0abf53",
 };
 ---
-
-<!doctype html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="naver-site-verification" content="a0581b46dbe24516d99443dd0e08a672ae50de8a" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#65a30d" />
-    <link rel="canonical" href="https://news.oiyo.net/" />
-    <meta name="description" content="디자인·코딩·AI·프로그래밍·경제·주식 뉴스를 매일 큐레이션하는 OIYO 뉴스. 미국·한국 증시 시그널 포함." />
-    <meta property="og:title" content="OIYO News — 데일리 기술·경제 큐레이션" />
-    <meta property="og:description" content="디자인·코딩·AI·경제·주식 뉴스 데일리 큐레이션 + 미국·한국 증시 시그널." />
-    <meta property="og:url" content="https://news.oiyo.net/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://news.oiyo.net/og-image.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"WebSite",name:"OIYO News",url:"https://news.oiyo.net",publisher:{"@id":"https://oiyo.net/#organization"}})} />
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-915L6V38X6"></script>
-    <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-915L6V38X6');</script>
-    <title>OIYO News — 데일리 기술·경제 큐레이션</title>
+<BaseLayout title="OIYO News — 데일리 기술·경제 큐레이션" description="디자인·코딩·AI·프로그래밍·경제·주식 뉴스를 매일 큐레이션하는 OIYO 뉴스. 미국·한국 증시 시그널 포함." canonical="https://news.oiyo.net/">
+  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"WebSite","@id":"https://news.oiyo.net/#website",name:"OIYO News",url:"https://news.oiyo.net",publisher:{"@id":"https://oiyo.net/#organization"}})} /></Fragment>
     <style>
-      :root {
-        --bg: oklch(0.988 0.003 106.5);
-        --card: oklch(0.990 0.005 106.5);
-        --ink: oklch(0.153 0.006 107.1);
-        --muted: oklch(0.580 0.031 107.3);
-        --accent: oklch(0.532 0.157 131.589);
-        --border: oklch(0.930 0.007 106.5);
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--ink);
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
-        font-size: 15px;
-        line-height: 1.55;
-      }
-      header {
-        background: var(--accent);
-        color: #fff;
-        padding: 10px 16px;
-        display: flex;
-        align-items: baseline;
-        gap: 10px;
-        position: sticky;
-        top: 0;
-        z-index: 5;
-      }
-      header b { font-size: 17px; letter-spacing: -0.02em; }
-      header span { font-size: 12px; opacity: 0.85; }
-      main { max-width: 780px; margin: 0 auto; padding: 18px 14px 80px; }
       .day { margin-bottom: 30px; }
       .day-head {
         display: flex; align-items: baseline; gap: 10px;
@@ -113,17 +60,12 @@ const srcColor: Record<string, string> = {
         background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
         border-radius: 10px; padding: 10px 14px; font-size: 13.5px; color: #4a4c42; margin-bottom: 12px;
       }
-      ol { margin: 0; padding-left: 30px; }
-      li { margin: 7px 0; }
-      li a.t { color: var(--ink); text-decoration: none; font-weight: 600; }
-      li a.t:visited { color: #82857a; }
-      li a.t:hover { color: var(--accent); }
+      .news-list { margin: 0; padding-left: 24px; }
       .meta { font-size: 12px; color: var(--muted); margin-left: 6px; white-space: nowrap; }
       .src { font-weight: 700; }
       details.ideas { margin-top: 10px; font-size: 13px; }
       details.ideas summary { cursor: pointer; color: var(--accent); font-weight: 700; }
       details.ideas li { color: #4a4c42; }
-      footer { text-align: center; font-size: 12px; color: var(--muted); padding: 20px; }
       .brief {
         background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
         border-radius: 12px; padding: 12px 16px; margin: 4px 0 6px;
@@ -153,15 +95,7 @@ const srcColor: Record<string, string> = {
       details.stocks th, details.stocks td { text-align: right; padding: 5px 10px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
       details.stocks th:first-child, details.stocks td:first-child { text-align: left; }
     </style>
-  </head>
-  <body>
-    <header>
-      <b>OIYO NEWS</b>
-      <span>HN · Lobsters · GeekNews 정찰 큐레이션 (trend_scout)</span>
-      <span style="margin-left:auto">sync {updated}</span>
-      <a href="https://oiyo.net" style="color:#fff;font-size:12px;font-weight:700;margin-left:12px">OIYO ↗</a>
-    </header>
-    <main>
+    <div class="page-intro"><p class="eyebrow">sync {updated}</p><h1>기술·경제의 오늘과<br />AI 시스템의 맥락</h1><p class="lede">HN·Lobsters·GeekNews에서 검증 가능한 링크를 모으고, 시장 흐름과 AI-native 운영 지식을 구분해 정리합니다.</p></div>
       {indices.length > 0 && (
         <>
           <section class="brief">
@@ -209,7 +143,7 @@ const srcColor: Record<string, string> = {
           ))}
         </>
       )}
-      {days.length === 0 && <p>아직 데이터가 없습니다. <code>npm run sync</code>를 먼저 실행하세요.</p>}
+      {days.length === 0 && <Empty id="news-empty-home" />}
       {days.map((d) => (
         <section class="day">
           <div class="day-head">
@@ -217,18 +151,28 @@ const srcColor: Record<string, string> = {
             <span class="meta">{d.items.length}건</span>
           </div>
           {d.summary && <p class="summary">{d.summary}</p>}
-          <ol>
-            {d.items.map((it) => (
-              <li>
-                <a class="t" href={it.url} target="_blank" rel="noopener noreferrer">{it.title}</a>
-                <span class="meta">
-                  <span class="src" style={`color:${srcColor[it.src] ?? "var(--muted)"}`}>{it.src}</span>
-                  {it.score != null && <> ▲{it.score}</>}
-                  {it.domain && <> · {it.domain}</>}
-                </span>
-              </li>
-            ))}
-          </ol>
+          {d.items.length > 0 ? (
+            <ol class="news-list">
+              {d.items.map((it) => (
+                <NewsItem
+                  title={it.title}
+                  href={it.url}
+                  source={it.src}
+                  sourceColor={srcColor[it.src]}
+                  score={it.score}
+                  domain={it.domain}
+                />
+              ))}
+            </ol>
+          ) : (
+            <Empty
+              id={`news-empty-${d.date}`}
+              title={`${d.date} 링크가 없습니다`}
+              description="요약은 보존됐지만 검증 가능한 외부 링크가 수집되지 않았습니다."
+              href="/"
+              action="최신 뉴스 보기"
+            />
+          )}
           {d.ideas.length > 0 && (
             <details class="ideas">
               <summary>💡 도출된 아이디어 {d.ideas.length}건</summary>
@@ -241,17 +185,5 @@ const srcColor: Record<string, string> = {
           )}
         </section>
       ))}
-    </main>
-    <footer>
-      OIYO 내부용 · 매일 cron(trend_scout)이 수집 → sync → 배포
-      <div style="margin-top:10px">
-        OIYO Family:
-        <a href="https://oiyo.net/ko/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">테스트·도구</a>
-        <a href="https://blog.oiyo.net/ko/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">강의·매거진</a>
-        <a href="https://wiki.oiyo.net/ko/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">사전</a>
-        <a href="https://game.oiyo.net/ko/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">게임</a>
-        <a href="https://ai.oiyo.net/?utm_source=news&utm_medium=footer&utm_campaign=family_nav">AI</a>
-      </div>
-    </footer>
-  </body>
-</html>
+    <style>.page-intro{padding:16px 0 28px}.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.page-intro h1{max-width:720px}.page-intro .lede{margin-bottom:0}</style>
+</BaseLayout>

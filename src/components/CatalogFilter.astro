@@ -1,0 +1,85 @@
+---
+interface Props {
+  groups: { id: string; label: string }[];
+}
+
+const { groups } = Astro.props;
+---
+
+<div data-catalog-filter class="catalog-filter" aria-label="AI 모델 필터">
+  <label class="filter-field">
+    <span>모델·랩·강점 검색</span>
+    <input type="search" placeholder="예: 코딩, OpenAI, 로컬" autocomplete="off" data-filter-query />
+  </label>
+  <label class="filter-field">
+    <span>모델 그룹</span>
+    <select data-filter-group>
+      <option value="">전체 그룹</option>
+      {groups.map((group) => <option value={group.id}>{group.label}</option>)}
+    </select>
+  </label>
+  <output class="filter-count" aria-live="polite" data-filter-count></output>
+</div>
+
+<div data-slot="empty" data-catalog-empty class="catalog-empty" hidden>
+  <div class="empty-icon" aria-hidden="true">⌕</div>
+  <strong>조건에 맞는 모델이 없습니다</strong>
+  <p>검색어를 줄이거나 다른 그룹을 선택해 보세요.</p>
+  <button type="button" data-filter-reset>필터 초기화</button>
+</div>
+
+<script>
+  const normalize = (value: string) => value.toLocaleLowerCase().trim();
+
+  document.querySelectorAll<HTMLElement>("[data-catalog-filter]").forEach((filter) => {
+    const query = filter.querySelector<HTMLInputElement>("[data-filter-query]");
+    const group = filter.querySelector<HTMLSelectElement>("[data-filter-group]");
+    const count = filter.querySelector<HTMLOutputElement>("[data-filter-count]");
+    const empty = document.querySelector<HTMLElement>("[data-catalog-empty]");
+    const reset = empty?.querySelector<HTMLButtonElement>("[data-filter-reset]");
+    const cards = [...document.querySelectorAll<HTMLElement>("[data-model-card]")];
+    const sections = [...document.querySelectorAll<HTMLElement>("[data-model-section]")];
+    if (!query || !group || !count || !empty) return;
+
+    const update = () => {
+      const term = normalize(query.value);
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const matchesGroup = !group.value || card.dataset.modelGroup === group.value;
+        const matchesTerm = !term || normalize(card.dataset.search ?? "").includes(term);
+        card.hidden = !(matchesGroup && matchesTerm);
+        if (!card.hidden) visibleCount += 1;
+      });
+      sections.forEach((section) => {
+        section.hidden = !section.querySelector<HTMLElement>("[data-model-card]:not([hidden])");
+      });
+      empty.hidden = visibleCount !== 0;
+      count.textContent = `${visibleCount}개 모델`;
+    };
+
+    query.addEventListener("input", update);
+    group.addEventListener("change", update);
+    reset?.addEventListener("click", () => {
+      query.value = "";
+      group.value = "";
+      update();
+      query.focus();
+    });
+    update();
+  });
+</script>
+
+<style>
+  .catalog-filter { display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,.45fr);gap:12px;align-items:end;margin:22px 0 10px;padding:16px;border:1px solid var(--border);border-radius:14px;background:var(--card) }
+  .filter-field { display:grid;gap:5px;font-size:12px;font-weight:800;color:var(--muted) }
+  input,select { width:100%;min-height:44px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--ink);padding:9px 12px;font:inherit;outline:none }
+  input:focus,select:focus { border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 18%,transparent) }
+  .filter-count { grid-column:1/-1;color:var(--muted);font-size:12.5px }
+  .catalog-empty { margin:24px 0;padding:28px 18px;text-align:center;border:1px dashed var(--border);border-radius:14px;background:var(--card) }
+  .catalog-empty[hidden] { display:none }
+  .empty-icon { font-size:28px;color:var(--accent) }
+  .catalog-empty strong { display:block;margin-top:4px;font-size:17px }
+  .catalog-empty p { margin:4px 0 14px;color:var(--muted) }
+  .catalog-empty button { min-height:44px;border:0;border-radius:10px;background:var(--accent);color:#fff;padding:8px 16px;font-weight:800;cursor:pointer }
+  @media (max-width:560px) { .catalog-filter { grid-template-columns:1fr } }
+</style>

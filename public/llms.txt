@@ -1,18 +1,23 @@
 # OIYO News (news.oiyo.net)
 
-> Daily curated news and market briefs from the OIYO family — concise, source-linked
-> summaries across economy, markets and technology. Editorial guardrails: no hidden
-> conflicts of interest, no hype, one-paragraph summary → causes → correlation.
+> Daily curated news and market briefs plus maintained AI model, tool, and AI-native
+> systems references. News pages are source-linked and date-specific; reference pages
+> explain the real harness, company brain, verification loops, prompts, and playbooks.
 
 ## Key pages
-- https://news.oiyo.net/ — daily curated briefs (6 locales: en/ko/ja/zh/fr/es)
+- https://news.oiyo.net/ — daily curated technology, economy, and market briefs
+- https://news.oiyo.net/ai/ — AI models, tools, curation, and practical FAQ
+- https://news.oiyo.net/ai/models/ — curated model catalog and Dataset landing page
+- https://news.oiyo.net/systems/ — real AI-native company architecture
+- https://news.oiyo.net/systems/manual/ — setup, agents, brain, gates, loops, prompts
+- https://news.oiyo.net/systems/playbooks/ — reusable operational playbooks
 
 ## OIYO family
 oiyo.net (tests & tools) · blog.oiyo.net (guides) · wiki.oiyo.net (dictionary)
-· game.oiyo.net (games) · news.oiyo.net (this site) · ai.oiyo.net (AX showcase)
+· game.oiyo.net (games) · news.oiyo.net (news, AI, and systems)
 
 ## Machine-readable identity
-- [brand-facts.json](https://news.oiyo.net/brand-facts.json): organization identity (shared @id), the 6-site network, locales, and citation guidance.
+- [AI model catalog JSON](https://news.oiyo.net/ai/data/ai-models.json): model groups, notes, strengths, and live leaderboard references.
 
 ## Publisher
 Oiyo — https://oiyo.net/#organization

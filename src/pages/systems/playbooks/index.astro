@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import DocItem from "../../../components/DocItem.astro";
+
+const PLAYBOOKS = [
+  { href: "/systems/playbooks/web-service-ops/", tag: "실전", title: "AI 에이전트로 웹서비스 운영하기", sub: "1인이 6개 사이트를 굴리는 실제 구성 — 역할 분리, 크론 22개, 검증 게이트, 회사 두뇌." },
+  { href: "/systems/playbooks/stock-automation/", tag: "실전", title: "AI 주식·시장 분석 자동화 구성하기", sub: "데이터 수집→지표 계산→리포트→사람 확인. 자동 매매가 아니라 '분석 비서'를 만드는 아키텍처." },
+  { href: "/systems/playbooks/claude-md/", tag: "템플릿", title: "CLAUDE.md 잘 쓰는 법 + 복붙 템플릿", sub: "에이전트가 매번 읽는 단 하나의 파일. '없으면 모델이 틀리는 것'만 담는 lean 원칙." },
+  { href: "/systems/playbooks/llm-coding-principles/", tag: "원칙", title: "LLM 코딩 4원칙과 안티패턴", sub: "생각 먼저·단순함 먼저·수술적 변경·목표 주도 — AI에게 코드를 맡길 때 반드시 걸어야 할 규율." },
+];
+---
+
+<BaseLayout crumbs={[{label:"Systems",href:"/systems/"},{label:"Playbooks",href:"/systems/playbooks/"}]} title="AI 활용 플레이북 — 실전 구성 가이드" description="AI로 주식 분석 자동화, 웹서비스 운영, CLAUDE.md 작성까지 — 실제로 돌아가는 구성을 단계별로 옮긴 실전 플레이북. 이론이 아니라 OIYO가 운영 중인 방법.">
+  <span class="tag">Playbooks</span>
+  <h1>AI 활용 플레이북</h1>
+  <p class="sub">"AI로 ○○을 하고 싶은데 뭘 해야 하죠?"에 답하는 실전 구성 가이드. 전부 <b>OIYO가 실제로 운영 중이거나 검증한 방식</b>이며, 복붙 가능한 템플릿을 포함합니다.</p>
+
+  <div style="margin-top:24px">
+    {PLAYBOOKS.map((p) => (
+      <DocItem href={p.href} meta={p.tag} title={p.title} description={p.sub} />
+    ))}
+  </div>
+
+  <h2>플레이북과 매뉴얼의 관계</h2>
+  <p>
+    <a href="/systems/manual/">매뉴얼</a>은 AI-native 회사를 세우는 <b>운영 체계 전반</b>(에이전트 조직·두뇌·게이트)을 다루고,
+    플레이북은 <b>"특정 목적 하나"를 이루는 구체적 구성</b>을 다룹니다. 처음이라면 매뉴얼 01(최소 구성)을 먼저 읽고,
+    목적이 뚜렷하다면 플레이북부터 시작해도 됩니다. 자주 묻는 질문은 <a href="/ai/faq/">FAQ</a>에 모았습니다.
+  </p>
+</BaseLayout>

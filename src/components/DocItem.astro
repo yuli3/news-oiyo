@@ -1,0 +1,12 @@
+---
+interface Props { href: string; title: string; description: string; meta?: string }
+const { href, title, description, meta } = Astro.props;
+---
+<a data-slot="item" class="doc-item" href={href}>
+  {meta && <span data-slot="item-media" class="doc-meta">{meta}</span>}
+  <span data-slot="item-content" class="doc-content"><strong data-slot="item-title">{title}</strong><span data-slot="item-description">{description}</span></span>
+  <span data-slot="item-actions" class="doc-arrow" aria-hidden="true">→</span>
+</a>
+<style>
+  .doc-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:start;min-height:88px;margin:10px 0;padding:15px 16px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--ink);text-decoration:none}.doc-item:hover{border-color:var(--accent)}.doc-item:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.doc-meta{min-width:30px;color:var(--accent);font-size:13px;font-weight:850}.doc-content{display:grid;gap:4px;min-width:0}.doc-content strong{line-height:1.4}.doc-content span{color:var(--muted);font-size:14px}.doc-arrow{color:var(--muted)}
+</style>

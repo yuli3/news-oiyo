@@ -1,0 +1,49 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="AX 심화 — 회사 두뇌: 제2의 뇌와 LLM 위키" description="OIYO AI-native OS의 지식 계층. Obsidian 기반 제2의 뇌, Karpathy LLM 위키 방식, raw/synthesis 분리, 에이전트가 공유하는 단일 맥락 원천." canonical="https://news.oiyo.net/systems/brain/" crumbs={[{label:"Systems",href:"/systems/"},{label:"회사 두뇌"}]}>
+  <span class="tag">AX 심화</span>
+  <h1>회사 두뇌 — 제2의 뇌와 LLM 위키</h1>
+  <p class="sub">AI 에이전트의 최대 약점은 <b>맥락 상실</b>입니다. 회사 두뇌는 결정·실패·규칙을 축적해 모든 에이전트가 같은 맥락에서 출발하게 하는 단일 원천입니다.</p>
+
+  <h2>제2의 뇌 (Second Brain)</h2>
+  <p>
+    OIYO의 두뇌는 Obsidian으로 여는 위키형 지식 베이스입니다. 개인 메모장이 아니라
+    <b>여러 AI 에이전트와 사람이 같은 업무 맥락을 공유하는 안정적 프로세스</b>가 목적입니다.
+    문서끼리는 위키링크(<code>[[문서명]]</code>)로 연결되어, 하나를 읽으면 관련 결정·근거로 이어집니다.
+  </p>
+
+  <h2>Karpathy LLM 위키 방식</h2>
+  <div class="card">
+    <ul style="margin:0;padding-left:20px">
+      <li><b>raw</b> = 불변 원본(회의록·기사·대화 로그). 근거 재확인용, 절대 덮어쓰지 않음</li>
+      <li><b>synthesis(wiki)</b> = LLM이 유지하는 정제 지식(결정·규칙·프로젝트 맥락)</li>
+      <li><b>스키마 파일</b>(CLAUDE.md·AGENTS.md·SCHEMA.md) = LLM을 규율 있는 위키 관리자로 만드는 규약</li>
+      <li><b>index</b> = 내용 지도, <b>log</b> = 시간순 운영 기록</li>
+    </ul>
+  </div>
+  <p>중요한 답변·비교·결정·에러 해결법은 채팅에만 두지 않고 위키 문서로 승격합니다.</p>
+
+  <h2>5가지 저장 필터 — 오염을 막는 규율</h2>
+  <p>무분별한 저장은 맥락 오염을 만듭니다. 저장 전 다음 중 하나라도 충족하는지 확인합니다:</p>
+  <div class="card">
+    <ol style="margin:0;padding-left:20px">
+      <li>향후 실무에 반복 재사용될 데이터인가?</li>
+      <li>다른 에이전트가 이어받기 위해 반드시 읽어야 하는가?</li>
+      <li>의사결정 근거·결정권자를 추적해야 하는가?</li>
+      <li>다시 시도하면 안 되는 실패 리스크인가?</li>
+      <li>팀 전체가 맞춰야 할 공통 규칙인가?</li>
+    </ol>
+  </div>
+  <p>하나도 해당 없는 일회성 답변·검증 안 된 추측은 <b>저장하지 않습니다.</b> "저장하지 않을 용기"가 좋은 두뇌를 만듭니다.</p>
+
+  <h2>명령어로 두뇌를 다룬다</h2>
+  <p>
+    두뇌 조작은 자연어를 4개 명령으로 정규화합니다: <b>save</b>(맥락 저장) · <b>reference</b>(기존 맥락 조회) ·
+    <b>ingest</b>(자료를 위키로 가공) · <b>lint</b>(구조·품질 점검). 사용자가 "이거 저장해줘"라고 하면
+    내부적으로 save 필터를 거쳐 적절한 폴더에 문서를 만듭니다.
+  </p>
+
+  <p class="sub" style="margin-top:24px"><a href="/systems/">← Systems 개요</a> · 관련: <a href="/systems/hermes/">Hermes 런타임</a> · <a href="/systems/manual/prompts/">명령어·프롬프트</a></p>
+</BaseLayout>
