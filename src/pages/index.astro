@@ -94,8 +94,11 @@ const srcColor: Record<string, string> = {
       details.stocks table { width: 100%; border-collapse: collapse; margin-top: 8px; background: var(--card); border-radius: 10px; }
       details.stocks th, details.stocks td { text-align: right; padding: 5px 10px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
       details.stocks th:first-child, details.stocks td:first-child { text-align: left; }
+      .radar-home-link { margin: 12px 0 0; font-size: 14px; font-weight: 700; min-height: 44px; display: flex; align-items: center; }
+      .radar-home-link a { text-decoration: none; }
+      .radar-home-link a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
     </style>
-    <div class="page-intro"><p class="eyebrow">sync {updated}</p><h1>기술·경제의 오늘과<br />AI 시스템의 맥락</h1><p class="lede">HN·Lobsters·GeekNews에서 검증 가능한 링크를 모으고, 시장 흐름과 AI-native 운영 지식을 구분해 정리합니다.</p></div>
+    <div class="page-intro"><p class="eyebrow">sync {updated}</p><h1>기술·경제의 오늘과<br />AI 시스템의 맥락</h1><p class="lede">HN·Lobsters·GeekNews에서 검증 가능한 링크를 모으고, 시장 흐름과 AI-native 운영 지식을 구분해 정리합니다.</p><p class="radar-home-link"><a href="/radar/">레이더 — 디자인 갤러리와 엔지니어링 선반</a></p></div>
       {indices.length > 0 && (
         <>
           <section class="brief">
