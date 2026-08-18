@@ -137,6 +137,23 @@ export const RADAR_SHELVES: RadarShelf[] = [
     ],
   },
   {
+    id: "agent-tools",
+    label: "에이전트 도구",
+    desc: "컨텍스트·토큰을 줄이는 깃허브 도구. 별 수는 변한다. t.co 없음.",
+    items: [
+      { id: "caveman", name: "caveman", url: "https://github.com/JuliusBrussee/caveman", note: "같은 답을 원시인 말투로. 출력 토큰을 줄인다.", kind: "outbound" },
+      { id: "rtk", name: "rtk", url: "https://github.com/rtk-ai/rtk", note: "git·테스트·도커 출력을 컨텍스트에 넣기 전에 거른다.", kind: "outbound" },
+      { id: "mem0", name: "mem0", url: "https://github.com/mem0ai/mem0", note: "세션마다 같은 맥락을 다시 설명하지 않게 하는 메모리.", kind: "outbound" },
+      { id: "context7", name: "context7", url: "https://github.com/upstash/context7", note: "추측 대신 최신 문서를 컨텍스트에 넣는다.", kind: "outbound" },
+      { id: "aider", name: "aider", url: "https://github.com/Aider-AI/aider", note: "레포 맵을 쓰고 코드베이스 전체를 넣지 않는다.", kind: "outbound" },
+      { id: "code-review-graph", name: "code-review-graph", url: "https://github.com/tirth8205/code-review-graph", note: "그래프를 보고 파일 2–3개만 읽게 한다.", kind: "outbound" },
+      { id: "serena", name: "serena", url: "https://github.com/oraios/serena", note: "파일을 통째로 읽지 않고 심볼 단위로 접근.", kind: "outbound" },
+      { id: "repomix", name: "repomix", url: "https://github.com/yamadashy/repomix", note: "레포를 에이전트가 먹기 좋은 형식으로 압축.", kind: "outbound" },
+      { id: "ccusage", name: "ccusage", url: "https://github.com/ryoppippi/ccusage", note: "Claude Code 세션이 토큰을 어디에 쓰는지 본다.", kind: "outbound" },
+      { id: "gptcache", name: "GPTCache", url: "https://github.com/zilliztech/GPTCache", note: "같은 질문에 두 번 돈 내지 않는 시맨틱 캐시.", kind: "outbound" },
+    ],
+  },
+  {
     id: "ai",
     label: "AI",
     desc: "서비스 목록은 여기 다시 쓰지 않는다.",
