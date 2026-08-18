@@ -38,9 +38,9 @@ const breadcrumbJsonLd = {
   <p class="lede">광고·제휴 없음. 디자인 갤러리와 엔지니어링 선반을 외부 링크와 한 줄 평으로 모아 둔 상설 페이지.</p>
 
   <nav class="radar-jump" aria-label="선반">
-    <a href="#galleries">디자인 갤러리</a>
-    <a href="#design-eng">디자인 엔지니어링</a>
-    <a href="#ai">AI</a>
+    {RADAR_SHELVES.map((shelf) => (
+      <a href={`#${shelf.id}`}>{shelf.label}</a>
+    ))}
   </nav>
 
   {RADAR_SHELVES.map((shelf) => (
