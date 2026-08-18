@@ -80,6 +80,8 @@ export const RADAR_SHELVES: RadarShelf[] = [
       { id: "sonner", name: "Sonner", url: "https://sonner.emilkowal.ski/", note: "토스트의 사실상 표준.", kind: "outbound" },
       { id: "animations-dev", name: "animations.dev", url: "https://animations.dev/", note: "인터페이스 모션 레퍼런스.", kind: "outbound" },
       { id: "you-dont-need-animations", name: "You Don't Need Animations", url: "https://emilkowal.ski/ui/you-dont-need-animations", note: "모션을 언제 빼야 하는지.", kind: "outbound" },
+      { id: "beautifului", name: "Beautiful UI", url: "https://www.beautifului.dev/", note: "에이전트 채팅·생각 중·HITL 승인용 카피페이스트 프리미티브.", kind: "outbound" },
+      { id: "diagram-design", name: "Diagram Design", url: "https://github.com/cathrynlavery/diagram-design", note: "Claude Code용 편집 다이어그램 27종. HTML+SVG. 멀메이드 슬롭 반대.", kind: "outbound" },
     ],
   },
   {
@@ -111,6 +113,9 @@ export const RADAR_SHELVES: RadarShelf[] = [
       { id: "12-principles", name: "12 Principles of Animation", url: "https://www.raphaelsalaja.com/library/12-principles-of-animation", note: "애니메이션 기초 원칙.", kind: "outbound" },
       { id: "developing-taste", name: "Developing Taste", url: "https://emilkowal.ski/ui/developing-taste", note: "취향이 왜 중요한지, 어떻게 기르는지.", kind: "outbound" },
       { id: "de-at-vercel", name: "Design Engineering at Vercel", url: "https://vercel.com/blog/design-engineering-at-vercel", note: "Vercel에서 디자인 엔지니어가 하는 일.", kind: "outbound" },
+      { id: "claude-marketing-12", name: "클로드로 마케팅 12단계", url: "https://www.youtube.com/watch?v=FZzxy_0FT0o", note: "김형태(데일리그로스). 3C 폴더와 소재 자동화. 유튜브.", kind: "outbound" },
+      { id: "claude-solo-30d", name: "30일 클로드 1인 사업", url: "https://www.youtube.com/watch?v=miU8euU1I9k", note: "그랜트. 검증·유입·옵시디언 OS. 유튜브.", kind: "outbound" },
+      { id: "koreaconnect-api", name: "디지털융합플랫폼 API", url: "https://portal.koreaconnect.kr/market/mk/getMkDigitStore", note: "한국 공공·민간 API 마켓. 공식 제목은 디지털융합플랫폼 사용자 포털.", kind: "outbound" },
     ],
   },
   {
@@ -151,6 +156,11 @@ export const RADAR_SHELVES: RadarShelf[] = [
       { id: "repomix", name: "repomix", url: "https://github.com/yamadashy/repomix", note: "레포를 에이전트가 먹기 좋은 형식으로 압축.", kind: "outbound" },
       { id: "ccusage", name: "ccusage", url: "https://github.com/ryoppippi/ccusage", note: "Claude Code 세션이 토큰을 어디에 쓰는지 본다.", kind: "outbound" },
       { id: "gptcache", name: "GPTCache", url: "https://github.com/zilliztech/GPTCache", note: "같은 질문에 두 번 돈 내지 않는 시맨틱 캐시.", kind: "outbound" },
+      { id: "agentos-blueprint", name: "AgentOS blueprint", url: "https://gist.github.com/iannuttall/8152098b5ce8e6c1a7499ee561ed93f4", note: "Danny Postma 토크를 재구성한 AgentOS 스펙. 원본 파일은 아님.", kind: "outbound" },
+      { id: "public-apis", name: "public-apis", url: "https://github.com/public-apis/public-apis", note: "무료 공개 API 목록.", kind: "outbound" },
+      { id: "codewiki", name: "Google Code Wiki", url: "https://codewiki.google/", note: "코드베이스 문서를 자동 생성·갱신한다.", kind: "outbound" },
+      { id: "aihero-skills", name: "AI Hero Skills", url: "https://www.aihero.dev/skills", note: "Mat Pocock. 기준을 포기하지 않는 엔지니어용 스킬.", kind: "outbound" },
+      { id: "im-not-ai", name: "im-not-ai", url: "https://github.com/epoko77-ai/im-not-ai", note: "한글 AI 티를 문체만 고치는 Claude/Codex 스킬.", kind: "outbound" },
     ],
   },
   {
