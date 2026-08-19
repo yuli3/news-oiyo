@@ -50,8 +50,23 @@ const onRadar = here === "/radar";
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-915L6V38X6"></script>
-    <script is:inline>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-915L6V38X6');</script>
+    <script is:inline>
+      // Local hosts must not report to the production property. Dev and local
+      // preview were reaching it: 173 sessions and 2,295 pageviews in 28 days,
+      // about a quarter of blog's real volume, which inflated every
+      // pageview-based number we reasoned from (2026-08-19).
+      // window.gtag is defined either way so callers never have to branch.
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      if (!/^(localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\])$/.test(location.hostname)) {
+        gtag('js', new Date());
+        gtag('config', 'G-915L6V38X6');
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + 'G-915L6V38X6';
+        document.head.appendChild(s);
+      }
+    </script>
     <title>{fullTitle}</title>
     <slot name="head" />
     <style is:global>
