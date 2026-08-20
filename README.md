@@ -1,13 +1,13 @@
 # news.oiyo.net — OIYO News
 
-개인용 트렌드 뉴스 뷰어 (HN/GeekNews 스타일). `trend_scout` cron이 매일 수집한
-HN·Lobsters·GeekNews 큐레이션 + **미국·한국 증시**(S&P·Nasdaq·Dow·KOSPI·KOSDAQ,
-관심종목·배당ETF)를 한 페이지로 보여준다. **noindex** (내부용).
+개인용 트렌드 뉴스 뷰어 (HN/GeekNews 스타일). Hermes 스킬 `oiyo-news-feed`(크론
+매일 10시 KST)가 수집한 HN·Lobsters·GeekNews·TechCrunch·GitHub 큐레이션 +
+**미국·한국 증시**를 한 페이지로 보여준다. `trend_scout.py`는 폐기.
 
 ## 데이터 흐름
 
 ```
-trend_scout.py (cron 매일 10시)  → company-brain/.../sources/trends/YYYY-MM-DD.md
+oiyo-news-feed (cron 매일 10시)  → company-brain/.../sources/trends/YYYY-MM-DD.md
 stock_analysis cron              → company-brain/reports/market-latest.json
   → npm run sync   # scripts/sync-news.mjs → src/data/news.json (레포 안으로 복사)
   → git commit && push   # Cloudflare Pages 자동 빌드·배포
