@@ -165,6 +165,19 @@ export const RADAR_SHELVES: RadarShelf[] = [
     ],
   },
   {
+    id: "open-data",
+    label: "공개 데이터",
+    desc: "키 없이 쓰거나 한국 공공 포털. 목록을 복제하지 않는다. oiyo 오늘은 Open-Meteo.",
+    items: [
+      { id: "data-go-kr", name: "공공데이터포털", url: "https://www.data.go.kr/", note: "한국 공공 API 창구.", kind: "outbound" },
+      { id: "kma", name: "기상청", url: "https://www.weather.go.kr/", note: "한국 날씨 공식.", kind: "outbound" },
+      { id: "kasi", name: "한국천문연구원", url: "https://www.kasi.re.kr/", note: "절기·천문 공식.", kind: "outbound" },
+      { id: "kosis", name: "KOSIS", url: "https://kosis.kr/", note: "통계청 국가통계포털.", kind: "outbound" },
+      { id: "open-meteo", name: "Open-Meteo", url: "https://open-meteo.com/", note: "키 없는 날씨. oiyo /today/ 가 사용.", kind: "outbound" },
+      { id: "nominatim", name: "Nominatim", url: "https://nominatim.openstreetmap.org/", note: "OpenStreetMap 지오코딩.", kind: "outbound" },
+    ],
+  },
+  {
     id: "ai",
     label: "AI",
     desc: "서비스 목록은 여기 다시 쓰지 않는다.",
