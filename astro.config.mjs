@@ -5,5 +5,9 @@ import sitemap from "@astrojs/sitemap";
 // 2026-07-04 공개 전환: noindex 해제, sitemap 추가. 데이터는 sync가 레포 안으로 복사.
 export default defineConfig({
   site: "https://news.oiyo.net",
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !/\/\d{4}-\d{2}-\d{2}\/?$/.test(page),
+    }),
+  ],
 });
