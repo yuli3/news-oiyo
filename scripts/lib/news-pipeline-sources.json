@@ -57,6 +57,20 @@
       "homepage": "https://finance.yahoo.com",
       "type": "secondary",
       "aliases": ["YahooFinance"]
+    },
+    {
+      "id": "techcrunch",
+      "name": "TechCrunch",
+      "homepage": "https://techcrunch.com",
+      "type": "secondary",
+      "aliases": ["TechCrunch", "TC"]
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "homepage": "https://github.com",
+      "type": "secondary",
+      "aliases": ["GitHub", "GH"]
     }
   ]
 }
