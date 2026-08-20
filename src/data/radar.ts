@@ -156,6 +156,7 @@ export const RADAR_SHELVES: RadarShelf[] = [
       { id: "repomix", name: "repomix", url: "https://github.com/yamadashy/repomix", note: "레포를 에이전트가 먹기 좋은 형식으로 압축.", kind: "outbound" },
       { id: "ccusage", name: "ccusage", url: "https://github.com/ryoppippi/ccusage", note: "Claude Code 세션이 토큰을 어디에 쓰는지 본다.", kind: "outbound" },
       { id: "gptcache", name: "GPTCache", url: "https://github.com/zilliztech/GPTCache", note: "같은 질문에 두 번 돈 내지 않는 시맨틱 캐시.", kind: "outbound" },
+      { id: "star-history", name: "Star History", url: "https://www.star-history.com/", note: "깃허브 스타 증가를 그래프로 본다. 공식 사이트. t.co 없음.", kind: "outbound" },
       { id: "agentos-blueprint", name: "AgentOS blueprint", url: "https://gist.github.com/iannuttall/8152098b5ce8e6c1a7499ee561ed93f4", note: "Danny Postma 토크를 재구성한 AgentOS 스펙. 원본 파일은 아님.", kind: "outbound" },
       { id: "public-apis", name: "public-apis", url: "https://github.com/public-apis/public-apis", note: "무료 공개 API 목록.", kind: "outbound" },
       { id: "codewiki", name: "Google Code Wiki", url: "https://codewiki.google/", note: "코드베이스 문서를 자동 생성·갱신한다.", kind: "outbound" },
