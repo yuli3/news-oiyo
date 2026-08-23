@@ -72,16 +72,43 @@ const onRadar = here === "/radar";
     <style is:global>
       :root{--bg:oklch(.988 .003 106.5);--card:oklch(.99 .005 106.5);--ink:oklch(.153 .006 107.1);--muted:oklch(.58 .031 107.3);--accent:oklch(.49 .12 128);--accent-soft:oklch(.95 .025 112);--border:oklch(.91 .012 106.5)}
       *{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans KR",sans-serif;font-size:15px;line-height:1.6}a{color:var(--accent)}
-      .site-header{border-bottom:1px solid var(--border);background:color-mix(in oklch,var(--bg) 94%,transparent);position:sticky;top:0;z-index:5}.header-inner{max-width:900px;min-height:52px;margin:auto;padding:0 16px;display:flex;align-items:center;gap:18px}.brand{color:var(--ink);text-decoration:none;font-size:18px;font-weight:850;letter-spacing:-.035em}.brand span{color:var(--accent);font-weight:720}.primary-nav{display:flex;gap:16px;margin-left:auto}.primary-nav a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:700}.primary-nav a:hover,.primary-nav a[aria-current="page"]{color:var(--accent)}
+      .site-header{border-bottom:1px solid var(--border);background:color-mix(in oklch,var(--bg) 94%,transparent);position:sticky;top:0;z-index:5}.header-inner{max-width:900px;min-height:52px;margin:auto;padding:0 16px;display:flex;align-items:center;gap:18px}.brand{color:var(--ink);text-decoration:none;font-size:18px;font-weight:850;letter-spacing:-.035em}.brand span{color:var(--accent);font-weight:720}.primary-nav{display:flex;gap:16px;margin-left:auto}.primary-nav a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:700}.primary-nav a:hover,.primary-nav a[aria-current="page"]{color:var(--accent)}.lang-note{margin-left:auto;display:flex;align-items:center;gap:4px;color:var(--muted);font-size:12px;font-weight:700}.lang-note+.primary-nav{margin-left:0}.menu-btn{display:none;margin-left:auto;background:none;border:none;padding:6px;border-radius:8px;color:var(--ink);cursor:pointer}.drawer-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:60}.drawer{position:fixed;top:0;right:0;height:100%;width:min(288px,85vw);background:var(--bg);border-left:1px solid var(--border);box-shadow:0 10px 40px rgba(0,0,0,.25);transform:translateX(100%);transition:transform .3s ease;z-index:70;display:flex;flex-direction:column}.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:52px;border-bottom:1px solid var(--border)}.drawer-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:6px 10px;border-radius:8px}.drawer nav{flex:1;overflow-y:auto;padding:18px 20px;display:flex;flex-direction:column;gap:2px}.drawer nav a{padding:12px 8px;border-radius:8px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:700}.drawer nav a:hover{background:var(--accent-soft)}.drawer .family{margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}.drawer .family p{margin:6px 8px;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}.drawer .family a{font-weight:600;font-size:13px}body.menu-open .drawer{transform:translateX(0)}body.menu-open .drawer-overlay{opacity:1;pointer-events:auto}@media(max-width:900px){.primary-nav{display:none}.menu-btn{display:inline-flex}}
       .shell{max-width:900px;margin:auto;padding:14px 16px 80px}.breadcrumb{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-height:34px;margin-bottom:12px;color:var(--muted);font-size:12px}.breadcrumb a{color:var(--muted);text-decoration:none}.breadcrumb a:hover{color:var(--accent)}.breadcrumb span+span::before,.breadcrumb a+span::before,.breadcrumb a+a::before{content:"/";margin-right:6px;color:var(--border)}
       h1{font-size:clamp(25px,5vw,34px);line-height:1.2;letter-spacing:-.035em;margin:.45em 0}.lede{max-width:680px;color:var(--muted);font-size:16px}.section-title{margin-top:36px;padding-bottom:7px;border-bottom:2px solid var(--accent);font-size:19px}.doc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.doc-link{display:block;min-height:104px;padding:16px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--ink);text-decoration:none}.doc-link:hover{border-color:var(--accent)}.doc-link strong{display:block;margin-bottom:5px}.doc-link span{color:var(--muted);font-size:13px}
       h2{font-size:20px;margin-top:2em;border-bottom:2px solid var(--accent);padding-bottom:6px}.sub{color:var(--muted);font-size:15px}.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:12px 0}.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}.tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:800;margin-right:6px}.card a{text-decoration:none;font-weight:700}
       .site-footer{border-top:1px solid var(--border);background:var(--card)}.footer-inner{max-width:900px;margin:auto;padding:30px 16px 36px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.footer-group strong{display:block;margin-bottom:9px;font-size:12px;color:var(--ink)}.footer-group a,.footer-group span{display:block;width:max-content;max-width:100%;margin:6px 0;color:var(--muted);text-decoration:none;font-size:12px}.footer-group a:hover{color:var(--accent)}
-      button,[role=button],a{touch-action:manipulation}@media(max-width:640px){.header-inner{min-height:50px}.primary-nav{gap:12px}.primary-nav a:first-child{display:none}.shell{padding-inline:14px}.doc-grid{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr 1fr}.footer-group:last-child{grid-column:1/-1}}
+      button,[role=button],a{touch-action:manipulation}@media(max-width:640px){.header-inner{min-height:50px}.shell{padding-inline:14px}.doc-grid{grid-template-columns:1fr}.footer-inner{grid-template-columns:1fr 1fr}.footer-group:last-child{grid-column:1/-1}}
     </style>
   </head>
   <body>
-    <header class="site-header"><div class="header-inner"><a class="brand" href="/">OIYO <span>news</span></a><nav class="primary-nav" aria-label="주요 탐색"><a href="/">최신 뉴스</a><a href="/radar/" aria-current={onRadar ? "page" : undefined}>레이더</a><a href="/ai/">AI</a><a href="/systems/">Systems</a></nav></div></header>
+    <header class="site-header"><div class="header-inner"><a class="brand" href="/">OIYO <span>news</span></a><span class="lang-note" lang="ko" aria-label="이 사이트는 한국어로 제공됩니다"><span aria-hidden="true">🇰🇷</span> 한국어</span><nav class="primary-nav" aria-label="주요 탐색" style="margin-left:0"><a href="/">최신 뉴스</a><a href="/radar/" aria-current={onRadar ? "page" : undefined}>레이더</a><a href="/ai/">AI</a><a href="/systems/">Systems</a></nav><button class="menu-btn" id="menu-open" aria-label="메뉴 열기" aria-controls="site-drawer" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button></div></header>
+<div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
+<aside class="drawer" id="site-drawer" role="dialog" aria-modal="true" aria-label="내비게이션 메뉴">
+  <div class="drawer-head"><strong style={{letterSpacing:'-.03em'}}>OIYO <span style={{color:'var(--accent)'}}>news</span></strong><button class="drawer-close" id="menu-close" aria-label="메뉴 닫기">✕</button></div>
+  <nav aria-label="모바일 내비게이션">
+    <a href="/">최신 뉴스</a>
+    <a href="/radar/">레이더</a>
+    <a href="/ai/">AI 모델·도구</a>
+    <a href="/systems/">운영 시스템</a>
+    <div class="family">
+      <p>OIYO 패밀리</p>
+      {family.map(([label, href]) => <a href={`${href}?utm_source=news&utm_medium=menu&utm_campaign=family_nav`} target="_blank" rel="noopener noreferrer">{label} ↗</a>)}
+    </div>
+  </nav>
+  <div style={{padding:'14px 20px 22px',borderTop:'1px solid var(--border)',display:'flex',alignItems:'center',gap:'6px',fontSize:'12px',fontWeight:700,color:'var(--muted)'}}><span aria-hidden="true">🇰🇷</span> 한국어</div>
+</aside>
+<script is:inline>
+(function(){
+  var openBtn=document.getElementById('menu-open'),closeBtn=document.getElementById('menu-close'),overlay=document.getElementById('drawer-overlay');
+  if(!openBtn||!closeBtn||!overlay)return;
+  function open(){document.body.classList.add('menu-open');openBtn.setAttribute('aria-expanded','true');}
+  function close(){document.body.classList.remove('menu-open');openBtn.setAttribute('aria-expanded','false');}
+  openBtn.addEventListener('click',open);
+  closeBtn.addEventListener('click',close);
+  overlay.addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+})();
+</script>
     <main class="shell">
       {crumbs.length > 0 && <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a>{crumbs.map((crumb) => crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>)}</nav>}
       <slot />
