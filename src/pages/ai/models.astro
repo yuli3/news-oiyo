@@ -1,100 +1,44 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import CatalogFilter from "../../components/CatalogFilter.astro";
 import { MODEL_GROUPS, LEADERBOARDS, MODELS_UPDATED } from "../../data/ai-models";
 
+// 모델 카탈로그는 통합 AI 큐레이터(/ai/curator/)로 합쳐졌다.
+// 이 페이지는 URL을 살려두는 안내 포인터다 — 데이터 본체는 curator에서 렌더링한다.
 const total = MODEL_GROUPS.reduce((n, g) => n + g.items.length, 0);
-const itemListJsonLd = {
+const breadcrumbJsonLd = {
   "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "OIYO AI — AI 모델 카탈로그",
-  numberOfItems: total,
-  itemListElement: MODEL_GROUPS.flatMap((g) => g.items).map((m, i) => ({
-    "@type": "ListItem", position: i + 1, name: m.name, url: m.url,
-  })),
-};
-// 인용 가능한 데이터 원천: 카탈로그를 Dataset으로 선언하고 기계가 읽는 JSON 배포본을 연결한다.
-const datasetJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Dataset",
-  name: "OIYO AI Model Catalog",
-  alternateName: "AI 모델 카탈로그",
-  description:
-    "프론티어(독점)·오픈웨이트 AI 모델 계열과 로컬 실행 런타임을 실사용 관점으로 정리한 큐레이션 카탈로그. 빠르게 변하는 순위·점수는 라이브 리더보드로 위임하고, 랩·모델 계열·강점 태그를 구조화해 제공한다.",
-  url: "https://news.oiyo.net/ai/models/",
-  dateModified: MODELS_UPDATED,
-  inLanguage: "ko",
-  license: "https://creativecommons.org/licenses/by/4.0/",
-  isAccessibleForFree: true,
-  creator: { "@type": "Organization", name: "OIYO", url: "https://oiyo.net" },
-  keywords: ["AI models", "LLM", "frontier models", "open-weight models", "local LLM runtime", "AI 모델 비교"],
-  distribution: [{
-    "@type": "DataDownload",
-    encodingFormat: "application/json",
-    contentUrl: "https://news.oiyo.net/ai/data/ai-models.json",
-  }],
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "홈", item: "https://news.oiyo.net/" },
+    { "@type": "ListItem", position: 2, name: "AI", item: "https://news.oiyo.net/ai/" },
+    { "@type": "ListItem", position: 3, name: "모델 카탈로그", item: "https://news.oiyo.net/ai/models/" },
+  ],
 };
 ---
 
-<BaseLayout title="AI 모델 카탈로그 — 프론티어·오픈웨이트·로컬 런타임" description="ChatGPT(GPT-5)·Claude·Gemini 3·Grok 4 등 프론티어 모델과 DeepSeek·Kimi·GLM·Qwen·Llama 등 오픈웨이트 모델, 그리고 Ollama·LM Studio 로컬 실행 런타임을 실사용 관점으로 정리한 AI 모델 지도. 실시간 순위는 LMArena 등 라이브 리더보드로 연결." canonical="https://news.oiyo.net/ai/models/" crumbs={[{label:"AI",href:"/ai/"},{label:"모델 카탈로그"}]}>
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd)} />
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(datasetJsonLd)} />
-  <span class="tag">Model Catalog</span>
-  <h1>AI 모델 카탈로그</h1>
-  <p class="sub">
-    지금 주목할 <b>랩과 대표 모델 계열</b>을 용도별로 정리했습니다. 광고·제휴 없음, {total}개 수록.
-    모델 순위는 반년 주기로 크게 바뀌므로, <b>정확한 실시간 랭킹·점수는 아래 라이브 리더보드</b>에서 확인하세요.
-    <br /><span style="font-size:12.5px">확인일자 {MODELS_UPDATED} · 세부 버전은 노후화를 늦추기 위해 계열 수준으로 표기</span>
+<BaseLayout
+  title="AI 모델 카탈로그 — AI 큐레이터로 통합되었습니다"
+  description="프론티어·오픈웨이트 모델 카탈로그와 라이브 리더보드는 AI 큐레이터(/ai/curator/)로 통합되었습니다."
+  canonical="https://news.oiyo.net/ai/models/"
+  crumbs={[{label:"AI",href:"/ai/"},{label:"모델 카탈로그"}]}
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <span class="tag">Moved</span>
+  <h1>AI 모델 카탈로그 → AI 큐레이터</h1>
+  <p class="lede">
+    모델 카탈로그(프론티어·오픈웨이트·로컬 런타임, 총 {total}개)는 이제
+    <a href="/ai/curator/">AI 큐레이터</a> 한 곳에 통합됐습니다. 아래 섹션으로 바로 이동하세요.
+    확인일자 {MODELS_UPDATED}.
   </p>
-
-  <nav style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0">
+  <div class="doc-grid">
     {MODEL_GROUPS.map((g) => (
-      <a href={`#${g.id}`} style="background:#eef1e2;color:var(--accent);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;text-decoration:none">{g.label}</a>
+      <a class="doc-link" href={`/ai/curator/#${g.id}`}>
+        <strong>{g.label}</strong>
+        <span>{g.desc}</span>
+      </a>
     ))}
-    <a href="#leaderboards" style="background:var(--accent);color:#fff;border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;text-decoration:none">라이브 리더보드 ↓</a>
-  </nav>
-
-  <CatalogFilter groups={MODEL_GROUPS.map(({ id, label }) => ({ id, label }))} />
-
-  {MODEL_GROUPS.map((g) => (
-    <section id={g.id} data-model-section>
-      <h2>{g.label}</h2>
-      <p class="sub" style="margin-top:-4px">{g.desc}</p>
-      <div class="grid">
-        {g.items.map((m) => (
-          <div
-            class="card"
-            data-model-card
-            data-model-group={g.id}
-            data-search={`${m.name} ${m.by} ${m.note} ${m.strengths}`}
-          >
-            <a href={m.url} target="_blank" rel="noopener noreferrer">{m.name} ↗</a>
-            <span style="font-size:11px;color:var(--muted);margin-left:6px">{m.by}</span>
-            <p class="sub" style="margin:.4em 0 .5em;font-size:13.5px">{m.note}</p>
-            <span class="tag" style="font-size:11px">{m.strengths}</span>
-          </div>
-        ))}
-      </div>
-    </section>
-  ))}
-
-  <section id="leaderboards">
-    <h2>라이브 리더보드 (정확한 순위는 여기서)</h2>
-    <p class="sub" style="margin-top:-4px">모델 순위·벤치마크·가격은 매주 바뀝니다. OIYO는 지도의 인덱스 역할만 하고, 수치는 아래 1차·집계 출처를 신뢰하세요.</p>
-    <div class="grid">
-      {LEADERBOARDS.map((l) => (
-        <div class="card">
-          <a href={l.url} target="_blank" rel="noopener noreferrer">{l.name} ↗</a>
-          <p class="sub" style="margin:.4em 0 0;font-size:13.5px">{l.note}</p>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <p class="sub" style="margin-top:28px">
-    직접 써보고 실무에 편입한 도구는 <a href="/ai/curator/">AI 큐레이터</a>에서, 우리가 운영에 쓰는 모델 우선순위는 <a href="/systems/">AI-native Systems</a>에서 확인하세요.
-  </p>
-  <p class="sub" style="font-size:12.5px">
-    이 카탈로그의 원본 데이터는 <a href="/ai/data/ai-models.json">ai-models.json</a>으로 공개되어 있습니다 (CC BY 4.0 · 출처 표기 시 자유 이용). AI·연구·앱에서 그대로 인용하셔도 됩니다.
-  </p>
+    <a class="doc-link" href="/ai/curator/#leaderboards"><strong>라이브 리더보드</strong><span>LMArena·Artificial Analysis 등 실시간 순위 {LEADERBOARDS.length}곳</span></a>
+    <a class="doc-link" href="/ai/data/ai-models.json"><strong>ai-models.json</strong><span>기계가 읽는 원본 데이터 (CC BY 4.0)</span></a>
+    <a class="doc-link" href="/ai/faq/"><strong>AI 활용 FAQ</strong><span>AX·에이전트·비용·보안 18문답</span></a>
+  </div>
 </BaseLayout>

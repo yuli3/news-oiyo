@@ -2,20 +2,9 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { RADAR_SHELVES } from "../data/radar";
 
-const items = RADAR_SHELVES.flatMap((shelf) => shelf.items);
-const total = items.length;
-const itemListJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "레이더 — 디자인 갤러리와 엔지니어링 선반",
-  numberOfItems: total,
-  itemListElement: items.map((item, i) => ({
-    "@type": "ListItem",
-    position: i + 1,
-    name: item.name,
-    url: item.kind === "internal" ? `https://news.oiyo.net${item.url}` : item.url,
-  })),
-};
+// 레이더 선반은 통합 AI 큐레이터(/ai/curator/)로 합쳐졌다.
+// 이 페이지는 URL을 살려두는 안내 포인터다 — 데이터 본체는 curator에서 렌더링한다.
+const total = RADAR_SHELVES.flatMap((s) => s.items).length;
 const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -27,89 +16,25 @@ const breadcrumbJsonLd = {
 ---
 
 <BaseLayout
-  title="레이더 — 디자인 갤러리와 엔지니어링 선반"
-  description="광고·제휴 없음. 디자인 갤러리와 엔지니어링 선반을 외부 링크와 한 줄 평으로 모아 둔 상설 페이지."
+  title="레이더 — AI 큐레이터로 통합되었습니다"
+  description="디자인 갤러리·디자인 엔지니어링·글·사람·채용·에이전트 도구·공개 데이터 선반은 AI 큐레이터(/ai/curator/)로 통합되었습니다."
   canonical="https://news.oiyo.net/radar/"
   crumbs={[{ label: "레이더" }]}
 >
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd)} />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbJsonLd)} />
-  <h1>레이더</h1>
-  <p class="lede">광고·제휴 없음. 디자인 갤러리와 엔지니어링 선반을 외부 링크와 한 줄 평으로 모아 둔 상설 페이지.</p>
-
-  <nav class="radar-jump" aria-label="선반">
-    {RADAR_SHELVES.map((shelf) => (
-      <a href={`#${shelf.id}`}>{shelf.label}</a>
+  <span class="tag">Moved</span>
+  <h1>레이더 → AI 큐레이터</h1>
+  <p class="lede">
+    레이더 선반 {total}개 항목은 이제 <a href="/ai/curator/">AI 큐레이터</a> 한 곳에 통합됐습니다.
+    아래 섹션으로 바로 이동하세요. 일일 속보는 <a href="/">최신 뉴스</a>에 있습니다.
+  </p>
+  <div class="doc-grid">
+    {RADAR_SHELVES.map((s) => (
+      <a class="doc-link" href={`/ai/curator/#${s.id}`}>
+        <strong>{s.label}</strong>
+        <span>{s.desc} ({s.items.length}개)</span>
+      </a>
     ))}
-  </nav>
-
-  {RADAR_SHELVES.map((shelf) => (
-    <section class="radar-shelf" id={shelf.id}>
-      <h2>{shelf.label}</h2>
-      <p class="sub">{shelf.desc}</p>
-      <ol class="radar-list">
-        {shelf.items.map((item) => (
-          <li class="radar-item">
-            {item.kind === "outbound" ? (
-              <a class="radar-name" href={item.url} target="_blank" rel="noopener noreferrer">{item.name}</a>
-            ) : (
-              <a class="radar-name" href={item.url}>{item.name}</a>
-            )}
-            <p class="radar-note">{item.note}</p>
-          </li>
-        ))}
-      </ol>
-    </section>
-  ))}
-
-  <p class="radar-foot sub">일일 속보는 <a href="/">최신 뉴스</a>, AI 서비스는 <a href="/ai/curator/">AI 큐레이터</a>.</p>
+    <a class="doc-link" href="/ai/faq/"><strong>AI 활용 FAQ</strong><span>AX·에이전트·비용·보안 18문답</span></a>
+  </div>
 </BaseLayout>
-
-<style>
-  .radar-jump {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 16px;
-    align-items: center;
-    margin: 16px 0 0;
-  }
-  .radar-jump a {
-    color: var(--accent);
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: none;
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-  }
-  .radar-shelf .sub { margin-top: -4px; }
-  .radar-list { margin: 0; padding-left: 24px; }
-  .radar-item {
-    min-height: 44px;
-    margin: 0;
-    padding: 9px 10px;
-    border-bottom: 1px solid var(--border);
-  }
-  .radar-item:last-child { border-bottom-color: transparent; }
-  .radar-name {
-    color: var(--ink);
-    font-weight: 650;
-    line-height: 1.4;
-    text-decoration: none;
-  }
-  .radar-name:visited { color: var(--muted); }
-  .radar-name:hover { color: var(--accent); }
-  .radar-name:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-  }
-  .radar-note {
-    display: block;
-    margin: 3px 0 0;
-    font-size: 13px;
-    line-height: 1.45;
-    color: var(--muted);
-    max-width: 40em;
-  }
-  .radar-foot { margin-top: 28px; }
-</style>

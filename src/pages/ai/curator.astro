@@ -1,48 +1,171 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { AI_CATEGORIES } from "../../data/ai-services";
+import { CURATOR_SECTIONS, MODELS_UPDATED, type CuratorItem } from "../../data/curator";
 
-const total = AI_CATEGORIES.reduce((n, c) => n + c.items.length, 0);
+const PAGE = 12; // 섹션당 처음 보여줄 항목 수, 나머지는 "더 보기"
+
+const sections = CURATOR_SECTIONS.map((s) => ({
+  ...s,
+  initial: s.items.slice(0, PAGE),
+  rest: s.items.slice(PAGE),
+}));
+const total = CURATOR_SECTIONS.reduce((n, s) => n + s.items.length, 0);
+
+const allItems: CuratorItem[] = CURATOR_SECTIONS.flatMap((s) => s.items);
 const itemListJsonLd = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "OIYO AI 큐레이터 — AI 서비스 모음",
+  name: "OIYO AI 큐레이터 — AI 서비스·모델·도구·소식 소스 통합 목록",
   numberOfItems: total,
-  itemListElement: AI_CATEGORIES.flatMap((c) => c.items).map((s, i) => ({
-    "@type": "ListItem", position: i + 1, name: s.name, url: s.url,
+  itemListElement: allItems.map((s, i) => ({
+    "@type": "ListItem", position: i + 1, name: s.name,
+    url: s.url.startsWith("/") ? `https://news.oiyo.net${s.url}` : s.url,
   })),
+};
+// 인용 가능한 데이터 원천: 카탈로그를 Dataset으로 선언하고 기계가 읽는 JSON 배본을 연결한다.
+const datasetJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: "OIYO AI Curator Catalog",
+  alternateName: "AI 큐레이터 통합 카탈로그",
+  description:
+    "AI 서비스(대화·코딩·이미지·영상 등), 모델 카탈로그(프론티어·오픈웨이트·로컬 런타임), 실무 편입 도구, AI 소식 소스, 디자인 엔지니어링 선반을 한 곳에 통합한 큐레이션 카탈로그.",
+  url: "https://news.oiyo.net/ai/curator/",
+  dateModified: MODELS_UPDATED,
+  inLanguage: "ko",
+  license: "https://creativecommons.org/licenses/by/4.0/",
+  isAccessibleForFree: true,
+  creator: { "@type": "Organization", name: "OIYO", url: "https://oiyo.net" },
+  keywords: ["AI services", "LLM", "AI models", "AI tools", "AI news sources", "AI 큐레이터"],
+};
+
+const groupLabel: Record<string, string> = {
+  service: "서비스", model: "모델", practice: "실무 편입", news: "소식 소스", radar: "레이더 선반",
 };
 ---
 
-<BaseLayout title="AI 큐레이터 — 카테고리별 AI 서비스 모음" description="ChatGPT·Claude·Gemini·DeepSeek·Qwen·Seedance·Adobe Firefly 등 대화형 AI, 이미지·영상 생성, 코딩, 생산성 도구를 카테고리별로 정리한 AI 서비스 큐레이션." canonical="https://news.oiyo.net/ai/curator/" crumbs={[{label:"AI",href:"/ai/"},{label:"AI 큐레이터"}]}>
+<BaseLayout title="AI 큐레이터 — 서비스·모델·도구·소식 소스 통합 목록" description="ChatGPT·Claude·Gemini 등 대화형 AI부터 모델 카탈로그, 코딩 에이전트, 실무 편입 도구, AI 소식 소스, 디자인 레퍼런스까지 — OIYO의 AI 큐레이션을 한 곳에서 카테고리별로 정리했습니다." canonical="https://news.oiyo.net/ai/curator/" crumbs={[{label:"AI",href:"/ai/"},{label:"AI 큐레이터"}]}>
   <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(datasetJsonLd)} />
   <span class="tag">AI Curator</span>
   <h1>AI 큐레이터</h1>
-  <p class="sub">쏟아지는 AI 서비스를 <b>카테고리별로</b> 정리했습니다. 각 항목은 실사용 관점의 한 줄 평입니다. 광고·제휴 없음, {total}개 수록.</p>
+  <p class="sub">
+    쏟아지는 AI 정보를 <b>한 곳에</b> 모았습니다: 기존 AI 서비스 큐레이션, 모델 카탈로그, 실무 편입 도구,
+    레이더(디자인·엔지니어링 선반), 그리고 <b>AI 소식을 어디서 볼지</b> 정리한 소식 소스까지.
+    각 항목은 실사용 관점의 한 줄 평입니다. 광고·제휴 없음, {total}개 수록.
+    <br /><span style="font-size:12.5px">모델 카탈로그 확인일자 {MODELS_UPDATED} · 세부 버전은 노후화를 늦추기 위해 계열 수준으로 표기</span>
+  </p>
 
-  <nav style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0">
-    {AI_CATEGORIES.map((c) => (
-      <a href={`#${c.id}`} style="background:#eef1e2;color:var(--accent);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700;text-decoration:none">{c.label}</a>
+  <nav class="jump" aria-label="섹션 바로가기">
+    {CURATOR_SECTIONS.map((c) => (
+      <a href={`#${c.id}`}>{groupLabel[c.group]} · {c.label}</a>
     ))}
   </nav>
 
-  {AI_CATEGORIES.map((c) => (
+  {sections.map((c) => (
     <section id={c.id}>
       <h2>{c.label}</h2>
       <p class="sub" style="margin-top:-4px">{c.desc}</p>
       <div class="grid">
-        {c.items.map((s) => (
+        {c.initial.map((s) => (
           <div class="card">
-            <a href={s.url} target="_blank" rel="noopener noreferrer">{s.name} ↗</a>
-            <span style="font-size:11px;color:var(--muted);margin-left:6px">{s.by}{s.free ? " · 무료 티어" : ""}</span>
-            <p class="sub" style="margin:.4em 0 0;font-size:13.5px">{s.note}</p>
+            {s.kind === "outbound" ? (
+              <a href={s.url} target="_blank" rel="noopener noreferrer">{s.name} ↗</a>
+            ) : (
+              <a href={s.url}>{s.name}</a>
+            )}
+            {s.by && <span style="font-size:11px;color:var(--muted);margin-left:6px">{s.by}{s.free === true ? " · 무료 티어" : ""}</span>}
+            <p class="sub" style="margin:.4em 0 .5em;font-size:13.5px">{s.note}</p>
+            {s.strengths && <span class="tag" style="font-size:11px">{s.strengths}</span>}
+          </div>
+        ))}
+        {c.rest.length > 0 && c.rest.map((s) => (
+          <div class="card more-card" hidden data-more={c.id}>
+            {s.kind === "outbound" ? (
+              <a href={s.url} target="_blank" rel="noopener noreferrer">{s.name} ↗</a>
+            ) : (
+              <a href={s.url}>{s.name}</a>
+            )}
+            {s.by && <span style="font-size:11px;color:var(--muted);margin-left:6px">{s.by}{s.free === true ? " · 무료 티어" : ""}</span>}
+            <p class="sub" style="margin:.4em 0 .5em;font-size:13.5px">{s.note}</p>
+            {s.strengths && <span class="tag" style="font-size:11px">{s.strengths}</span>}
           </div>
         ))}
       </div>
+      {c.rest.length > 0 && (
+        <button
+          type="button"
+          class="more-btn"
+          aria-expanded="false"
+          aria-controls={`more-${c.id}`}
+          data-toggle={c.id}
+        >더 보기 ({c.rest.length}개)</button>
+      )}
     </section>
   ))}
 
   <p class="sub" style="margin-top:28px">
-    이 목록은 정기적으로 갱신됩니다. AI-native 회사 운영에 실제 편입한 도구는 <a href="/ai/tools/">AI 서비스 큐레이션(실무 편입)</a>에서 확인하세요.
+    이 목록은 정기적으로 갱신됩니다. 직접 써보고 실무에 편입한 도구는 위 "실무 편입" 섹션에서,
+    우리가 운영에 쓰는 모델 우선순위는 <a href="/systems/">AI-native Systems</a>, 자주 묻는 활용법은 <a href="/ai/faq/">AI 활용 FAQ</a>에서 확인하세요.
+    일일 속보는 <a href="/">최신 뉴스</a>로.
+  </p>
+  <p class="sub" style="font-size:12.5px">
+    모델 카탈로그 원본 데이터는 <a href="/ai/data/ai-models.json">ai-models.json</a>으로 공개되어 있습니다 (CC BY 4.0 · 출처 표기 시 자유 이용).
   </p>
 </BaseLayout>
+
+<style>
+  .jump {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 18px 0;
+    padding: 8px 0;
+    background: var(--bg, #fff);
+  }
+  .jump a {
+    background: #eef1e2;
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .more-btn {
+    margin: 4px 0 8px;
+    padding: 8px 18px;
+    min-height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card, #fff);
+    color: var(--accent);
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .more-btn:hover { border-color: var(--accent); }
+  section[id] { scroll-margin-top: 56px; }
+</style>
+
+<script>
+  // 섹션당 "더 보기" 접기/펼치기 — 외부 프레임워크 없이 동작.
+  document.querySelectorAll<HTMLButtonElement>("button[data-toggle]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.toggle!;
+      const cards = document.querySelectorAll<HTMLElement>(`[data-more="${id}"]`);
+      const open = btn.getAttribute("aria-expanded") === "true";
+      cards.forEach((el) => { el.hidden = open; });
+      btn.setAttribute("aria-expanded", String(!open));
+      const count = cards.length;
+      btn.textContent = open ? `더 보기 (${count}개)` : "접기";
+    });
+  });
+</script>
