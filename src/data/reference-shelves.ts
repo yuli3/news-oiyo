@@ -1,21 +1,21 @@
-export type RadarHrefKind = "outbound" | "internal";
+export type ShelfHrefKind = "outbound" | "internal";
 
-export interface RadarItem {
+export interface ShelfItem {
   id: string;
   name: string;
   url: string;
   note: string;
-  kind: RadarHrefKind;
+  kind: ShelfHrefKind;
 }
 
-export interface RadarShelf {
+export interface ReferenceShelf {
   id: string;
   label: string;
   desc: string;
-  items: RadarItem[];
+  items: ShelfItem[];
 }
 
-export const RADAR_SHELVES: RadarShelf[] = [
+export const REFERENCE_SHELVES: ReferenceShelf[] = [
   {
     id: "galleries",
     label: "디자인 갤러리",
@@ -175,14 +175,6 @@ export const RADAR_SHELVES: RadarShelf[] = [
       { id: "kosis", name: "KOSIS", url: "https://kosis.kr/", note: "통계청 국가통계포털.", kind: "outbound" },
       { id: "open-meteo", name: "Open-Meteo", url: "https://open-meteo.com/", note: "키 없는 날씨. oiyo /today/ 가 사용.", kind: "outbound" },
       { id: "nominatim", name: "Nominatim", url: "https://nominatim.openstreetmap.org/", note: "OpenStreetMap 지오코딩.", kind: "outbound" },
-    ],
-  },
-  {
-    id: "ai",
-    label: "AI",
-    desc: "서비스 목록은 여기 다시 쓰지 않는다.",
-    items: [
-      { id: "ai-curator", name: "AI 큐레이터", url: "/ai/curator/", note: "대화·이미지·코딩 서비스 선반은 기존 큐레이터.", kind: "internal" },
     ],
   },
 ];

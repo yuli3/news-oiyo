@@ -1,7 +1,7 @@
-// 통합 AI 큐레이터 데이터셋 — /radar/ · /ai/models/ · /ai/tools/ · 기존 /ai/curator/ 를
+// 통합 AI 큐레이터 데이터셋 — 옛 /radar/ · /ai/models/ · /ai/tools/ · 기존 /ai/curator/ 를
 // 한 곳(/ai/curator/)으로 합친다. 원본 항목은 소실 없이 전부 유지(이름·URL·한 줄 평·섹션).
 // 각 원본 데이터 파일은 그대로 SSOT로 남기고, 여기서 섹션 순서만 정규화한다.
-import { RADAR_SHELVES, type RadarItem } from "./radar";
+import { REFERENCE_SHELVES, type ShelfItem } from "./reference-shelves";
 import {
   AI_CATEGORIES,
   type AIService,
@@ -32,7 +32,7 @@ export interface CuratorSection {
   id: string;
   label: string;
   desc: string;
-  group: "service" | "model" | "practice" | "news" | "radar";
+  group: "service" | "model" | "practice" | "news" | "design" | "reference";
   items: CuratorItem[];
 }
 
@@ -51,9 +51,11 @@ function fromTool(t: PracticalTool): CuratorItem {
 function fromNews(s: NewsSource): CuratorItem {
   return { name: s.name, url: s.url, note: s.note, kind: "outbound" };
 }
-function fromRadar(i: RadarItem): CuratorItem {
+function fromShelf(i: ShelfItem): CuratorItem {
   return { name: i.name, url: i.url, note: i.note, kind: i.kind };
 }
+
+const DESIGN_SHELF_IDS = new Set(["galleries", "design-eng"]);
 
 export const CURATOR_SECTIONS: CuratorSection[] = [
   ...AI_CATEGORIES.map((c) => ({
@@ -80,9 +82,10 @@ export const CURATOR_SECTIONS: CuratorSection[] = [
     id: g.id, label: g.label, desc: g.desc,
     group: "news" as const, items: g.items.map(fromNews),
   })),
-  ...RADAR_SHELVES.map((s) => ({
+  ...REFERENCE_SHELVES.map((s) => ({
     id: s.id, label: s.label, desc: s.desc,
-    group: "radar" as const, items: s.items.map(fromRadar),
+    group: (DESIGN_SHELF_IDS.has(s.id) ? "design" : "reference") as const,
+    items: s.items.map(fromShelf),
   })),
 ];
 

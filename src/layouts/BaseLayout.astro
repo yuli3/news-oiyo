@@ -24,8 +24,6 @@ const family = [
   ["OIYO wiki", "https://wiki.oiyo.net/ko/"],
   ["OIYO game", "https://game.oiyo.net/ko/"],
 ];
-const here = Astro.url.pathname.replace(/\/+$/, "") || "/";
-const onRadar = here === "/radar";
 ---
 
 <!doctype html>
@@ -81,13 +79,12 @@ const onRadar = here === "/radar";
     </style>
   </head>
   <body>
-    <header class="site-header"><div class="header-inner"><a class="brand" href="/">OIYO <span>news</span></a><span class="lang-note" lang="ko" aria-label="이 사이트는 한국어로 제공됩니다"><span aria-hidden="true">🇰🇷</span> 한국어</span><nav class="primary-nav" aria-label="주요 탐색" style="margin-left:0"><a href="/">최신 뉴스</a><a href="/radar/" aria-current={onRadar ? "page" : undefined}>레이더</a><a href="/ai/">AI</a><a href="/systems/">Systems</a></nav><button class="menu-btn" id="menu-open" aria-label="메뉴 열기" aria-controls="site-drawer" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button></div></header>
+    <header class="site-header"><div class="header-inner"><a class="brand" href="/">OIYO <span>news</span></a><span class="lang-note" lang="ko" aria-label="이 사이트는 한국어로 제공됩니다"><span aria-hidden="true">🇰🇷</span> 한국어</span><nav class="primary-nav" aria-label="주요 탐색" style="margin-left:0"><a href="/">최신 뉴스</a><a href="/ai/">AI</a><a href="/systems/">Systems</a></nav><button class="menu-btn" id="menu-open" aria-label="메뉴 열기" aria-controls="site-drawer" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button></div></header>
 <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
 <aside class="drawer" id="site-drawer" role="dialog" aria-modal="true" aria-label="내비게이션 메뉴">
   <div class="drawer-head"><strong style={{letterSpacing:'-.03em'}}>OIYO <span style={{color:'var(--accent)'}}>news</span></strong><button class="drawer-close" id="menu-close" aria-label="메뉴 닫기">✕</button></div>
   <nav aria-label="모바일 내비게이션">
     <a href="/">최신 뉴스</a>
-    <a href="/radar/">레이더</a>
     <a href="/ai/">AI 모델·도구</a>
     <a href="/systems/">운영 시스템</a>
     <div class="family">
@@ -113,6 +110,6 @@ const onRadar = here === "/radar";
       {crumbs.length > 0 && <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a>{crumbs.map((crumb) => crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>)}</nav>}
       <slot />
     </main>
-    <footer class="site-footer"><div class="footer-inner"><div class="footer-group"><strong>News</strong><a href="/">최신 뉴스</a><a href="/radar/">레이더</a><a href="/ai/">AI 모델·도구</a><a href="/systems/">운영 시스템</a></div><div class="footer-group"><strong>안내</strong><span>출처 기반 기술·경제 큐레이션</span><span>개인화된 투자 권유가 아닙니다</span><span>© {new Date().getFullYear()} OIYO</span></div><div class="footer-group"><strong>OIYO 패밀리</strong>{family.map(([label,href]) => <a href={`${href}?utm_source=news&utm_medium=footer&utm_campaign=family_nav`}>{label}</a>)}</div></div></footer>
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-group"><strong>News</strong><a href="/">최신 뉴스</a><a href="/ai/">AI 모델·도구</a><a href="/systems/">운영 시스템</a></div><div class="footer-group"><strong>안내</strong><span>출처 기반 기술·경제 큐레이션</span><span>개인화된 투자 권유가 아닙니다</span><span>© {new Date().getFullYear()} OIYO</span></div><div class="footer-group"><strong>OIYO 패밀리</strong>{family.map(([label,href]) => <a href={`${href}?utm_source=news&utm_medium=footer&utm_campaign=family_nav`}>{label}</a>)}</div></div></footer>
   </body>
 </html>
