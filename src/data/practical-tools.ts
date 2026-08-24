@@ -45,7 +45,7 @@ export const PRACTICAL_TOOL_GROUPS: PracticalToolGroup[] = [
     label: "실무 편입 — 운영·관제",
     items: [
       { name: "Obsidian(위키형 두뇌)", url: "https://obsidian.md", why: "회사 두뇌의 뷰어. 결정·실패·규칙을 위키링크로 축적." },
-      { name: "자체 관제 대시보드", url: "/systems/", why: "목표·칸반·품질 게이트·트래픽·모델 한도를 한 화면에. (구조는 Systems 소개 참고)" },
+      { name: "운영 원칙 문서(Systems)", url: "/systems/", why: "별도 대시보드 대신 회사 두뇌·목표 문서·검증 게이트 로그로 상태를 본다. (구조는 Systems 소개 참고)" },
     ],
   },
 ];

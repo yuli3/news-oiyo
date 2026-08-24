@@ -2,24 +2,24 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="AI-native OS — 시스템 구조와 운영 매뉴얼" description="OIYO의 AI-native 회사 운영 체계: 에이전트 역할 조직, 회사 두뇌(지식 베이스), Themis 검증 게이트, 자동화 cron, 관제 대시보드의 구조를 공개합니다." canonical="https://news.oiyo.net/systems/" crumbs={[{label:"Systems"}]}>
+<BaseLayout title="AI-native 운영 체계 — 구조와 매뉴얼" description="1인이 AI 에이전트 조직으로 회사를 운영하는 방법: 역할 기반 에이전트, 회사 두뇌(지식 베이스), 검증 게이트, 자동화 루프의 구조를 원칙 중심으로 공개합니다." canonical="https://news.oiyo.net/systems/" crumbs={[{label:"Systems"}]}>
   <span class="tag">System</span>
-  <h1>AI-native OS의 구조</h1>
-  <p class="sub">사람 1명 + AI 에이전트 팀이 6개 사이트를 운영하기 위해 실제로 쓰는 구성 요소들.</p>
+  <h1>AI-native 운영 체계의 구조</h1>
+  <p class="sub">사람 1명 + AI 에이전트 조직이 여러 사이트를 운영하기 위해 실제로 쓰는 구성 요소들. 특정 제품 하나가 아니라 <b>코딩 에이전트(Claude Code·Codex 등) + 상시 운영 에이전트(Hermes류) + 두뇌(Obsidian 등)</b>를 조합해 재현 가능한 원칙입니다.</p>
 
   <h2>1. 에이전트 조직 — 역할이 곧 경계</h2>
   <div class="card">
-    <p style="margin-top:0">그리스 신화 이름을 딴 역할 기반 에이전트. 각 역할은 <b>쓸 수 있는 도구가 하드 경계</b>로 제한됩니다.</p>
+    <p style="margin-top:0">이름이 아니라 <b>기능으로 부르는</b> 역할 기반 에이전트. 각 역할은 <b>쓸 수 있는 도구가 하드 경계</b>로 제한됩니다.</p>
     <ul style="padding-left:20px;margin-bottom:0">
-      <li><b>Metis</b> (PM) — 우선순위·스코프·로드맵. 코드는 만지지 않음</li>
-      <li><b>Athena</b> (아키텍트) — 설계·라우트 소유권·스키마 결정</li>
-      <li><b>Hephaestus</b> (빌더) — 실제 구현·테스트·리팩터</li>
-      <li><b>Apollo</b> (리서처) — 조사·데이터 해석. 읽기 전용</li>
-      <li><b>Iris</b> (디자이너) — UI/UX·접근성·디자인 토큰</li>
-      <li><b>Themis</b> (검증자) — 빌드·감사 실행, PASS/FAIL만 보고. 수정 권한 없음</li>
-      <li><b>Prometheus</b> (정찰) — 기술 트렌드 학습, 두뇌에만 기록</li>
+      <li><b>planner</b> (기획) — 우선순위·스코프·로드맵. 코드는 만지지 않음</li>
+      <li><b>architect</b> (설계) — 구조·소유권·스키마 결정</li>
+      <li><b>builder</b> (구현) — 실제 구현·테스트·리팩터</li>
+      <li><b>researcher</b> (조사) — 자료 조사·데이터 해석·트렌드 학습. 읽기 전용</li>
+      <li><b>designer</b> (디자인) — UI/UX·접근성·디자인 토큰</li>
+      <li><b>verifier</b> (검증) — 빌드·감사 실행, PASS/FAIL만 보고. 수정 권한 없음</li>
     </ul>
   </div>
+  <p class="sub">역할 수·이름은 조직 크기에 맞춰 늘리거나 합치면 됩니다. 중요한 건 이름이 아니라 <b>"이 역할은 이 도구만 쓸 수 있다"는 하드 경계</b>입니다.</p>
 
   <h2>2. 회사 두뇌 — 맥락의 단일 원천</h2>
   <p>
@@ -31,25 +31,22 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
   <h2>3. 검증 게이트 — 신뢰는 자동화로</h2>
   <p>
-    자율 작업은 "완료" 선언 전에 <b>Themis 게이트</b>(타입체크 → i18n 검증 → 테스트 → 빌드)를 통과해야 합니다.
+    자율 작업은 "완료" 선언 전에 <b>검증 게이트</b>(타입체크 → i18n 검증 → 테스트 → 빌드)를 통과해야 합니다.
     수시 검증은 quick 모드(빌드 생략), 야간·배포 전은 full 모드로 계층화해 비용을 관리합니다.
-    완료 보고가 게이트 결과와 다르면 리컨실러가 되돌립니다.
+    완료 보고가 게이트 결과와 다르면 사람이나 스크립트가 다시 검증해 되돌립니다.
   </p>
 
   <h2>4. 자동화 루프</h2>
-  <div class="card">
-    <ul style="margin:0;padding-left:20px">
-      <li><b>trend_scout</b> — 매일 HN·Lobsters·GeekNews 수집 → LLM 큐레이션 → 뉴스 게시 + 아이디어 랩 충전</li>
-      <li><b>market watch</b> — 미국·한국 지수와 관심종목 시그널 산출</li>
-      <li><b>themis gate</b> — 야간 전 레포 full 검증</li>
-      <li><b>번역 체인</b> — 사전 콘텐츠 다국어화(모델 한도 감지·자동 중단·재개)</li>
-    </ul>
-  </div>
-
-  <h2>5. 관제 대시보드</h2>
   <p>
-    목표 트리, 작업 칸반, 품질 보드, 트래픽(서치콘솔), 모델 사용량·한도를 한 화면에서 관측합니다.
-    핵심 화면은 "무엇이 있는가"가 아니라 <b>"지금 무엇을 결정해야 하는가"</b>(Decision Inbox)입니다.
+    반복 작업은 스케줄 실행(크론·상시 에이전트)으로 넘깁니다. 예: 기술 트렌드 정찰 → 큐레이션 → 게시,
+    지표·시장 데이터 수집 → 리포트, 야간 전체 검증 게이트, 콘텐츠 다국어화(모델 한도 감지 시 자동 중단·재개).
+    <b>어떤 잡을 돌릴지보다, 실패했을 때 조용히 멈추지 않고 기록·재시도하는 것</b>이 설계의 핵심입니다.
+  </p>
+
+  <h2>5. 상태를 어떻게 보는가</h2>
+  <p>
+    별도 관제 UI를 짓기보다, <b>회사 두뇌(목표·결정·실패 기록)를 사람이 정기적으로 읽는 것</b>이 실제로 지속 가능한 방식이었습니다.
+    화면 하나에 모든 걸 띄우는 대시보드보다, "지금 뭘 결정해야 하는가"에 답하는 짧은 문서(브리핑·요약)가 더 잘 유지됩니다.
   </p>
 
   <h2>운영 원칙 (발췌)</h2>
@@ -57,7 +54,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <ul style="margin:0;padding-left:20px">
       <li>배포는 사람이 승인한다 — 에이전트는 배치로 모아 승인 요청</li>
       <li>모델별 강점 라우팅 — 대량 작업은 저비용 모델, 판단은 고성능 모델</li>
-      <li>레이트리밋은 가시화한다 — 한도·리셋시간을 대시보드에 상시 표시</li>
+      <li>레이트리밋은 가시화한다 — 한도·리셋시간을 로그·상태 문서로 상시 기록</li>
       <li>실패는 두뇌에 기록한다 — 같은 실수를 두 번 하지 않기 위해</li>
     </ul>
   </div>

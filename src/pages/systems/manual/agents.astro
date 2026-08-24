@@ -2,7 +2,7 @@
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout crumbs={[{label:"Systems",href:"/systems/"},{label:"Manual",href:"/systems/manual/"}]} title="매뉴얼 02 — 에이전트 조직 설계" description="역할별 도구 경계로 AI 에이전트를 안전하게 위임하는 법. OIYO의 7역할 조직(Metis·Athena·Hephaestus·Apollo·Iris·Themis·Prometheus) 설계 원리.">
+<BaseLayout crumbs={[{label:"Systems",href:"/systems/"},{label:"Manual",href:"/systems/manual/"}]} title="매뉴얼 02 — 에이전트 조직 설계" description="역할별 도구 경계로 AI 에이전트를 안전하게 위임하는 법. 기능어로 이름 붙인 6역할(planner·architect·builder·researcher·designer·verifier) 설계 원리.">
   <span class="tag">Manual 02</span>
   <h1>에이전트 조직 설계</h1>
   <p class="sub">한 에이전트에게 모든 걸 맡기지 마세요. 역할을 나누고, <b>역할마다 쓸 수 있는 도구를 하드 경계로 제한</b>하는 것이 핵심입니다.</p>
@@ -13,18 +13,19 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
     그 검증은 신뢰할 수 없습니다. 역할을 나누고 도구를 제한하면, 각 에이전트의 행동 범위가 예측 가능해집니다.
   </p>
 
-  <h2>OIYO의 7역할</h2>
+  <h2>기본 6역할</h2>
+  <p class="sub">이름은 무엇이든 상관없습니다. 처음엔 그리스 신화 이름을 썼다가, "이름만 봐도 하는 일을 알 수 있게" 기능어로 바꿨습니다. 아래는 그 기본형입니다.</p>
   <div class="card">
     <ul style="margin:0;padding-left:20px">
-      <li><b>Metis</b> (PM) — 우선순위·스코프. <span class="sub">도구: 읽기·기획 문서만. 코드 불가</span></li>
-      <li><b>Athena</b> (아키텍트) — 설계·스키마 결정</li>
-      <li><b>Hephaestus</b> (빌더) — 구현·테스트·리팩터</li>
-      <li><b>Apollo</b> (리서처) — 조사·데이터. <span class="sub">읽기 전용</span></li>
-      <li><b>Iris</b> (디자이너) — UI/UX·접근성</li>
-      <li><b>Themis</b> (검증자) — 빌드·감사 실행. <span class="sub">PASS/FAIL 보고만, 수정 불가</span></li>
-      <li><b>Prometheus</b> (정찰) — 트렌드 학습. <span class="sub">두뇌 쓰기만, 코드 레포 불가</span></li>
+      <li><b>planner</b> (기획) — 우선순위·스코프. <span class="sub">도구: 읽기·기획 문서만. 코드 불가</span></li>
+      <li><b>architect</b> (설계) — 설계·스키마 결정</li>
+      <li><b>builder</b> (구현) — 구현·테스트·리팩터</li>
+      <li><b>researcher</b> (조사) — 조사·데이터·트렌드 학습. <span class="sub">읽기 전용</span></li>
+      <li><b>designer</b> (디자인) — UI/UX·접근성</li>
+      <li><b>verifier</b> (검증) — 빌드·감사 실행. <span class="sub">PASS/FAIL 보고만, 수정 불가</span></li>
     </ul>
   </div>
+  <p>규모가 커지면 writer(집필)·translator(번역)·critic(반증)·recorder(기록)처럼 세분화합니다. 실적이 없는 역할은 인접 역할로 흡수하세요 — 이름만 지우지 말고, 그 역할이 지키던 기준(무엇을 하면 안 되는지)은 흡수한 역할의 정의에 반드시 옮겨 적어야 경계가 함께 사라지지 않습니다.</p>
 
   <h2>도구 경계 = 진짜 안전장치</h2>
   <p>
@@ -35,8 +36,8 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 
   <h2>위임 흐름</h2>
   <p>
-    오케스트레이터가 큰 작업을 받아 역할별로 쪼갭니다: Metis가 스코프 → Athena가 설계 →
-    Hephaestus가 구현 → Themis가 검증 → 사람이 배포 승인. 각 단계 산출물은 두뇌에 기록되어
+    오케스트레이터가 큰 작업을 받아 역할별로 쪼갭니다: planner가 스코프 → architect가 설계 →
+    builder가 구현 → verifier가 검증 → 사람이 배포 승인. 각 단계 산출물은 두뇌에 기록되어
     다음 에이전트가 이어받습니다. <b>병렬로 돌릴 수 있는 조사·검증은 동시에</b> 던지면 속도가 붙습니다.
   </p>
 

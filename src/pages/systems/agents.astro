@@ -2,27 +2,27 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="AX 심화 — 에이전트와 직원: 역할·도구경계·토큰" description="OIYO AI-native OS의 워크포스 계층. 역할 기반 에이전트 조직, 도구 하드 경계, 사람+AI 직원 관리, 토큰 사용량 가시화." canonical="https://news.oiyo.net/systems/agents/" crumbs={[{label:"Systems",href:"/systems/"},{label:"에이전트"}]}>
+<BaseLayout title="AX 심화 — 에이전트와 직원: 역할·도구경계" description="AI-native 운영의 워크포스 계층. 역할 기반 에이전트 조직, 도구 하드 경계, 사람+AI 직원 관리, 모델 사용 한도 관리." canonical="https://news.oiyo.net/systems/agents/" crumbs={[{label:"Systems",href:"/systems/"},{label:"에이전트"}]}>
   <span class="tag">AX 심화</span>
   <h1>에이전트와 직원</h1>
   <p class="sub">AI-native 회사에서 "직원"은 사람과 에이전트가 섞여 있습니다. 각자 역할이 있고, <b>역할이 곧 권한의 경계</b>입니다.</p>
 
   <h2>역할 기반 조직</h2>
   <p>
-    한 에이전트에게 모든 걸 맡기지 않습니다. 그리스 신화 이름을 딴 7역할로 나누고,
+    한 에이전트에게 모든 걸 맡기지 않습니다. 기능으로 이름 붙인 역할로 나누고,
     <b>각 역할이 쓸 수 있는 도구를 하드 경계</b>로 제한합니다.
   </p>
   <div class="card">
     <ul style="margin:0;padding-left:20px">
-      <li><b>Metis</b>(PM) — 우선순위·스코프 · <span class="sub">코드 불가</span></li>
-      <li><b>Athena</b>(아키텍트) — 설계·스키마</li>
-      <li><b>Hephaestus</b>(빌더) — 구현·테스트</li>
-      <li><b>Apollo</b>(리서처) — 조사 · <span class="sub">읽기 전용</span></li>
-      <li><b>Iris</b>(디자이너) — UI/UX·접근성</li>
-      <li><b>Themis</b>(검증자) — 게이트 실행 · <span class="sub">수정 불가, PASS/FAIL만</span></li>
-      <li><b>Prometheus</b>(정찰) — 트렌드 학습 · <span class="sub">두뇌 쓰기만</span></li>
+      <li><b>planner</b>(기획) — 우선순위·스코프 · <span class="sub">코드 불가</span></li>
+      <li><b>architect</b>(설계) — 설계·스키마</li>
+      <li><b>builder</b>(구현) — 구현·테스트</li>
+      <li><b>researcher</b>(조사) — 조사·트렌드 학습 · <span class="sub">읽기 전용</span></li>
+      <li><b>designer</b>(디자인) — UI/UX·접근성</li>
+      <li><b>verifier</b>(검증) — 게이트 실행 · <span class="sub">수정 불가, PASS/FAIL만</span></li>
     </ul>
   </div>
+  <p class="sub">필요하면 writer·translator·critic처럼 더 세분화된 역할을 추가합니다. 이름을 사람이 기억하기 쉽게 짓는 것보다, <b>역할마다 도구 경계가 실제로 분리돼 있는지</b>가 중요합니다.</p>
 
   <h2>도구 경계 = 진짜 안전장치</h2>
   <p>
@@ -33,17 +33,17 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
   <h2>사람+AI 직원 관리</h2>
   <p>
-    대시보드의 직원 뷰는 사람 멤버(가족·협업자)와 에이전트를 함께 다룹니다. 역할·직위·담당 영역을
-    한눈에 보고, 가족은 Slack으로 시스템과 소통합니다. AI-native 회사의 HR은 사람과 에이전트를
-    같은 틀에서 관리하는 것입니다.
+    직원 명부는 사람 멤버(가족·협업자)와 에이전트를 같은 표에 올립니다. 역할·담당 영역을
+    한 문서에서 보고, 사람과의 소통은 기존에 쓰던 메신저(Slack 등)를 그대로 씁니다. AI-native 회사의 HR은
+    관제 화면을 새로 짓는 게 아니라, <b>사람과 에이전트를 같은 틀에서 관리하는 것</b>입니다.
   </p>
 
-  <h2>토큰 사용량 가시화</h2>
+  <h2>모델 사용 한도 가시화</h2>
   <p>
     다중 모델을 쓰면 각 모델의 사용량·한도·리셋 시간을 놓치기 쉽습니다. 한도에 걸린 줄 모르고
-    재시도를 반복하면 시간과 비용을 낭비합니다. OIYO는 <b>모델별 토큰·비용·한도·리셋을 대시보드에 상시 표시</b>하고,
-    파이프라인이 한도를 감지하면 자동 중단·플래그 후 리셋되면 재개합니다.
-    (이 시스템 자체가 실제 rate-limit 삽질을 겪고 만든 것입니다.)
+    재시도를 반복하면 시간과 비용을 낭비합니다. 모델별 한도·리셋 시각을 짧은 상태 문서나 로그로 기록해두고,
+    파이프라인이 한도를 감지하면 <b>자동 중단·플래그 후 리셋되면 재개</b>하게 만듭니다.
+    (이 규율 자체가 실제 rate-limit 삽질을 겪고 나서 정한 것입니다.)
   </p>
 
   <p class="sub" style="margin-top:24px"><a href="/systems/">← Systems 개요</a> · 관련: <a href="/systems/manual/agents/">에이전트 조직 설계 매뉴얼</a></p>
