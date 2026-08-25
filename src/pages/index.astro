@@ -9,7 +9,11 @@ type Item = { src: string; score: number | null; title: string; url: string; dom
 type Day = { date: string; summary: string; items: Item[]; ideas: { title: string; hypothesis: string }[] };
 type MarketRow = { name: string; date?: string; last?: number; dayChange?: number; ret20?: number; vsMa20?: number; signal?: string };
 
-const days = (data.days as Day[]).slice(0, 21);
+const DAYS_PER_PAGE = 7;
+const allDays = (data.days as Day[]);
+const totalPages = Math.max(1, Math.ceil(allDays.length / DAYS_PER_PAGE));
+const pageNum = 0;
+const days = allDays.slice(0, DAYS_PER_PAGE);
 const updated = data.generatedAt?.slice(0, 16).replace("T", " ") ?? "";
 const market = (data as { market?: { generatedAt?: string; groups?: Record<string, MarketRow[]> } }).market ?? null;
 const G = market?.groups ?? {};
@@ -188,5 +192,15 @@ const srcColor: Record<string, string> = {
           )}
         </section>
       ))}
-    <style>.page-intro{padding:16px 0 28px}.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.page-intro h1{max-width:720px}.page-intro .lede{margin-bottom:0}</style>
+    <style>.page-intro{padding:16px 0 28px}.eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.page-intro h1{max-width:720px}.page-intro .lede{margin-bottom:0}.pager{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:26px 0 8px}.pager a,.pager span.cur{min-width:38px;padding:8px 10px;text-align:center;border-radius:8px;font-size:13px;font-weight:700;text-decoration:none;border:1px solid var(--border)}.pager a:hover{border-color:var(--accent);color:var(--accent)}.pager span.cur{background:var(--accent);color:#fff;border-color:var(--accent)}.pager .lbl{font-size:12px;color:var(--muted);align-self:center;margin-right:6px}</style>
+      {totalPages > 1 && (
+        <nav class="pager" aria-label="페이지 탐색">
+          <span class="lbl">{pageNum + 1} / {totalPages} 페이지</span>
+          {Array.from({ length: totalPages }, (_, i) =>
+            i === pageNum
+              ? <span class="cur" aria-current="page">{i + 1}</span>
+              : <a href={i === 0 ? "/" : `/${i + 1}/`}>{i + 1}</a>
+          )}
+        </nav>
+      )}
 </BaseLayout>
