@@ -4,6 +4,7 @@ import data from "../data/news.json";
 import Empty from "../components/Empty.astro";
 import NewsItem from "../components/NewsItem.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { pageHref } from "../lib/pager";
 
 type Item = { src: string; score: number | null; title: string; url: string; domain: string };
 type Day = { date: string; summary: string; items: Item[]; ideas: { title: string; hypothesis: string }[] };
@@ -199,7 +200,7 @@ const srcColor: Record<string, string> = {
           {Array.from({ length: totalPages }, (_, i) =>
             i === pageNum
               ? <span class="cur" aria-current="page">{i + 1}</span>
-              : <a href={i === 0 ? "/" : `/${i + 1}/`}>{i + 1}</a>
+              : <a href={pageHref(i)}>{i + 1}</a>
           )}
         </nav>
       )}

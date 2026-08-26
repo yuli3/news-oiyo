@@ -4,6 +4,7 @@ import data from "../../data/news.json";
 import Empty from "../../components/Empty.astro";
 import NewsItem from "../../components/NewsItem.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { pageHref } from "../../lib/pager";
 
 type Item = { src: string; score: number | null; title: string; url: string; domain: string };
 type Day = { date: string; summary: string; items: Item[]; ideas: { title: string; hypothesis: string }[] };
@@ -22,7 +23,7 @@ const days = allDays.slice(pageNum * DAYS_PER_PAGE, (pageNum + 1) * DAYS_PER_PAG
 const srcColor = { HN: "#ff6600", Lobsters: "#ac130d", GeekNews: "#0abf53" };
 const title = `기술·경제 트렌드 아카이브 ${pageNum + 1}페이지 — OIYO News`;
 ---
-<BaseLayout title={title} description="HN·Lobsters·GeekNews·TechCrunch 등에서 수집한 기술·경제 데일리 큐레이션 아카이브." canonical={`https://news.oiyo.net/${pageNum + 1}/`}>
+<BaseLayout title={title} description="HN·Lobsters·GeekNews·TechCrunch 등에서 수집한 기술·경제 데일리 큐레이션 아카이브." canonical={`https://news.oiyo.net/page/${pageNum + 1}/`}>
   <div class="page-intro"><p class="eyebrow">archive</p><h1>지난 트렌드 — {pageNum + 1} / {totalPages} 페이지</h1><p class="lede">최신 피드는 <a href="/">1페이지</a>에 있습니다.</p></div>
       {days.length === 0 && <Empty id="news-empty-archive" />}
       {days.map((d) => (
@@ -56,7 +57,7 @@ const title = `기술·경제 트렌드 아카이브 ${pageNum + 1}페이지 —
         {Array.from({ length: totalPages }, (_, i) =>
           i === pageNum
             ? <span class="cur" aria-current="page">{i + 1}</span>
-            : <a href={i === 0 ? "/" : `/${i + 1}/`}>{i + 1}</a>
+            : <a href={pageHref(i)}>{i + 1}</a>
         )}
       </nav>
 </BaseLayout>
