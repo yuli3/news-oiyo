@@ -111,6 +111,6 @@ const family = [
       {crumbs.length > 0 && <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a>{crumbs.map((crumb) => crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>)}</nav>}
       <slot />
     </main>
-    <footer class="site-footer"><div class="footer-inner"><div class="footer-group"><strong>News</strong><a href="/">최신 뉴스</a><a href="/ai/">AI 모델·도구</a><a href="/systems/">운영 시스템</a></div><div class="footer-group"><strong>안내</strong><span>출처 기반 기술·경제 큐레이션</span><span>개인화된 투자 권유가 아닙니다</span><span>© {new Date().getFullYear()} OIYO</span></div><div class="footer-group"><strong>OIYO 패밀리</strong>{family.map(([label,tag,href]) => <a href={`${href}?utm_source=news&utm_medium=footer&utm_campaign=family_nav`}><b>{label}</b><span>{tag}</span></a>)}</div></div></footer>
+    <footer class="site-footer"><div class="footer-inner"><div class="footer-group"><strong>News</strong><a href="/">최신 뉴스</a><a href="/ai/">AI 모델·도구</a><a href="/systems/">운영 시스템</a></div><div class="footer-group"><strong>안내</strong><span>출처 기반 기술·경제 큐레이션</span><span>개인화된 투자 권유가 아닙니다</span><a href="https://paypal.me/chosean" target="_blank" rel="noopener noreferrer">OIYO 후원</a><span>© {new Date().getFullYear()} OIYO</span></div><div class="footer-group"><strong>OIYO 패밀리</strong>{family.map(([label,tag,href]) => <a href={`${href}?utm_source=news&utm_medium=footer&utm_campaign=family_nav`}><b>{label}</b><span>{tag}</span></a>)}</div></div></footer>
   </body>
 </html>
