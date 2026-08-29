@@ -1,5 +1,5 @@
 // 실무 편입 도구 데이터 — 기존 /ai/tools/ 페이지의 인라인 데이터를 통합 큐레이터(/ai/curator/)로 옮긴 것.
-// 직접 실무에 편입한 도구만 등재 (광고 아님·제휴 없음). 정기 갱신.
+// OIYO 운영에서 사용하거나 검토한 도구를 등재 (광고 아님·제휴 없음). 정기 갱신.
 export interface PracticalTool {
   name: string;
   url: string;

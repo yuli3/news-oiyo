@@ -75,7 +75,7 @@ export const CURATOR_SECTIONS: CuratorSection[] = [
   },
   ...PRACTICAL_TOOL_GROUPS.map((g) => ({
     id: g.id, label: g.label,
-    desc: "직접 실무에 편입한 도구만 등재. 실사용 4주 이상 + 파이프라인 자동화 편입 + 대체재 대비 명확한 강점.",
+    desc: "OIYO 운영에서 사용하거나 검토한 도구와 그 활용 맥락을 정리.",
     group: "practice" as const, items: g.items.map(fromTool),
   })),
   ...NEWS_SOURCE_GROUPS.map((g) => ({
