@@ -1,4 +1,6 @@
 ---
+import { newsTranslations } from "../data/news-translations";
+
 interface Props {
   title: string;
   href: string;
@@ -9,15 +11,37 @@ interface Props {
 }
 
 const { title, href, source, sourceColor = "var(--muted)", score, domain } = Astro.props;
+const translation = newsTranslations[href];
 ---
 
 <li data-slot="item" class="news-item">
-  <a data-slot="item-title" href={href} target="_blank" rel="noopener noreferrer">{title}</a>
+  <a data-slot="item-title" href={href} target="_blank" rel="noopener noreferrer">{translation?.title ?? title}</a>
   <span data-slot="item-description" class="item-meta">
     <span class="item-source" style={`color:${sourceColor}`}>{source}</span>
     {score != null && <> ▲{score}</>}
     {domain && <> · {domain}</>}
   </span>
+  {translation && (
+    <details class="translation">
+      <summary>한국어 요약 읽기</summary>
+      <div class="translation-body" lang="ko">
+        <p class="translation-meta">OIYO 한국어 요약 · 원문 확인 <time datetime={translation.reviewedAt}>{translation.reviewedAt}</time></p>
+        <p>{translation.intro}</p>
+        {translation.sections.map((section) => (
+          <section>
+            <h3>{section.heading}</h3>
+            <ul>{section.bullets.map((bullet) => <li>{bullet}</li>)}</ul>
+          </section>
+        ))}
+        <p class="translation-meta">원제: <span lang="en">{title}</span></p>
+        <ul class="translation-sources" aria-label="요약 출처">
+          {translation.sources.map((entry) => (
+            <li><a href={entry.url} target="_blank" rel="noopener noreferrer">{entry.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </details>
+  )}
 </li>
 
 <style>
@@ -30,5 +54,14 @@ const { title, href, source, sourceColor = "var(--muted)", score, domain } = Ast
   [data-slot="item-title"]:focus-visible { outline:2px solid var(--accent);outline-offset:3px;border-radius:3px }
   .item-meta { display:inline;margin-left:6px;font-size:12px;color:var(--muted);white-space:normal }
   .item-source { font-weight:750 }
+  .translation { margin-top:4px;font-size:14px }
+  .translation summary { cursor:pointer;color:var(--accent);font-weight:650;padding:12px 0;min-height:44px;box-sizing:border-box }
+  .translation summary:focus-visible { outline:2px solid var(--accent);outline-offset:3px;border-radius:3px }
+  .translation-body { max-width:72ch;line-height:1.75;overflow-wrap:anywhere;padding:0 0 12px }
+  .translation-body h3 { font-size:15px;margin:20px 0 6px }
+  .translation-body ul { padding-left:20px }
+  .translation-body li { margin:6px 0 }
+  .translation-meta { font-size:12px;color:var(--muted) }
+  .translation-sources { display:flex;flex-wrap:wrap;gap:4px 20px;list-style:none;padding:0!important;font-size:12px }
   @media (max-width:560px) { .item-meta { display:block;margin:3px 0 0 } }
 </style>
