@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // company-brain 트렌드 노트(trends/*.md) → src/data/news.json 동기화.
 // 빌드는 이 JSON만 읽는다(레포 밖 파일을 빌드에서 읽지 않기 — Cloudflare 규칙).
-// usage: node scripts/sync-news.mjs   (cron: sync → git commit → push → Pages 자동 배포)
+// usage: node scripts/sync-news.mjs   (`npm run update`의 sync 단계 또는 직접 실행)
 import { readFileSync, readdirSync, writeFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -31,8 +31,7 @@ const dateFiles = readdirSync(TRENDS).filter((x) => /^\d{4}-\d{2}-\d{2}\.md$/.te
 
 // gap 감지 전용(로그만 남긴다, 파일은 안 만든다) — trend_scout.py가 며칠 못 돌면
 // (맥 오프라인 등) 조용히 파일이 비고, sync는 있는 파일만 처리하느라 이걸 못 알아챈다.
-// 여기서 콘솔에 명시적으로 남기면 news_daily_push.sh의 cron 로그(hermes jobs.json에
-// stdout으로 캡처됨)에서 공백을 바로 확인할 수 있다.
+// 여기서 콘솔에 명시적으로 남기면 수동 실행이나 CI 로그에서 공백을 바로 확인할 수 있다.
 if (dateFiles.length) {
   const missing = [];
   // UTC로 파싱+포맷 양쪽을 고정해야 로컬 타임존(Asia/Seoul 등)에서 날짜가

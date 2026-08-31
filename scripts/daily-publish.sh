@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Publish whatever the trend collector has produced since the last run.
 #
-# The chain is: oiyo-news-feed -> company-brain/.../trends/*.md -> sync-news.mjs
+# The chain is: collect-news.mjs -> company-brain/.../trends/*.md -> sync-news.mjs
 # -> src/data/news.json -> Cloudflare Pages. On 2026-08-14 both halves were
 # found dead: publishing had stopped on 07-21 and collection on 08-10, and the
 # site had served a three-week-old front page the whole time without any signal
 # saying so.
 #
-# This script owns the publish half only. Collection is oiyo-news-feed (Hermes
-# cron). It reports the age of its input instead of silently
+# This script owns the local commit half only. Collection is repo-owned by
+# collect-news.mjs. It reports the age of its input instead of silently
 # republishing the same days forever. A run that finds nothing new is a success,
 # not a no-op to ignore: STALE in the log means collection is still down.
 #
@@ -40,13 +40,12 @@ substantive=$(git diff -U0 -- src/data/news.json \
   | grep -E '^[+-]' | grep -Ev '^(\+\+\+|---)' | grep -v '"generatedAt"' | head -1 || true)
 
 if [ -z "$substantive" ]; then
-  git checkout -- src/data/news.json
+  git restore -- src/data/news.json
   echo "[$STAMP] no change · newest trend note $newest (${age}d old)"
-  [ "$age" -gt 2 ] && echo "[$STAMP] STALE collection has produced nothing for ${age} days — oiyo-news-feed cron is down"
+  [ "$age" -gt 2 ] && echo "[$STAMP] STALE collection has produced nothing for ${age} days — run npm run update"
   exit 0
 fi
 
 git add src/data/news.json
 AGENT_SESSION=news-daily-publish git commit -q -m "sync $STAMP"
-git push -q
-echo "[$STAMP] published · newest trend note $newest (${age}d old)"
+echo "[$STAMP] committed locally · newest trend note $newest (${age}d old) · batch push pending"
