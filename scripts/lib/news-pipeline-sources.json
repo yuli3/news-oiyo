@@ -7,70 +7,96 @@
       "name": "Hacker News",
       "homepage": "https://news.ycombinator.com",
       "type": "secondary",
-      "aliases": ["HN"]
+      "aliases": [
+        "HN"
+      ]
     },
     {
       "id": "lobsters",
       "name": "Lobsters",
       "homepage": "https://lobste.rs",
       "type": "secondary",
-      "aliases": ["Lobsters"]
+      "aliases": [
+        "Lobsters"
+      ]
     },
     {
       "id": "geeknews",
       "name": "GeekNews",
       "homepage": "https://news.hada.io",
       "type": "secondary",
-      "aliases": ["GeekNews"]
+      "aliases": [
+        "GeekNews"
+      ]
     },
     {
       "id": "reddit",
       "name": "Reddit",
       "homepage": "https://www.reddit.com",
       "type": "secondary",
-      "aliases": ["Reddit"]
+      "aliases": [
+        "Reddit",
+        "r-localllama",
+        "r-machinelearning",
+        "r-LocalLLaMA",
+        "r-MachineLearning"
+      ]
     },
     {
       "id": "openai-news",
       "name": "OpenAI News",
       "homepage": "https://openai.com/news",
       "type": "primary",
-      "aliases": ["OpenAI"]
+      "aliases": [
+        "OpenAI"
+      ]
     },
     {
       "id": "deepmind-blog",
       "name": "Google DeepMind Blog",
       "homepage": "https://deepmind.google/discover/blog",
       "type": "primary",
-      "aliases": ["DeepMind"]
+      "aliases": [
+        "DeepMind"
+      ]
     },
     {
       "id": "karpathy-blog",
       "name": "Andrej Karpathy's blog",
       "homepage": "https://karpathy.bearblog.dev",
       "type": "primary",
-      "aliases": ["Karpathy"]
+      "aliases": [
+        "Karpathy"
+      ]
     },
     {
       "id": "yahoo-finance",
       "name": "Yahoo Finance",
       "homepage": "https://finance.yahoo.com",
       "type": "secondary",
-      "aliases": ["YahooFinance"]
+      "aliases": [
+        "YahooFinance"
+      ]
     },
     {
       "id": "techcrunch",
       "name": "TechCrunch",
       "homepage": "https://techcrunch.com",
       "type": "secondary",
-      "aliases": ["TechCrunch", "TC"]
+      "aliases": [
+        "TechCrunch",
+        "TC"
+      ]
     },
     {
       "id": "github",
       "name": "GitHub",
       "homepage": "https://github.com",
       "type": "secondary",
-      "aliases": ["GitHub", "GH"]
+      "aliases": [
+        "GitHub",
+        "GH"
+      ]
     }
   ]
 }

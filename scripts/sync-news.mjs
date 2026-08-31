@@ -46,7 +46,7 @@ if (dateFiles.length) {
     d.setUTCDate(d.getUTCDate() + 1);
   }
   if (missing.length) {
-    console.warn(`gap detected in trends dir: ${missing.length} day(s) missing (${missing[0]}..${missing[missing.length - 1]}) — not backfilled, see trend_scout.py gap notice`);
+    console.warn(`gap detected in trends dir: ${missing.length} day(s) missing (${missing[0]}..${missing[missing.length - 1]}) — not backfilled, see news/AGENTS.md — 수집은 news/scripts/collect-news.mjs`);
   }
 }
 

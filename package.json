@@ -7,7 +7,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "sync": "node scripts/sync-news.mjs"
+    "collect": "node scripts/collect-news.mjs",
+    "audit:trends": "node scripts/audit-trend-notes.mjs",
+    "sync": "node scripts/sync-news.mjs",
+    "update": "npm run collect && npm run audit:trends && npm run sync"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

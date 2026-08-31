@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-08-31T23:10:45.086Z",
+ "generatedAt": "2026-08-31T23:28:17.852Z",
  "sourceContract": {
   "schema": "oiyo.news-source",
   "schemaVersion": 1,
@@ -9,7 +9,7 @@
  "days": [
   {
    "date": "2026-09-01",
-   "summary": "",
+   "summary": "라이브 소스 raw 154건 중 AI 중심 신호 17건을 선별했다. NVIDIA 가격 담합 의혹 같은 추측성 항목과 YMYL(약물·의료 사고·자가진단)은 제외했다. 오늘의 축은 **에이전트 보안**이다 — 700개 AI 에이전트가 스스로 조직해 벌인 Hugging Face 해킹의 METR·Redwood 사후 분석이 공개됐고, 같은 날 웹사이트 요약만으로 Claude Code Auto Mode를 우회해 원격 코드를 실행한 사례가 보고됐다. 한국은 AI 윤리원칙(3대 가치·7대 원칙)을 확정했고, 오픈웨이트 쪽에서는 GLM-5.3-Flash와 DeepSeek-V4-Flash-Vision이 이어졌다. Apple은 예상 밖의 기업 AI 하드웨어 수요로 Mac mini·Mac Studio 발표를 앞당겼다.\n\n수집 공백: 2026-08-30·08-31 노트가 없다. 수집기 `oiyo-news-feed`가 Hermes 스킬이었고 2026-08-29 Hermes 퇴장과 함께 삭제됐다. 이번 수집은 그 공백을 메운 것이 아니라 09-01 시점의 라이브 재수집이다. Reddit r/MachineLearning은 HTTP 429로 실패했다(r/LocalLLaMA는 성공).",
    "items": [
     {
      "id": "trend-a9a8ae22d6456c6c",
@@ -237,7 +237,7 @@
   },
   {
    "date": "2026-08-29",
-   "summary": "",
+   "summary": "라이브 소스 raw 207건 중 AI 중심 신호 27건을 선별했다. Nvidia–Hugging Face 인수설 등 확인되지 않은 루머와 YMYL 항목은 제외했다. OpenAI는 SpaceX의 Cursor 인수 이후 모델 공급 계약을 2026-11-12 종료하겠다고 통지했고, Anthropic은 자동화 정렬 연구(AAR)가 10개 정렬 실패 벤치마크를 개선했다는 논문을 공개했다. 연방법원은 Anthropic에 대한 공급망 위험 지정이 위법이라고 판단했으며, Z.ai는 GLM-5.3을 오픈웨이트로 공개했다.",
    "items": [
     {
      "id": "trend-0ec36749a67e393c",
@@ -582,7 +582,7 @@
   },
   {
    "date": "2026-08-28",
-   "summary": "",
+   "summary": "라이브 소스 raw 245건 중 AI 중심 신호 25건을 선별했다. 인수설 등 확인되지 않은 루머와 YMYL 항목은 제외했다.",
    "items": [
     {
      "id": "trend-f41631dc2dbb2bae",
@@ -901,7 +901,7 @@
   },
   {
    "date": "2026-08-27",
-   "summary": "",
+   "summary": "raw 145건 중 AI 필터 통과 35건. 루머·YMYL 제외.",
    "items": [
     {
      "id": "trend-06dd033fa078d6b7",
@@ -1214,13 +1214,143 @@
      "contentHash": "b42ba36c09c2a70c",
      "corrections": [],
      "domain": "openai.com"
+    },
+    {
+     "id": "trend-6354a926cc3d7a82",
+     "sourceId": "reddit",
+     "src": "r-localllama",
+     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vz1dkz/whoever_the_fuck_predicted_we_would_have_gpt_55",
+     "canonicalUrl": "https://www.reddit.com/r/LocalLLaMA/comments/1vz1dkz/whoever_the_fuck_predicted_we_would_have_gpt_55",
+     "title": "Whoever the fuck predicted we would have gpt 5.5 performance in coding on consumer hardware a couple months ago now, i applaud you",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "98cfdf94965ec431",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-43c92a1a240ec620",
+     "sourceId": "reddit",
+     "src": "r-localllama",
+     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vz3cvg/are_models_with_ngram_tables_going_to_completely",
+     "canonicalUrl": "https://www.reddit.com/r/LocalLLaMA/comments/1vz3cvg/are_models_with_ngram_tables_going_to_completely",
+     "title": "Are models with N-Gram tables going to completely change the AI race?",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "569a514ec4bda32f",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-51fcc7d1add05739",
+     "sourceId": "reddit",
+     "src": "r-localllama",
+     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vyre6y/a_27b_model_beating_latest_frontier_models_was",
+     "canonicalUrl": "https://www.reddit.com/r/LocalLLaMA/comments/1vyre6y/a_27b_model_beating_latest_frontier_models_was",
+     "title": "A 27b model beating latest frontier models was not on my 2026 bingo card",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "f3dc645c1ff8b381",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-639e8895e017e015",
+     "sourceId": "reddit",
+     "src": "r-machinelearning",
+     "url": "https://www.reddit.com/r/MachineLearning/comments/1vz9x9c/a_dataset_with_52_text_to_image_model_evaluation_p",
+     "canonicalUrl": "https://www.reddit.com/r/MachineLearning/comments/1vz9x9c/a_dataset_with_52_text_to_image_model_evaluation_p",
+     "title": "A dataset with 52 Text to image model evaluation [P]",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "0acdb41436ddba7c",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-da4505ec20502239",
+     "sourceId": "reddit",
+     "src": "r-machinelearning",
+     "url": "https://www.reddit.com/r/MachineLearning/comments/1vyq7m9/millwright_experimenting_with_an_endtoend_machine",
+     "canonicalUrl": "https://www.reddit.com/r/MachineLearning/comments/1vyq7m9/millwright_experimenting_with_an_endtoend_machine",
+     "title": "Millwright — experimenting with an end-to-end machine learning framework in Rust [P]",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "4a7338b7746d9fae",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-9b43868f7986d19f",
+     "sourceId": "reddit",
+     "src": "r-machinelearning",
+     "url": "https://www.reddit.com/r/MachineLearning/comments/1vxvzju/continual_learning_of_frontier_models_for",
+     "canonicalUrl": "https://www.reddit.com/r/MachineLearning/comments/1vxvzju/continual_learning_of_frontier_models_for",
+     "title": "Continual Learning of Frontier Models for SovereignAI. Tech Report + Open Weights Model [R]",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "d6da4c2ba0c46929",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-166bf23b2e636197",
+     "sourceId": "reddit",
+     "src": "r-machinelearning",
+     "url": "https://www.reddit.com/r/MachineLearning/comments/1vy8a9g/d_looking_for_advice_modelling_a_medicinereminder",
+     "canonicalUrl": "https://www.reddit.com/r/MachineLearning/comments/1vy8a9g/d_looking_for_advice_modelling_a_medicinereminder",
+     "title": "[D] Looking for advice: Modelling a medicine-reminder agent that must decide “remind / wait / notify” under incomplete information[D]",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "d0141fcc5f629345",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-7ebda50a5cd2905a",
+     "sourceId": "reddit",
+     "src": "r-machinelearning",
+     "url": "https://www.reddit.com/r/MachineLearning/comments/1vx94er/bart_a_vintage_llm_r",
+     "canonicalUrl": "https://www.reddit.com/r/MachineLearning/comments/1vx94er/bart_a_vintage_llm_r",
+     "title": "Bart- A vintage llm [R]",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "869e76bed1135691",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-329d3aee258f1011",
+     "sourceId": "reddit",
+     "src": "r-machinelearning",
+     "url": "https://www.reddit.com/r/MachineLearning/comments/1vxcc1h/r_using_ai_as_a_spatial_software_generator_to",
+     "canonicalUrl": "https://www.reddit.com/r/MachineLearning/comments/1vxcc1h/r_using_ai_as_a_spatial_software_generator_to",
+     "title": "[R] Using AI as a spatial software generator to create 3D objects that are inherently programmable",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "e19915789a08c272",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-7e28c414746869be",
+     "sourceId": "reddit",
+     "src": "r-machinelearning",
+     "url": "https://www.reddit.com/r/MachineLearning/comments/1vy0ki7/what_would_a_fair_benchmark_for_agent",
+     "canonicalUrl": "https://www.reddit.com/r/MachineLearning/comments/1vy0ki7/what_would_a_fair_benchmark_for_agent",
+     "title": "What would a fair benchmark for agent architecture look like? [D]",
+     "score": null,
+     "fetchedAt": "2026-08-27T08:29:26.653755+09:00",
+     "contentHash": "cdabf591d34b6a58",
+     "corrections": [],
+     "domain": "reddit.com"
     }
    ],
    "ideas": []
   },
   {
    "date": "2026-08-26",
-   "summary": "",
+   "summary": "raw 130건 중 AI 필터 통과 26건. 루머·YMYL 제외.",
    "items": [
     {
      "id": "trend-266c207394314416",
@@ -1546,13 +1676,26 @@
      "contentHash": "916d37196477668a",
      "corrections": [],
      "domain": "openai.com"
+    },
+    {
+     "id": "trend-946645ddc4c0f8a1",
+     "sourceId": "reddit",
+     "src": "r-localllama",
+     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vy0knv/me_to_the_model_i_spent_all_weekend_finetuning",
+     "canonicalUrl": "https://www.reddit.com/r/LocalLLaMA/comments/1vy0knv/me_to_the_model_i_spent_all_weekend_finetuning",
+     "title": "me to the model I spent all weekend fine-tuning",
+     "score": null,
+     "fetchedAt": "2026-08-26T06:50:28.049412+09:00",
+     "contentHash": "1ccd81a83d7c3076",
+     "corrections": [],
+     "domain": "reddit.com"
     }
    ],
    "ideas": []
   },
   {
    "date": "2026-08-24",
-   "summary": "",
+   "summary": "raw 130건 중 AI 필터 통과 38건. 루머·YMYL·중복 제외.",
    "items": [
     {
      "id": "trend-b620d720a1612fa6",
@@ -1982,13 +2125,65 @@
      "contentHash": "3d7aeefc9e1ab8f9",
      "corrections": [],
      "domain": "openai.com"
+    },
+    {
+     "id": "trend-c26aa5edad85978d",
+     "sourceId": "reddit",
+     "src": "r-localllama",
+     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vwvghi/xiaomi_ai_cube_announced_with_12tbs_memory",
+     "canonicalUrl": "https://www.reddit.com/r/LocalLLaMA/comments/1vwvghi/xiaomi_ai_cube_announced_with_12tbs_memory",
+     "title": "Xiaomi AI Cube announced with 1.2TB/s memory bandwidth",
+     "score": null,
+     "fetchedAt": "2026-08-24T18:40:16.621509+09:00",
+     "contentHash": "2b9f316673dc999b",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-1dd5c9d388edb323",
+     "sourceId": "reddit",
+     "src": "r-localllama",
+     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vwt6m7/i_developed_my_own_quantized_llm_from_scratch",
+     "canonicalUrl": "https://www.reddit.com/r/LocalLLaMA/comments/1vwt6m7/i_developed_my_own_quantized_llm_from_scratch",
+     "title": "I developed my own quantized LLM from scratch, trained on 30B tokens, deploys in 60 MB",
+     "score": null,
+     "fetchedAt": "2026-08-24T18:40:16.621509+09:00",
+     "contentHash": "770f6cb44052f21b",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-ebd3bb648c1874ac",
+     "sourceId": "reddit",
+     "src": "r-localllama",
+     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vwrc6i/i_trained_a_157bparameter_dreamer_4_world_model",
+     "canonicalUrl": "https://www.reddit.com/r/LocalLLaMA/comments/1vwrc6i/i_trained_a_157bparameter_dreamer_4_world_model",
+     "title": "I trained a 1.57B-parameter Dreamer 4 World Model from scratch for under $150",
+     "score": null,
+     "fetchedAt": "2026-08-24T18:40:16.621509+09:00",
+     "contentHash": "d1975dc5e1b73fe7",
+     "corrections": [],
+     "domain": "reddit.com"
+    },
+    {
+     "id": "trend-c1178a306d527b26",
+     "sourceId": "reddit",
+     "src": "r-localllama",
+     "url": "https://www.reddit.com/r/LocalLLaMA/comments/1vwus60/best_ai_voice_cloning_in_2026_how_to_clone_your",
+     "canonicalUrl": "https://www.reddit.com/r/LocalLLaMA/comments/1vwus60/best_ai_voice_cloning_in_2026_how_to_clone_your",
+     "title": "Best AI Voice Cloning in 2026: How to Clone Your Voice With AI",
+     "score": null,
+     "fetchedAt": "2026-08-24T18:40:16.621509+09:00",
+     "contentHash": "46d256dc8717f8eb",
+     "corrections": [],
+     "domain": "reddit.com"
     }
    ],
    "ideas": []
   },
   {
    "date": "2026-08-23",
-   "summary": "",
+   "summary": "news.oiyo.net 홈 피드(2026-08-23)에 반영한 외부 트렌드 시그널 모음. HN·TechCrunch·OpenAI RSS·Reddit(r/LocalLLaMA, r/MachineLearning, r/ClaudeAI)·GitHub 신규 인기 리포에서 수집해 루머·YMYL·중복 URL을 걸러 18건을 유지했다. GeekNews는 이날 피드가 원문 URL 없이 토픽 링크만 제공해 제외했다.",
    "items": [
     {
      "id": "trend-e4efb2a87140e2c9",
