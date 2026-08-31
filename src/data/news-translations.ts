@@ -25,7 +25,7 @@ export const newsTranslations: Record<string, NewsTranslation> = {
         bullets: [
           "전략, 재무, 인사, 법무, 운영, 마케팅, 제품, 이사회 커뮤니케이션을 담당하는 8개 에이전트로 구성된다.",
           "Executive Orchestrator가 질문을 받아 필요한 전문가를 병렬로 호출한 뒤 결과를 종합한다. 사용자가 각 에이전트에 따로 지시하는 대신 일관된 경영진 답변을 받는 구조다.",
-          "공식 README 기준 기본 오케스트레이터는 Claude Sonnet 4.6이다. 즉, 오케스트레이터는 업무를 배분하고 답변을 합치는 역할이며 특정 모델의 고유 명칭이 아니다.",
+          "공식 README의 기본 오케스트레이터 모델은 `claude-sonnet-4-6`이다. Executive Orchestrator는 그 모델이 맡는 배분·종합 역할의 이름이지 모델 이름이 아니다.",
         ],
       },
       {
