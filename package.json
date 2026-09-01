@@ -11,7 +11,8 @@
     "collect:market": "node scripts/collect-market.mjs",
     "audit:trends": "node scripts/audit-trend-notes.mjs",
     "sync": "node scripts/sync-news.mjs",
-    "update": "npm run collect && npm run collect:market && npm run audit:trends && npm run sync"
+    "update": "npm run collect && npm run collect:market && npm run audit:trends && npm run sync",
+    "audit:headers-collision": "node scripts/audit-headers-collision.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
