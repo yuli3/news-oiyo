@@ -60,6 +60,11 @@ export function adaptTrendSignals(rawItems, rawRegistry, options = {}) {
         contentHash: hash,
         corrections: [],
       };
+      if (Number.isFinite(raw.comments) && raw.comments >= 0) item.comments = Math.trunc(raw.comments);
+      if (typeof raw.publishedAt === "string") item.publishedAt = requireIsoInstant(raw.publishedAt, "publishedAt");
+      if (typeof raw.discussionUrl === "string" && raw.discussionUrl.startsWith("https://")) {
+        item.discussionUrl = canonicalUrl(raw.discussionUrl);
+      }
       if (raw.effectiveAt !== undefined) item.effectiveAt = requireIsoInstant(raw.effectiveAt, "effectiveAt");
       if (raw.stillAccurate === true) item.stillAccurate = true;
       validateItem(item, registry);

@@ -1,0 +1,51 @@
+---
+import { pageHref, pagerTokens } from "../lib/pager";
+
+interface Props {
+  pageNum: number;
+  totalPages: number;
+}
+
+const { pageNum, totalPages } = Astro.props;
+const tokens = pagerTokens(pageNum, totalPages);
+const prev = pageNum - 1;
+const next = pageNum + 1;
+---
+
+{totalPages > 1 && (
+  <nav class="pager" aria-label="페이지 탐색">
+    {pageNum > 0
+      ? <a href={pageHref(0)} aria-label="첫 페이지">&lt;&lt;</a>
+      : <span class="off" aria-hidden="true">&lt;&lt;</span>}
+    {pageNum > 0
+      ? <a href={pageHref(prev)} aria-label="이전 페이지">&lt;</a>
+      : <span class="off" aria-hidden="true">&lt;</span>}
+    {tokens.map((token) =>
+      token.kind === "ellipsis"
+        ? <span class="gap" aria-hidden="true">…</span>
+        : token.index0 === pageNum
+          ? <span class="cur" aria-current="page">{token.index0 + 1}</span>
+          : <a href={pageHref(token.index0)}>{token.index0 + 1}</a>
+    )}
+    {pageNum < totalPages - 1
+      ? <a href={pageHref(next)} aria-label="다음 페이지">&gt;</a>
+      : <span class="off" aria-hidden="true">&gt;</span>}
+    {pageNum < totalPages - 1
+      ? <a href={pageHref(totalPages - 1)} aria-label="마지막 페이지">&gt;&gt;</a>
+      : <span class="off" aria-hidden="true">&gt;&gt;</span>}
+  </nav>
+)}
+
+<style>
+  .pager { display:flex; justify-content:center; align-items:center; gap:4px; flex-wrap:wrap; margin:26px 0 8px }
+  .pager a, .pager span.cur, .pager span.off, .pager span.gap {
+    min-width:38px; min-height:38px; padding:8px 10px; text-align:center; border-radius:8px;
+    font-size:13px; font-weight:700; text-decoration:none; border:1px solid var(--border);
+    display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box;
+  }
+  .pager a:hover { border-color:var(--accent); color:var(--accent) }
+  .pager a:focus-visible { outline:2px solid var(--accent); outline-offset:3px }
+  .pager span.cur { background:var(--accent); color:#fff; border-color:var(--accent) }
+  .pager span.off { color:var(--muted); opacity:.45 }
+  .pager span.gap { border-color:transparent; min-width:24px; padding-inline:4px }
+</style>

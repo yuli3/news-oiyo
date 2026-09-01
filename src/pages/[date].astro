@@ -6,9 +6,7 @@ import data from "../data/news.json";
 import Empty from "../components/Empty.astro";
 import NewsItem from "../components/NewsItem.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-type Item = { src: string; score: number | null; title: string; url: string; domain: string };
-type Day = { date: string; summary: string; items: Item[]; ideas: { title: string; hypothesis: string }[] };
+import { SOURCE_COLOR, type Day } from "../lib/feed";
 
 export async function getStaticPaths() {
   const days = data.days as Day[];
@@ -17,12 +15,6 @@ export async function getStaticPaths() {
 
 const { day } = Astro.props as { day: Day };
 const url = `https://news.oiyo.net/${day.date}/`;
-
-const srcColor: Record<string, string> = {
-  HN: "#ff6600",
-  Lobsters: "#ac130d",
-  GeekNews: "#0abf53",
-};
 
 const title = `${day.date} 기술·경제 트렌드 요약 — OIYO News`;
 const description = day.summary || `${day.date} HN·Lobsters·GeekNews 큐레이션 ${day.items.length}건.`;
@@ -48,7 +40,7 @@ const description = day.summary || `${day.date} HN·Lobsters·GeekNews 큐레이
         background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
         border-radius: 10px; padding: 10px 14px; font-size: 13.5px; color: #4a4c42; margin-bottom: 12px;
       }
-      .news-list { margin: 0; padding-left: 24px; }
+      .news-list { list-style:none; margin: 0; padding: 0; border-top:1px solid var(--border); }
       .meta { font-size: 12px; color: var(--muted); margin-left: 6px; white-space: nowrap; }
       .src { font-weight: 700; }
       details.ideas { margin-top: 10px; font-size: 13px; }
@@ -68,9 +60,14 @@ const description = day.summary || `${day.date} HN·Lobsters·GeekNews 큐레이
                 title={it.title}
                 href={it.url}
                 source={it.src}
-                sourceColor={srcColor[it.src]}
+                sourceColor={SOURCE_COLOR[it.src]}
                 score={it.score}
                 domain={it.domain}
+                comments={it.comments}
+                publishedAt={it.publishedAt}
+                fetchedAt={it.fetchedAt}
+                date={day.date}
+                discussionUrl={it.discussionUrl}
               />
             ))}
           </ol>

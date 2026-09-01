@@ -108,7 +108,7 @@ for (const f of dateFiles.slice().reverse()) {
   if (items.length || summary) days.push({ date, summary, items, ideas });
 }
 
-// 증시(미국·한국) — stock_analysis cron이 쓰는 market-latest.json을 그대로 동봉
+// 증시(미국·한국) — collect-market.mjs 가 쓰는 market-latest.json을 그대로 동봉
 let market = null;
 if (existsSync(MARKET)) {
   try { market = JSON.parse(readFileSync(MARKET, "utf8")); } catch { /* skip broken file */ }

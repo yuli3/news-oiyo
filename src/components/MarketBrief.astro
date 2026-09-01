@@ -1,0 +1,125 @@
+---
+type MarketRow = {
+  name: string;
+  date?: string;
+  last?: number;
+  dayChange?: number;
+  ret20?: number;
+  vsMa20?: number;
+  signal?: string;
+};
+
+interface Props {
+  market: { generatedAt?: string; groups?: Record<string, MarketRow[]> } | null;
+  updated: string;
+}
+
+const { market, updated } = Astro.props;
+const G = market?.groups ?? {};
+const indices = G.indices ?? [];
+const themed: { label: string; rows: MarketRow[] }[] = [
+  { label: "AI 개별주식", rows: G.ai_stocks ?? [] },
+  { label: "AI ETF", rows: G.ai_etf ?? [] },
+  { label: "월배당 개별주식", rows: G.monthly_div_stocks ?? [] },
+  { label: "월배당 ETF", rows: G.monthly_div_etf ?? [] },
+  { label: "관심 종목 · 배당 ETF", rows: [...(G.stocks ?? []), ...(G.dividend_etf ?? [])] },
+].filter((s) => s.rows.length > 0);
+
+const chg = (v?: number | null) => (v == null ? "" : `${v > 0 ? "+" : ""}${v.toFixed(2)}%`);
+const tone = (v?: number | null) => (v == null || v === 0 ? "flat" : v > 0 ? "up" : "down");
+const num = (v?: number | null) => (v == null ? 0 : v);
+const briefDate = indices[0]?.date ?? updated.slice(0, 10);
+const withChange = indices.filter((r) => r.dayChange != null);
+const upN = withChange.filter((r) => num(r.dayChange) > 0).length;
+const downN = withChange.filter((r) => num(r.dayChange) < 0).length;
+const breadth = withChange.length === 0 ? "" : upN > downN ? "위험 선호(상승 우위)" : downN > upN ? "위험 회피(하락 우위)" : "혼조";
+const sorted = [...withChange].sort((a, b) => num(b.dayChange) - num(a.dayChange));
+const topUp = sorted[0];
+const topDown = sorted[sorted.length - 1];
+const aiRows = [...(G.ai_stocks ?? []), ...(G.ai_etf ?? [])].filter((r) => r.dayChange != null);
+const aiAvg = aiRows.length ? aiRows.reduce((s, r) => s + num(r.dayChange), 0) / aiRows.length : null;
+const maRows = indices.filter((r) => r.vsMa20 != null);
+const aboveMa = maRows.filter((r) => num(r.vsMa20) > 0).length;
+const trendNote = maRows.length === 0 ? "" : aboveMa * 2 > maRows.length
+  ? `주요 지수 다수(${aboveMa}/${maRows.length})가 20일 이동평균 위에 있어 단기 추세는 상승 우위로 관찰됩니다.`
+  : `주요 지수 다수(${maRows.length - aboveMa}/${maRows.length})가 20일 이동평균 아래에 있어 단기 추세는 하락·조정 우위로 관찰됩니다.`;
+---
+
+{indices.length > 0 && (
+  <>
+    <section class="brief">
+      <h2>오늘의 시장 브리핑 <span class="bd">{briefDate}</span></h2>
+      <p>
+        주요 지수 {indices.length}개 중 <b class="up">{upN} 상승</b> · <b class="down">{downN} 하락</b>{breadth && <> — {breadth}</>}.
+        {topUp && <> 최강 <b>{topUp.name}</b> <span class={tone(topUp.dayChange)}>{chg(topUp.dayChange)}</span>.</>}
+        {topDown && topDown !== topUp && <> 최약 <b>{topDown.name}</b> <span class={tone(topDown.dayChange)}>{chg(topDown.dayChange)}</span>.</>}
+      </p>
+      {aiAvg != null && (
+        <p>AI 섹터({aiRows.length}종목) 평균 일간 <b class={tone(aiAvg)}>{chg(aiAvg)}</b>.</p>
+      )}
+      {trendNote && <p>{trendNote}</p>}
+      <p class="note">종가·이동평균 기반의 사실 요약이며 개인화된 투자 권유가 아닙니다. 원자료: 공개 시장 데이터 · 기준일 {briefDate}.</p>
+    </section>
+    <div class="market">
+      {indices.map((r) => (
+        <div class="idx">
+          <div class="n">{r.name} <span style="font-weight:400">{r.date?.slice(5)}</span></div>
+          <div class="v">{r.last?.toLocaleString()}</div>
+          <div class={`c ${tone(r.dayChange)}`}>{chg(r.dayChange)} {r.ret20 != null && <span class="s">/ 20d {chg(r.ret20)}</span>}</div>
+          {r.signal && <div class="s">{r.signal}</div>}
+        </div>
+      ))}
+    </div>
+    {themed.map((sec) => (
+      <details class="stocks">
+        <summary>{sec.label} {sec.rows.length}</summary>
+        <table>
+          <thead><tr><th>종목</th><th>종가</th><th>일간</th><th>20일</th><th>vs MA20</th><th>시그널</th></tr></thead>
+          <tbody>
+            {sec.rows.map((r) => (
+              <tr>
+                <td>{r.name}</td>
+                <td>{r.last?.toLocaleString()}</td>
+                <td class={tone(r.dayChange)}>{chg(r.dayChange)}</td>
+                <td class={tone(r.ret20)}>{chg(r.ret20)}</td>
+                <td class={tone(r.vsMa20)}>{chg(r.vsMa20)}</td>
+                <td style="text-align:left">{r.signal ?? ""}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </details>
+    ))}
+  </>
+)}
+
+<style>
+  .brief {
+    background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    border-radius: 12px; padding: 12px 16px; margin: 4px 0 6px;
+  }
+  .brief h2 { font-size: 15px; margin: 0 0 6px; display: flex; align-items: baseline; gap: 8px; border: 0; padding: 0 }
+  .brief .bd { font-size: 12px; font-weight: 400; color: var(--muted) }
+  .brief p { margin: 4px 0; font-size: 13.5px; color: #3f4138 }
+  .brief .note { font-size: 11.5px; color: var(--muted); margin-top: 8px }
+  .market {
+    display: flex; gap: 8px; overflow-x: auto; padding: 12px 0 4px; margin-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .idx {
+    flex: 0 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 8px 12px; min-width: 128px;
+  }
+  .idx .n { font-size: 11px; font-weight: 700; color: var(--muted) }
+  .idx .v { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums }
+  .idx .c { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums }
+  .up { color: #dc2626 }
+  .down { color: #2563eb }
+  .flat { color: var(--muted) }
+  .idx .s { font-size: 11px; color: var(--muted) }
+  details.stocks { font-size: 13px; margin: 2px 0 18px }
+  details.stocks summary { cursor: pointer; color: var(--accent); font-weight: 700; min-height: 44px; display: flex; align-items: center }
+  details.stocks table { width: 100%; border-collapse: collapse; margin-top: 8px; background: var(--card); border-radius: 10px }
+  details.stocks th, details.stocks td { text-align: right; padding: 5px 10px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums }
+  details.stocks th:first-child, details.stocks td:first-child { text-align: left }
+</style>

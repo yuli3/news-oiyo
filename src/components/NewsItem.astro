@@ -1,5 +1,6 @@
 ---
 import { newsTranslations } from "../data/news-translations";
+import { relativeKo } from "../lib/relative-time";
 
 interface Props {
   title: string;
@@ -8,19 +9,69 @@ interface Props {
   sourceColor?: string;
   score?: number | null;
   domain?: string;
+  comments?: number | null;
+  publishedAt?: string;
+  fetchedAt?: string;
+  date?: string;
+  discussionUrl?: string;
 }
 
-const { title, href, source, sourceColor = "var(--muted)", score, domain } = Astro.props;
+const SOURCE_LABEL: Record<string, string> = {
+  "hacker-news": "Hacker News",
+  HN: "Hacker News",
+  lobsters: "Lobsters",
+  Lobsters: "Lobsters",
+  geeknews: "GeekNews",
+  GeekNews: "GeekNews",
+  reddit: "Reddit",
+  Reddit: "Reddit",
+  "openai-news": "OpenAI News",
+  OpenAI: "OpenAI News",
+  "deepmind-blog": "Google DeepMind",
+  DeepMind: "Google DeepMind",
+  "karpathy-blog": "Karpathy",
+  Karpathy: "Karpathy",
+  "yahoo-finance": "Yahoo Finance",
+  techcrunch: "TechCrunch",
+  TechCrunch: "TechCrunch",
+  github: "GitHub",
+  GitHub: "GitHub",
+};
+
+const {
+  title,
+  href,
+  source,
+  sourceColor = "var(--muted)",
+  score,
+  domain,
+  comments,
+  publishedAt,
+  fetchedAt,
+  date,
+  discussionUrl,
+} = Astro.props;
 const translation = newsTranslations[href];
+const label = SOURCE_LABEL[source] ?? source;
+const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` : undefined));
 ---
 
 <li data-slot="item" class="news-item">
-  <a data-slot="item-title" href={href} target="_blank" rel="noopener noreferrer">{translation?.title ?? title}</a>
-  <span data-slot="item-description" class="item-meta">
-    <span class="item-source" style={`color:${sourceColor}`}>{source}</span>
-    {score != null && <> ▲{score}</>}
-    {domain && <> · {domain}</>}
-  </span>
+  <div class="item-head">
+    <a data-slot="item-title" href={href} target="_blank" rel="noopener noreferrer">{title}</a>
+    {domain && <span class="item-domain">({domain})</span>}
+  </div>
+  {translation?.title && <p class="item-ko" lang="ko">{translation.title}</p>}
+  <p data-slot="item-description" class="item-meta">
+    <span class="item-source" style={`color:${sourceColor}`}>{label}</span>
+    {when && <> · {when}</>}
+    {score != null && <> · ▲{score}</>}
+    {comments != null && (
+      discussionUrl
+        ? <> · <a class="item-comments" href={discussionUrl} target="_blank" rel="noopener noreferrer">+{comments} comments</a></>
+        : <> · +{comments} comments</>
+    )}
+  </p>
   {translation && (
     <details class="translation">
       <summary>한국어 요약 읽기</summary>
@@ -45,23 +96,26 @@ const translation = newsTranslations[href];
 </li>
 
 <style>
-  .news-item { min-height:44px;margin:0;padding:9px 10px;border-bottom:1px solid var(--border);border-radius:8px;transition:background-color .15s ease }
-  .news-item:hover { background:var(--card) }
+  .news-item { margin:0; padding:10px 4px 12px; border-bottom:1px solid var(--border) }
   .news-item:last-child { border-bottom-color:transparent }
-  [data-slot="item-title"] { color:var(--ink);text-decoration:none;font-weight:650;line-height:1.4 }
+  .item-head { display:block; line-height:1.4 }
+  [data-slot="item-title"] { color:var(--ink); text-decoration:none; font-weight:650; overflow-wrap:anywhere }
   [data-slot="item-title"]:visited { color:#82857a }
   [data-slot="item-title"]:hover { color:var(--accent) }
-  [data-slot="item-title"]:focus-visible { outline:2px solid var(--accent);outline-offset:3px;border-radius:3px }
-  .item-meta { display:inline;margin-left:6px;font-size:12px;color:var(--muted);white-space:normal }
+  [data-slot="item-title"]:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:3px }
+  .item-domain { margin-left:6px; font-size:12px; color:var(--muted); font-weight:500 }
+  .item-ko { margin:3px 0 0; font-size:13.5px; color:#4a4c42; line-height:1.45 }
+  .item-meta { margin:4px 0 0; font-size:12px; color:var(--muted); line-height:1.45 }
   .item-source { font-weight:750 }
-  .translation { margin-top:4px;font-size:14px }
-  .translation summary { cursor:pointer;color:var(--accent);font-weight:650;padding:12px 0;min-height:44px;box-sizing:border-box }
-  .translation summary:focus-visible { outline:2px solid var(--accent);outline-offset:3px;border-radius:3px }
-  .translation-body { max-width:72ch;line-height:1.75;overflow-wrap:anywhere;padding:0 0 12px }
-  .translation-body h3 { font-size:15px;margin:20px 0 6px }
+  .item-comments { color:var(--muted); text-decoration:none; font-weight:650 }
+  .item-comments:hover { color:var(--accent) }
+  .translation { margin-top:2px; font-size:14px }
+  .translation summary { cursor:pointer; color:var(--accent); font-weight:650; padding:12px 0; min-height:44px; box-sizing:border-box }
+  .translation summary:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:3px }
+  .translation-body { max-width:72ch; line-height:1.75; overflow-wrap:anywhere; padding:0 0 12px }
+  .translation-body h3 { font-size:15px; margin:20px 0 6px }
   .translation-body ul { padding-left:20px }
   .translation-body li { margin:6px 0 }
-  .translation-meta { font-size:12px;color:var(--muted) }
-  .translation-sources { display:flex;flex-wrap:wrap;gap:4px 20px;list-style:none;padding:0!important;font-size:12px }
-  @media (max-width:560px) { .item-meta { display:block;margin:3px 0 0 } }
+  .translation-meta { font-size:12px; color:var(--muted) }
+  .translation-sources { display:flex; flex-wrap:wrap; gap:4px 20px; list-style:none; padding:0!important; font-size:12px }
 </style>

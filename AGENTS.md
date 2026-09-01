@@ -8,7 +8,7 @@
 npm run update
 ```
 
-`update` = `collect` → `audit:trends` → `sync`. 수집·검사·반영이 한 명령이고, Claude·Codex·Grok·Grok Bot 어디서 실행하든 같은 결과가 나온다. 셸을 쓸 수 있으면 되고 특정 런타임의 스킬·플러그인·크론을 요구하지 않는다.
+`update` = `collect` → `collect:market` → `audit:trends` → `sync`. 뉴스 수집·증시 시세·검사·반영이 한 명령이고, Claude·Codex·Grok·Grok Bot 어디서 실행하든 같은 결과가 나온다. 셸을 쓸 수 있으면 되고 특정 런타임의 스킬·플러그인·크론을 요구하지 않는다. 당일 트렌드 노트가 이미 있으면 collect 는 건너뛰고(덮어쓰려면 `--force`) 시세는 매번 갱신한다.
 
 그 다음 배포는 별도 승인이다:
 
@@ -27,15 +27,17 @@ git add src/data/news.json && git commit -m "sync $(date +%F)" && git push
 ## 파이프라인
 
 ```
-collect-news.mjs → company-brain/AI-Sessions/wiki/sources/trends/<date>.{md,sources.json}
-                 → sync-news.mjs → src/data/news.json → Cloudflare Pages
+collect-news.mjs   → company-brain/AI-Sessions/wiki/sources/trends/<date>.{md,sources.json}
+collect-market.mjs → company-brain/reports/market-latest.json
+                   → sync-news.mjs → src/data/news.json → Cloudflare Pages
 ```
 
 | 파일 | 소관 |
 |---|---|
 | `scripts/collect-news.mjs` | 수집·선별·노트 작성 |
+| `scripts/collect-market.mjs` | 미국·한국 증시 시세 |
 | `scripts/audit-trend-notes.mjs` | 노트 형식 게이트 |
-| `scripts/sync-news.mjs` | 노트 → `news.json` |
+| `scripts/sync-news.mjs` | 노트+시세 → `news.json` |
 | `scripts/daily-publish.sh` | 발행(입력 나이 보고 포함) |
 | `scripts/lib/news-pipeline-sources.json` | **소스 이름 SSOT** |
 

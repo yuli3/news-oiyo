@@ -60,13 +60,24 @@ async function hackerNews() {
     title: h.title ?? "",
     url: h.url || `https://news.ycombinator.com/item?id=${h.objectID}`,
     score: h.points ?? null,
+    comments: Number.isFinite(h.num_comments) ? h.num_comments : null,
+    publishedAt: typeof h.created_at === "string" ? h.created_at : null,
+    discussionUrl: h.objectID ? `https://news.ycombinator.com/item?id=${h.objectID}` : null,
   }));
 }
 
 async function lobsters() {
   const raw = await get("https://lobste.rs/hottest.json");
   if (!raw) return [];
-  return JSON.parse(raw).map((h) => ({ src: "lobsters", title: h.title ?? "", url: h.url || h.comments_url || "", score: h.score ?? null }));
+  return JSON.parse(raw).map((h) => ({
+    src: "lobsters",
+    title: h.title ?? "",
+    url: h.url || h.comments_url || "",
+    score: h.score ?? null,
+    comments: Number.isFinite(h.comment_count) ? h.comment_count : null,
+    publishedAt: typeof h.created_at === "string" ? h.created_at : null,
+    discussionUrl: typeof h.comments_url === "string" && h.comments_url.startsWith("https://") ? h.comments_url : null,
+  }));
 }
 
 // GeekNews 는 "원본 URL만" 이 규약이다(trend-scout-retired-2026-08-20). 피드의
@@ -100,7 +111,9 @@ async function reddit() {
     for (const e of entries(xml, "entry")) {
       const title = unwrap(pick(e, /<title>([\s\S]*?)<\/title>/));
       const url = pick(e, /<link[^>]*href=['"]([^'"]+)['"]/);
-      if (title && url) out.push({ src: "reddit", title, url, score: null });
+      const updated = unwrap(pick(e, /<updated>([\s\S]*?)<\/updated>/));
+      const publishedAt = updated && !Number.isNaN(Date.parse(updated)) ? new Date(updated).toISOString() : null;
+      if (title && url) out.push({ src: "reddit", title, url, score: null, comments: null, publishedAt });
     }
     await new Promise((r) => setTimeout(r, 2000)); // 서브 사이 2초 — 429 를 부르지 않는다
   }
@@ -110,12 +123,18 @@ async function reddit() {
 async function rssFeed(src, url) {
   const xml = await get(url, { retries: 1 });
   if (!xml) return [];
-  return entries(xml, "item").slice(0, 8).map((e) => ({
-    src,
-    title: unwrap(pick(e, /<title>([\s\S]*?)<\/title>/)),
-    url: pick(e, /<link>([\s\S]*?)<\/link>/),
-    score: null,
-  })).filter((x) => x.title && x.url);
+  return entries(xml, "item").slice(0, 8).map((e) => {
+    const pub = unwrap(pick(e, /<pubDate>([\s\S]*?)<\/pubDate>/));
+    const publishedAt = pub && !Number.isNaN(Date.parse(pub)) ? new Date(pub).toISOString() : null;
+    return {
+      src,
+      title: unwrap(pick(e, /<title>([\s\S]*?)<\/title>/)),
+      url: pick(e, /<link>([\s\S]*?)<\/link>/),
+      score: null,
+      comments: null,
+      publishedAt,
+    };
+  }).filter((x) => x.title && x.url);
 }
 
 // AI 중심 선별. 이 목록이 "무엇이 신호인가" 의 정본이다 — 런타임마다 다르게
@@ -146,9 +165,11 @@ const mdSafe = (s) => s.replace(/([[\]])/g, "\\$1");
 
 async function main() {
   const notePath = join(TRENDS, `${DATE}.md`);
+  const sourcePath = join(TRENDS, `${DATE}.sources.json`);
   if (existsSync(notePath) && !FORCE && !DRY) {
-    console.error(`이미 있다: ${notePath}\n덮어쓰려면 --force`);
-    process.exit(1);
+    console.error(`이미 있다: ${notePath} — 노트는 유지, 점수·댓글만 보강`);
+    await enrichExisting(sourcePath);
+    process.exit(0);
   }
 
   console.error("수집 중…");
@@ -209,6 +230,34 @@ ${top.join("\n")}
   writeFileSync(join(TRENDS, `${DATE}.sources.json`), `${JSON.stringify(envelope, null, 1)}\n`);
   console.error(`작성: ${DATE}.md · ${DATE}.sources.json`);
   console.error("다음: npm run sync — 편집 요약을 더하려면 ## Summary 를 손보고 sync 한다");
+}
+
+function liveKey(item) {
+  try { return new URL(item.url).href.replace(/\/+$/, ""); } catch { return item.url; }
+}
+
+async function enrichExisting(sourcePath) {
+  if (!existsSync(sourcePath)) return;
+  const envelope = JSON.parse(readFileSync(sourcePath, "utf8"));
+  if (!Array.isArray(envelope.items) || envelope.items.length === 0) return;
+  const live = (await Promise.all([hackerNews(), lobsters()])).flat();
+  const byUrl = new Map(live.filter((x) => x.url).map((x) => [liveKey(x), x]));
+  let patched = 0;
+  for (const item of envelope.items) {
+    const hit = byUrl.get(liveKey(item));
+    if (!hit) continue;
+    if (Number.isFinite(hit.score)) item.score = hit.score;
+    if (Number.isFinite(hit.comments)) item.comments = hit.comments;
+    if (hit.publishedAt) item.publishedAt = hit.publishedAt;
+    if (hit.discussionUrl) item.discussionUrl = hit.discussionUrl;
+    patched++;
+  }
+  if (!patched) {
+    console.error("보강 0건 — 라이브 소스와 URL이 겹치지 않음");
+    return;
+  }
+  writeFileSync(sourcePath, `${JSON.stringify(envelope, null, 1)}\n`);
+  console.error(`보강: ${sourcePath} · ${patched}건`);
 }
 
 await main();

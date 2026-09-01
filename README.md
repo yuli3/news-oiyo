@@ -8,8 +8,8 @@
 
 ```
 scripts/collect-news.mjs          → company-brain/.../sources/trends/YYYY-MM-DD.md
-stock_analysis cron              → company-brain/reports/market-latest.json
-  → npm run update # collect → audit:trends → sync → src/data/news.json
+scripts/collect-market.mjs        → company-brain/reports/market-latest.json
+  → npm run update # collect → collect:market → audit:trends → sync → src/data/news.json
   → local commit   # 여러 변경을 모은 뒤 승인된 배치 push로 Cloudflare 배포
 ```
 
