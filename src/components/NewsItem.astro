@@ -63,7 +63,7 @@ const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` 
   </div>
   {translation?.title && <p class="item-ko" lang="ko">{translation.title}</p>}
   <p data-slot="item-description" class="item-meta">
-    <span class="item-source" style={`color:${sourceColor}`}>{label}</span>
+    <span class="item-source" style={`--source-dot:${sourceColor}`}>{label}</span>
     {when && <> · {when}</>}
     {score != null && <> · ▲{score}</>}
     {comments != null && (
@@ -100,13 +100,22 @@ const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` 
   .news-item:last-child { border-bottom-color:transparent }
   .item-head { display:block; line-height:1.4 }
   [data-slot="item-title"] { color:var(--ink); text-decoration:none; font-weight:650; overflow-wrap:anywhere }
-  [data-slot="item-title"]:visited { color:#82857a }
+  [data-slot="item-title"]:visited { color:var(--muted) }  /* #82857a 는 3.27:1 로 미달이었다 */
   [data-slot="item-title"]:hover { color:var(--accent) }
   [data-slot="item-title"]:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:3px }
   .item-domain { margin-left:6px; font-size:12px; color:var(--muted); font-weight:500 }
   .item-ko { margin:3px 0 0; font-size:13.5px; color:#4a4c42; line-height:1.45 }
   .item-meta { margin:4px 0 0; font-size:12px; color:var(--muted); line-height:1.45 }
+  /* 출처 브랜드 색을 **글자에 쓰지 않는다.** HN #ff6600 은 이 지면에서
+     2.55:1, GeekNews #0abf53 은 2.12:1 로 본문 기준(4.5)에 한참 못 미친다.
+     색을 어둡게 바꾸면 통과하지만 민트→진녹처럼 브랜드 인지가 달라진다.
+     WCAG 는 **글자**에만 대비를 요구하므로, 색은 점으로 옮기고 글자는
+     --muted(4.74:1)로 둔다. 브랜드 색을 지키면서 통과한다. */
   .item-source { font-weight:750 }
+  .item-source::before {
+    content:""; display:inline-block; width:.5em; height:.5em; border-radius:50%;
+    background:var(--source-dot, var(--muted)); margin-right:.4em; vertical-align:.04em;
+  }
   .item-comments { color:var(--muted); text-decoration:none; font-weight:650 }
   .item-comments:hover { color:var(--accent) }
   .translation { margin-top:2px; font-size:14px }

@@ -113,8 +113,9 @@ const trendNote = maRows.length === 0 ? "" : aboveMa * 2 > maRows.length
   .idx .n { font-size: 11px; font-weight: 700; color: var(--muted) }
   .idx .v { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums }
   .idx .c { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums }
-  .up { color: #dc2626 }
-  .down { color: #2563eb }
+  /* 지면을 낮추며 4.67 → 4.20 으로 떨어졌다. 색상(H)은 유지하고 명도만 내려 4.65 로. */
+  .up { color: #d3181d }
+  .down { color: #2360e8 }  /* 같은 이유로 5.00 → 4.49 → 4.65 */
   .flat { color: var(--muted) }
   .idx .s { font-size: 11px; color: var(--muted) }
   details.stocks { font-size: 13px; margin: 2px 0 18px }
