@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "type-check": "astro check",
     "preview": "astro preview",
     "collect": "node scripts/collect-news.mjs",
     "collect:market": "node scripts/collect-market.mjs",
@@ -17,5 +18,9 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3"
   }
 }

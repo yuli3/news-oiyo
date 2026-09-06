@@ -84,7 +84,7 @@ export const CURATOR_SECTIONS: CuratorSection[] = [
   })),
   ...REFERENCE_SHELVES.map((s) => ({
     id: s.id, label: s.label, desc: s.desc,
-    group: (DESIGN_SHELF_IDS.has(s.id) ? "design" : "reference") as const,
+    group: DESIGN_SHELF_IDS.has(s.id) ? ("design" as const) : ("reference" as const),
     items: s.items.map(fromShelf),
   })),
 ];
