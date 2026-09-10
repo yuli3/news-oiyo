@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-10T00:09:16.497Z",
+ "generatedAt": "2026-09-10T00:10:55.252Z",
  "sourceContract": {
   "schema": "oiyo.news-source",
   "schemaVersion": 1,
@@ -695,6 +695,12 @@
      "domain": "karpathy.bearblog.dev"
     }
    ],
+   "ideas": []
+  },
+  {
+   "date": "2026-09-09",
+   "summary": "라이브 소스 raw 154건 중 AI 중심 신호 51건을 선별했다. 추측성 항목과 YMYL 은 규약대로 제외했다. 소스별 hacker-news 6 · lobsters 1 · geeknews 19 · reddit 13 · openai-news 5 · deepmind-blog 6 · karpathy-blog 1.",
+   "items": [],
    "ideas": []
   },
   {
