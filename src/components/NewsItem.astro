@@ -10,6 +10,7 @@ interface Props {
   score?: number | null;
   domain?: string;
   comments?: number | null;
+  summary?: string;
   publishedAt?: string;
   fetchedAt?: string;
   date?: string;
@@ -44,6 +45,7 @@ const {
   source,
   sourceColor = "var(--muted)",
   score,
+  summary,
   domain,
   comments,
   publishedAt,
@@ -62,6 +64,7 @@ const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` 
     {domain && <span class="item-domain">({domain})</span>}
   </div>
   {translation?.title && <p class="item-ko" lang="ko">{translation.title}</p>}
+  {summary && <p class="item-summary">{summary}</p>}
   <p data-slot="item-description" class="item-meta">
     <span class="item-source" style={`--source-dot:${sourceColor}`}>{label}</span>
     {when && <> · {when}</>}
@@ -105,6 +108,8 @@ const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` 
   [data-slot="item-title"]:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:3px }
   .item-domain { margin-left:6px; font-size:12px; color:var(--muted); font-weight:500 }
   .item-ko { margin:3px 0 0; font-size:13.5px; color:#4a4c42; line-height:1.45 }
+  /* 제목 아래 한 줄. 원문 설명 그대로이므로 번역 요약(.item-ko)보다 약하게 둔다. */
+  .item-summary { margin:3px 0 0; font-size:13px; color:#4a4c42; line-height:1.5; overflow-wrap:anywhere }
   .item-meta { margin:4px 0 0; font-size:12px; color:var(--muted); line-height:1.45 }
   /* 출처 브랜드 색을 **글자에 쓰지 않는다.** HN #ff6600 은 이 지면에서
      2.55:1, GeekNews #0abf53 은 2.12:1 로 본문 기준(4.5)에 한참 못 미친다.

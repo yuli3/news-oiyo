@@ -7,6 +7,8 @@ export const SOURCE_COLOR: Record<string, string> = {
   Lobsters: "#ac130d",
   geeknews: "#0abf53",
   GeekNews: "#0abf53",
+  github: "#24292f",
+  GitHub: "#24292f",
 };
 
 export type NewsItemRecord = {
@@ -14,6 +16,8 @@ export type NewsItemRecord = {
   sourceId?: string;
   score: number | null;
   title: string;
+  /** 제목 아래 한 줄. 수집 시점에 원문 소스가 준 설명만 담는다(2026-09-20~). */
+  summary?: string;
   url: string;
   domain: string;
   comments?: number | null;

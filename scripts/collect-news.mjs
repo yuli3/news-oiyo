@@ -48,6 +48,26 @@ async function get(url, { retries = 2 } = {}) {
   }
 }
 
+// 제목 아래 한 줄 설명. 소스가 주는 설명을 태그·공백만 정리해 쓴다. 없으면 비운다 —
+// 지어내지 않는다(2026-09-20 세운 지시: 새로 들어오는 항목에만 요약을 붙인다).
+const ENTITIES = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ", "#39": "'", "#x27": "'", "#x2F": "/", "#47": "/" };
+const decode = (s) =>
+  String(s ?? "")
+    .replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g, (whole, name) => {
+      const key = name.toLowerCase();
+      if (ENTITIES[key] !== undefined) return ENTITIES[key];
+      if (/^#x/.test(key)) return String.fromCodePoint(parseInt(key.slice(2), 16));
+      if (/^#\d+$/.test(key)) return String.fromCodePoint(parseInt(key.slice(1), 10));
+      return whole;
+    });
+
+const clean = (s) => {
+  const text = decode(String(s ?? "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+  // URL 한 줄은 설명이 아니다. 제목 아래에 주소를 한 번 더 찍는 셈이라 버린다.
+  if (!text || /^https?:\/\/\S+$/.test(text)) return "";
+  return text.length > 240 ? `${text.slice(0, 239).trimEnd()}…` : text;
+};
+
 const entries = (xml, tag) => [...xml.matchAll(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`, "g"))].map((m) => m[1]);
 const pick = (block, re) => (block.match(re) || [])[1]?.trim() ?? "";
 const unwrap = (s) => s.replace(/^<!\[CDATA\[/, "").replace(/\]\]>$/, "").trim();
@@ -63,6 +83,7 @@ async function hackerNews() {
     comments: Number.isFinite(h.num_comments) ? h.num_comments : null,
     publishedAt: typeof h.created_at === "string" ? h.created_at : null,
     discussionUrl: h.objectID ? `https://news.ycombinator.com/item?id=${h.objectID}` : null,
+    summary: clean(h.story_text ?? h._highlightResult?.story_text?.value ?? ""),
   }));
 }
 
@@ -133,8 +154,40 @@ async function rssFeed(src, url) {
       score: null,
       comments: null,
       publishedAt,
+      summary: clean(unwrap(pick(e, /<description>([\s\S]*?)<\/description>/))),
     };
   }).filter((x) => x.title && x.url);
+}
+
+// GitHub Trending — 공개 페이지를 읽는다. API 가 없는 목록이고, 레지스트리에
+// 이미 `github` 소스가 있는데도 실제 수집기가 없어 한 건도 들어오지 않았다
+// (2026-09-19 D 감사). 저장소 설명이 곧 "제목 아래 한 줄"이 된다.
+async function githubTrending() {
+  const out = [];
+  for (const span of ["daily", "weekly"]) {
+    const html = await get(`https://github.com/trending?since=${span}&spoken_language_code=en`, { retries: 1 });
+    if (!html) continue;
+    const articles = html.split("<article").slice(1);
+    for (const block of articles.slice(0, 25)) {
+      const repo = pick(block, /<h2[^>]*>[\s\S]*?href="\/([^"]+)"/);
+      if (!repo || repo.split("/").length !== 2) continue;
+      const desc = clean(pick(block, /<p[^>]*class="col-9[^"]*"[^>]*>([\s\S]*?)<\/p>/));
+      // "402 stars today" 가 그날의 신호다. 총 스타 수는 누적이라 정렬에 쓰면
+      // 오래된 대형 저장소가 항상 위에 온다.
+      const stars = (block.match(/([\d,]+)\s+stars today/) || [])[1]?.replace(/,/g, "") ?? "";
+      out.push({
+        src: "github",
+        title: `${repo.replace(/\s+/g, "")}${desc ? "" : " (GitHub Trending)"}`,
+        url: `https://github.com/${repo.replace(/\s+/g, "")}`,
+        score: stars ? Number(stars) : null,
+        comments: null,
+        publishedAt: null,
+        summary: desc,
+      });
+    }
+    await new Promise((r) => setTimeout(r, 1500));
+  }
+  return out;
 }
 
 // AI 중심 선별. 이 목록이 "무엇이 신호인가" 의 정본이다 — 런타임마다 다르게
@@ -150,7 +203,10 @@ function select(items) {
     if (!x.url.startsWith("https://")) return false;      // 어댑터가 https 만 받는다
     if (!REGISTERED.has(x.src)) return false;             // 미등록 소스는 sync 가 버린다
     if (EXCLUDE.test(x.title)) return false;
-    if (!AI_TERMS.test(x.title)) return false;
+    // 저장소 이름만으로는 무엇인지 알 수 없다(github.com/foo/bar). 설명까지 보고
+    // 판정한다. 다른 소스도 설명이 있으면 같은 이득을 본다.
+    const haystack = `${x.title} ${x.summary ?? ""}`;
+    if (!AI_TERMS.test(haystack)) return false;
     const key = x.title.trim().toLowerCase();
     if (seen.has(key)) return false;
     seen.add(key);
@@ -159,7 +215,7 @@ function select(items) {
 }
 
 const SRC_TAG = { "hacker-news": "HN", lobsters: "lobsters", geeknews: "GeekNews", reddit: "Reddit",
-  "openai-news": "OpenAI", "deepmind-blog": "DeepMind", "karpathy-blog": "Karpathy" };
+  "openai-news": "OpenAI", "deepmind-blog": "DeepMind", "karpathy-blog": "Karpathy", github: "GitHub" };
 // 대괄호로 시작하는 제목([Megathread] 등)이 마크다운 링크를 깨뜨린다.
 const mdSafe = (s) => s.replace(/([[\]])/g, "\\$1");
 
@@ -174,7 +230,7 @@ async function main() {
 
   console.error("수집 중…");
   const collected = (await Promise.all([
-    hackerNews(), lobsters(), geekNews(), reddit(),
+    hackerNews(), lobsters(), geekNews(), reddit(), githubTrending(),
     rssFeed("openai-news", "https://openai.com/news/rss.xml"),
     rssFeed("deepmind-blog", "https://deepmind.google/blog/rss.xml"),
     rssFeed("karpathy-blog", "https://karpathy.bearblog.dev/feed/?type=rss"),
@@ -190,7 +246,9 @@ async function main() {
   for (const item of selected) {
     if (item.needsResolve) { item.url = await resolveGeekNews(item.url); delete item.needsResolve; }
   }
-  const items = selected.filter((x) => x.url.startsWith("https://")).map(({ needsResolve, ...rest }) => rest);
+  const items = selected
+    .filter((x) => x.url.startsWith("https://"))
+    .map(({ needsResolve, ...rest }) => (rest.summary ? rest : (({ summary, ...bare }) => bare)(rest)));
 
   const bySource = items.reduce((acc, x) => ({ ...acc, [x.src]: (acc[x.src] ?? 0) + 1 }), {});
   console.error(`raw ${collected.length} → 선별 ${items.length}`, bySource);

@@ -60,6 +60,12 @@ export function adaptTrendSignals(rawItems, rawRegistry, options = {}) {
         contentHash: hash,
         corrections: [],
       };
+      // 2026-09-20: 제목만으로는 무슨 소식인지 알 수 없다는 지적(D 감사: 1,124건 중
+      // 설명이 있는 항목 1건). 수집 시점에 확보한 한 줄 설명을 그대로 나른다.
+      // 기존 항목은 소급하지 않는다 — 없으면 없는 대로 둔다.
+      if (typeof raw.summary === "string" && raw.summary.trim()) {
+        item.summary = raw.summary.trim().slice(0, 300);
+      }
       if (Number.isFinite(raw.comments) && raw.comments >= 0) item.comments = Math.trunc(raw.comments);
       if (typeof raw.publishedAt === "string") item.publishedAt = requireIsoInstant(raw.publishedAt, "publishedAt");
       if (typeof raw.discussionUrl === "string" && raw.discussionUrl.startsWith("https://")) {
