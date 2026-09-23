@@ -48,8 +48,8 @@ async function get(url, { retries = 2 } = {}) {
   }
 }
 
-// 제목 아래 한 줄 설명. 소스가 주는 설명을 태그·공백만 정리해 쓴다. 없으면 비운다 —
-// 지어내지 않는다(2026-09-20 세운 지시: 새로 들어오는 항목에만 요약을 붙인다).
+// 제목 아래 한 줄 설명. 수집 단계에서는 소스가 준 텍스트만 clean() 한다.
+// GeekNews는 Atom <content>, HN은 story_text, RSS는 description 등. 정책 전문은 AGENTS.md.
 const ENTITIES = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ", "#39": "'", "#x27": "'", "#x2F": "/", "#47": "/" };
 const decode = (s) =>
   String(s ?? "")
@@ -116,13 +116,19 @@ async function resolveGeekNews(topicUrl) {
 async function geekNews() {
   const xml = await get("https://news.hada.io/rss/news");
   if (!xml) return [];
-  return entries(xml, "entry").map((e) => ({
-    src: "geeknews",
-    title: unwrap(pick(e, /<title>([\s\S]*?)<\/title>/)),
-    url: pick(e, /<link[^>]*href=['"]([^'"]+)['"]/),
-    score: null,
-    needsResolve: true,
-  })).filter((x) => x.title && x.url);
+  return entries(xml, "entry").map((e) => {
+    // Atom <content type="html"> already carries a Korean bullet summary from the feed.
+    // Prefer that over leaving summary empty; still resolve news.hada.io topic → original URL.
+    const contentHtml = unwrap(pick(e, /<content\b[^>]*>([\s\S]*?)<\/content>/));
+    return {
+      src: "geeknews",
+      title: unwrap(pick(e, /<title>([\s\S]*?)<\/title>/)),
+      url: pick(e, /<link[^>]*href=['"]([^'"]+)['"]/),
+      score: null,
+      needsResolve: true,
+      summary: clean(contentHtml),
+    };
+  }).filter((x) => x.title && x.url);
 }
 
 async function reddit() {

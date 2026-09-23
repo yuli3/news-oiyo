@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-09-23T00:49:47.982Z",
+ "generatedAt": "2026-09-23T04:37:33.042Z",
  "sourceContract": {
   "schema": "oiyo.news-source",
   "schemaVersion": 1,
@@ -22,6 +22,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "2ad9765b2b791487",
      "corrections": [],
+     "summary": "Anthropic가 Claude Opus 5.5를 공개했다. 코딩·에이전트 작업용 상위 모델로 성능·가격 포지션을 함께 제시한다.",
      "comments": 790,
      "publishedAt": "2026-09-22T16:29:05Z",
      "discussionUrl": "https://news.ycombinator.com/item?id=49803892",
@@ -38,6 +39,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "76f3a1f6e6cb0342",
      "corrections": [],
+     "summary": "OpenAI가 GPT-6 계열 Sol·Luna를 소개했다. 서로 다른 용도/능력으로 나뉜 차세대 모델 브랜딩이다.",
      "comments": 585,
      "publishedAt": "2026-09-22T18:00:34Z",
      "discussionUrl": "https://news.ycombinator.com/item?id=49805509",
@@ -54,6 +56,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "0ae165c1e0fbb3f2",
      "corrections": [],
+     "summary": "OpenAI GPT-6 Astra가 2005년부터 풀리지 않던 에니그마 암호문을 해독했다는 보도. 암호·역사 퍼즐에 모델 추론을 적용한 사례다.",
      "comments": 356,
      "publishedAt": "2026-09-22T13:52:15Z",
      "discussionUrl": "https://news.ycombinator.com/item?id=49801324",
@@ -70,6 +73,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "9dfc101fdacb0142",
      "corrections": [],
+     "summary": "미 국방부가 이란 학교 미사일 타격에 AI 과신이 기여했다고 밝혔다. 자율·의사결정 지원 무기의 리스크를 공식 인정한 그래픽 보도다.",
      "comments": 200,
      "publishedAt": "2026-09-22T19:03:38Z",
      "discussionUrl": "https://news.ycombinator.com/item?id=49806430",
@@ -86,6 +90,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "a6be1d6bf2b6bd2b",
      "corrections": [],
+     "summary": "Jev 등 에이전트 코딩 도구를 OpenAI가 빠르게 추격할 수 있다는 분석. 제품·배포 우위가 핵심 논거다.",
      "comments": 190,
      "publishedAt": "2026-09-22T14:42:59Z",
      "discussionUrl": "https://news.ycombinator.com/item?id=49802161",
@@ -102,6 +107,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "36dba99315d30de3",
      "corrections": [],
+     "summary": "Artificial Analysis가 Claude Opus 5.5의 지능·성능·가격을 Max 설정 기준으로 비교 분석했다.",
      "comments": 64,
      "publishedAt": "2026-09-22T16:51:31Z",
      "discussionUrl": "https://news.ycombinator.com/item?id=49804316",
@@ -118,6 +124,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "f32945603c3c7ca0",
      "corrections": [],
+     "summary": "Unreal Labs가 게임/리얼타임 환경용 에이전트 스택 Unreal Agent를 소개했다.",
      "comments": 72,
      "publishedAt": "2026-09-22T18:15:53Z",
      "discussionUrl": "https://news.ycombinator.com/item?id=49805748",
@@ -168,6 +175,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "62e0a3623bc6e3c5",
      "corrections": [],
+     "summary": "Google Labs의 CC가 가족·그룹용 AI 에이전트로 확장됐다. 개인을 넘어 공유 컨텍스트 에이전트를 겨냥한다.",
      "comments": 1,
      "publishedAt": "2026-09-22T23:46:07Z",
      "discussionUrl": "https://news.ycombinator.com/item?id=49809806",
@@ -184,6 +192,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "7e80e9e7fd597d5e",
      "corrections": [],
+     "summary": "OpenAI의 Navier–Stokes 관련 주장/성과가 다른 문제를 푼 것 아니냐는 Scientific American 비판·해설.",
      "comments": 4,
      "publishedAt": "2026-09-22T13:22:57.573-05:00",
      "discussionUrl": "https://lobste.rs/s/wiuzrg/did_openai_solve_wrong_navier_stokes",
@@ -200,6 +209,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "d1d264e64ed1801d",
      "corrections": [],
+     "summary": "AI를 의인화하지 않고 말하는 언어 습관 가이드. 과장된 행위자 표현을 줄이는 실무 팁이다.",
      "comments": 1,
      "publishedAt": "2026-09-22T16:45:11.788-05:00",
      "discussionUrl": "https://lobste.rs/s/oqipmz/how_talk_about_ai_without_adding",
@@ -216,6 +226,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "d3ff4084344ab858",
      "corrections": [],
+     "summary": "AI에 지혜가 없다는 에세이. 모델 출력과 인간 판단·책임을 구분해야 한다는 논지다.",
      "comments": 11,
      "publishedAt": "2026-09-22T06:55:39.143-05:00",
      "discussionUrl": "https://lobste.rs/s/5svlut/ai_has_no_wisdom_neither_will_you",
@@ -232,6 +243,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "d437a058ae904f96",
      "corrections": [],
+     "summary": "여러 모델을 지원하는 대신 4B 모델 Woof 하나에 최적화 한 애플 실리콘 추론 엔진으로, 메일/일정 관리/회의록 요약을 기기에서 처리하는 맥용 개인 AI 비서 앱 Underdog 에 적용됨 M5 Max 비교에서 같은 가중치와 동일한 출력으로 16개 작업 모두 MLX보다 ...",
      "domain": "husky.underdog.ai"
     },
     {
@@ -245,6 +257,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "86f5612a9d634d4c",
      "corrections": [],
+     "summary": "AI 기업과 수학계의 소통, 수학 연구 결과의 책임 있는 발표와 공개 를 자문하는 독립 그룹이 프린스턴의 Institute for Advanced Study를 거점으로 출범함 현재는 OpenAI 가 내부 모델로 산출했다고 밝힌 다수의 중요한 수학 연구 결과를 어떻게 조율해 공개할지 자...",
      "domain": "terrytao.wordpress.com"
     },
     {
@@ -258,6 +271,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "0f182dc8520be148",
      "corrections": [],
+     "summary": "GziPT는 신경망이나 별도 학습 없이 gzip의 압축 원리로 글을 이어 쓰는 실험 으로, 주어진 텍스트 뒤에 여러 후보를 붙여 보고 가장 작게 압축되는 쪽을 선택함 기반 원리는 압축과 예측의 동등성 임. 압축기가 예상하는 데이터일수록 적은 비트로 표현되므로, 압축...",
      "domain": "nathan.rs"
     },
     {
@@ -271,6 +285,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "ccf97d182e096608",
      "corrections": [],
+     "summary": "dlab은 로컬 추론, 에이전트 하네스, 자율 연구 시스템 을 하나의 생태계로 묶어 공개할 예정. 소수의 연구자와 GPU만으로 최첨단 연구소와 경쟁할 수 있는 시스템을 만드는 것이 목표 자체 추론 프레임워크는 125B 모델을 단일 24GB GPU 에서 실행하고, 128GB 메모리...",
      "domain": "timdettmers.com"
     },
     {
@@ -284,6 +299,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "ff98f2039581a11c",
      "corrections": [],
+     "summary": "AI 대화중 첨부용량이 다하셨나요? PocketPM으로 스마트하게 우회하세요! 저는 여러가지 프로젝트를 진행하는 PM이라 AI챗을 이용할 때마다 첨부한도 때문에 곤란한 적이 많았는데, 각 AI를 서핑하듯 연결하는 서비스는 없더군요. 그래서 제가 크롬 확장서비스로 만들었습니다. [이런 분들이라면]",
      "domain": "hyojin-chat.github.io"
     },
     {
@@ -297,6 +313,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "f60e34523c77de5f",
      "corrections": [],
+     "summary": "RouteMind라는 Agentic RAG 프로젝트를 만들고 있습니다. 일반적인 RAG가 문서를 chunking하고 embedding한 뒤 검색하는 방식이라면, RouteMind는 사람이 지식의 영역(Area)과 그 관계를 정의하고 Agent가 먼저 어디를 찾아야 하는지 routing한 뒤 해당 영역의 문서를 읽도록 합니다. <p",
      "domain": "github.com"
     },
     {
@@ -310,6 +327,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "f7cacd580354e86f",
      "corrections": [],
+     "summary": "Linear는 연초 이후 테스트가 거의 4배로 늘었는데도 , PR의 CI 대기 시간을 6분 초과에서 5분 남짓으로 줄이고 테스트당 러너 사용 시간을 약 절반으로 낮춤 더 빠른 실행 환경과 네이티브 TypeScript 컴파일러 tsgo 로 전환하고, 린트에서 불필요한 ...",
      "domain": "linear.app"
     },
     {
@@ -323,6 +341,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "95d1af179e1a22d1",
      "corrections": [],
+     "summary": "안녕하세요. ArtifactNet을 개발하는 Intrect의 오희원입니다. AI 음악 탐지기를 비교하면서, 종합 점수뿐 아니라 어떤 곡을 평가했는지, 데이터가 서로 겹치는지, 처리하지 못한 파일을 어떻게 계산하는지가 결과 해석에 중요하다는 문제를 다루게 됐습니다. 이를 점검하기 위한 평가 코드와 프로토콜",
      "domain": "github.com"
     },
     {
@@ -336,6 +355,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "3852b66ddffb019e",
      "corrections": [],
+     "summary": "안녕하세요. 토노를 만드는 팀입니다. 캐릭터의 답변을 읽으면서 표정과 움직임도 함께 볼 수 있는 AI 캐릭터 채팅 서비스를 소개합니다. 캐릭터별 설정과 성격을 고르고 직접 메시지를 보내 대화할 수 있습니다. 대화 화면은 캐릭터와 메시지를 함께 보는 비주얼 모드와 텍스트 모드를 제공합니다. 위 링크는",
      "domain": "tono.kr"
     },
     {
@@ -349,6 +369,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "cf6379e04a5bc3a8",
      "corrections": [],
+     "summary": "기존 언어 모델이 토큰을 하나씩 이어 쓰는 반면, 확산 언어 모델(Diffusion Language Model)은 여러 위치를 동시에 채우며 반복 단계 수에 따라 생성 속도와 품질을 조절함 기본적인 학습은 문장의 일부를 무작위로 가리고 복원하는 방식 이며, 생성할 때는 빈칸으...",
      "domain": "kuleshov-group.github.io"
     },
     {
@@ -362,6 +383,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "0c96cb8a856fa57a",
      "corrections": [],
+     "summary": "Vercel DeepSec AI 보안 스캐너의 동작·한계를 기술 블로그에서 깊게 살펴본 해설.",
      "domain": "flaviocopes.com"
     },
     {
@@ -375,6 +397,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "b4266c6ccc628ea3",
      "corrections": [],
+     "summary": "Transformer 구조를 인터랙티브 시각화로 설명하는 Polo Club explainer.",
      "domain": "poloclub.github.io"
     },
     {
@@ -388,6 +411,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "b02c205d4280e93d",
      "corrections": [],
+     "summary": "카카오가 독립형 AI 서비스 카나나 종료를 공지했다. 서비스 종료·이전 안내가 담긴 공지다.",
      "domain": "mate.kanana.ai"
     },
     {
@@ -401,6 +425,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "1c8bd3e7a37d8260",
      "corrections": [],
+     "summary": "로컬 LLM이 vLLM 서비스 변경 요청에 헛도는 상황을 공유한 LocalLLaMA 유머/경험 글.",
      "publishedAt": "2026-09-22T21:51:36.000Z",
      "domain": "reddit.com"
     },
@@ -415,6 +440,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "3108e7cf0a0efeb8",
      "corrections": [],
+     "summary": "AntLing이 Ming-Image-0.1-Design 계열을 오픈소스했다. 약 6B급 이미지 모델 패밀리 예고.",
      "publishedAt": "2026-09-22T19:06:22.000Z",
      "domain": "reddit.com"
     },
@@ -429,6 +455,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "0a4d92bba8523fc5",
      "corrections": [],
+     "summary": "알리바바 아태(Apsara) 콘퍼런스에서 Qwen 4가 발표됐다는 LocalLLaMA 소식.",
      "publishedAt": "2026-09-22T02:45:42.000Z",
      "domain": "reddit.com"
     },
@@ -443,6 +470,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "aec31b3fdc4e563b",
      "corrections": [],
+     "summary": "Qwen Image 2.1 Fast FP8로 고품질 이미지를 뽑았다는 로컬 추론 공유 포스트.",
      "publishedAt": "2026-09-22T18:31:36.000Z",
      "domain": "reddit.com"
     },
@@ -457,6 +485,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "a4aa33d91e420618",
      "corrections": [],
+     "summary": "Laya 모델이 OpenVINO INT8로 CPU에서 플래피버드를 플레이하는 데모.",
      "publishedAt": "2026-09-22T16:59:39.000Z",
      "domain": "reddit.com"
     },
@@ -471,6 +500,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "8bd1bd44c39352f2",
      "corrections": [],
+     "summary": "Opus 5.5가 Artificial Analysis 58점을 기록한 뒤, 오픈 모델이 언제 따라잡을지 묻는 토론.",
      "publishedAt": "2026-09-22T18:26:34.000Z",
      "domain": "reddit.com"
     },
@@ -485,6 +515,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "809cb1a116afd092",
      "corrections": [],
+     "summary": "RTX 3060에서 Qwen 3.8 27B를 ~3BPW로 돌릴 때 GSQ vs ByteShape 양자화 비교.",
      "publishedAt": "2026-09-22T16:31:03.000Z",
      "domain": "reddit.com"
     },
@@ -499,6 +530,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "3965c3aa16ed3d70",
      "corrections": [],
+     "summary": "코딩 특화만 쫓지 말고 n-gram·세계지식 평가도 보자는 LocalLLaMA 문제 제기.",
      "publishedAt": "2026-09-22T07:42:34.000Z",
      "domain": "reddit.com"
     },
@@ -513,6 +545,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "525e55a7d8b81d31",
      "corrections": [],
+     "summary": "노트북에서 진화적으로 키운 동적 루프 트랜스포머 연속학습 실험 mini-AGI 소개.",
      "publishedAt": "2026-09-22T17:46:32.000Z",
      "domain": "reddit.com"
     },
@@ -527,6 +560,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "6a3f2f7692ff54d6",
      "corrections": [],
+     "summary": "알리바바가 5–10조 파라미터급 모델 계획과 신형 AI 칩을 공개했다는 보도 공유.",
      "publishedAt": "2026-09-22T03:35:45.000Z",
      "domain": "reddit.com"
     },
@@ -541,6 +575,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "fb40f3f7e3c3bda3",
      "corrections": [],
+     "summary": "Apple M5 Ultra에서의 로컬 AI 벤치/체감 결과를 공유한 포스트.",
      "publishedAt": "2026-09-22T21:37:18.000Z",
      "domain": "reddit.com"
     },
@@ -555,6 +590,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "343324d02061a964",
      "corrections": [],
+     "summary": "샤오미 MiMo-V2.6 Distill Qwen 9B 가중치가 Hugging Face에 올라온 공유.",
      "publishedAt": "2026-09-22T10:02:48.000Z",
      "domain": "reddit.com"
     },
@@ -569,6 +605,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "b2563e4c79e6cb7b",
      "corrections": [],
+     "summary": "2026년에 실제로 생산성을 올린 저평가 AI 도구를 묻는 커뮤니티 스레드.",
      "publishedAt": "2026-09-22T13:18:20.000Z",
      "domain": "reddit.com"
     },
@@ -583,6 +620,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "b4c85c4b7e8c54ea",
      "corrections": [],
+     "summary": "llama.cpp(ggml) PR: Gemma4 26B-A4B 플래시 어텐션 shape 성능 튜닝.",
      "publishedAt": "2026-09-22T17:39:11.000Z",
      "domain": "reddit.com"
     },
@@ -597,6 +635,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "ce82273f5cbd1bef",
      "corrections": [],
+     "summary": "클라우드 AI를 끊고 8GB VRAM급 로컬(Ornith·Qwen)로 실무 개발한 경험기.",
      "publishedAt": "2026-09-22T20:20:07.000Z",
      "domain": "reddit.com"
     },
@@ -611,6 +650,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "15d321da10a881c6",
      "corrections": [],
+     "summary": "가중치 수정 없이 작은 KV-cache 뱅크(~18MB) 주입으로 검열을 우회했다가 내리는 기법 공유.",
      "publishedAt": "2026-09-21T22:55:57.000Z",
      "domain": "reddit.com"
     },
@@ -870,6 +910,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "799610de311308fe",
      "corrections": [],
+     "summary": "Google DeepMind가 Gemini 3.8 Live와 확장 사고(Live Extended Thinking) 모드를 소개했다.",
      "publishedAt": "2026-09-15T17:05:57.000Z",
      "domain": "deepmind.google"
     },
@@ -884,6 +925,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "a26eafddb38dc8ed",
      "corrections": [],
+     "summary": "DeepMind WeatherNext 3 — 더 정확해진 글로벌 날씨 AI 모델 공개.",
      "publishedAt": "2026-09-03T15:02:08.000Z",
      "domain": "deepmind.google"
     },
@@ -898,6 +940,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "d125ab04a2f233b6",
      "corrections": [],
+     "summary": "Gemini 3.8 Flash와 보안·사이버 특화 Flash Cyber 변형을 함께 소개했다.",
      "publishedAt": "2026-09-02T16:18:31.000Z",
      "domain": "deepmind.google"
     },
@@ -912,6 +955,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "2f5451b77e1150b5",
      "corrections": [],
+     "summary": "Gemini의 에이전트형 비디오 이해 기능 — 영상에서 목표 지향적으로 정보를 뽑는 능력.",
      "publishedAt": "2026-09-01T17:08:51.000Z",
      "domain": "deepmind.google"
     },
@@ -926,6 +970,7 @@
      "fetchedAt": "2026-09-23T00:49:29+00:00",
      "contentHash": "572157bec136c540",
      "corrections": [],
+     "summary": "Gemini Omni 1.1 Flash로 멀티모달 앱을 더 세밀하게 제어하며 만들 수 있게 됐다.",
      "publishedAt": "2026-08-27T16:11:32.000Z",
      "domain": "deepmind.google"
     },

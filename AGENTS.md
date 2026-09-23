@@ -48,7 +48,10 @@ collect-market.mjs → company-brain/reports/market-latest.json
 - **URL은 https만.** 어댑터가 거부한다.
 - **GeekNews는 원본 URL만.** `news.hada.io` 토픽 링크가 아니라 그 글의 원본 주소를 쓴다. `collect-news.mjs`가 자동 해석한다.
 - **추측성·YMYL 제외.** 확인되지 않은 루머와 의료·건강은 이 파이프라인이 검증할 수 없다.
-- **항목 설명은 원문 소스가 준 것만 쓴다.** 제목 아래 한 줄(`summary`)은 HN 본문, RSS `description`, GitHub 저장소 설명에서 그대로 가져온다. 없으면 비운다 — 지어내지 않고, LLM으로 만들지도 않는다. URL 한 줄은 설명이 아니므로 버린다. **기존 항목은 소급하지 않는다**(2026-09-20 세운 지시). 길이는 240자에서 자른다.
+- **항목 설명(`summary`) 정책 (2026-09-23).** 길이는 240자에서 자르고, URL 한 줄은 설명이 아니므로 버린다.
+  - **GeekNews:** 피드 Atom `<content type="html">`만 `summary`로 쓴다(원문). 지어내지 않는다. `news.hada.io` 토픽은 계속 원본 URL로 해석한다.
+  - **그 외 소스:** description / story_text / repo description 등 소스가 준 텍스트가 있으면 그걸 우선한다. **없으면** Grok Bot(또는 지정 요약 패스)이 한국어 1–2문장·최대 240자로 요약할 수 있다. 근거는 제목·공개 메타만. 추측·과장 금지.
+  - **기존 항목 자동 소급 백필은 기본 안 함.** 세운/Planner가 지정한 날짜만 채운다.
 - **GitHub Trending은 그날의 별(stars today)로 센다.** 누적 스타로 정렬하면 오래된 대형 저장소가 늘 위에 온다. 선별은 제목이 아니라 `제목 + 설명`으로 판정한다 — `github.com/foo/bar` 이름만으로는 AI 신호인지 알 수 없다.
 - **`raw == 0`만 실패다.** 소스 일부가 429/403이어도 조용한 날과 구분해 계속 진행한다.
 
