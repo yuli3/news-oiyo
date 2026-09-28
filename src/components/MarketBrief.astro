@@ -58,7 +58,7 @@ const trendNote = maRows.length === 0 ? "" : aboveMa * 2 > maRows.length
         <p>AI 섹터({aiRows.length}종목) 평균 일간 <b class={tone(aiAvg)}>{chg(aiAvg)}</b>.</p>
       )}
       {trendNote && <p>{trendNote}</p>}
-      <p class="note">종가·이동평균 기반의 사실 요약이며 개인화된 투자 권유가 아닙니다. 원자료: 공개 시장 데이터 · 기준일 {briefDate}.</p>
+      <p class="note">종가·이동평균을 바탕으로 한 사실 요약이고, 개인화된 투자 권유가 아니에요. 원자료: 공개 시장 데이터 · 기준일 {briefDate}.</p>
     </section>
     <div class="market">
       {indices.map((r) => (

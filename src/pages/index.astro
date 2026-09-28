@@ -18,7 +18,7 @@ const market = (data as { market?: { generatedAt?: string; groups?: Record<strin
 ---
 <BaseLayout title="OIYO News — 데일리 기술·경제 큐레이션" description="디자인·코딩·AI·프로그래밍·경제·주식 뉴스를 매일 큐레이션하는 OIYO 뉴스. 미국·한국 증시 시그널 포함." canonical="https://news.oiyo.net/">
   <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"WebSite","@id":"https://news.oiyo.net/#website",name:"OIYO News",url:"https://news.oiyo.net",publisher:{"@id":"https://oiyo.net/#organization"}})} /></Fragment>
-    <div class="page-intro"><p class="eyebrow">sync {updated}</p><h1>기술·경제의 오늘과<br />AI 시스템의 맥락</h1><p class="lede">HN·Lobsters·GeekNews에서 검증 가능한 링크를 모으고, 시장 흐름과 AI-native 운영 지식을 구분해 정리합니다.</p></div>
+    <div class="page-intro"><p class="eyebrow">sync {updated}</p><h1>기술·경제의 오늘과<br />AI 시스템의 맥락</h1><p class="lede">HN·Lobsters·GeekNews에서 검증 가능한 링크를 모으고, 시장 흐름과 AI-native 운영 지식을 구분해 정리해요.</p></div>
       <MarketBrief market={market} updated={updated} />
       {items.length === 0 && <Empty id="news-empty-home" />}
       {items.length > 0 && (
