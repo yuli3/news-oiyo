@@ -10,10 +10,15 @@ import { SOURCE_COLOR, type Day } from "../lib/feed";
 
 export async function getStaticPaths() {
   const days = data.days as Day[];
-  return days.map((d) => ({ params: { date: d.date }, props: { day: d } }));
+  // 2026-09-29: 날짜 페이지끼리 이전·다음으로 잇는다. 날짜 목록(/archive/)과 함께 고아를 없앤다.
+  const sorted = [...days].sort((a, b) => a.date.localeCompare(b.date));
+  return sorted.map((d, i) => ({
+    params: { date: d.date },
+    props: { day: d, prev: sorted[i - 1]?.date, next: sorted[i + 1]?.date },
+  }));
 }
 
-const { day } = Astro.props as { day: Day };
+const { day, prev, next } = Astro.props as { day: Day; prev?: string; next?: string };
 const url = `https://news.oiyo.net/${day.date}/`;
 
 const title = `${day.date} 기술·경제 트렌드 요약 — OIYO News`;
@@ -92,4 +97,12 @@ const description = day.summary || `${day.date} HN·Lobsters·GeekNews 큐레이
           </details>
         )}
       </section>
+      <nav class="day-nav" aria-label="다른 날짜">
+        {prev ? <a href={`/${prev}/`} rel="prev">← {prev}</a> : <span />}
+        <a href="/archive/">날짜별 모아보기</a>
+        {next ? <a href={`/${next}/`} rel="next">{next} →</a> : <span />}
+      </nav>
+      <style>
+        .day-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13.5px; }
+      </style>
 </BaseLayout>

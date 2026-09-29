@@ -1,0 +1,41 @@
+---
+// 2026-09-29 2-7: 날짜별 영구 페이지(/YYYY-MM-DD/)가 57개인데 어디에서도 링크되지 않아
+// 사이트맵으로만 발견되는 고아였다. 홈은 최신 항목만 페이지로 넘기고 날짜 페이지로 가는 길이 없었다.
+// 날짜 목록 한 장이 모든 날짜 페이지에 인바운드 링크를 준다.
+import data from "../data/news.json";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import type { Day } from "../lib/feed";
+
+const days = [...(data.days as Day[])].sort((a, b) => b.date.localeCompare(a.date));
+const byMonth = new Map<string, Day[]>();
+for (const d of days) {
+  const m = d.date.slice(0, 7);
+  byMonth.set(m, [...(byMonth.get(m) ?? []), d]);
+}
+const clip = (s: string) => (s.length > 90 ? `${s.slice(0, 90)}…` : s);
+---
+<BaseLayout title="날짜별 모아보기 — OIYO News" description={`${days.at(-1)?.date}부터 ${days[0]?.date}까지 하루 단위로 정리한 기술·경제 트렌드 요약 ${days.length}편.`} canonical="https://news.oiyo.net/archive/" crumbs={[{ label: "날짜별" }]}>
+  <h1>날짜별 모아보기</h1>
+  <p class="lede">하루치 요약과 링크를 날짜마다 한 페이지로 남겨 두었어요. 최근 날짜부터 보여요.</p>
+  {[...byMonth].map(([month, list]) => (
+    <section class="month">
+      <h2 class="section-title">{month.replace("-", "년 ")}월</h2>
+      <ol class="days">
+        {list.map((d) => (
+          <li>
+            <a href={`/${d.date}/`}><strong>{d.date}</strong> <span class="count">{d.items.length}건</span></a>
+            {d.summary && <p>{clip(d.summary)}</p>}
+          </li>
+        ))}
+      </ol>
+    </section>
+  ))}
+  <style>
+    .month { margin-top: 18px; }
+    .days { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+    .days li { padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .days a { text-decoration: none; }
+    .days .count { color: var(--muted); font-size: 12px; margin-left: 6px; }
+    .days p { margin: 4px 0 0; font-size: 13.5px; color: var(--muted); }
+  </style>
+</BaseLayout>

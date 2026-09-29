@@ -7,7 +7,8 @@
 ## Key pages
 - https://news.oiyo.net/ — daily curated technology, economy, and market briefs
 - https://news.oiyo.net/ai/ — AI models, tools, curation, and practical FAQ
-- https://news.oiyo.net/ai/models/ — curated model catalog and Dataset landing page
+- https://news.oiyo.net/ai/curator/ — curated AI services, model catalog and Dataset landing page
+- https://news.oiyo.net/archive/ — every daily brief by date
 - https://news.oiyo.net/systems/ — real AI-native company architecture
 - https://news.oiyo.net/systems/manual/ — setup, agents, brain, gates, loops, prompts
 - https://news.oiyo.net/systems/playbooks/ — reusable operational playbooks

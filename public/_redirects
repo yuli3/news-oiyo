@@ -9,3 +9,9 @@
 /5 /page/5/ 301
 /5/ /page/5/ 301
 
+# 2026-09-29 2-7: 모델·도구 카탈로그는 /ai/curator/ 로 합쳐졌고 두 주소는 안내만 하는 페이지였다.
+# 어디서도 링크되지 않는 고아라 301 로 옮긴다. 옛 주소는 계속 열린다.
+/ai/models /ai/curator/ 301
+/ai/models/ /ai/curator/ 301
+/ai/tools /ai/curator/ 301
+/ai/tools/ /ai/curator/ 301
