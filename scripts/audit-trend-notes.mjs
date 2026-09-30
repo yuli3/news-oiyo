@@ -39,6 +39,12 @@ for (const file of files) {
   // sync-news.mjs 가 이 헤딩으로 사이트 요약을 뽑는다. 없으면 그 날은 요약이 빈다.
   const summary = (text.match(/## Summary\s+([\s\S]*?)(\n## |$)/) || [])[1]?.trim();
   if (!summary) fail(file, "`## Summary` 절이 없거나 비었다 — 사이트 리드 문단이 통째로 빠진다");
+  // 공개 Summary에 수집 로그(raw N건 · 소스별)를 넣는 검사는 새 노트에만.
+  // 2026-09-30 이전 노트는 과거 계약이라 실패시키지 않는다(게이트 57일 유지).
+  const looksLikeCollectLog = /\braw\b/.test(summary) && /건/.test(summary) && /소스별/.test(summary);
+  if (date >= "2026-09-30" && looksLikeCollectLog) {
+    fail(file, "`## Summary`에 수집 로그가 있다 — 건수는 `## 수집 기록`에 둔다");
+  }
 
   // envelope 는 선택이다. sync-news.mjs 가 existsSync 로 감싸고 없으면 본문에서
   // 항목을 읽는다(2026-07 이전 노트가 그 형태다). 감사가 파이프라인보다 엄격하면

@@ -9,7 +9,32 @@ export const SOURCE_COLOR: Record<string, string> = {
   GeekNews: "#0abf53",
   github: "#24292f",
   GitHub: "#24292f",
+  aitimes: "#1d4ed8",
+  "AI타임스": "#1d4ed8",
+  "zdnet-kr": "#c41e3a",
+  "지디넷": "#c41e3a",
 };
+
+/** 수집 로그 문단(raw N건 · 소스별)인지. 공개 메타에는 쓰지 않는다. */
+export function isCollectLogSummary(summary: string | undefined | null): boolean {
+  if (!summary?.trim()) return true;
+  return /\braw\b/.test(summary) && /건/.test(summary) && /소스별/.test(summary);
+}
+
+/** 메타·OG·JSON-LD용. 수집 로그면 폴백, 사건 Summary면 약 140자 문장 경계 절단. */
+export function metaDescriptionFromSummary(summary: string | undefined | null, fallback: string): string {
+  if (!summary?.trim() || isCollectLogSummary(summary)) return fallback;
+  const text = summary.trim();
+  if (text.length <= 140) return text;
+  const slice = text.slice(0, 140);
+  let best = -1;
+  for (const ch of [".", "。", "!", "？", "?"]) {
+    const i = slice.lastIndexOf(ch);
+    if (i > best) best = i;
+  }
+  if (best >= 40) return slice.slice(0, best + 1).trim();
+  return slice.trimEnd();
+}
 
 export type NewsItemRecord = {
   src: string;

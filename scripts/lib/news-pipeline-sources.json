@@ -97,6 +97,24 @@
         "GitHub",
         "GH"
       ]
+    },
+    {
+      "id": "aitimes",
+      "name": "AI타임스",
+      "homepage": "https://www.aitimes.com/",
+      "type": "secondary",
+      "aliases": [
+        "AI타임스"
+      ]
+    },
+    {
+      "id": "zdnet-kr",
+      "name": "ZDNet Korea",
+      "homepage": "https://www.zdnet.co.kr/",
+      "type": "secondary",
+      "aliases": [
+        "지디넷"
+      ]
     }
   ]
 }

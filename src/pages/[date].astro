@@ -6,7 +6,7 @@ import data from "../data/news.json";
 import Empty from "../components/Empty.astro";
 import NewsItem from "../components/NewsItem.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SOURCE_COLOR, type Day } from "../lib/feed";
+import { SOURCE_COLOR, metaDescriptionFromSummary, type Day } from "../lib/feed";
 
 export async function getStaticPaths() {
   const days = data.days as Day[];
@@ -22,7 +22,10 @@ const { day, prev, next } = Astro.props as { day: Day; prev?: string; next?: str
 const url = `https://news.oiyo.net/${day.date}/`;
 
 const title = `${day.date} 기술·경제 트렌드 요약 — OIYO News`;
-const description = day.summary || `${day.date} HN·Lobsters·GeekNews 큐레이션 ${day.items.length}건.`;
+const description = metaDescriptionFromSummary(
+  day.summary,
+  `${day.date} 한국어로 고른 AI 링크. 원문 주소를 포함합니다.`,
+);
 ---
 <BaseLayout title={title} description={description} canonical={url} type="article" publishedTime={`${day.date}T00:00:00+09:00`} crumbs={[{ label: day.date }]}>
   <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify({

@@ -37,6 +37,10 @@ const SOURCE_LABEL: Record<string, string> = {
   TechCrunch: "TechCrunch",
   github: "GitHub",
   GitHub: "GitHub",
+  aitimes: "AI타임스",
+  "AI타임스": "AI타임스",
+  "zdnet-kr": "ZDNet Korea",
+  "지디넷": "ZDNet Korea",
 };
 
 const {
@@ -58,7 +62,7 @@ const label = SOURCE_LABEL[source] ?? source;
 const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` : undefined));
 ---
 
-<li data-slot="item" class="news-item">
+<li data-slot="item" class="news-item" data-source={source}>
   <div class="item-head">
     <a data-slot="item-title" href={href} target="_blank" rel="noopener noreferrer">{title}</a>
     {domain && <span class="item-domain">({domain})</span>}

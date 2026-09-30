@@ -198,7 +198,7 @@ async function githubTrending() {
 
 // AI 중심 선별. 이 목록이 "무엇이 신호인가" 의 정본이다 — 런타임마다 다르게
 // 판단하면 같은 날 같은 소스에서 다른 노트가 나온다.
-const AI_TERMS = /\b(ai|llm|gpt|claude|gemini|anthropic|openai|deepmind|mistral|qwen|llama|deepseek|glm|agent|agentic|transformer|embedding|rag|inference|prompt|model|neural|hugging\s?face|copilot|cursor|codex)\b|에이전트|인공지능|생성형|모델|추론|프롬프트/i;
+const AI_TERMS = /\b(ai|llm|gpt|claude|gemini|anthropic|openai|deepmind|mistral|qwen|llama|deepseek|glm|agent|agentic|transformer|embedding|rag|inference|prompt|model|neural|hugging\s?face|copilot|cursor|codex)\b|에이전트|인공지능|생성형|모델|추론|프롬프트|독파모|과기정통|오픈AI|오픈에이아이|앤트로픽|엔비디아|클로드/i;
 // 추측·YMYL 은 규약상 제외한다. 루머는 확인되지 않은 주장이고, YMYL 은 이
 // 파이프라인이 검증할 수 없는 영역이다.
 const EXCLUDE = /\b(rumou?r|price fixing|allegedly|leak(ed)?s?\b|봇물|의혹|추측|카더라)\b|\b(cancer|suicide|overdose|poison|mercury|adhd|diagnos)/i;
@@ -221,9 +221,58 @@ function select(items) {
 }
 
 const SRC_TAG = { "hacker-news": "HN", lobsters: "lobsters", geeknews: "GeekNews", reddit: "Reddit",
-  "openai-news": "OpenAI", "deepmind-blog": "DeepMind", "karpathy-blog": "Karpathy", github: "GitHub" };
+  "openai-news": "OpenAI", "deepmind-blog": "DeepMind", "karpathy-blog": "Karpathy", github: "GitHub",
+  aitimes: "AI타임스", "zdnet-kr": "ZDNet" };
 // 대괄호로 시작하는 제목([Megathread] 등)이 마크다운 링크를 깨뜨린다.
 const mdSafe = (s) => s.replace(/([[\]])/g, "\\$1");
+
+
+// 공개 Summary: 그날 한글 제목·요약이 있는 항목에서만 사건 문장(최대 3).
+// 지어내지 않는다. 건수 로그는 ## 수집 기록으로 내린다(2026-09-30 PRD).
+const HAS_HANGUL = /[가-힣]/
+const PUBLIC_SUMMARY_FALLBACK = "오늘은 한국어로 옮길 공식 발표가 충분하지 않았다.";
+
+function hasKoreanText(item) {
+  return HAS_HANGUL.test(item.title ?? "") || HAS_HANGUL.test(item.summary ?? "");
+}
+
+function leadSentence(text) {
+  const s = String(text ?? "").replace(/\s+/g, " ").trim();
+  if (!s) return "";
+  if (/[.。!?？]$/.test(s)) return s;
+  return `${s}.`;
+}
+
+function leadFromItem(item) {
+  const title = String(item.title ?? "").trim();
+  const summary = String(item.summary ?? "").trim();
+  if (HAS_HANGUL.test(title)) return leadSentence(title);
+  if (HAS_HANGUL.test(summary)) {
+    const first = (summary.split(/(?<=[.。!?？])\s+/)[0] ?? summary).slice(0, 120).trim();
+    return leadSentence(first);
+  }
+  return "";
+}
+
+function buildPublicSummary(items) {
+  const ordered = [
+    ...items.filter((x) => x.src === "aitimes" && hasKoreanText(x)),
+    ...items.filter((x) => x.src === "zdnet-kr" && hasKoreanText(x)),
+    ...items.filter((x) => x.src !== "aitimes" && x.src !== "zdnet-kr" && hasKoreanText(x)),
+  ];
+  const seen = new Set();
+  const sentences = [];
+  for (const item of ordered) {
+    const key = String(item.title ?? "").trim().toLowerCase();
+    if (!key || seen.has(key)) continue;
+    const sentence = leadFromItem(item);
+    if (!sentence) continue;
+    seen.add(key);
+    sentences.push(sentence);
+    if (sentences.length >= 3) break;
+  }
+  return sentences.length ? sentences.join(" ") : PUBLIC_SUMMARY_FALLBACK;
+}
 
 async function main() {
   const notePath = join(TRENDS, `${DATE}.md`);
@@ -240,6 +289,8 @@ async function main() {
     rssFeed("openai-news", "https://openai.com/news/rss.xml"),
     rssFeed("deepmind-blog", "https://deepmind.google/blog/rss.xml"),
     rssFeed("karpathy-blog", "https://karpathy.bearblog.dev/feed/?type=rss"),
+    rssFeed("aitimes", "https://cdn.aitimes.com/rss/gn_rss_allArticle.xml"),
+    rssFeed("zdnet-kr", "https://feeds.feedburner.com/zdkorea"),
   ])).flat();
 
   // 파이프라인 규약: 전 소스 실패(raw==0)만 실패다. 조용한 날은 실패가 아니다.
@@ -262,10 +313,10 @@ async function main() {
   const top = items.slice().sort((a, b) => (b.score ?? 0) - (a.score ?? 0)).slice(0, 10)
     .map((x) => `- [${SRC_TAG[x.src] ?? x.src}${x.score ? ` ▲${x.score}` : ""}] [${mdSafe(x.title)}](${x.url})`);
 
-  // ## Summary 는 사이트가 리드 문단으로 읽는 절이다(sync-news.mjs). 이 헤딩이
-  // 없으면 그 날 페이지에 요약이 통째로 빠진다 — 2026-08-23~09-01 에 실제로
-  // 일어났다. 기계가 쓸 수 있는 사실만 여기 채우고, 편집 문장은 에이전트가
-  // 덧붙인다(scripts/audit-trend-notes.mjs 가 헤딩 존재를 강제한다).
+  // ## Summary 는 사이트가 리드 문단·메타로 읽는 공개 절이다(sync-news.mjs).
+  // 사건 문장만 두고, 건수 로그는 ## 수집 기록으로 내린다. 과거 노트는 소급하지 않는다.
+  const publicSummary = buildPublicSummary(items);
+  const collectLog = `라이브 소스 raw ${collected.length}건 중 AI 중심 신호 ${items.length}건을 선별했다. 추측성 항목과 YMYL 은 규약대로 제외했다. 소스별 ${Object.entries(bySource).map(([k, v]) => `${k} ${v}`).join(" · ")}.`;
   const note = `---
 type: source
 project: news
@@ -279,7 +330,11 @@ confidence: medium
 
 ## Summary
 
-라이브 소스 raw ${collected.length}건 중 AI 중심 신호 ${items.length}건을 선별했다. 추측성 항목과 YMYL 은 규약대로 제외했다. 소스별 ${Object.entries(bySource).map(([k, v]) => `${k} ${v}`).join(" · ")}.
+${publicSummary}
+
+## 수집 기록
+
+${collectLog}
 
 ## Top signals
 
@@ -293,7 +348,7 @@ ${top.join("\n")}
   writeFileSync(notePath, note);
   writeFileSync(join(TRENDS, `${DATE}.sources.json`), `${JSON.stringify(envelope, null, 1)}\n`);
   console.error(`작성: ${DATE}.md · ${DATE}.sources.json`);
-  console.error("다음: npm run sync — 편집 요약을 더하려면 ## Summary 를 손보고 sync 한다");
+  console.error("다음: npm run sync — 공개 Summary는 사건 문장, 건수는 ## 수집 기록");
 }
 
 function liveKey(item) {

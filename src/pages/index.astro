@@ -6,7 +6,7 @@ import NewsItem from "../components/NewsItem.astro";
 import MarketBrief from "../components/MarketBrief.astro";
 import Pager from "../components/Pager.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { flattenFeed, pageCount, ITEMS_PER_PAGE, SOURCE_COLOR, type Day } from "../lib/feed";
+import { flattenFeed, pageCount, ITEMS_PER_PAGE, SOURCE_COLOR, metaDescriptionFromSummary, type Day } from "../lib/feed";
 
 const allDays = data.days as Day[];
 const feed = flattenFeed(allDays);
@@ -15,31 +15,44 @@ const pageNum = 0;
 const items = feed.slice(0, ITEMS_PER_PAGE);
 const updated = data.generatedAt?.slice(0, 16).replace("T", " ") ?? "";
 const market = (data as { market?: { generatedAt?: string; groups?: Record<string, { name: string; date?: string; last?: number; dayChange?: number; ret20?: number; vsMa20?: number; signal?: string }[]> } }).market ?? null;
+const HOME_META_FALLBACK = "디자인·코딩·AI·프로그래밍·경제·주식 뉴스를 매일 큐레이션하는 OIYO 뉴스. 미국·한국 증시 시그널 포함.";
+const description = metaDescriptionFromSummary(allDays[0]?.summary, HOME_META_FALLBACK);
 ---
-<BaseLayout title="OIYO News — 데일리 기술·경제 큐레이션" description="디자인·코딩·AI·프로그래밍·경제·주식 뉴스를 매일 큐레이션하는 OIYO 뉴스. 미국·한국 증시 시그널 포함." canonical="https://news.oiyo.net/">
+<BaseLayout title="OIYO News — 데일리 기술·경제 큐레이션" description={description} canonical="https://news.oiyo.net/">
   <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"WebSite","@id":"https://news.oiyo.net/#website",name:"OIYO News",url:"https://news.oiyo.net",publisher:{"@id":"https://oiyo.net/#organization"}})} /></Fragment>
-    <div class="page-intro"><p class="eyebrow">sync {updated}</p><h1>기술·경제의 오늘과<br />AI 시스템의 맥락</h1><p class="lede">HN·Lobsters·GeekNews에서 검증 가능한 링크를 모으고, 시장 흐름과 AI-native 운영 지식을 구분해 정리해요.</p></div>
+    <div class="page-intro"><p class="eyebrow">sync {updated}</p><h1>기술·경제의 오늘과<br />AI 시스템의 맥락</h1><p class="lede">HN·Lobsters·GeekNews에서 검증 가능한 링크를 모으고, 시장 흐름과 AI-native 운영 지식을 구분해 정리해요. 지난 날은 <a href="/archive/">날짜별 모아보기</a>에서, 운영 용어와 절차는 <a href="/ai/faq/">FAQ</a>에서 이어가요.</p></div>
       <MarketBrief market={market} updated={updated} />
       {items.length === 0 && <Empty id="news-empty-home" />}
       {items.length > 0 && (
-        <ol class="news-board">
-          {items.map((it) => (
-            <NewsItem
-              title={it.title}
-              href={it.url}
-              source={it.src}
-              sourceColor={SOURCE_COLOR[it.src]}
-              score={it.score}
-              summary={it.summary}
-              domain={it.domain}
-              comments={it.comments}
-              publishedAt={it.publishedAt}
-              fetchedAt={it.fetchedAt}
-              date={it.date}
-              discussionUrl={it.discussionUrl}
-            />
-          ))}
-        </ol>
+        <>
+          <div class="source-chips" role="group" aria-label="출처 필터">
+            <button type="button" class="source-chip" data-filter="all" aria-pressed="true">전체</button>
+            <button type="button" class="source-chip" data-filter="hn" aria-pressed="false">HN</button>
+            <button type="button" class="source-chip" data-filter="geeknews" aria-pressed="false">GeekNews</button>
+            <button type="button" class="source-chip" data-filter="reddit" aria-pressed="false">Reddit</button>
+            <button type="button" class="source-chip" data-filter="official" aria-pressed="false">공식</button>
+            <button type="button" class="source-chip" data-filter="kr" aria-pressed="false">한국</button>
+          </div>
+          <p class="source-chip-empty" hidden>이 출처의 항목이 이 페이지에는 없습니다.</p>
+          <ol class="news-board" data-news-board>
+            {items.map((it) => (
+              <NewsItem
+                title={it.title}
+                href={it.url}
+                source={it.src}
+                sourceColor={SOURCE_COLOR[it.src]}
+                score={it.score}
+                summary={it.summary}
+                domain={it.domain}
+                comments={it.comments}
+                publishedAt={it.publishedAt}
+                fetchedAt={it.fetchedAt}
+                date={it.date}
+                discussionUrl={it.discussionUrl}
+              />
+            ))}
+          </ol>
+        </>
       )}
     <Pager pageNum={pageNum} totalPages={totalPages} />
     <style>
@@ -47,6 +60,50 @@ const market = (data as { market?: { generatedAt?: string; groups?: Record<strin
       .eyebrow{color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
       .page-intro h1{max-width:720px}
       .page-intro .lede{margin-bottom:0}
+      .page-intro .lede a{color:var(--accent);font-weight:650;text-decoration:underline;text-underline-offset:2px}
+      .source-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+      .source-chip{
+        min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--border);
+        background:transparent;color:var(--ink);font:inherit;font-size:13px;font-weight:650;cursor:pointer;
+      }
+      .source-chip[aria-pressed="true"]{background:var(--ink);color:var(--bg,#fafaf7);border-color:var(--ink)}
+      .source-chip:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+      .source-chip-empty{margin:12px 0;font-size:13.5px;color:var(--muted)}
       .news-board{list-style:none;margin:8px 0 0;padding:0;border-top:1px solid var(--border)}
     </style>
+    <script is:inline>
+      (function () {
+        var FILTERS = {
+          all: null,
+          hn: { "hacker-news": 1, hn: 1 },
+          geeknews: { geeknews: 1 },
+          reddit: { reddit: 1 },
+          official: { "openai-news": 1, openai: 1, "deepmind-blog": 1, deepmind: 1, "karpathy-blog": 1, karpathy: 1 },
+          kr: { aitimes: 1, "zdnet-kr": 1, "ai타임스": 1, "지디넷": 1 },
+        };
+        var chips = document.querySelectorAll(".source-chip");
+        var board = document.querySelector("[data-news-board]");
+        var empty = document.querySelector(".source-chip-empty");
+        if (!chips.length || !board) return;
+        function apply(filter) {
+          var allow = FILTERS[filter] || null;
+          var visible = 0;
+          board.querySelectorAll("li[data-source]").forEach(function (li) {
+            var src = (li.getAttribute("data-source") || "").toLowerCase();
+            var show = !allow || allow[src];
+            li.hidden = !show;
+            if (show) visible++;
+          });
+          if (empty) empty.hidden = visible > 0;
+          chips.forEach(function (btn) {
+            btn.setAttribute("aria-pressed", btn.getAttribute("data-filter") === filter ? "true" : "false");
+          });
+        }
+        chips.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            apply(btn.getAttribute("data-filter") || "all");
+          });
+        });
+      })();
+    </script>
 </BaseLayout>
