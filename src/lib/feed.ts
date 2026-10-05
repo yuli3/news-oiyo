@@ -36,13 +36,24 @@ export function metaDescriptionFromSummary(summary: string | undefined | null, f
   return slice.trimEnd();
 }
 
+export type DetailStatus = "ok" | "skipped" | "failed" | "pending_summary";
+export type ExcerptSource = "og" | "meta" | "body" | "feed";
+
 export type NewsItemRecord = {
+  id?: string;
   src: string;
   sourceId?: string;
   score: number | null;
   title: string;
   /** 제목 아래 한 줄. 수집 시점에 원문 소스가 준 설명만 담는다(2026-09-20~). */
   summary?: string;
+  /** Agent-written Korean detail summary (public). Empty until agent-batch fills. */
+  detailSummary?: string;
+  /** Original excerpt for agent summarization (not shown as main public body). */
+  detailExcerpt?: string;
+  excerptSource?: ExcerptSource | string;
+  detailStatus?: DetailStatus | string;
+  detailFetchedAt?: string;
   url: string;
   domain: string;
   comments?: number | null;

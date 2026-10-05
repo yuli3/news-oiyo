@@ -18,13 +18,20 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  cleanText,
+  fetchArticleExcerpt,
+  mapPool,
+  shouldSkipArticle,
+  UA as FETCH_UA,
+} from "./lib/fetch-article.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TRENDS = join(process.env.HOME, "coding", "company-brain", "AI-Sessions", "wiki", "sources", "trends");
 const REGISTRY = JSON.parse(readFileSync(join(__dirname, "lib", "news-pipeline-sources.json"), "utf8"));
 const REGISTERED = new Set(REGISTRY.sources.map((s) => s.id));
 
-const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36";
+const UA = FETCH_UA;
 
 const argv = process.argv.slice(2);
 const flag = (name) => argv.includes(`--${name}`);
@@ -48,29 +55,120 @@ async function get(url, { retries = 2 } = {}) {
   }
 }
 
-// 제목 아래 한 줄 설명. 수집 단계에서는 소스가 준 텍스트만 clean() 한다.
-// GeekNews는 Atom <content>, HN은 story_text, RSS는 description 등. 정책 전문은 AGENTS.md.
-const ENTITIES = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ", "#39": "'", "#x27": "'", "#x2F": "/", "#47": "/" };
-const decode = (s) =>
-  String(s ?? "")
-    .replace(/&(#x?[0-9a-fA-F]+|[a-zA-Z]+);/g, (whole, name) => {
-      const key = name.toLowerCase();
-      if (ENTITIES[key] !== undefined) return ENTITIES[key];
-      if (/^#x/.test(key)) return String.fromCodePoint(parseInt(key.slice(2), 16));
-      if (/^#\d+$/.test(key)) return String.fromCodePoint(parseInt(key.slice(1), 10));
-      return whole;
-    });
-
-const clean = (s) => {
-  const text = decode(String(s ?? "").replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
-  // URL 한 줄은 설명이 아니다. 제목 아래에 주소를 한 번 더 찍는 셈이라 버린다.
-  if (!text || /^https?:\/\/\S+$/.test(text)) return "";
-  return text.length > 240 ? `${text.slice(0, 239).trimEnd()}…` : text;
-};
+// 제목 아래 한 줄 설명. 소스가 준 텍스트를 clean() 하고, 상세용 원문 excerpt 는
+// scripts/lib/fetch-article.mjs 로 채운다. GeekNews Atom 등. 정책 전문은 AGENTS.md.
+const clean = (s) => cleanText(s, 240);
 
 const entries = (xml, tag) => [...xml.matchAll(new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`, "g"))].map((m) => m[1]);
 const pick = (block, re) => (block.match(re) || [])[1]?.trim() ?? "";
 const unwrap = (s) => s.replace(/^<!\[CDATA\[/, "").replace(/\]\]>$/, "").trim();
+
+// Detail seeds: HN + official blogs + KR RSS + GeekNews (feed preferred).
+// Soft-fail — never abort collect for one URL. No YouTube/GitHub/X; SSRF blocked in lib.
+const DETAIL_SEED_SOURCES = new Set([
+  "hacker-news",
+  "openai-news",
+  "deepmind-blog",
+  "karpathy-blog",
+  "aitimes",
+  "zdnet-kr",
+  "geeknews",
+]);
+
+function applyFeedExcerpt(item) {
+  const feedText = cleanText(item.summary ?? "", 4_000);
+  if (!feedText) return false;
+  item.detailExcerpt = feedText;
+  item.excerptSource = "feed";
+  item.detailFetchedAt = new Date().toISOString();
+  item.detailStatus = "pending_summary";
+  // leave detailSummary empty for agent-batch
+  return true;
+}
+
+function applyFetchResult(item, result) {
+  item.detailFetchedAt = result.fetchedAt;
+  if (result.status === "skipped") {
+    item.detailStatus = "skipped";
+    if (result.error) item.detailError = result.error;
+    return;
+  }
+  if (result.status !== "ok" || !result.excerptText) {
+    item.detailStatus = "failed";
+    if (result.error) item.detailError = result.error;
+    return;
+  }
+  item.detailExcerpt = result.excerptText;
+  item.excerptSource = result.excerptSource;
+  item.detailStatus = "pending_summary";
+  // List one-liner: reuse excerpt when summary is still empty (HN story_text gap).
+  if (!String(item.summary ?? "").trim()) {
+    const one = cleanText(result.excerptText, 240);
+    if (one) item.summary = one;
+  }
+}
+
+async function seedDetailExcerpts(items) {
+  const targets = items.filter((item) => DETAIL_SEED_SOURCES.has(item.src));
+  const needFetch = [];
+  for (const item of targets) {
+    if (item.detailExcerpt && (item.detailStatus === "pending_summary" || item.detailStatus === "ok")) continue;
+    if (item.detailStatus === "skipped") continue; // host policy — do not retry
+    // GeekNews: prefer existing Korean feed content before re-fetch.
+    if (item.src === "geeknews" && applyFeedExcerpt(item)) continue;
+    if (shouldSkipArticle(item.url)) {
+      item.detailStatus = "skipped";
+      item.detailFetchedAt = new Date().toISOString();
+      item.detailError = "skipped_host";
+      continue;
+    }
+    needFetch.push(item);
+  }
+  if (!needFetch.length) return { seeded: targets.length, fetched: 0 };
+  await mapPool(needFetch, 4, async (item) => {
+    try {
+      const result = await fetchArticleExcerpt(item.url);
+      applyFetchResult(item, result);
+    } catch (error) {
+      item.detailStatus = "failed";
+      item.detailFetchedAt = new Date().toISOString();
+      item.detailError = error instanceof Error ? error.message : String(error);
+      console.error(`  detail 실패 ${item.url} — ${item.detailError}`);
+    }
+  });
+  return { seeded: targets.length, fetched: needFetch.length };
+}
+
+// HN: empty story_text → fetch once for detail excerpt + list summary (shared module).
+async function fillHackerNewsSummaries(items) {
+  const pending = items.filter(
+    (item) =>
+      item.src === "hacker-news" &&
+      !String(item.summary ?? "").trim() &&
+      !item.detailExcerpt &&
+      !shouldSkipArticle(item.url),
+  );
+  await mapPool(pending, 4, async (item) => {
+    try {
+      const result = await fetchArticleExcerpt(item.url);
+      applyFetchResult(item, result);
+    } catch (error) {
+      item.detailStatus = "failed";
+      item.detailFetchedAt = new Date().toISOString();
+      item.detailError = error instanceof Error ? error.message : String(error);
+      console.error(`  HN 요약 실패 ${item.url} — ${item.detailError}`);
+    }
+  });
+  // Skip hosts still get a status so enrich does not retry forever.
+  for (const item of items) {
+    if (item.src !== "hacker-news" || item.detailStatus || item.detailExcerpt) continue;
+    if (shouldSkipArticle(item.url)) {
+      item.detailStatus = "skipped";
+      item.detailFetchedAt = new Date().toISOString();
+      item.detailError = "skipped_host";
+    }
+  }
+}
 
 async function hackerNews() {
   const raw = await get("https://hn.algolia.com/api/v1/search?tags=front_page&hitsPerPage=60");
@@ -119,15 +217,25 @@ async function geekNews() {
   return entries(xml, "entry").map((e) => {
     // Atom <content type="html"> already carries a Korean bullet summary from the feed.
     // Prefer that over leaving summary empty; still resolve news.hada.io topic → original URL.
+    // Keep a longer feed excerpt for agent-batch detail (list summary stays ≤240).
     const contentHtml = unwrap(pick(e, /<content\b[^>]*>([\s\S]*?)<\/content>/));
-    return {
+    const listSummary = clean(contentHtml);
+    const feedExcerpt = cleanText(contentHtml, 4_000);
+    const item = {
       src: "geeknews",
       title: unwrap(pick(e, /<title>([\s\S]*?)<\/title>/)),
       url: pick(e, /<link[^>]*href=['"]([^'"]+)['"]/),
       score: null,
       needsResolve: true,
-      summary: clean(contentHtml),
+      summary: listSummary,
     };
+    if (feedExcerpt) {
+      item.detailExcerpt = feedExcerpt;
+      item.excerptSource = "feed";
+      item.detailFetchedAt = new Date().toISOString();
+      item.detailStatus = "pending_summary";
+    }
+    return item;
   }).filter((x) => x.title && x.url);
 }
 
@@ -278,7 +386,7 @@ async function main() {
   const notePath = join(TRENDS, `${DATE}.md`);
   const sourcePath = join(TRENDS, `${DATE}.sources.json`);
   if (existsSync(notePath) && !FORCE && !DRY) {
-    console.error(`이미 있다: ${notePath} — 노트는 유지, 점수·댓글만 보강`);
+    console.error(`이미 있다: ${notePath} — 노트는 유지, 점수·댓글·빈 HN 요약·detail excerpt만 보강`);
     await enrichExisting(sourcePath);
     process.exit(0);
   }
@@ -293,6 +401,9 @@ async function main() {
     rssFeed("zdnet-kr", "https://feeds.feedburner.com/zdkorea"),
   ])).flat();
 
+  // List HN summaries for selection haystack (title+summary AI filter). Detail seed runs after URL resolve.
+  await fillHackerNewsSummaries(collected);
+
   // 파이프라인 규약: 전 소스 실패(raw==0)만 실패다. 조용한 날은 실패가 아니다.
   if (collected.length === 0) {
     console.error("FAIL 모든 소스가 0건이다 — 네트워크 또는 전 소스 장애");
@@ -303,9 +414,15 @@ async function main() {
   for (const item of selected) {
     if (item.needsResolve) { item.url = await resolveGeekNews(item.url); delete item.needsResolve; }
   }
+  // After GeekNews URL resolve: seed detail excerpts (feed preferred for GeekNews). Soft-fail.
+  await seedDetailExcerpts(selected);
   const items = selected
     .filter((x) => x.url.startsWith("https://"))
-    .map(({ needsResolve, ...rest }) => (rest.summary ? rest : (({ summary, ...bare }) => bare)(rest)));
+    .map((x) => {
+      const { needsResolve, ...rest } = x;
+      if (!rest.summary) delete rest.summary;
+      return rest;
+    });
 
   const bySource = items.reduce((acc, x) => ({ ...acc, [x.src]: (acc[x.src] ?? 0) + 1 }), {});
   console.error(`raw ${collected.length} → 선별 ${items.length}`, bySource);
@@ -369,14 +486,21 @@ async function enrichExisting(sourcePath) {
     if (Number.isFinite(hit.comments)) item.comments = hit.comments;
     if (hit.publishedAt) item.publishedAt = hit.publishedAt;
     if (hit.discussionUrl) item.discussionUrl = hit.discussionUrl;
+    if (!String(item.summary ?? "").trim() && hit.summary) item.summary = hit.summary;
     patched++;
   }
-  if (!patched) {
+  // 같은 날 재실행은 노트를 덮어쓰지 않는다. 빈 HN summary + 미시드 detail 만 보강.
+  const hnBare = envelope.items.filter((item) => item.src === "hacker-news" && !String(item.summary ?? "").trim());
+  await fillHackerNewsSummaries(hnBare);
+  const summarized = hnBare.filter((item) => item.summary).length;
+  await seedDetailExcerpts(envelope.items);
+  const detailed = envelope.items.filter((item) => item.detailExcerpt).length;
+  if (!patched && !summarized && !detailed) {
     console.error("보강 0건 — 라이브 소스와 URL이 겹치지 않음");
     return;
   }
   writeFileSync(sourcePath, `${JSON.stringify(envelope, null, 1)}\n`);
-  console.error(`보강: ${sourcePath} · ${patched}건`);
+  console.error(`보강: ${sourcePath} · 점수 ${patched}건 · HN 요약 ${summarized}건 · detail excerpt 보유 ${detailed}건`);
 }
 
 await main();

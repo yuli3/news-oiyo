@@ -38,6 +38,9 @@ collect-market.mjs → company-brain/reports/market-latest.json
 | `scripts/collect-market.mjs` | 미국·한국 증시 시세 |
 | `scripts/audit-trend-notes.mjs` | 노트 형식 게이트 |
 | `scripts/sync-news.mjs` | 노트+시세 → `news.json` |
+| `scripts/lib/fetch-article.mjs` | 원문 fetch·excerpt (HN 요약·detail seed 공유) |
+| `scripts/list-pending-details.mjs` | detailSummary 대기 목록 (agent-batch) |
+| `scripts/apply-detail-summaries.mjs` | `{id, detailSummary}` 적용 |
 | `scripts/daily-publish.sh` | 발행(입력 나이 보고 포함) |
 | `scripts/lib/news-pipeline-sources.json` | **소스 이름 SSOT** |
 
@@ -58,6 +61,16 @@ collect-market.mjs → company-brain/reports/market-latest.json
 ## 편집 요약
 
 `collect-news.mjs`가 새로 쓰는 노트의 공개 `## Summary`는 그날 한국어 제목·요약이 있는 선별 항목에서 뽑은 사건 문장(최대 3문장)이다. 한글 항목이 없으면 지정 폴백 한 문장만 쓴다. 건수·소스 분포 로그는 `## 수집 기록`에만 둔다 — 공개 Summary·메타·JSON-LD에 넣지 않는다. 이미 있는 날짜 노트는 소급하지 않는다(`--force`로 과거를 덮어쓰지 않는다). 사람·에이전트가 공개 Summary를 손볼 때는 새 고유명·숫자·인용을 지어내지 말고, 그날 항목에 있는 사실만 다듬는다. `## Summary` 헤딩 자체는 필수다(없으면 사이트 리드가 통째로 빠진다).
+
+
+## 상세 읽기 (detail pages, agent-batch)
+
+- 라우트: `/item/<id>/` (`id` = `trend-<hash>`). 목록의 **자세히 읽기**가 여기로 간다.
+- 수집기는 HN·공식 블로그·KR RSS·GeekNews에 `detailExcerpt` / `excerptSource` / `detailFetchedAt` / `detailStatus`를 심는다. `detailSummary`(한국어)는 비워 둔다.
+- **Pages 런타임 LLM 없음.** Grok/에이전트가 `detailExcerpt`+제목·URL을 보고 한국어 `detailSummary`를 쓴 뒤 `apply-detail-summaries.mjs`로 넣는다. excerpt가 없으면 지어내지 않는다. 전문 HTML 재게시 금지.
+- YouTube·GitHub·X/Twitter는 skip. 사설망 SSRF 차단은 `fetch-article.mjs`에 있다.
+- 1698건 일괄 백필은 기본 안 함. 새 collect + (선택) 해당 날짜 enrich만.
+- 워크플로: `npm run collect` → `node scripts/list-pending-details.mjs` → 에이전트가 요약 JSONL 작성 → `node scripts/apply-detail-summaries.mjs summaries.jsonl` → `npm run sync`(소스 반영 확인용, apply가 news.json도 패치함).
 
 ## 검증
 

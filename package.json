@@ -13,7 +13,9 @@
     "audit:trends": "node scripts/audit-trend-notes.mjs",
     "sync": "node scripts/sync-news.mjs",
     "update": "npm run collect && npm run collect:market && npm run audit:trends && npm run sync",
-    "audit:headers-collision": "node scripts/audit-headers-collision.mjs"
+    "audit:headers-collision": "node scripts/audit-headers-collision.mjs",
+    "details:pending": "node scripts/list-pending-details.mjs",
+    "details:apply": "node scripts/apply-detail-summaries.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

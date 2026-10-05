@@ -66,6 +66,22 @@ export function adaptTrendSignals(rawItems, rawRegistry, options = {}) {
       if (typeof raw.summary === "string" && raw.summary.trim()) {
         item.summary = raw.summary.trim().slice(0, 300);
       }
+      // Detail reading (agent-batch): excerpt for offline summarization; Korean detailSummary when filled.
+      if (typeof raw.detailSummary === "string" && raw.detailSummary.trim()) {
+        item.detailSummary = raw.detailSummary.trim().slice(0, 4000);
+      }
+      if (typeof raw.detailExcerpt === "string" && raw.detailExcerpt.trim()) {
+        item.detailExcerpt = raw.detailExcerpt.trim().slice(0, 4000);
+      }
+      if (typeof raw.excerptSource === "string" && raw.excerptSource.trim()) {
+        item.excerptSource = raw.excerptSource.trim().slice(0, 32);
+      }
+      if (typeof raw.detailStatus === "string" && raw.detailStatus.trim()) {
+        item.detailStatus = raw.detailStatus.trim().slice(0, 32);
+      }
+      if (typeof raw.detailFetchedAt === "string" && !Number.isNaN(Date.parse(raw.detailFetchedAt))) {
+        item.detailFetchedAt = raw.detailFetchedAt;
+      }
       if (Number.isFinite(raw.comments) && raw.comments >= 0) item.comments = Math.trunc(raw.comments);
       if (typeof raw.publishedAt === "string") item.publishedAt = requireIsoInstant(raw.publishedAt, "publishedAt");
       if (typeof raw.discussionUrl === "string" && raw.discussionUrl.startsWith("https://")) {
