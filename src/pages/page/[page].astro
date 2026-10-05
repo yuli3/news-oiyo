@@ -5,7 +5,7 @@ import Empty from "../../components/Empty.astro";
 import NewsItem from "../../components/NewsItem.astro";
 import Pager from "../../components/Pager.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { flattenFeed, pageCount, ITEMS_PER_PAGE, SOURCE_COLOR, type Day } from "../../lib/feed";
+import { flattenFeed, pageCount, ITEMS_PER_PAGE, SOURCE_COLOR, type Day, hasDetailPage } from "../../lib/feed";
 
 const feed = flattenFeed(data.days as Day[]);
 const totalPages = pageCount(feed.length);
@@ -36,7 +36,7 @@ const title = `기술·경제 트렌드 아카이브 ${pageNum + 1}페이지 —
               sourceColor={SOURCE_COLOR[it.src]}
               score={it.score}
               summary={it.summary}
-              itemId={it.id}
+              itemId={hasDetailPage(it) ? it.id : undefined}
               domain={it.domain}
               comments={it.comments}
               publishedAt={it.publishedAt}

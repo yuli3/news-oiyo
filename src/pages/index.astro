@@ -6,7 +6,7 @@ import NewsItem from "../components/NewsItem.astro";
 import MarketBrief from "../components/MarketBrief.astro";
 import Pager from "../components/Pager.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { flattenFeed, pageCount, ITEMS_PER_PAGE, SOURCE_COLOR, metaDescriptionFromSummary, type Day } from "../lib/feed";
+import { flattenFeed, pageCount, ITEMS_PER_PAGE, SOURCE_COLOR, metaDescriptionFromSummary, type Day, hasDetailPage } from "../lib/feed";
 
 const allDays = data.days as Day[];
 const feed = flattenFeed(allDays);
@@ -43,7 +43,7 @@ const description = metaDescriptionFromSummary(allDays[0]?.summary, HOME_META_FA
                 sourceColor={SOURCE_COLOR[it.src]}
                 score={it.score}
                 summary={it.summary}
-                itemId={it.id}
+                itemId={hasDetailPage(it) ? it.id : undefined}
                 domain={it.domain}
                 comments={it.comments}
                 publishedAt={it.publishedAt}

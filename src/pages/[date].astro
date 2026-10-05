@@ -6,7 +6,7 @@ import data from "../data/news.json";
 import Empty from "../components/Empty.astro";
 import NewsItem from "../components/NewsItem.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SOURCE_COLOR, metaDescriptionFromSummary, type Day } from "../lib/feed";
+import { SOURCE_COLOR, metaDescriptionFromSummary, type Day, hasDetailPage } from "../lib/feed";
 
 export async function getStaticPaths() {
   const days = data.days as Day[];
@@ -71,7 +71,7 @@ const description = metaDescriptionFromSummary(
                 sourceColor={SOURCE_COLOR[it.src]}
                 score={it.score}
                 summary={it.summary}
-                itemId={it.id}
+                itemId={hasDetailPage(it) ? it.id : undefined}
                 domain={it.domain}
                 comments={it.comments}
                 publishedAt={it.publishedAt}

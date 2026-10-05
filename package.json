@@ -14,6 +14,7 @@
     "sync": "node scripts/sync-news.mjs",
     "update": "npm run collect && npm run collect:market && npm run audit:trends && npm run sync",
     "audit:headers-collision": "node scripts/audit-headers-collision.mjs",
+    "audit:details": "node scripts/audit-detail-pages.mjs",
     "details:pending": "node scripts/list-pending-details.mjs",
     "details:apply": "node scripts/apply-detail-summaries.mjs"
   },

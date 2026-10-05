@@ -78,6 +78,13 @@ function stamp(item: FeedItem): number {
 }
 
 /** Flatten date-grouped days into a newest-first board feed. Dedup is already done at sync. */
+// 2026-10-05: 상세 페이지는 한국어 요약이 있을 때만 만든다. c409ce7 은 id 만 있으면
+// 전부 만들어서 1,698장 중 1,656장이 "요약 준비 중"뿐인 색인 페이지였다.
+// 목록의 "자세히 읽기" 링크와 getStaticPaths 가 이 함수 하나를 같이 쓴다.
+export function hasDetailPage(item: Pick<NewsItemRecord, "detailSummary"> & { id?: string }): boolean {
+  return typeof item.id === "string" && item.id.length > 0 && Boolean(item.detailSummary?.trim());
+}
+
 export function flattenFeed(days: Day[]): FeedItem[] {
   const items: FeedItem[] = [];
   for (const day of days) {

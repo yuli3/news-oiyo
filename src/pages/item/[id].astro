@@ -1,9 +1,9 @@
 ---
-// Per-item detail reading page. Shows Korean detailSummary when agent-batch filled it;
-// otherwise a polite pending state + original link (no long English excerpt dump).
+// Per-item detail reading page. Built only for items whose Korean detailSummary the
+// agent-batch has filled (hasDetailPage); items without one get no page and no link.
 import data from "../../data/news.json";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { SOURCE_COLOR, flattenFeed, type Day, type FeedItem } from "../../lib/feed";
+import { SOURCE_COLOR, flattenFeed, hasDetailPage, type Day, type FeedItem } from "../../lib/feed";
 import { relativeKo } from "../../lib/relative-time";
 
 const SOURCE_LABEL: Record<string, string> = {
@@ -32,7 +32,7 @@ const SOURCE_LABEL: Record<string, string> = {
 export async function getStaticPaths() {
   const feed = flattenFeed(data.days as Day[]);
   return feed
-    .filter((it) => typeof it.id === "string" && it.id.length > 0)
+    .filter(hasDetailPage)
     .map((it) => ({
       params: { id: it.id as string },
       props: { item: it },
@@ -44,10 +44,8 @@ const id = item.id as string;
 const pageUrl = `https://news.oiyo.net/item/${id}/`;
 const label = SOURCE_LABEL[item.src] ?? item.src;
 const when = relativeKo(item.publishedAt ?? item.fetchedAt ?? (item.date ? `${item.date}T00:00:00Z` : undefined));
-const hasSummary = Boolean(item.detailSummary?.trim());
-const description = hasSummary
-  ? item.detailSummary!.trim().slice(0, 140)
-  : `${item.title} — OIYO 한국어 요약 준비 중. 원문은 출처 링크에서 확인하세요.`;
+const summary = item.detailSummary!.trim();
+const description = summary.slice(0, 140);
 const published = item.publishedAt ?? (item.date ? `${item.date}T00:00:00+09:00` : undefined);
 const sourceDot = SOURCE_COLOR[item.src] ?? "var(--muted)";
 
@@ -86,17 +84,10 @@ const jsonLd = {
     </p>
     <h1>{item.title}</h1>
 
-    {hasSummary ? (
-      <div class="detail-summary" lang="ko">
-        <p class="detail-label">OIYO 한국어 요약</p>
-        <div class="detail-body">{item.detailSummary}</div>
-      </div>
-    ) : (
-      <div class="detail-pending" lang="ko">
-        <p class="detail-label">요약 준비 중</p>
-        <p class="detail-pending-copy">한국어 상세 요약을 준비하는 중입니다. 지금은 원문 링크로 내용을 확인해 주세요.</p>
-      </div>
-    )}
+    <div class="detail-summary" lang="ko">
+      <p class="detail-label">OIYO 한국어 요약</p>
+      <div class="detail-body">{summary}</div>
+    </div>
 
     <p class="detail-actions">
       <a class="btn-primary" href={item.url} target="_blank" rel="noopener noreferrer">원문 읽기</a>
@@ -129,14 +120,13 @@ const jsonLd = {
       margin: 0 0 8px; font-size: 12px; font-weight: 800; letter-spacing: 0.04em;
       text-transform: uppercase; color: var(--accent);
     }
-    .detail-summary, .detail-pending {
+    .detail-summary {
       background: var(--card, #f3f2ec); border: 1px solid var(--border); border-left: 3px solid var(--accent);
       border-radius: 10px; padding: 14px 16px; margin-bottom: 18px;
     }
     .detail-body {
       margin: 0; font-size: 15.5px; line-height: 1.75; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere;
     }
-    .detail-pending-copy { margin: 0; font-size: 14.5px; line-height: 1.65; color: #4a4c42; }
     .detail-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 20px; }
     .btn-primary, .btn-secondary {
       display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; border-radius: 999px;
