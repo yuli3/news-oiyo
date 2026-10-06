@@ -4,7 +4,7 @@
 // 날짜 목록 한 장이 모든 날짜 페이지에 인바운드 링크를 준다.
 import data from "../data/news.json";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import type { Day } from "../lib/feed";
+import { publicDaySummary, type Day } from "../lib/feed";
 
 const days = [...(data.days as Day[])].sort((a, b) => b.date.localeCompare(a.date));
 const byMonth = new Map<string, Day[]>();
@@ -24,7 +24,7 @@ const clip = (s: string) => (s.length > 90 ? `${s.slice(0, 90)}…` : s);
         {list.map((d) => (
           <li>
             <a href={`/${d.date}/`}><strong>{d.date}</strong> <span class="count">{d.items.length}건</span></a>
-            {d.summary && <p>{clip(d.summary)}</p>}
+            {publicDaySummary(d.summary) && <p>{clip(publicDaySummary(d.summary))}</p>}
           </li>
         ))}
       </ol>

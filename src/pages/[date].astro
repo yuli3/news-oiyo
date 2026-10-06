@@ -6,7 +6,7 @@ import data from "../data/news.json";
 import Empty from "../components/Empty.astro";
 import NewsItem from "../components/NewsItem.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SOURCE_COLOR, metaDescriptionFromSummary, type Day, hasDetailPage } from "../lib/feed";
+import { SOURCE_COLOR, metaDescriptionFromSummary, publicDaySummary, type Day, hasDetailPage } from "../lib/feed";
 
 export async function getStaticPaths() {
   const days = data.days as Day[];
@@ -22,12 +22,16 @@ const { day, prev, next } = Astro.props as { day: Day; prev?: string; next?: str
 const url = `https://news.oiyo.net/${day.date}/`;
 
 const title = `${day.date} 기술·경제 트렌드 요약 — OIYO News`;
+// 2026-10-06 (audit S5): internal agent memos in the day summary are not shown
+// or indexed. A day left with no public summary and no links is noindexed.
+const summary = publicDaySummary(day.summary);
+const noindex = !summary && day.items.length === 0;
 const description = metaDescriptionFromSummary(
   day.summary,
   `${day.date} 한국어로 고른 AI 링크. 원문 주소를 포함합니다.`,
 );
 ---
-<BaseLayout title={title} description={description} canonical={url} type="article" publishedTime={`${day.date}T00:00:00+09:00`} crumbs={[{ label: day.date }]}>
+<BaseLayout title={title} description={description} canonical={url} noindex={noindex} type="article" publishedTime={`${day.date}T00:00:00+09:00`} crumbs={[{ label: day.date }]}>
   <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "NewsArticle",
@@ -51,16 +55,13 @@ const description = metaDescriptionFromSummary(
       .news-list { list-style:none; margin: 0; padding: 0; border-top:1px solid var(--border); }
       .meta { font-size: 12px; color: var(--muted); margin-left: 6px; white-space: nowrap; }
       .src { font-weight: 700; }
-      details.ideas { margin-top: 10px; font-size: 13px; }
-      details.ideas summary { cursor: pointer; color: var(--accent); font-weight: 700; }
-      details.ideas li { color: #4a4c42; }
     </style>
       <section class="day">
         <div class="day-head">
           <h1>{day.date}</h1>
           <span class="meta">{day.items.length}건</span>
         </div>
-        {day.summary && <p class="summary">{day.summary}</p>}
+        {summary && <p class="summary">{summary}</p>}
         {day.items.length > 0 ? (
           <ol class="news-list">
             {day.items.map((it) => (
@@ -90,16 +91,9 @@ const description = metaDescriptionFromSummary(
             action="최신 뉴스 보기"
           />
         )}
-        {day.ideas.length > 0 && (
-          <details class="ideas">
-            <summary>💡 도출된 아이디어 {day.ideas.length}건</summary>
-            <ul>
-              {day.ideas.map((i) => (
-                <li><b>{i.title}</b> — {i.hypothesis}</li>
-              ))}
-            </ul>
-          </details>
-        )}
+        {/* 2026-10-06 (audit S5): "도출된 아이디어" are internal product ideas for
+            OIYO sites written by the collection agent, not news. They stay in
+            news.json for the brain but are no longer published. */}
       </section>
       <nav class="day-nav" aria-label="다른 날짜">
         {prev ? <a href={`/${prev}/`} rel="prev">← {prev}</a> : <span />}
