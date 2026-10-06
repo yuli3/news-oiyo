@@ -19,6 +19,25 @@ const REGISTRY = JSON.parse(readFileSync(join(__dirname, "lib", "news-pipeline-s
 // 실패로 보고한다. 두 곳이 다르게 판단하면 감사를 믿을 수 없다.
 const REGISTERED = new Set(REGISTRY.sources.flatMap((s) => [s.id, s.name, ...(s.aliases ?? [])].map((x) => x.toLowerCase())));
 const REQUIRED_FIELDS = ["type", "project", "layer", "date", "status", "confidence"];
+// 공개 Summary 에 들어간 내부 에이전트 작업 메모(audit 2026-10-05 S5).
+// src/lib/feed.ts INTERNAL_MEMO_PATTERNS 와 같은 목록이다 — 한쪽만 바꾸지 않는다.
+// 사이트는 렌더 시점에 이 문단을 걸러 내고, 이 감사는 새 노트에 다시 들어오지 않게 막는다.
+const INTERNAL_MEMO_PATTERNS = [
+  /빈\s*배열/,
+  /반환합니다/,
+  /아이디어(를|는)?\s*(배제|도출|제안|생략)/,
+  /\d+\s*개의\s*아이디어/,
+  /제안을\s*생략/,
+  /당사/,
+  /저희/,
+  /오이요/,
+  /oiyo/i,
+  /우리\s*(서비스|스택|OS|제품|사이트|네트워크)/,
+  /우리와\s*같은/,
+  /\[\[[^\]]+\]\]/,
+  /ops-dashboard|AI-native OS/i,
+  /수집\s*공백/,
+];
 
 const failures = [];
 const fail = (file, message) => failures.push({ file, message });
@@ -44,6 +63,11 @@ for (const file of files) {
   const looksLikeCollectLog = /\braw\b/.test(summary) && /건/.test(summary) && /소스별/.test(summary);
   if (date >= "2026-09-30" && looksLikeCollectLog) {
     fail(file, "`## Summary`에 수집 로그가 있다 — 건수는 `## 수집 기록`에 둔다");
+  }
+  // 내부 메모 검사도 새 노트에만(2026-10-07~). 옛 노트는 사이트가 렌더 시점에 거른다.
+  if (date >= "2026-10-07" && summary) {
+    const memo = summary.split(/\n\s*\n/).find((p) => INTERNAL_MEMO_PATTERNS.some((re) => re.test(p)));
+    if (memo) fail(file, `\`## Summary\`에 내부 작업 메모가 있다 — 공개 요약에는 뉴스만 둔다: "${memo.slice(0, 60)}…"`);
   }
 
   // envelope 는 선택이다. sync-news.mjs 가 existsSync 로 감싸고 없으면 본문에서

@@ -21,10 +21,55 @@ export function isCollectLogSummary(summary: string | undefined | null): boolean
   return /\braw\b/.test(summary) && /건/.test(summary) && /소스별/.test(summary);
 }
 
+/**
+ * Internal agent work-notes that leaked into the public day summary
+ * (audit 2026-10-05 S5, 2026-09-28 P0-6): "빈 배열을 반환합니다", "당사의 스택",
+ * "우리 오이요 패밀리에 적용할 아이디어" and similar first-person product memos,
+ * collection-gap ops notes and brain wiki links. They are not news and must not
+ * be rendered or indexed. Keep this list in sync with
+ * scripts/audit-trend-notes.mjs (INTERNAL_MEMO_PATTERNS).
+ */
+export const INTERNAL_MEMO_PATTERNS: readonly RegExp[] = [
+  /빈\s*배열/,
+  /반환합니다/,
+  /아이디어(를|는)?\s*(배제|도출|제안|생략)/,
+  /\d+\s*개의\s*아이디어/,
+  /제안을\s*생략/,
+  /당사/,
+  /저희/,
+  /오이요/,
+  /oiyo/i,
+  /우리\s*(서비스|스택|OS|제품|사이트|네트워크)/,
+  /우리와\s*같은/,
+  /\[\[[^\]]+\]\]/,
+  /ops-dashboard|AI-native OS/i,
+  /수집\s*공백/,
+];
+
+export function isInternalMemo(text: string | undefined | null): boolean {
+  if (!text?.trim()) return false;
+  return INTERNAL_MEMO_PATTERNS.some((pattern) => pattern.test(text));
+}
+
+/**
+ * Public part of a day summary: paragraphs that read as internal memos are
+ * dropped, the rest is kept. Returns "" when nothing public is left.
+ * news.json is not rewritten; this guard runs at render time.
+ */
+export function publicDaySummary(summary: string | undefined | null): string {
+  if (!summary?.trim()) return "";
+  return summary
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter((paragraph) => paragraph && !isInternalMemo(paragraph))
+    .join("\n\n");
+}
+
 /** 메타·OG·JSON-LD용. 수집 로그면 폴백, 사건 Summary면 약 140자 문장 경계 절단. */
 export function metaDescriptionFromSummary(summary: string | undefined | null, fallback: string): string {
-  if (!summary?.trim() || isCollectLogSummary(summary)) return fallback;
-  const text = summary.trim();
+  const publicText = publicDaySummary(summary);
+  if (!publicText || isCollectLogSummary(publicText)) return fallback;
+  const text = publicText;
   if (text.length <= 140) return text;
   const slice = text.slice(0, 140);
   let best = -1;

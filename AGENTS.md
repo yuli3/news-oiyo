@@ -47,6 +47,7 @@ collect-market.mjs → company-brain/reports/market-latest.json
 ## 지켜야 할 계약
 
 - **`## Summary` 절은 필수다.** `sync-news.mjs`가 이 헤딩으로 사이트 리드 문단을 뽑는다. 없으면 그 날 페이지에 요약이 통째로 빠지고 아무 에러도 안 난다 — 2026-08-23~09-01에 실제로 일어났다. `audit:trends`가 이제 막는다.
+- **공개 `## Summary`에 내부 작업 메모를 넣지 않는다** (audit 2026-10-05 S5). "빈 배열을 반환합니다", "당사/우리 서비스/오이요에 적용할 아이디어", 수집 공백·운영 메모, `[[위키링크]]`는 뉴스가 아니다. 사이트는 `src/lib/feed.ts` `publicDaySummary()`로 그런 문단을 렌더 시점에 거르고(`news.json`은 그대로), `audit:trends`가 2026-10-07 이후 노트에서 막는다. 패턴 목록은 두 파일이 같아야 한다. `## 도출된 아이디어`는 brain 용이며 사이트에 공개하지 않는다.
 - **소스 이름은 레지스트리를 따른다.** 미등록 `src`는 sync가 조용히 버린다. 새 이름을 쓰지 말고 레지스트리의 `id` 또는 `aliases`를 쓴다. `r-localllama` 같은 변형이 15개 항목을 버리게 만들었다.
 - **URL은 https만.** 어댑터가 거부한다.
 - **GeekNews는 원본 URL만.** `news.hada.io` 토픽 링크가 아니라 그 글의 원본 주소를 쓴다. `collect-news.mjs`가 자동 해석한다.
