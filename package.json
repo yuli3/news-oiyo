@@ -7,6 +7,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "type-check": "astro check",
+    "lint": "npm run type-check && npm run lint:shadcn",
+    "lint:shadcn": "eslint --pass-on-unpruned-suppressions src",
+    "lint:shadcn:prune": "eslint --prune-suppressions src",
     "preview": "astro preview",
     "collect": "node scripts/collect-news.mjs",
     "collect:market": "node scripts/collect-market.mjs",
@@ -24,6 +27,10 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@shadcn/lint": "^0.2.0",
+    "@typescript-eslint/parser": "^8.71.1",
+    "astro-eslint-parser": "^3.2.0",
+    "eslint": "^10.12.0",
     "typescript": "^5.9.3"
   }
 }

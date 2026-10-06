@@ -77,9 +77,12 @@ collect-market.mjs → company-brain/reports/market-latest.json
 
 ```bash
 npm run audit:trends   # 노트 형식·소스 이름·URL
+npm run lint           # type-check + shadcn lint
 npm run build          # 현재 62페이지
 ```
 
-`astro check`는 이 repo에 설정돼 있지 않다(`@astrojs/check` 미설치). type-check script가 없으므로 `build`가 검증 게이트다.
+`npm run type-check`(astro check)와 `npm run build`가 CI 검증 게이트다.
+
+- **shadcn lint 필수(2026-10-06 세운 결정, Claude·Codex·Grok Build·Grok Bot·Cursor 공통)**: UI·컴포넌트·스타일(`src/**/*.{astro,tsx,ts,jsx,js}`)을 바꿨으면 끝내기 전에 `npm run lint`(`npm run type-check` + `npm run lint:shadcn`)를 돌리고, 실패하면 push하지 않는다. `lint:shadcn`은 공식 [`@shadcn/lint`](https://github.com/shadcn-ui/lint) 규칙을 `eslint.config.mjs`로 실행하며 CI에서도 차단한다. news는 Tailwind·shadcn 컴포넌트가 없어 `no-unknown-classes`·`no-inline-styles`는 끄고(의미 클래스와 scoped `<style>`을 전부 잡기 때문), raw 팔레트 색·임의값·동적 클래스·컴포넌트 restyle 규칙만 켠다. Tailwind v4를 도입하면 `components.json`을 추가하고 두 규칙을 다시 켠다. 도입 시점의 기존 위반은 `eslint-suppressions.json` 기준선이라 새 위반만 실패한다. 새 위반은 테마 토큰·컴포넌트 variant로 고치고, `--suppress-all`/`--suppress-rule`로 기준선을 늘려 통과시키지 않는다. 기존 위반을 고쳤으면 `npm run lint:shadcn:prune`으로 기준선을 줄인다.
 
 - `public/_headers`를 건드리면 `npm run audit:headers-collision`을 함께 돌린다. **Cloudflare Pages는 매칭되는 규칙을 전부 적용하고 같은 헤더를 이어 붙인다**(교체가 아니다). 넓은 규칙(`/*`)에 Cache-Control을 두면 자산별 정책과 충돌해 `max-age`가 두 개인 헤더가 나가고, RFC 9111이 반복 지시어 처리를 구현에 맡기므로 실효 정책이 모호해진다. 2026-09-01에 다섯 사이트 전부 그 상태였고 해시 자산의 1년 불변 캐시가 무효화돼 있었다. 캐시 정책은 좁은 경로에만 건다. 스크립트 정본은 `shared/scripts/`다.
