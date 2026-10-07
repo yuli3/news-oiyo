@@ -1,6 +1,7 @@
 ---
 import { newsTranslations } from "../data/news-translations";
 import { relativeKo } from "../lib/relative-time";
+import { isCuratorSource } from "../lib/feed";
 
 interface Props {
   title: string;
@@ -63,6 +64,9 @@ const {
 const detailHref = itemId ? `/item/${itemId}/` : undefined;
 const translation = newsTranslations[href];
 const label = SOURCE_LABEL[source] ?? source;
+// 2026-10-07: 큐레이터(HN·GeekNews·Lobsters·Reddit)는 "어디서 화제인지"만 알려 준다.
+// 제목 링크는 원문이고, 큐레이터는 토론 링크와 함께 출처 표기로만 남긴다.
+const curator = isCuratorSource(source);
 const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` : undefined));
 ---
 
@@ -74,11 +78,15 @@ const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` 
   {translation?.title && <p class="item-ko" lang="ko">{translation.title}</p>}
   {summary && <p class="item-summary">{summary}</p>}
   <p data-slot="item-description" class="item-meta">
-    <span class="item-source" style={`--source-dot:${sourceColor}`}>{label}</span>
+    {curator && discussionUrl ? (
+      <a class="item-source item-curator" style={`--source-dot:${sourceColor}`} href={discussionUrl} target="_blank" rel="noopener noreferrer">{label}에서 화제</a>
+    ) : (
+      <span class="item-source" style={`--source-dot:${sourceColor}`}>{curator ? `${label}에서 화제` : label}</span>
+    )}
     {when && <> · {when}</>}
     {score != null && <> · ▲{score}</>}
     {comments != null && (
-      discussionUrl
+      discussionUrl && !curator
         ? <> · <a class="item-comments" href={discussionUrl} target="_blank" rel="noopener noreferrer">+{comments} comments</a></>
         : <> · +{comments} comments</>
     )}
@@ -132,6 +140,8 @@ const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` 
     content:""; display:inline-block; width:.5em; height:.5em; border-radius:50%;
     background:var(--source-dot, var(--muted)); margin-right:.4em; vertical-align:.04em;
   }
+  .item-curator { color:var(--muted); text-decoration:none }
+  .item-curator:hover { color:var(--accent) }
   .item-comments, .item-detail { color:var(--muted); text-decoration:none; font-weight:650 }
   .item-comments:hover, .item-detail:hover { color:var(--accent) }
   .item-detail { text-decoration:underline; text-underline-offset:2px }

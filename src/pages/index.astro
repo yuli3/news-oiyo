@@ -3,10 +3,11 @@
 import data from "../data/news.json";
 import Empty from "../components/Empty.astro";
 import NewsItem from "../components/NewsItem.astro";
+import RepoList from "../components/RepoList.astro";
 import MarketBrief from "../components/MarketBrief.astro";
 import Pager from "../components/Pager.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { flattenFeed, pageCount, ITEMS_PER_PAGE, SOURCE_COLOR, metaDescriptionFromSummary, type Day, hasDetailPage } from "../lib/feed";
+import { flattenFeed, pageCount, ITEMS_PER_PAGE, SOURCE_COLOR, metaDescriptionFromSummary, type Day, hasDetailPage, splitDayItems } from "../lib/feed";
 
 const allDays = data.days as Day[];
 const feed = flattenFeed(allDays);
@@ -15,6 +16,9 @@ const pageNum = 0;
 const items = feed.slice(0, ITEMS_PER_PAGE);
 const updated = data.generatedAt?.slice(0, 16).replace("T", " ") ?? "";
 const market = (data as { market?: { generatedAt?: string; groups?: Record<string, { name: string; date?: string; last?: number; dayChange?: number; ret20?: number; vsMa20?: number; signal?: string }[]> } }).market ?? null;
+// 최신 저장소가 있는 날의 GitHub Trending 을 뉴스 보드 아래에 따로 둔다.
+const repoDay = allDays.find((d) => splitDayItems(d.items).repos.length > 0);
+const latestRepos = repoDay ? splitDayItems(repoDay.items).repos : [];
 const HOME_META_FALLBACK = "디자인·코딩·AI·프로그래밍·경제·주식 뉴스를 매일 큐레이션하는 OIYO 뉴스. 미국·한국 증시 시그널 포함.";
 const description = metaDescriptionFromSummary(allDays[0]?.summary, HOME_META_FALLBACK);
 ---
@@ -55,6 +59,7 @@ const description = metaDescriptionFromSummary(allDays[0]?.summary, HOME_META_FA
           </ol>
         </>
       )}
+    {repoDay && <RepoList repos={latestRepos} date={repoDay.date} moreHref={`/${repoDay.date}/`} />}
     <Pager pageNum={pageNum} totalPages={totalPages} />
     <style>
       .page-intro{padding:16px 0 20px}

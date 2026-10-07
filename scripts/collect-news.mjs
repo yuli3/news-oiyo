@@ -15,12 +15,17 @@
 //   node scripts/collect-news.mjs --date 2026-09-01
 //   node scripts/collect-news.mjs --force      # 기존 날짜 덮어쓰기
 //   node scripts/collect-news.mjs --dry-run    # 파일을 쓰지 않고 결과만 출력
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   cleanText,
+  decodeEntities,
   fetchArticleExcerpt,
+  fetchGithubReadme,
+  firstExternalLink,
+  githubRepoFromUrl,
+  isCuratorUrl,
   mapPool,
   shouldSkipArticle,
   UA as FETCH_UA,
@@ -63,44 +68,61 @@ const entries = (xml, tag) => [...xml.matchAll(new RegExp(`<${tag}>([\\s\\S]*?)<
 const pick = (block, re) => (block.match(re) || [])[1]?.trim() ?? "";
 const unwrap = (s) => s.replace(/^<!\[CDATA\[/, "").replace(/\]\]>$/, "").trim();
 
-// Detail seeds: HN + official blogs + KR RSS + GeekNews (feed preferred).
-// Soft-fail — never abort collect for one URL. No YouTube/GitHub/X; SSRF blocked in lib.
+// Detail seeds (2026-10-07: primary-source first).
+// Curators (HN·GeekNews·Lobsters·Reddit) only tell us where a story is being
+// discussed; the detail excerpt comes from the linked 1st-party page. Curator
+// text (GeekNews feed bullets, HN story_text) is a fallback, marked
+// detailOrigin="curator". GitHub repos get their README (detailOrigin="readme").
+// Soft-fail — never abort collect for one URL. YouTube/X skipped; SSRF blocked in lib.
 const DETAIL_SEED_SOURCES = new Set([
   "hacker-news",
+  "lobsters",
+  "reddit",
   "openai-news",
   "deepmind-blog",
   "karpathy-blog",
   "aitimes",
   "zdnet-kr",
   "geeknews",
+  "github",
 ]);
+const CURATOR_SOURCES = new Set(["hacker-news", "geeknews", "lobsters", "reddit"]);
 
-function applyFeedExcerpt(item) {
-  const feedText = cleanText(item.summary ?? "", 4_000);
-  if (!feedText) return false;
-  item.detailExcerpt = feedText;
-  item.excerptSource = "feed";
+/** Curator-side text kept as fallback only. Never preferred over the original. */
+function curatorText(item) {
+  return cleanText(item.curatorExcerpt ?? item.summary ?? "", 4_000);
+}
+
+function applyCuratorFallback(item, reason) {
+  const text = curatorText(item);
   item.detailFetchedAt = new Date().toISOString();
+  if (!text) {
+    item.detailStatus = "failed";
+    item.detailError = reason;
+    return false;
+  }
+  item.detailExcerpt = text;
+  item.excerptSource = "feed";
+  item.detailOrigin = "curator";
   item.detailStatus = "pending_summary";
-  // leave detailSummary empty for agent-batch
+  item.detailError = reason;
   return true;
 }
 
-function applyFetchResult(item, result) {
+function applyFetchResult(item, result, origin = "primary") {
   item.detailFetchedAt = result.fetchedAt;
-  if (result.status === "skipped") {
-    item.detailStatus = "skipped";
-    if (result.error) item.detailError = result.error;
-    return;
-  }
   if (result.status !== "ok" || !result.excerptText) {
-    item.detailStatus = "failed";
+    // Original unreachable: curators fall back to their own text (marked), others fail/skip.
+    if (CURATOR_SOURCES.has(item.src) && applyCuratorFallback(item, result.error || "primary_unavailable")) return;
+    item.detailStatus = result.status === "skipped" ? "skipped" : "failed";
     if (result.error) item.detailError = result.error;
     return;
   }
   item.detailExcerpt = result.excerptText;
   item.excerptSource = result.excerptSource;
+  item.detailOrigin = origin;
   item.detailStatus = "pending_summary";
+  delete item.detailError;
   // List one-liner: reuse excerpt when summary is still empty (HN story_text gap).
   if (!String(item.summary ?? "").trim()) {
     const one = cleanText(result.excerptText, 240);
@@ -108,27 +130,38 @@ function applyFetchResult(item, result) {
   }
 }
 
+async function seedOne(item) {
+  // GitHub repo links (Trending or an HN/GeekNews post pointing at a repo) → README.
+  const repo = githubRepoFromUrl(item.url, { rootOnly: true });
+  if (repo) return applyFetchResult(item, await fetchGithubReadme(repo), "readme");
+  // Self posts (Ask HN, Show GN, Reddit text) have no original beyond the curator page.
+  if (isCuratorUrl(item.url)) {
+    if (!applyCuratorFallback(item, "no_primary_link")) item.detailStatus = "skipped";
+    return;
+  }
+  if (shouldSkipArticle(item.url)) {
+    if (CURATOR_SOURCES.has(item.src) && applyCuratorFallback(item, "skipped_host")) return;
+    item.detailStatus = "skipped";
+    item.detailFetchedAt = new Date().toISOString();
+    item.detailError = "skipped_host";
+    return;
+  }
+  return applyFetchResult(item, await fetchArticleExcerpt(item.url), "primary");
+}
+
 async function seedDetailExcerpts(items) {
   const targets = items.filter((item) => DETAIL_SEED_SOURCES.has(item.src));
-  const needFetch = [];
-  for (const item of targets) {
-    if (item.detailExcerpt && (item.detailStatus === "pending_summary" || item.detailStatus === "ok")) continue;
-    if (item.detailStatus === "skipped") continue; // host policy — do not retry
-    // GeekNews: prefer existing Korean feed content before re-fetch.
-    if (item.src === "geeknews" && applyFeedExcerpt(item)) continue;
-    if (shouldSkipArticle(item.url)) {
-      item.detailStatus = "skipped";
-      item.detailFetchedAt = new Date().toISOString();
-      item.detailError = "skipped_host";
-      continue;
-    }
-    needFetch.push(item);
-  }
+  const needFetch = targets.filter((item) => {
+    if (String(item.detailSummary ?? "").trim()) return false; // already written
+    // Primary/readme excerpt already in hand — keep. Curator fallback is retried.
+    if (item.detailExcerpt && item.detailOrigin && item.detailOrigin !== "curator") return false;
+    if (item.detailStatus === "skipped" && item.detailError === "skipped_host" && !githubRepoFromUrl(item.url, { rootOnly: true })) return false;
+    return true;
+  });
   if (!needFetch.length) return { seeded: targets.length, fetched: 0 };
   await mapPool(needFetch, 4, async (item) => {
     try {
-      const result = await fetchArticleExcerpt(item.url);
-      applyFetchResult(item, result);
+      await seedOne(item);
     } catch (error) {
       item.detailStatus = "failed";
       item.detailFetchedAt = new Date().toISOString();
@@ -182,6 +215,7 @@ async function hackerNews() {
     publishedAt: typeof h.created_at === "string" ? h.created_at : null,
     discussionUrl: h.objectID ? `https://news.ycombinator.com/item?id=${h.objectID}` : null,
     summary: clean(h.story_text ?? h._highlightResult?.story_text?.value ?? ""),
+    curatorExcerpt: cleanText(h.story_text ?? "", 4_000) || undefined,
   }));
 }
 
@@ -203,9 +237,37 @@ async function lobsters() {
 // link 는 news.hada.io 토픽이라 그대로 쓰면 안 되고, 토픽 페이지에서 원본을
 // 해석한다. 선별된 항목에만 요청하므로 50번이 아니라 몇 번이면 된다.
 const HADA_NOISE = /hada\.io|googleapis|gstatic|googletagmanager|schema\.org|w3\.org|facebook\.com|x\.com|twitter/;
+// GeekNews 가 HN 스레드를 원본으로 걸면(큐레이터 → 큐레이터) HN 이 가리키는 원문까지 한 번 더 따라간다.
+async function followHackerNews(url) {
+  const id = (url.match(/^https:\/\/news\.ycombinator\.com\/item\?id=(\d+)$/) || [])[1];
+  if (!id) return url;
+  const raw = await get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`, { retries: 1 });
+  try {
+    const next = raw ? JSON.parse(raw)?.url : null;
+    return typeof next === "string" && next.startsWith("https://") ? next : url;
+  } catch {
+    return url;
+  }
+}
+
 async function resolveGeekNews(topicUrl) {
+  return followHackerNews(await resolveGeekNewsTopic(topicUrl));
+}
+
+async function resolveGeekNewsTopic(topicUrl) {
   const html = await get(topicUrl, { retries: 1 });
   if (!html) return topicUrl;
+  // 토픽 제목 링크(class=topic-title-link)가 원본이다. 자기 글(Show GN 등)은 토픽 자신을 가리킨다.
+  const titleLink = decodeEntities(
+    (html.match(/<a\b[^>]*href=['"]([^'"]+)['"][^>]*class=['"][^'"]*topic-title-link/i) ||
+      html.match(/<a\b[^>]*class=['"][^'"]*topic-title-link[^'"]*['"][^>]*href=['"]([^'"]+)['"]/i) || [])[1] ?? "",
+  );
+  if (titleLink) {
+    try {
+      const abs = new URL(titleLink, topicUrl).href;
+      return abs.startsWith("https://") ? abs : topicUrl;
+    } catch { /* fall through */ }
+  }
   const links = [...html.matchAll(/https?:\/\/[a-zA-Z0-9./?=_&%~+-]+/g)].map((m) => m[0]).filter((u) => !HADA_NOISE.test(u));
   const external = links.filter((u) => !u.includes("news.ycombinator.com"));
   return (external[0] ?? links[0] ?? topicUrl);
@@ -221,20 +283,19 @@ async function geekNews() {
     const contentHtml = unwrap(pick(e, /<content\b[^>]*>([\s\S]*?)<\/content>/));
     const listSummary = clean(contentHtml);
     const feedExcerpt = cleanText(contentHtml, 4_000);
+    const topicUrl = pick(e, /<link[^>]*href=['"]([^'"]+)['"]/);
     const item = {
       src: "geeknews",
       title: unwrap(pick(e, /<title>([\s\S]*?)<\/title>/)),
-      url: pick(e, /<link[^>]*href=['"]([^'"]+)['"]/),
+      url: topicUrl,
       score: null,
       needsResolve: true,
       summary: listSummary,
+      // GeekNews 토픽은 출처 표기("GeekNews에서 화제")로만 남긴다.
+      discussionUrl: topicUrl.startsWith("https://") ? topicUrl : undefined,
+      // 피드 요약은 원문을 못 읽었을 때만 쓰는 폴백이다(detailOrigin=curator).
+      curatorExcerpt: feedExcerpt || undefined,
     };
-    if (feedExcerpt) {
-      item.detailExcerpt = feedExcerpt;
-      item.excerptSource = "feed";
-      item.detailFetchedAt = new Date().toISOString();
-      item.detailStatus = "pending_summary";
-    }
     return item;
   }).filter((x) => x.title && x.url);
 }
@@ -248,7 +309,21 @@ async function reddit() {
       const url = pick(e, /<link[^>]*href=['"]([^'"]+)['"]/);
       const updated = unwrap(pick(e, /<updated>([\s\S]*?)<\/updated>/));
       const publishedAt = updated && !Number.isNaN(Date.parse(updated)) ? new Date(updated).toISOString() : null;
-      if (title && url) out.push({ src: "reddit", title, url, score: null, comments: null, publishedAt });
+      if (!title || !url) continue;
+      // 링크 글이면 [link] 가 가리키는 원본을 url 로, reddit 스레드는 토론 링크로만 둔다.
+      const content = decodeEntities(unwrap(pick(e, /<content\b[^>]*>([\s\S]*?)<\/content>/)));
+      const linkHref = (content.match(/<a\b[^>]*href="([^"]+)"[^>]*>\s*\[link\]/i) || [])[1];
+      const external = linkHref ? firstExternalLink(`<a href="${linkHref}">`) : null;
+      out.push({
+        src: "reddit",
+        title,
+        url: external ?? url,
+        score: null,
+        comments: null,
+        publishedAt,
+        discussionUrl: url.startsWith("https://") ? url : undefined,
+        curatorExcerpt: cleanText(content.replace(/<a\b[^>]*>\s*\[(?:link|comments)\]\s*<\/a>/gi, " "), 4_000) || undefined,
+      });
     }
     await new Promise((r) => setTimeout(r, 2000)); // 서브 사이 2초 — 429 를 부르지 않는다
   }
@@ -288,7 +363,8 @@ async function githubTrending() {
       const desc = clean(pick(block, /<p[^>]*class="col-9[^"]*"[^>]*>([\s\S]*?)<\/p>/));
       // "402 stars today" 가 그날의 신호다. 총 스타 수는 누적이라 정렬에 쓰면
       // 오래된 대형 저장소가 항상 위에 온다.
-      const stars = (block.match(/([\d,]+)\s+stars today/) || [])[1]?.replace(/,/g, "") ?? "";
+      // weekly 목록은 "stars this week" 로 적힌다.
+      const stars = (block.match(/([\d,]+)\s+stars (?:today|this week)/) || [])[1]?.replace(/,/g, "") ?? "";
       out.push({
         src: "github",
         title: `${repo.replace(/\s+/g, "")}${desc ? "" : " (GitHub Trending)"}`,
@@ -410,10 +486,16 @@ async function main() {
     process.exit(1);
   }
 
-  const selected = select(collected);
-  for (const item of selected) {
+  const picked = select(collected);
+  for (const item of picked) {
     if (item.needsResolve) { item.url = await resolveGeekNews(item.url); delete item.needsResolve; }
   }
+  // 이전 날짜에 이미 실린 항목은 다시 뽑지 않는다. sync 는 최신 등장만 남기므로
+  // 다시 뽑으면 그 항목이 어제 페이지에서 사라지고 오늘로 옮겨 온다(10-06 → 10-07 23건).
+  const prior = priorPublishedKeys(DATE);
+  const selected = picked.filter((item) => !isPriorPublished(item, prior));
+  const repeated = picked.length - selected.length;
+  if (repeated) console.error(`  이전 날짜에 실린 ${repeated}건 제외`);
   // After GeekNews URL resolve: seed detail excerpts (feed preferred for GeekNews). Soft-fail.
   await seedDetailExcerpts(selected);
   const items = selected
@@ -461,11 +543,72 @@ ${top.join("\n")}
   const envelope = { schema: "oiyo.trend-signals.raw", schemaVersion: 1,
     fetchedAt: new Date().toISOString().replace(/\.\d{3}Z$/, "+00:00"), items };
 
-  if (DRY) { console.log(note); return; }
+  if (DRY) {
+    console.log(note);
+    // --dry-run 은 파일을 쓰지 않는다. 상세 근거 분포만 보여 준다.
+    const origins = items.reduce((acc, x) => {
+      const k = `${x.src}:${x.detailOrigin ?? x.detailStatus ?? "none"}`;
+      return { ...acc, [k]: (acc[k] ?? 0) + 1 };
+    }, {});
+    console.error("detail 근거", origins);
+    if (process.env.COLLECT_DRY_JSON) writeFileSync(process.env.COLLECT_DRY_JSON, `${JSON.stringify(items, null, 1)}\n`);
+    return;
+  }
   writeFileSync(notePath, note);
   writeFileSync(join(TRENDS, `${DATE}.sources.json`), `${JSON.stringify(envelope, null, 1)}\n`);
   console.error(`작성: ${DATE}.md · ${DATE}.sources.json`);
   console.error("다음: npm run sync — 공개 Summary는 사건 문장, 건수는 ## 수집 기록");
+}
+
+function urlKey(raw) {
+  try {
+    const u = new URL(raw);
+    u.hash = "";
+    u.hostname = u.hostname.toLowerCase().replace(/^www\./, "");
+    return u.href.replace(/\/+$/, "");
+  } catch {
+    return String(raw ?? "");
+  }
+}
+
+// GitHub Trending 은 같은 저장소가 몇 주씩 오른다(supabase/supabase 는 09-20~10-07 사이 10번).
+// 이미 소개한 저장소는 이 기간 동안 다시 싣지 않고, 지나면 다시 "오늘의 저장소"에 올 수 있다.
+const REPO_REPEAT_DAYS = 14;
+
+/** URL → 가장 최근 게재일, 제목 of items in trend sources dated strictly before `date`. */
+function priorPublishedKeys(date) {
+  const urls = new Map();
+  const titles = new Set();
+  if (!existsSync(TRENDS)) return { urls, titles, date };
+  for (const file of readdirSync(TRENDS)) {
+    const m = file.match(/^(\d{4}-\d{2}-\d{2})\.sources\.json$/);
+    if (!m || m[1] >= date) continue;
+    let envelope;
+    try { envelope = JSON.parse(readFileSync(join(TRENDS, file), "utf8")); } catch { continue; }
+    for (const item of envelope.items ?? []) {
+      for (const raw of [item?.url, item?.discussionUrl]) {
+        if (!raw) continue;
+        const key = urlKey(raw);
+        if (!urls.has(key) || urls.get(key) < m[1]) urls.set(key, m[1]);
+      }
+      const t = String(item?.title ?? "").trim().toLowerCase();
+      if (t) titles.add(t);
+    }
+  }
+  return { urls, titles, date };
+}
+
+function daysBetween(a, b) {
+  return Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / 86_400_000);
+}
+
+function isPriorPublished(item, prior) {
+  const last = prior.urls.get(urlKey(item.url));
+  if (last) return item.src !== "github" || daysBetween(last, prior.date) < REPO_REPEAT_DAYS;
+  // 토론 URL 은 원문이 같은 HN 스레드일 때만 의미가 있다(Reddit/GeekNews 스레드 포함).
+  if (item.discussionUrl && prior.urls.has(urlKey(item.discussionUrl))) return true;
+  // GitHub Trending 은 매일 같은 저장소가 오를 수 있다 — 이미 소개한 저장소는 다시 싣지 않는다(URL 기준).
+  return item.src !== "github" && prior.titles.has(String(item.title ?? "").trim().toLowerCase());
 }
 
 function liveKey(item) {

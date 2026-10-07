@@ -38,7 +38,8 @@ collect-market.mjs → company-brain/reports/market-latest.json
 | `scripts/collect-market.mjs` | 미국·한국 증시 시세 |
 | `scripts/audit-trend-notes.mjs` | 노트 형식 게이트 |
 | `scripts/sync-news.mjs` | 노트+시세 → `news.json` |
-| `scripts/lib/fetch-article.mjs` | 원문 fetch·excerpt (HN 요약·detail seed 공유) |
+| `scripts/lib/fetch-article.mjs` | 원문 fetch·excerpt, GitHub README, 큐레이터 판별 (HN 요약·detail seed 공유) |
+| `src/components/RepoList.astro` | "오늘의 저장소"(GitHub Trending) 별도 섹션 |
 | `scripts/list-pending-details.mjs` | detailSummary 대기 목록 (agent-batch) |
 | `scripts/apply-detail-summaries.mjs` | `{id, detailSummary}` 적용 |
 | `scripts/daily-publish.sh` | 발행(입력 나이 보고 포함) |
@@ -56,6 +57,7 @@ collect-market.mjs → company-brain/reports/market-latest.json
   - **GeekNews:** 피드 Atom `<content type="html">`만 `summary`로 쓴다(원문). 지어내지 않는다. `news.hada.io` 토픽은 계속 원본 URL로 해석한다.
   - **그 외 소스:** description / story_text / repo description 등 소스가 준 텍스트가 있으면 그걸 우선한다. **없으면** Grok Bot(또는 지정 요약 패스)이 한국어 1–2문장·최대 240자로 요약할 수 있다. 근거는 제목·공개 메타만. 추측·과장 금지.
   - **기존 항목 자동 소급 백필은 기본 안 함.** 세운/Planner가 지정한 날짜만 채운다.
+- **이전 날짜에 실린 항목은 다시 뽑지 않는다 (2026-10-07).** sync는 같은 URL·제목의 최신 등장만 남기므로, 재수집하면 항목이 어제 페이지에서 사라지고 오늘로 옮겨 간다(10-06 → 10-07 23건). `collect-news.mjs`가 trends 폴더의 이전 날짜 `sources.json`(URL·토론 URL·제목)과 대조해 뺀다. GitHub 저장소만 예외로 **14일**(`REPO_REPEAT_DAYS`)이 지나면 다시 오를 수 있다.
 - **GitHub Trending은 그날의 별(stars today)로 센다.** 누적 스타로 정렬하면 오래된 대형 저장소가 늘 위에 온다. 선별은 제목이 아니라 `제목 + 설명`으로 판정한다 — `github.com/foo/bar` 이름만으로는 AI 신호인지 알 수 없다.
 - **`raw == 0`만 실패다.** 소스 일부가 429/403이어도 조용한 날과 구분해 계속 진행한다.
 
@@ -66,19 +68,33 @@ collect-market.mjs → company-brain/reports/market-latest.json
 
 ## 상세 읽기 (detail pages, agent-batch)
 
-- 라우트: `/item/<id>/` (`id` = `trend-<hash>`). 목록의 **자세히 읽기**가 여기로 간다.
-- 수집기는 HN·공식 블로그·KR RSS·GeekNews에 `detailExcerpt` / `excerptSource` / `detailFetchedAt` / `detailStatus`를 심는다. `detailSummary`(한국어)는 비워 둔다.
+- 라우트: `/item/<id>/` (`id` = `trend-<hash>`). 목록의 **자세히 읽기**가 여기로 간다. 한국어 `detailSummary`가 있을 때만 생긴다(`audit:details`).
 - **Pages 런타임 LLM 없음.** Grok/에이전트가 `detailExcerpt`+제목·URL을 보고 한국어 `detailSummary`를 쓴 뒤 `apply-detail-summaries.mjs`로 넣는다. excerpt가 없으면 지어내지 않는다. 전문 HTML 재게시 금지.
-- YouTube·GitHub·X/Twitter는 skip. 사설망 SSRF 차단은 `fetch-article.mjs`에 있다.
-- 1698건 일괄 백필은 기본 안 함. 새 collect + (선택) 해당 날짜 enrich만.
 - 워크플로: `npm run collect` → `node scripts/list-pending-details.mjs` → 에이전트가 요약 JSONL 작성 → `node scripts/apply-detail-summaries.mjs summaries.jsonl` → `npm run sync`(소스 반영 확인용, apply가 news.json도 패치함).
+- 1698건 일괄 백필은 기본 안 함. 새 collect + (선택) 해당 날짜 enrich만. 같은 날 `npm run collect`를 다시 돌리면 노트는 두고 기존 `sources.json`의 excerpt만 보강한다(아래 원문 우선 규칙 포함).
+
+### 원문(1차 출처) 우선 — 2026-10-07
+
+HN·GeekNews·Lobsters·Reddit은 **큐레이터**다. "어디서 화제인지"만 알려 주고, 요약은 그들이 가리키는 원문(공식 블로그·기사·논문·릴리스 노트)으로 쓴다.
+
+- **`url` = 원문, `discussionUrl` = 큐레이터 스레드.** HN은 Algolia `url`/`objectID`, Lobsters는 `url`/`comments_url`. GeekNews는 토픽 페이지의 제목 링크(`a.topic-title-link`)를 원본으로 해석하고 토픽 주소는 `discussionUrl`로 남긴다. 원본이 HN 스레드면 HN item API로 한 번 더 따라간다. Reddit 링크 글은 RSS `[link]`의 외부 주소를 `url`로, 스레드를 `discussionUrl`로 둔다.
+- **`detailOrigin`이 요약 근거를 밝힌다.** `primary` = 원문 페이지, `readme` = GitHub README, `curator` = 원문을 못 읽어(403·404·X 등 skip·자기 글) 큐레이터 텍스트(GeekNews 피드 요약, HN `story_text`, Reddit 본문)로 대신한 경우. 큐레이터 텍스트는 `sources.json`의 `curatorExcerpt`에만 두고 원문이 있으면 쓰지 않는다. `list-pending-details.mjs`가 `detailOrigin`·`discussionUrl`을 함께 내보낸다 — `curator` 항목은 "소개글 기준"임을 알고 쓰고, 원문에 없는 사실을 보태지 않는다.
+- 사이트: 목록 메타는 "Hacker News에서 화제"처럼 큐레이터를 출처 표기로만 보여 주고 토론 링크를 단다. 상세 페이지는 "원문을 바탕으로 요약했어요 / 저장소 README를 바탕으로 / 원문을 읽지 못해 … 소개글을 바탕으로"를 밝힌다.
+- YouTube·X/Twitter는 계속 skip. `github.com` HTML도 skip이지만 **저장소 홈 URL**(`owner/repo`)이면 GitHub REST `GET /repos/{repo}/readme`(raw, 무인증 60회/시)로 README를 읽는다. PR·이슈·파일 링크는 저장소 README로 대신하지 않는다. 사설망 SSRF 차단은 `fetch-article.mjs`에 있다.
+
+### 오늘의 저장소 (GitHub Trending)
+
+- GitHub Trending(`sourceId: github`)은 뉴스 흐름에서 빠지고 날짜 페이지와 홈(최신 저장소가 있는 날)에 **"오늘의 저장소"** 카드 섹션으로 따로 나온다(`RepoList.astro`, `splitDayItems()`/`isRepoItem()`). 홈 보드·`/page/N/`의 `flattenFeed()`는 저장소를 기본 제외하고, 상세 라우트만 `{ includeRepos: true }`로 포함한다.
+- 점수는 그날의 별(★ 오늘). 상세 요약은 README 기반(`detailOrigin: readme`)이며 요약이 있을 때만 "README 요약 읽기" 링크가 붙는다.
+- HN·GeekNews 등에서 저장소 링크가 화제가 된 경우는 뉴스 흐름에 남되, 상세 근거는 README다.
 
 ## 검증
 
 ```bash
 npm run audit:trends   # 노트 형식·소스 이름·URL
 npm run lint           # type-check + shadcn lint
-npm run build          # 현재 62페이지
+npm run build          # 2026-10-07 기준 243페이지
+npm run audit:details  # 상세 페이지 = 한국어 요약 있는 항목
 ```
 
 `npm run type-check`(astro check)와 `npm run build`가 CI 검증 게이트다.

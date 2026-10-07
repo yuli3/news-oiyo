@@ -26,6 +26,15 @@ const ENTITIES = {
   "#x27": "'",
   "#x2F": "/",
   "#47": "/",
+  mdash: "—",
+  ndash: "–",
+  hellip: "…",
+  rsquo: "’",
+  lsquo: "‘",
+  rdquo: "”",
+  ldquo: "“",
+  middot: "·",
+  copy: "©",
 };
 
 export function decodeEntities(s) {
@@ -292,4 +301,92 @@ export async function mapPool(items, concurrency, worker) {
     }),
   );
   return results;
+}
+
+// ---------------------------------------------------------------------------
+// Primary-source resolution (2026-10-07).
+// HN·GeekNews·Lobsters·Reddit are curators: they tell us *where* a story is
+// being discussed, not what it says. Detail summaries must be written from the
+// 1st-party page (official blog, article, paper, release notes). Curator text
+// is only a marked fallback (detailOrigin = "curator").
+
+/** Hosts that are discussion/curation pages, never a primary source. */
+export const CURATOR_HOST =
+  /^(?:[\w-]+\.)*(?:news\.ycombinator\.com|news\.hada\.io|lobste\.rs|reddit\.com|redd\.it)$/i;
+
+export function isCuratorUrl(url) {
+  const u = httpUrl(url);
+  return Boolean(u && CURATOR_HOST.test(u.hostname));
+}
+
+/**
+ * `owner/repo` for a github.com repository URL, else null.
+ * rootOnly: only the repo home page (a PR/issue/file link is not "the repo", so its
+ * README is not the primary source).
+ */
+export function githubRepoFromUrl(url, { rootOnly = false } = {}) {
+  const u = httpUrl(url);
+  if (!u || !/^(?:www\.)?github\.com$/i.test(u.hostname)) return null;
+  const parts = u.pathname.split("/").filter(Boolean);
+  if (parts.length < 2) return null;
+  if (rootOnly && parts.length > 2) return null;
+  const [owner, repo] = parts;
+  if (/^(?:orgs|topics|trending|collections|sponsors|settings|marketplace|features)$/i.test(owner)) return null;
+  if (!/^[\w.-]+$/.test(owner) || !/^[\w.-]+$/.test(repo)) return null;
+  return `${owner}/${repo.replace(/\.git$/, "")}`;
+}
+
+/** Markdown/HTML README → plain text for agent summarization (no re-publication). */
+export function readmeToText(md, max = EXCERPT_CHAR_CAP) {
+  const text = String(md ?? "")
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/<!--[\s\S]*?-->/g, " ")
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/^\s{0,3}#{1,6}\s*/gm, "")
+    .replace(/^\s*[-*+]\s+/gm, "• ")
+    .replace(/[`*_>|]/g, " ");
+  return cleanText(text, max);
+}
+
+/**
+ * GitHub README via the public REST API (raw media type). github.com HTML stays
+ * skipped; this is the sanctioned endpoint and returns the default-branch README.
+ * Unauthenticated limit is 60/h — enough for one day's trending selection.
+ */
+export async function fetchGithubReadme(repo, { timeoutMs = FETCH_TIMEOUT_MS, excerptMax = EXCERPT_CHAR_CAP } = {}) {
+  const fetchedAt = new Date().toISOString();
+  if (!/^[\w.-]+\/[\w.-]+$/.test(String(repo ?? ""))) {
+    return { status: "failed", excerptSource: null, excerptText: "", fetchedAt, error: "bad_repo" };
+  }
+  let res;
+  try {
+    res = await fetch(`https://api.github.com/repos/${repo}/readme`, {
+      headers: { "User-Agent": UA, Accept: "application/vnd.github.raw", "X-GitHub-Api-Version": "2022-11-28" },
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+  } catch (error) {
+    return { status: "failed", excerptSource: null, excerptText: "", fetchedAt, error: error instanceof Error ? error.message : String(error) };
+  }
+  if (!res.ok) {
+    try { await res.body?.cancel(); } catch { /* error body */ }
+    return { status: "failed", excerptSource: null, excerptText: "", fetchedAt, error: `HTTP ${res.status}` };
+  }
+  const excerptText = readmeToText(await readCappedText(res), excerptMax);
+  if (!excerptText) return { status: "failed", excerptSource: null, excerptText: "", fetchedAt, error: "empty_readme" };
+  return { status: "ok", excerptSource: "readme", excerptText, fetchedAt };
+}
+
+/** First external link in a curator HTML fragment (GeekNews topic body, Reddit [link]). */
+export function firstExternalLink(html, { exclude = CURATOR_HOST } = {}) {
+  for (const m of String(html ?? "").matchAll(/href\s*=\s*["']([^"']+)["']/gi)) {
+    const href = decodeEntities(m[1]);
+    const u = httpUrl(href);
+    if (!u || u.protocol !== "https:" || blockedHost(u.hostname)) continue;
+    if (exclude.test(u.hostname)) continue;
+    if (/(?:^|\.)(?:redditmedia\.com|redditstatic\.com|gstatic\.com|googleapis\.com|googletagmanager\.com)$/i.test(u.hostname)) continue;
+    return u.href;
+  }
+  return null;
 }
