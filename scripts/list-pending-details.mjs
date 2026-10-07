@@ -41,6 +41,9 @@ for (const day of payload.days ?? []) {
       src: item.src,
       detailStatus: status,
       excerptSource: item.excerptSource ?? null,
+      // primary = 1st-party page, readme = GitHub README, curator = HN/GeekNews 등 폴백(원문 못 읽음)
+      detailOrigin: item.detailOrigin ?? null,
+      discussionUrl: item.discussionUrl ?? null,
       detailExcerpt: item.detailExcerpt,
       listSummary: item.summary ?? "",
     });
@@ -62,6 +65,8 @@ if (AS_JSON) {
         url: row.url,
         src: row.src,
         excerptSource: row.excerptSource,
+        detailOrigin: row.detailOrigin,
+        discussionUrl: row.discussionUrl,
         detailExcerpt: row.detailExcerpt,
       }),
     );

@@ -79,6 +79,11 @@ export function adaptTrendSignals(rawItems, rawRegistry, options = {}) {
       if (typeof raw.detailStatus === "string" && raw.detailStatus.trim()) {
         item.detailStatus = raw.detailStatus.trim().slice(0, 32);
       }
+      // 2026-10-07: where the excerpt came from — primary (1st-party page), readme (GitHub),
+      // curator (HN/GeekNews/Reddit text, fallback only when the original could not be read).
+      if (raw.detailOrigin === "primary" || raw.detailOrigin === "readme" || raw.detailOrigin === "curator") {
+        item.detailOrigin = raw.detailOrigin;
+      }
       if (typeof raw.detailFetchedAt === "string" && !Number.isNaN(Date.parse(raw.detailFetchedAt))) {
         item.detailFetchedAt = raw.detailFetchedAt;
       }

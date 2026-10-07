@@ -5,8 +5,9 @@
 import data from "../data/news.json";
 import Empty from "../components/Empty.astro";
 import NewsItem from "../components/NewsItem.astro";
+import RepoList from "../components/RepoList.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { SOURCE_COLOR, metaDescriptionFromSummary, publicDaySummary, type Day, hasDetailPage } from "../lib/feed";
+import { SOURCE_COLOR, metaDescriptionFromSummary, publicDaySummary, type Day, hasDetailPage, splitDayItems } from "../lib/feed";
 
 export async function getStaticPaths() {
   const days = data.days as Day[];
@@ -25,6 +26,8 @@ const title = `${day.date} 기술·경제 트렌드 요약 — OIYO News`;
 // 2026-10-06 (audit S5): internal agent memos in the day summary are not shown
 // or indexed. A day left with no public summary and no links is noindexed.
 const summary = publicDaySummary(day.summary);
+// 2026-10-07: GitHub Trending 저장소는 뉴스 흐름과 분리해 "오늘의 저장소"로 따로 보여 준다.
+const { news, repos } = splitDayItems(day.items);
 const noindex = !summary && day.items.length === 0;
 const description = metaDescriptionFromSummary(
   day.summary,
@@ -59,12 +62,12 @@ const description = metaDescriptionFromSummary(
       <section class="day">
         <div class="day-head">
           <h1>{day.date}</h1>
-          <span class="meta">{day.items.length}건</span>
+          <span class="meta">{news.length}건{repos.length > 0 && ` · 저장소 ${repos.length}개`}</span>
         </div>
         {summary && <p class="summary">{summary}</p>}
-        {day.items.length > 0 ? (
+        {news.length > 0 ? (
           <ol class="news-list">
-            {day.items.map((it) => (
+            {news.map((it) => (
               <NewsItem
                 title={it.title}
                 href={it.url}
@@ -82,7 +85,7 @@ const description = metaDescriptionFromSummary(
               />
             ))}
           </ol>
-        ) : (
+        ) : repos.length === 0 && (
           <Empty
             id={`news-empty-${day.date}`}
             title={`${day.date} 링크가 없습니다`}
@@ -91,6 +94,7 @@ const description = metaDescriptionFromSummary(
             action="최신 뉴스 보기"
           />
         )}
+        <RepoList repos={repos} date={day.date} />
         {/* 2026-10-06 (audit S5): "도출된 아이디어" are internal product ideas for
             OIYO sites written by the collection agent, not news. They stay in
             news.json for the brain but are no longer published. */}

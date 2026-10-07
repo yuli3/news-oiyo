@@ -82,7 +82,13 @@ export function metaDescriptionFromSummary(summary: string | undefined | null, f
 }
 
 export type DetailStatus = "ok" | "skipped" | "failed" | "pending_summary";
-export type ExcerptSource = "og" | "meta" | "body" | "feed";
+export type ExcerptSource = "og" | "meta" | "body" | "feed" | "readme";
+/**
+ * Where the detail excerpt came from (2026-10-07).
+ * primary = the linked 1st-party page, readme = GitHub README,
+ * curator = HN/GeekNews/Reddit text because the original could not be read.
+ */
+export type DetailOrigin = "primary" | "readme" | "curator";
 
 export type NewsItemRecord = {
   id?: string;
@@ -99,6 +105,7 @@ export type NewsItemRecord = {
   excerptSource?: ExcerptSource | string;
   detailStatus?: DetailStatus | string;
   detailFetchedAt?: string;
+  detailOrigin?: DetailOrigin | string;
   url: string;
   domain: string;
   comments?: number | null;
@@ -130,10 +137,38 @@ export function hasDetailPage(item: Pick<NewsItemRecord, "detailSummary"> & { id
   return typeof item.id === "string" && item.id.length > 0 && Boolean(item.detailSummary?.trim());
 }
 
-export function flattenFeed(days: Day[]): FeedItem[] {
+/**
+ * Curators: they tell us where a story is being talked about, not what it says.
+ * The item URL is the original; the curator is shown as "<이름>에서 화제".
+ */
+export const CURATOR_SOURCES: ReadonlySet<string> = new Set([
+  "hacker-news", "HN", "geeknews", "GeekNews", "lobsters", "Lobsters", "reddit", "Reddit",
+]);
+
+export function isCuratorSource(src: string | undefined | null): boolean {
+  return Boolean(src && CURATOR_SOURCES.has(src));
+}
+
+/** GitHub Trending repos live in their own "오늘의 저장소" section, not the news flow. */
+export function isRepoItem(item: Pick<NewsItemRecord, "src" | "sourceId">): boolean {
+  return item.sourceId === "github" || item.src === "github" || item.src === "GitHub";
+}
+
+export function splitDayItems(items: NewsItemRecord[]): { news: NewsItemRecord[]; repos: NewsItemRecord[] } {
+  const news: NewsItemRecord[] = [];
+  const repos: NewsItemRecord[] = [];
+  for (const item of items) (isRepoItem(item) ? repos : news).push(item);
+  return { news, repos };
+}
+
+/** Main news flow. GitHub repos are excluded (see splitDayItems / RepoList). */
+export function flattenFeed(days: Day[], { includeRepos = false }: { includeRepos?: boolean } = {}): FeedItem[] {
   const items: FeedItem[] = [];
   for (const day of days) {
-    for (const item of day.items) items.push({ ...item, date: day.date });
+    for (const item of day.items) {
+      if (!includeRepos && isRepoItem(item)) continue;
+      items.push({ ...item, date: day.date });
+    }
   }
   items.sort((a, b) => stamp(b) - stamp(a) || (b.score ?? 0) - (a.score ?? 0));
   return items;
