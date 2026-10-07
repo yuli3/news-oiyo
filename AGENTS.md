@@ -85,6 +85,7 @@ HN·GeekNews·Lobsters·Reddit은 **큐레이터**다. "어디서 화제인지"�
 ### 오늘의 저장소 (GitHub Trending)
 
 - GitHub Trending(`sourceId: github`)은 뉴스 흐름에서 빠지고 날짜 페이지와 홈(최신 저장소가 있는 날)에 **"오늘의 저장소"** 카드 섹션으로 따로 나온다(`RepoList.astro`, `splitDayItems()`/`isRepoItem()`). 홈 보드·`/page/N/`의 `flattenFeed()`는 저장소를 기본 제외하고, 상세 라우트만 `{ includeRepos: true }`로 포함한다.
+- **선별은 뉴스 AI 필터와 별개다.** `pickRepos()`가 Trending(daily → weekly 순, 각각 별 많은 순)에서 `REPO_REPEAT_DAYS`(14일) 안에 소개한 저장소를 빼고 위에서 `REPO_MAX`(6)개를 고른다. `REPO_MIN`(3)개가 안 되면 반복 창 안의 저장소 중 가장 오래전에 실린 것부터 채운다. `EXCLUDE`(추측·YMYL)는 그대로 적용.
 - 점수는 그날의 별(★ 오늘). 상세 요약은 README 기반(`detailOrigin: readme`)이며 요약이 있을 때만 "README 요약 읽기" 링크가 붙는다.
 - HN·GeekNews 등에서 저장소 링크가 화제가 된 경우는 뉴스 흐름에 남되, 상세 근거는 README다.
 

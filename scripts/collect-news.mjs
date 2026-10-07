@@ -373,6 +373,7 @@ async function githubTrending() {
         comments: null,
         publishedAt: null,
         summary: desc,
+        span,
       });
     }
     await new Promise((r) => setTimeout(r, 1500));
@@ -390,6 +391,7 @@ const EXCLUDE = /\b(rumou?r|price fixing|allegedly|leak(ed)?s?\b|봇물|의혹|�
 function select(items) {
   const seen = new Set();
   return items.filter((x) => {
+    if (x.src === "github") return false;                 // 저장소는 pickRepos() 가 따로 고른다
     if (!x.url.startsWith("https://")) return false;      // 어댑터가 https 만 받는다
     if (!REGISTERED.has(x.src)) return false;             // 미등록 소스는 sync 가 버린다
     if (EXCLUDE.test(x.title)) return false;
@@ -493,7 +495,10 @@ async function main() {
   // 이전 날짜에 이미 실린 항목은 다시 뽑지 않는다. sync 는 최신 등장만 남기므로
   // 다시 뽑으면 그 항목이 어제 페이지에서 사라지고 오늘로 옮겨 온다(10-06 → 10-07 23건).
   const prior = priorPublishedKeys(DATE);
-  const selected = picked.filter((item) => !isPriorPublished(item, prior));
+  const selected = [
+    ...picked.filter((item) => !isPriorPublished(item, prior)),
+    ...pickRepos(collected, prior),
+  ];
   const repeated = picked.length - selected.length;
   if (repeated) console.error(`  이전 날짜에 실린 ${repeated}건 제외`);
   // After GeekNews URL resolve: seed detail excerpts (feed preferred for GeekNews). Soft-fail.
@@ -558,6 +563,38 @@ ${top.join("\n")}
   writeFileSync(join(TRENDS, `${DATE}.sources.json`), `${JSON.stringify(envelope, null, 1)}\n`);
   console.error(`작성: ${DATE}.md · ${DATE}.sources.json`);
   console.error("다음: npm run sync — 공개 Summary는 사건 문장, 건수는 ## 수집 기록");
+}
+
+// "오늘의 저장소"(2026-10-07): 뉴스용 AI 필터를 쓰지 않는다. GitHub Trending 에서
+// 별(오늘 → 이번 주 순)이 많은 저장소를 REPO_REPEAT_DAYS 안에 이미 소개한 것만 빼고
+// 위에서부터 REPO_MAX 개 고른다. 최소 REPO_MIN 개가 안 되면 반복 창 안의 저장소 중
+// 가장 오래전에 실린 것부터 채운다. 추측·YMYL 제외(EXCLUDE)는 그대로 적용한다.
+const REPO_MIN = 3;
+const REPO_MAX = 6;
+
+function pickRepos(items, prior) {
+  const seen = new Set();
+  const repos = items
+    .filter((x) => x.src === "github" && x.url.startsWith("https://") && !EXCLUDE.test(`${x.title} ${x.summary ?? ""}`))
+    .map((x, order) => ({ x, order }))
+    .filter(({ x }) => {
+      const key = urlKey(x.url);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    // githubTrending() 은 daily 를 weekly 보다 먼저 넣는다 — 같은 순서를 유지하고 그 안에서 별 순.
+    .sort((a, b) => (a.x.span === b.x.span ? (b.x.score ?? 0) - (a.x.score ?? 0) : a.order - b.order))
+    .map(({ x }) => x);
+  const fresh = repos.filter((x) => !isPriorPublished(x, prior));
+  const out = fresh.slice(0, REPO_MAX);
+  if (out.length < REPO_MIN) {
+    const repeats = repos
+      .filter((x) => !out.includes(x))
+      .sort((a, b) => (prior.urls.get(urlKey(a.url)) ?? "").localeCompare(prior.urls.get(urlKey(b.url)) ?? ""));
+    out.push(...repeats.slice(0, REPO_MIN - out.length));
+  }
+  return out.map(({ span, ...rest }) => rest);
 }
 
 function urlKey(raw) {
