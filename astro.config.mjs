@@ -17,6 +17,9 @@ const latestDate = (newsData.days ?? [])
 // 2026-07-04 공개 전환: noindex 해제, sitemap 추가. 데이터는 sync가 레포 안으로 복사.
 export default defineConfig({
   site: "https://news.oiyo.net",
+  // 2026-10-10: preserve Astro5's lossless HTML whitespace during the security upgrade.
+  // Astro7 defaults to JSX whitespace handling, which can change adjacent inline prose.
+  compressHTML: true,
   integrations: [
     sitemap({
       // 2026-09-08 뒤집었다. 사이트맵 52개 중 29개가 `/page/N/` 페이지네이션이었고,
