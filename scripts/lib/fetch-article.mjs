@@ -145,15 +145,19 @@ export function extractExcerpt(html, { excerptMax = EXCERPT_CHAR_CAP } = {}) {
   const meta = metaContent(html, "name", "description");
   if (og.trim()) {
     const excerptText = cleanText(og, excerptMax);
-    if (excerptText) return { excerptSource: "og", excerptText, title };
+    if (excerptText && !isThinExcerpt(excerptText, { title })) return { excerptSource: "og", excerptText, title };
   }
   if (meta.trim()) {
     const excerptText = cleanText(meta, excerptMax);
-    if (excerptText) return { excerptSource: "meta", excerptText, title };
+    if (excerptText && !isThinExcerpt(excerptText, { title })) return { excerptSource: "meta", excerptText, title };
   }
   const body = firstVisibleParagraphs(html, excerptMax);
   const excerptText = cleanText(body, excerptMax);
-  if (excerptText) return { excerptSource: "body", excerptText, title };
+  if (excerptText && !isThinExcerpt(excerptText, { title })) return { excerptSource: "body", excerptText, title };
+  // Nothing better: keep the best thin candidate but flag it so callers can mark it thin.
+  const fallback = [["og", og], ["meta", meta], ["body", body]]
+    .map(([src, v]) => [src, cleanText(v, excerptMax)]).find(([, v]) => v);
+  if (fallback) return { excerptSource: fallback[0], excerptText: fallback[1], title, thin: true };
   return { excerptSource: null, excerptText: "", title };
 }
 
@@ -280,6 +284,7 @@ export async function fetchArticleExcerpt(url, opts = {}) {
     status: "ok",
     excerptSource: extracted.excerptSource,
     excerptText: extracted.excerptText,
+    ...(extracted.thin ? { thin: true } : {}),
     title: extracted.title,
     fetchedAt,
   };
@@ -389,4 +394,42 @@ export function firstExternalLink(html, { exclude = CURATOR_HOST } = {}) {
     return u.href;
   }
   return null;
+}
+
+// ---------------------------------------------------------------------------
+// Thin excerpt detection (2026-10-10).
+// 10-08·10-09 에 "submitted by /u/…" 나 사이트 슬로건(Hugging Face 의 "We're on a
+// journey to advance…") 만 excerpt 로 들어갔다. 요약 근거가 될 수 없으므로 thin 으로 본다.
+const THIN_PATTERNS = [
+  /^submitted by \/?u\/[\w-]+(\s*\[(?:link|comments)\])*\s*$/i,
+  /^\[?(?:link|comments)\]?$/i,
+  /we[’']re on a journey to advance and democratize artificial intelligence/i,
+  /^(?:the )?home of [\w\s]+$/i,
+  /^(?:sign in|log in|just a moment|access denied|enable javascript)/i,
+  // CSS/JS 가 본문으로 새어 나온 경우(예: ".a-svg--picto-podcast{background:url(…)").
+  /^[.#@]?[\w-]+(?:[\s,>.#:-][\w-]*)*\s*\{[\w-]+\s*:/,
+];
+
+/** Known tagline / boilerplate per host — exact-ish site slogans that are never article text. */
+export const SITE_TAGLINES = [
+  "We’re on a journey to advance and democratize artificial intelligence through open source and open science.",
+  "We're on a journey to advance and democratize artificial intelligence through open source and open science.",
+  "GitHub is where people build software.",
+  "Contribute to development by creating an account on GitHub.",
+];
+
+/**
+ * True when the text cannot serve as a summary basis: empty, very short,
+ * a "submitted by /u/x" Reddit stub, or a site tagline/slogan.
+ * `title` (optional) — an excerpt that only repeats the title is thin too.
+ */
+export function isThinExcerpt(text, { title = "", minChars = 60 } = {}) {
+  const t = cleanText(String(text ?? "").replace(/submitted by\s+\/?u\/[\w-]+/gi, " ").replace(/\[(?:link|comments)\]/gi, " "), 0);
+  const raw = cleanText(text, 0);
+  if (!raw) return true;
+  if (THIN_PATTERNS.some((re) => re.test(raw))) return true;
+  if (SITE_TAGLINES.some((s) => raw.startsWith(s.slice(0, 50)) && raw.length < s.length + 40)) return true;
+  if (!t || t.length < minChars) return true;
+  if (title && t.toLowerCase().replace(/\W+/g, "") === String(title).toLowerCase().replace(/\W+/g, "")) return true;
+  return false;
 }

@@ -26,10 +26,12 @@ import {
   firstExternalLink,
   githubRepoFromUrl,
   isCuratorUrl,
+  isThinExcerpt,
   mapPool,
   shouldSkipArticle,
   UA as FETCH_UA,
 } from "./lib/fetch-article.mjs";
+import { politeGet, sleep } from "./lib/polite-fetch.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TRENDS = join(process.env.HOME, "coding", "company-brain", "AI-Sessions", "wiki", "sources", "trends");
@@ -37,6 +39,9 @@ const REGISTRY = JSON.parse(readFileSync(join(__dirname, "lib", "news-pipeline-s
 const REGISTERED = new Set(REGISTRY.sources.map((s) => s.id));
 
 const UA = FETCH_UA;
+// Reddit API 규칙: 일반 브라우저 UA 를 흉내 내지 말고 <platform>:<app id>:<version> (by /u/<user>)
+// 형식의 고유·설명형 UA 를 쓴다. 공유된 브라우저 UA 는 가장 먼저 429 를 받는다.
+const REDDIT_UA = process.env.REDDIT_USER_AGENT ?? "macos:oiyo-news-collector:v0.3 (by /u/oiyo_news; +https://news.oiyo.kr)";
 
 const argv = process.argv.slice(2);
 const flag = (name) => argv.includes(`--${name}`);
@@ -93,6 +98,13 @@ function curatorText(item) {
   return cleanText(item.curatorExcerpt ?? item.summary ?? "", 4_000);
 }
 
+function markThin(item, text, reason) {
+  item.detailExcerpt = text;
+  item.excerptSource = item.excerptSource ?? "feed";
+  item.detailStatus = "thin";
+  item.detailError = reason ? `thin_excerpt:${reason}` : "thin_excerpt";
+}
+
 function applyCuratorFallback(item, reason) {
   const text = curatorText(item);
   item.detailFetchedAt = new Date().toISOString();
@@ -100,6 +112,12 @@ function applyCuratorFallback(item, reason) {
     item.detailStatus = "failed";
     item.detailError = reason;
     return false;
+  }
+  // "submitted by /u/x" · 사이트 슬로건만 있으면 요약 근거가 아니다 — thin 으로 표시하고 요약 대기열에서 뺀다.
+  if (isThinExcerpt(text, { title: item.title })) {
+    item.detailOrigin = "curator";
+    markThin(item, text, reason);
+    return true;
   }
   item.detailExcerpt = text;
   item.excerptSource = "feed";
@@ -109,9 +127,40 @@ function applyCuratorFallback(item, reason) {
   return true;
 }
 
+/**
+ * 1st-party feed text (예: OpenAI News RSS <description>). 발행처가 직접 낸 요약이므로
+ * 원문 페이지를 못 읽을 때(Cloudflare challenge 403) detailOrigin=primary, excerptSource=feed 로 쓴다.
+ * challenge 를 우회하지 않는다 — 발행처가 공개한 피드만 쓴다.
+ */
+const FIRST_PARTY_FEEDS = new Set(["openai-news", "deepmind-blog", "karpathy-blog", "aitimes", "zdnet-kr"]);
+
+function applyFeedFallback(item, reason) {
+  const text = cleanText(item.feedExcerpt ?? (FIRST_PARTY_FEEDS.has(item.src) ? item.summary : "") ?? "", 4_000);
+  if (!text || isThinExcerpt(text, { title: item.title, minChars: 40 })) return false;
+  item.detailFetchedAt = new Date().toISOString();
+  item.detailExcerpt = text;
+  item.excerptSource = "feed";
+  item.detailOrigin = "primary";
+  item.detailStatus = "pending_summary";
+  if (reason) item.detailError = `page_${reason.replace(/\s+/g, "_")}:feed_used`;
+  else delete item.detailError;
+  return true;
+}
+
 function applyFetchResult(item, result, origin = "primary") {
   item.detailFetchedAt = result.fetchedAt;
+  const thinPage = result.status === "ok" && result.thin;
+  if (thinPage) {
+    // 페이지가 슬로건/짧은 문구만 줬다 — 피드나 큐레이터 텍스트가 더 낫다면 그쪽을 쓴다.
+    if (applyFeedFallback(item, "thin")) return;
+    if (CURATOR_SOURCES.has(item.src) && !isThinExcerpt(curatorText(item), { title: item.title }) && applyCuratorFallback(item, "primary_thin")) return;
+    item.detailOrigin = origin;
+    item.excerptSource = result.excerptSource;
+    markThin(item, result.excerptText, "primary");
+    return;
+  }
   if (result.status !== "ok" || !result.excerptText) {
+    if (applyFeedFallback(item, result.error || "primary_unavailable")) return;
     // Original unreachable: curators fall back to their own text (marked), others fail/skip.
     if (CURATOR_SOURCES.has(item.src) && applyCuratorFallback(item, result.error || "primary_unavailable")) return;
     item.detailStatus = result.status === "skipped" ? "skipped" : "failed";
@@ -146,7 +195,15 @@ async function seedOne(item) {
     item.detailError = "skipped_host";
     return;
   }
+  // openai.com 기사 페이지는 Cloudflare bot challenge(403)를 준다(10-08·10-09 4/4 실패).
+  // 우회하지 않고 공개 RSS description 을 바로 쓴다 — 매번 403 을 받으며 두드리지 않는다.
+  if (FEED_ONLY_HOSTS.test(hostOf(item.url)) && applyFeedFallback(item, "")) return;
   return applyFetchResult(item, await fetchArticleExcerpt(item.url), "primary");
+}
+
+const FEED_ONLY_HOSTS = /^(?:www\.)?openai\.com$/i;
+function hostOf(url) {
+  try { return new URL(url).hostname; } catch { return ""; }
 }
 
 async function seedDetailExcerpts(items) {
@@ -300,10 +357,34 @@ async function geekNews() {
   }).filter((x) => x.title && x.url);
 }
 
+// Reddit: 비로그인 .rss 는 IP·UA 당 레이트리밋이 빡빡하다(10-08·10-09 r/MachineLearning 429).
+// 설명형 UA + Retry-After 존중 백오프 + 30분 캐시(+429 때 최대 3일 지난 캐시) + 서브 사이 간격.
+const REDDIT_SUBS = ["LocalLLaMA", "MachineLearning"];
+const REDDIT_GAP_MS = Number(process.env.REDDIT_GAP_MS ?? 6_000);
+// 비로그인 Reddit 은 실측 IP 당 분당 1회(remaining 0 · reset ~60s). 응답 헤더가 말하는 만큼 쉰다.
+let redditNextAt = 0;
+
+async function redditFeed(sub) {
+  const res = await politeGet(`https://www.reddit.com/r/${sub}/hot/.rss?limit=25`, {
+    headers: { "User-Agent": REDDIT_UA, Accept: "application/atom+xml,application/xml;q=0.9,*/*;q=0.1" },
+    retries: 2,
+    baseMs: 10_000,
+    maxWaitMs: 75_000,
+    cacheKey: `reddit-${sub}-hot`,
+    ttlMs: 30 * 60_000,
+  });
+  const rl = res.rateLimit;
+  if (rl && rl.remaining != null && rl.remaining < 1 && rl.resetMs != null) redditNextAt = Date.now() + rl.resetMs + 1_000;
+  if (res.stale) console.error(`  reddit r/${sub}: ${res.error} → 캐시 사용`);
+  else if (!res.text) console.error(`  실패 reddit r/${sub} — ${res.error}`);
+  return res.text;
+}
+
 async function reddit() {
   const out = [];
-  for (const sub of ["LocalLLaMA", "MachineLearning"]) {
-    const xml = await get(`https://www.reddit.com/r/${sub}/hot/.rss`, { retries: 1 });
+  for (const [i, sub] of REDDIT_SUBS.entries()) {
+    if (i > 0) await sleep(Math.max(REDDIT_GAP_MS, redditNextAt - Date.now())); // 요청을 몰아 보내지 않는다
+    const xml = await redditFeed(sub);
     for (const e of entries(xml, "entry")) {
       const title = unwrap(pick(e, /<title>([\s\S]*?)<\/title>/));
       const url = pick(e, /<link[^>]*href=['"]([^'"]+)['"]/);
@@ -325,7 +406,6 @@ async function reddit() {
         curatorExcerpt: cleanText(content.replace(/<a\b[^>]*>\s*\[(?:link|comments)\]\s*<\/a>/gi, " "), 4_000) || undefined,
       });
     }
-    await new Promise((r) => setTimeout(r, 2000)); // 서브 사이 2초 — 429 를 부르지 않는다
   }
   return out;
 }
@@ -344,6 +424,8 @@ async function rssFeed(src, url) {
       comments: null,
       publishedAt,
       summary: clean(unwrap(pick(e, /<description>([\s\S]*?)<\/description>/))),
+      // 발행처 피드 원문(content:encoded 가 있으면 그것, 없으면 description). 페이지를 못 읽을 때의 1차 근거.
+      feedExcerpt: cleanText(unwrap(pick(e, /<content:encoded>([\s\S]*?)<\/content:encoded>/)) || unwrap(pick(e, /<description>([\s\S]*?)<\/description>/)), 4_000) || undefined,
     };
   }).filter((x) => x.title && x.url);
 }
@@ -506,7 +588,7 @@ async function main() {
   const items = selected
     .filter((x) => x.url.startsWith("https://"))
     .map((x) => {
-      const { needsResolve, ...rest } = x;
+      const { needsResolve, feedExcerpt, ...rest } = x;
       if (!rest.summary) delete rest.summary;
       return rest;
     });
