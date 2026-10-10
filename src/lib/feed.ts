@@ -81,7 +81,7 @@ export function metaDescriptionFromSummary(summary: string | undefined | null, f
   return slice.trimEnd();
 }
 
-export type DetailStatus = "ok" | "skipped" | "failed" | "pending_summary";
+export type DetailStatus = "ok" | "skipped" | "failed" | "pending_summary" | "thin";
 export type ExcerptSource = "og" | "meta" | "body" | "feed" | "readme";
 /**
  * Where the detail excerpt came from (2026-10-07).

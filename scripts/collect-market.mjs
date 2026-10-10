@@ -16,6 +16,7 @@
 import { writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { backoffMs, retryAfterMs, sleep } from "./lib/polite-fetch.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BRAIN = join(process.env.HOME, "coding", "company-brain");
@@ -123,11 +124,15 @@ const PROXY_ETF = { "^GSPC": { symbol: "SPY", assetclass: "etf" }, "^DJI": { sym
 
 let yahooDisabled = false;
 
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const round2 = (n) => Math.round(n * 100) / 100;
 const pct = (a, b) => (a == null || b == null || b === 0 ? null : round2((a / b - 1) * 100));
 
+// 429 는 바로 포기하지 않고 Retry-After(없으면 지수 백오프+지터)만큼 쉬고 다시 묻는다.
+// 그래도 429 면 그 실행에서 Yahoo 를 끄고 NASDAQ/네이버/CNBC 폴백으로 간다(기존 동작).
+const RATE_LIMIT_RETRIES = 2;
+
 async function get(url, { retries = 1 } = {}) {
+  let limited = 0;
   for (let i = 0; ; i++) {
     try {
       const res = await fetch(url, {
@@ -136,6 +141,14 @@ async function get(url, { retries = 1 } = {}) {
       });
       const text = await res.text();
       if (res.status === 429) {
+        if (limited < RATE_LIMIT_RETRIES) {
+          const wait = retryAfterMs(res.headers.get("retry-after"), Date.now(), 20_000) ?? backoffMs(limited, { baseMs: 3_000, maxMs: 20_000 });
+          limited++;
+          console.error(`  429 ${url} — ${Math.round(wait / 1000)}s 후 재시도 (${limited}/${RATE_LIMIT_RETRIES})`);
+          await sleep(wait);
+          i--; // 레이트리밋 재시도는 일반 재시도 횟수와 따로 센다
+          continue;
+        }
         if (url.includes("finance.yahoo.com")) yahooDisabled = true;
         throw new Error("HTTP 429");
       }
