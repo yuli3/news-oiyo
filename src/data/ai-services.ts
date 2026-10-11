@@ -108,6 +108,15 @@ export const AI_CATEGORIES: AICategory[] = [
     ],
   },
   {
+    id: "game",
+    label: "게임 제작",
+    desc: "프롬프트나 에디터 안 AI로 게임을 만드는 도구예요. 출시 지역·베타 상태를 함께 적어 둬요.",
+    items: [
+      { name: "Playground", url: "https://playground.google", by: "Google Labs", note: "[상태: 미국 18세 이상만 사용 가능, 한국 미출시] 텍스트로 2D·3D 브라우저 게임을 만들고 공유하는 실험 플랫폼이에요. 생성은 주간 토큰제, 구독 시 한도가 늘어요 (2026-10-07 공개).", free: true },
+      { name: "Unity AI", url: "https://unity.com/features/ai", by: "Unity", note: "[상태: 오픈 베타, 사용 가능] Unity 6 에디터 안의 Assistant(에이전트)·Generators·MCP 서버예요. Personal은 14일 체험 후 월 $10, Pro 이상은 포함돼요.", free: false },
+    ],
+  },
+  {
     id: "audio",
     label: "음성·음악",
     desc: "TTS(음성 합성), 음성 복제, 작곡, 회의 녹취.",
