@@ -2,6 +2,7 @@
 import { newsTranslations } from "../data/news-translations";
 import { relativeKo } from "../lib/relative-time";
 import { isCuratorSource } from "../lib/feed";
+import SaveButton from "./SaveButton.astro";
 
 interface Props {
   title: string;
@@ -93,6 +94,7 @@ const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` 
     {detailHref && (
       <> · <a class="item-detail" href={detailHref}>자세히 읽기</a></>
     )}
+    <SaveButton url={href} title={translation?.title ?? title} source={label} date={date} />
   </p>
   {translation && (
     <details class="translation">
