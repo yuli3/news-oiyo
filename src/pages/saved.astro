@@ -1,0 +1,44 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="저장한 뉴스" description="이 브라우저에 저장한 OIYO News 링크 모음이에요." noindex crumbs={[{ label: "저장한 뉴스" }]}>
+  <h1 class="saved-h1">저장한 뉴스</h1>
+  <p class="saved-note">저장한 뉴스는 이 브라우저에만 남아요. 서버로 보내지 않아서 다른 기기에서는 보이지 않아요.</p>
+  <ul id="saved-list" class="saved-list"></ul>
+  <p id="saved-empty" class="saved-empty" hidden>아직 저장한 뉴스가 없어요. 마음에 드는 뉴스에서 저장을 눌러 보세요.</p>
+  <script>
+    import { readSaved, writeSaved } from "../lib/saved";
+    const list = document.getElementById("saved-list")!;
+    const empty = document.getElementById("saved-empty")!;
+    function render() {
+      const items = readSaved();
+      list.replaceChildren();
+      empty.hidden = items.length > 0;
+      for (const it of items) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = it.url; a.textContent = it.title; a.target = "_blank"; a.rel = "noopener noreferrer";
+        const meta = document.createElement("span");
+        meta.className = "saved-meta";
+        meta.textContent = [it.source, it.date].filter(Boolean).join(" · ");
+        const rm = document.createElement("button");
+        rm.type = "button"; rm.className = "saved-remove"; rm.textContent = "지우기";
+        rm.setAttribute("aria-label", `${it.title} 저장 지우기`);
+        rm.addEventListener("click", () => { writeSaved(readSaved().filter((x) => x.url !== it.url)); render(); });
+        li.append(a, meta, rm);
+        list.append(li);
+      }
+    }
+    render();
+  </script>
+  <style>
+    .saved-h1 { font-size:20px; margin:0 0 6px }
+    .saved-note, .saved-empty { font-size:13px; color:var(--muted) }
+    .saved-list { list-style:none; padding:0; margin:12px 0 0; border-top:1px solid var(--border) }
+    .saved-list :global(li) { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 10px; padding:10px 4px; border-bottom:1px solid var(--border) }
+    .saved-list :global(a) { color:var(--ink); font-weight:650; text-decoration:none; overflow-wrap:anywhere }
+    .saved-list :global(a:hover) { color:var(--accent) }
+    .saved-list :global(.saved-meta) { font-size:12px; color:var(--muted) }
+    .saved-list :global(.saved-remove) { font:inherit; font-size:12px; color:var(--muted); background:none; border:1px solid var(--border); border-radius:999px; padding:2px 10px; min-height:28px; cursor:pointer; margin-left:auto }
+  </style>
+</BaseLayout>
