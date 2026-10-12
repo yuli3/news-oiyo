@@ -266,7 +266,14 @@ export async function fetchArticleExcerpt(url, opts = {}) {
   if (shouldSkipArticle(url)) {
     return { status: "skipped", excerptSource: null, excerptText: "", fetchedAt, error: "skipped_host" };
   }
-  const { html, error } = await fetchArticleHtml(url, opts);
+  const guardMs = (opts.timeoutMs ?? FETCH_TIMEOUT_MS) + 5_000;
+  let guardTimer;
+  const { html, error } = await Promise.race([
+    fetchArticleHtml(url, opts),
+    new Promise((resolve) => {
+      guardTimer = setTimeout(() => resolve({ html: "", error: "article_timeout" }), guardMs);
+    }),
+  ]).finally(() => clearTimeout(guardTimer));
   if (!html) {
     return {
       status: error === "skipped_host" ? "skipped" : "failed",
@@ -407,7 +414,8 @@ const THIN_PATTERNS = [
   /^(?:the )?home of [\w\s]+$/i,
   /^(?:sign in|log in|just a moment|access denied|enable javascript)/i,
   // CSS/JS 가 본문으로 새어 나온 경우(예: ".a-svg--picto-podcast{background:url(…)").
-  /^[.#@]?[\w-]+(?:[\s,>.#:-][\w-]*)*\s*\{[\w-]+\s*:/,
+  // WHY: separator and word classes must not overlap ('-' was in both) or hyphen-heavy text backtracks exponentially and hangs collect.
+  /^[.#@]?[\w-]+(?:[\s,>.#:]+[\w-]+)*[\s,>.#:]*\{[\w-]+\s*:/,
 ];
 
 /** Known tagline / boilerplate per host — exact-ish site slogans that are never article text. */
