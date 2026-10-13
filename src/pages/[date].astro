@@ -7,6 +7,7 @@ import Giscus from "../components/Giscus.astro";
 import Empty from "../components/Empty.astro";
 import NewsItem from "../components/NewsItem.astro";
 import RepoList from "../components/RepoList.astro";
+import XTrending from "../components/XTrending.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { SOURCE_COLOR, metaDescriptionFromSummary, publicDaySummary, type Day, hasDetailPage, splitDayItems } from "../lib/feed";
 
@@ -96,6 +97,7 @@ const description = metaDescriptionFromSummary(
           />
         )}
         <RepoList repos={repos} date={day.date} />
+        <XTrending date={day.date} />
         {/* 2026-10-06 (audit S5): "도출된 아이디어" are internal product ideas for
             OIYO sites written by the collection agent, not news. They stay in
             news.json for the brain but are no longer published. */}
