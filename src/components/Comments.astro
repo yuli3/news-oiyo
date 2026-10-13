@@ -1,0 +1,51 @@
+---
+// 2026-10-13 (세운 결정: 직접 구축): 날짜·상세·커뮤니티 글의 댓글.
+// /api/config 가 enabled 면 자체 댓글(로그인·추천·신고)을, 아니면 기존 giscus 토론을 붙인다.
+// 스크립트는 화면 근처에 올 때만 움직여 LCP·광고 로드를 건드리지 않는다.
+import "../styles/community.css";
+interface Props {
+  /** "day:2026-10-13" | "item:trend-…" | "post:<id>" */
+  thread: string;
+  /** 커뮤니티가 꺼져 있을 때 쓸 giscus 토론 이름. 없으면 아무것도 붙이지 않는다. */
+  giscusTerm?: string;
+  heading?: string;
+}
+const { thread, giscusTerm, heading = "오늘 뉴스 이야기 나눠요" } = Astro.props;
+---
+<section class="cm-root" data-cm-thread={thread} data-giscus-term={giscusTerm} aria-label="댓글">
+  <p class="cm-note">댓글을 불러오고 있어요…</p>
+  <noscript><p class="cm-note">댓글을 보려면 자바스크립트를 켜 주세요.</p></noscript>
+  <template data-giscus-head>
+    <h2 class="cm-title">{heading}</h2>
+    <p class="cm-note">GitHub 계정으로 댓글과 반응을 남길 수 있어요. 남긴 댓글은 GitHub Discussions에 공개로 저장돼요.</p>
+  </template>
+</section>
+<script>
+  import { getConfig } from "../lib/community";
+  import { mountComments } from "../lib/comments-ui";
+  import { mountGiscus } from "../lib/giscus";
+
+  async function start(root: HTMLElement) {
+    if (root.dataset.mounted) return;
+    root.dataset.mounted = "1";
+    const config = await getConfig();
+    if (config.enabled) return mountComments(root, root.dataset.cmThread!);
+    const term = root.dataset.giscusTerm;
+    if (!term) { root.hidden = true; return; }
+    const head = root.querySelector<HTMLTemplateElement>("template[data-giscus-head]");
+    const slot = document.createElement("div");
+    slot.className = "giscus-slot";
+    root.replaceChildren(...(head ? [head.content.cloneNode(true)] : []), slot);
+    mountGiscus(slot, term);
+  }
+  for (const root of document.querySelectorAll<HTMLElement>("[data-cm-thread]")) {
+    if (!("IntersectionObserver" in window)) { start(root); continue; }
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(root); }
+    }, { rootMargin: "600px 0px" });
+    io.observe(root);
+  }
+</script>
+<style>
+  .cm-root :global(.giscus-slot) { min-height: 320px; margin-top: 12px }
+</style>

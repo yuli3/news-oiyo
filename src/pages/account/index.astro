@@ -1,0 +1,74 @@
+---
+// 2026-10-13 계정: 로그인 · 닉네임 · 로그아웃 · 회원 탈퇴. 서버는 functions/api/me.ts, auth/*.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/community.css";
+---
+<BaseLayout title="내 계정" description="OIYO News 로그인과 계정 설정" noindex crumbs={[{ label: "내 계정" }]}>
+  <h1 class="acc-h1">내 계정</h1>
+  <div id="acc" class="acc"><p class="cm-note">불러오고 있어요…</p></div>
+  <section class="acc-privacy" aria-labelledby="acc-privacy-h">
+    <h2 id="acc-privacy-h">받는 정보</h2>
+    <ul>
+      <li>로그인한 서비스(Google·카카오·GitHub)가 알려 주는 계정 고유번호 하나만 저장해요. 이메일, 이름, 프로필 사진은 받지 않아요.</li>
+      <li>닉네임과 내가 쓴 글·댓글·추천·신고 기록을 저장해요.</li>
+      <li>탈퇴하면 계정, 로그인 기록, 추천, 신고는 바로 지워요. 쓴 글과 댓글은 대화 흐름을 위해 "탈퇴한 사용자"로 남고, 탈퇴 전에 직접 지울 수 있어요.</li>
+    </ul>
+  </section>
+  <script>
+    import { ApiError, api, el, getConfig, getMe, loginHref } from "../../lib/community";
+    const root = document.getElementById("acc")!;
+    const ERR: Record<string, string> = {
+      cancelled: "로그인을 취소했어요.",
+      state: "로그인 확인이 만료됐어요. 다시 시도해 주세요.",
+      provider: "로그인 서비스에서 정보를 받지 못했어요. 다시 시도해 주세요.",
+      banned: "이용이 제한된 계정이에요.",
+    };
+    async function render() {
+      const [config, me] = await Promise.all([getConfig(), getMe(true)]);
+      if (!config.enabled) { root.replaceChildren(el("p", { class: "cm-note", text: "회원 기능은 아직 열리지 않았어요." })); return; }
+      const why = new URLSearchParams(location.search).get("login");
+      const notice = why && ERR[why] ? el("p", { class: "acc-error", role: "alert", text: ERR[why] }) : null;
+      if (!me) {
+        root.replaceChildren(
+          ...(notice ? [notice] : []),
+          el("p", { text: "로그인하면 댓글, 추천, 커뮤니티 글쓰기를 할 수 있어요." }),
+          el("div", { class: "cm-providers" }, ...(config.providers ?? []).map((p) => el("a", { class: `cm-provider cm-provider-${p.id}`, href: loginHref(p.id).replace(/returnTo=[^&]*/, "returnTo=%2Faccount%2F"), text: `${p.label}로 로그인` }))),
+        );
+        return;
+      }
+      const input = el("input", { class: "cm-field", value: me.nickname, maxlength: "16", "aria-label": "닉네임", autocomplete: "off" });
+      const status = el("span", { class: "cm-status", role: "status" });
+      const save = el("button", { type: "submit", class: "cm-submit", text: "닉네임 저장" });
+      const form = el("form", { class: "cm-form" }, el("label", { class: "acc-label", text: "닉네임" }), input, el("div", { class: "cm-row" }, status, save));
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        try { const r = await api<{ user: { nickname: string } }>("PATCH", "/api/me", { nickname: input.value }); input.value = r.user.nickname; status.textContent = "저장했어요"; }
+        catch (err) { status.textContent = err instanceof ApiError ? err.message : "저장하지 못했어요."; }
+      });
+      const logout = el("button", { type: "button", class: "cm-btn", text: "로그아웃" });
+      logout.addEventListener("click", async () => { await api("POST", "/api/auth/logout").catch(() => {}); location.href = "/"; });
+      const leave = el("button", { type: "button", class: "cm-btn acc-danger", text: "회원 탈퇴" });
+      leave.addEventListener("click", async () => {
+        if (!confirm("탈퇴하면 계정과 추천 기록이 바로 지워지고 되돌릴 수 없어요. 탈퇴할까요?")) return;
+        try { await api("DELETE", "/api/me"); location.href = "/"; } catch (err) { alert(err instanceof ApiError ? err.message : "탈퇴하지 못했어요."); }
+      });
+      const provider = { google: "Google", kakao: "카카오", github: "GitHub" }[me.provider] ?? me.provider;
+      root.replaceChildren(
+        el("p", { class: "acc-who", text: `${provider} 계정으로 로그인했어요.` }),
+        form,
+        el("div", { class: "acc-actions" }, logout, leave, ...(me.admin ? [el("a", { class: "cm-btn acc-admin", href: "/community/admin/", text: "신고 관리" })] : [])),
+      );
+    }
+    render();
+  </script>
+  <style>
+    .acc-h1 { font-size:22px; margin:0 0 12px }
+    .acc { max-width:520px }
+    .acc :global(.acc-error) { color:var(--accent); font-weight:700 }
+    .acc :global(.acc-label) { font-size:13px; font-weight:700 }
+    .acc :global(.acc-actions) { display:flex; gap:8px; margin-top:18px; flex-wrap:wrap }
+    .acc :global(.acc-admin) { display:inline-flex; align-items:center; text-decoration:none }
+    .acc-privacy { margin-top:32px; max-width:620px; font-size:13px; color:var(--muted) }
+    .acc-privacy h2 { font-size:15px; color:var(--ink) }
+  </style>
+</BaseLayout>

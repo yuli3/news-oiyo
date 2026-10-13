@@ -33,7 +33,8 @@
     "video:render": "node scripts/render-daily-video.mjs",
     "video:publish": "node scripts/publish-social-video.mjs",
     "video:schedule": "node scripts/publish-social-video.mjs --queue",
-    "video:upload": "node scripts/upload-social-video.mjs"
+    "video:upload": "node scripts/upload-social-video.mjs",
+    "test": "node --test tests/*.test.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

@@ -1,0 +1,66 @@
+---
+// 2026-10-13 커뮤니티 글 하나: /community/post/?id=<id>. 정적 사이트라 주소에 id 를 쿼리로 받는다.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/community.css";
+---
+<BaseLayout title="커뮤니티 글" description="OIYO News 독자 커뮤니티 글" noindex crumbs={[{ label: "커뮤니티", href: "/community/" }, { label: "글" }]}>
+  <article id="post" class="pt"><p class="cm-note">불러오고 있어요…</p></article>
+  <section id="post-comments" class="cm-root" hidden></section>
+  <script>
+    import { ApiError, CATEGORY_LABEL, api, el, getMe, timeAgo, type Post } from "../../lib/community";
+    import { flash, mountComments, msg, needLogin, reportButton } from "../../lib/comments-ui";
+    const root = document.getElementById("post")!;
+    const comments = document.getElementById("post-comments")!;
+    const id = new URLSearchParams(location.search).get("id") ?? "";
+
+    async function render() {
+      if (!/^[A-Za-z0-9_-]{10,40}$/.test(id)) { root.replaceChildren(el("p", { class: "cm-note", text: "글을 찾을 수 없어요." })); return; }
+      let post: Post;
+      try { post = (await api<{ post: Post }>("GET", `/api/posts/${id}`)).post; }
+      catch (e) { root.replaceChildren(el("p", { class: "cm-note", text: e instanceof ApiError ? e.message : "글을 불러오지 못했어요." })); return; }
+      const me = await getMe();
+      document.title = `${post.title} | OIYO News 커뮤니티`;
+      const vote = el("button", { type: "button", class: "cm-btn cm-vote", "aria-pressed": String(post.voted) }, `👍 추천 ${post.score}`);
+      vote.addEventListener("click", async () => {
+        if (!me) return needLogin(vote);
+        if (post.mine) return flash(vote, "내 글은 추천할 수 없어요.");
+        try {
+          const r = await api<{ voted: boolean; score: number }>("POST", `/api/posts/${post.id}/vote`);
+          vote.textContent = `👍 추천 ${r.score}`;
+          vote.setAttribute("aria-pressed", String(r.voted));
+        } catch (e) { flash(vote, msg(e)); }
+      });
+      const actions = el("div", { class: "cm-actions pt-actions" }, vote);
+      const share = el("button", { type: "button", class: "cm-btn", text: "링크 복사" });
+      share.addEventListener("click", async () => {
+        try { await navigator.clipboard.writeText(location.href); flash(share, "복사했어요"); } catch { flash(share, "복사하지 못했어요"); }
+      });
+      actions.append(share);
+      if (post.mine || me?.admin) {
+        const del = el("button", { type: "button", class: "cm-btn", text: "삭제" });
+        del.addEventListener("click", async () => {
+          if (!confirm("이 글을 지울까요?")) return;
+          try { await api("DELETE", `/api/posts/${post.id}`); location.href = "/community/"; } catch (e) { flash(del, msg(e)); }
+        });
+        actions.append(del);
+      }
+      if (me && !post.mine) actions.append(reportButton("post", post.id));
+      root.replaceChildren(
+        el("p", { class: "pt-cat", text: CATEGORY_LABEL[post.category] ?? post.category }),
+        el("h1", { class: "pt-title", text: post.title }),
+        el("p", { class: "cm-meta", text: `${post.author} · ${timeAgo(post.createdAt)}${post.hidden ? " · 신고로 숨김(관리자에게만 보임)" : ""}` }),
+        el("div", { class: "pt-body", text: post.body }),
+        actions,
+      );
+      comments.hidden = false;
+      mountComments(comments, `post:${post.id}`);
+    }
+    render();
+  </script>
+  <style>
+    .pt { max-width:72ch }
+    .pt :global(.pt-cat) { margin:0; font-size:12px; font-weight:800; color:var(--accent) }
+    .pt :global(.pt-title) { font-size:24px; margin:4px 0 6px; overflow-wrap:anywhere }
+    .pt :global(.pt-body) { white-space:pre-wrap; overflow-wrap:anywhere; font-size:15.5px; line-height:1.75; margin:16px 0 }
+  </style>
+</BaseLayout>
