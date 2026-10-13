@@ -1,0 +1,263 @@
+{
+  "type": "object",
+  "properties": {
+    "schema": {
+      "const": "x-trending/v1"
+    },
+    "collected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "window_hours": {
+      "const": 24
+    },
+    "stories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "hook": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://x\\.com/i/trending/[0-9]+$"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "hook",
+          "summary",
+          "topics",
+          "updated_at",
+          "url"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "posts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9]+$"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://(?:x\\.com|twitter\\.com)/[A-Za-z0-9_]+/status/[0-9]+$"
+          },
+          "author": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9_]{1,15}$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "verified": {
+                "type": "boolean"
+              },
+              "followers": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "username",
+              "name",
+              "verified",
+              "followers"
+            ],
+            "additionalProperties": false
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lang": {
+            "type": "string",
+            "minLength": 1
+          },
+          "metrics": {
+            "type": "object",
+            "properties": {
+              "like": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "repost": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "reply": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "quote": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "bookmark": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "impression": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "like",
+              "repost",
+              "reply",
+              "quote",
+              "bookmark",
+              "impression"
+            ],
+            "additionalProperties": false
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^https://"
+            }
+          },
+          "story_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[0-9]+$"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "url",
+          "author",
+          "created_at",
+          "text",
+          "lang",
+          "metrics",
+          "links",
+          "story_id",
+          "score"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "accounts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_]{1,15}$"
+          },
+          "mentions": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "username",
+          "mentions"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://"
+          },
+          "post_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "url",
+          "post_count",
+          "score"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "budget": {
+      "type": "object",
+      "properties": {
+        "calls_used": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "calls_used"
+      ],
+      "additionalProperties": false
+    },
+    "partial": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "schema",
+    "collected_at",
+    "window_hours",
+    "stories",
+    "posts",
+    "accounts",
+    "links",
+    "budget"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "X trending v1 \u2014 daily collector file"
+}

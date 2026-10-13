@@ -1,0 +1,37 @@
+{
+  "schema": "x-trending/v1",
+  "collected_at": "2026-10-13T06:30:00+09:00",
+  "window_hours": 24,
+  "stories": [],
+  "posts": [
+    {
+      "id": "1000000000000000001",
+      "url": "https://x.com/example/status/1000000000000000001",
+      "author": {
+        "username": "example",
+        "name": "샘플 작성자 (가상)",
+        "verified": false,
+        "followers": 0
+      },
+      "created_at": "2026-10-13T06:00:00+09:00",
+      "text": "가상 샘플: AI 도구의 결과는 원문과 함께 확인합니다.",
+      "lang": "ko",
+      "metrics": {
+        "like": 100,
+        "repost": 20,
+        "reply": 5,
+        "quote": 2,
+        "bookmark": 10,
+        "impression": 2000
+      },
+      "links": [],
+      "story_id": null,
+      "score": 1
+    }
+  ],
+  "accounts": [],
+  "links": [],
+  "budget": {
+    "calls_used": 0
+  }
+}

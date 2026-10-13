@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import news from '../../data/news.json';
+interface Post {
+  id: string; url: string; author: { name: string; username: string };
+  created_at: string; text: string; metrics: { like: number; repost: number; reply: number; impression: number };
+}
+const block = (news as unknown as { x_trending?: { collected_at: string; hidden: boolean; posts: Post[] } }).x_trending;
+const fresh = block && !block.hidden && Date.now() - Date.parse(block.collected_at) <= 30 * 3600000;
+const posts = fresh ? block.posts : [];
+const date = (value: string) => new Date(value).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+---
+<BaseLayout title="X AI 미리보기" description="X AI 게시물 카드 품질 점검 페이지" noindex>
+  <h1>X에서 뜨는 AI</h1>
+  <p>게시물 미리보기 · 지표는 수집 당시 값입니다.</p>
+  {posts.length === 0 && <p>표시할 최신 게시물이 없습니다.</p>}
+  <section aria-label="X 게시물">
+    {posts.map(post => <article>
+      <h2>{post.author.name} <span>@{post.author.username}</span></h2>
+      <p>게시 <time datetime={post.created_at}>{date(post.created_at)} KST</time></p>
+      <blockquote>{Array.from(post.text).slice(0, 280).join('')}</blockquote>
+      <a href={post.url} rel="noopener noreferrer">X 원문 읽기</a>
+      <p>좋아요 {post.metrics.like.toLocaleString('ko-KR')} · 재게시 {post.metrics.repost.toLocaleString('ko-KR')} · 답글 {post.metrics.reply.toLocaleString('ko-KR')} · 노출 {post.metrics.impression.toLocaleString('ko-KR')}</p>
+      {block && <p>지표 스냅샷 <time datetime={block.collected_at}>{date(block.collected_at)} KST</time></p>}
+    </article>)}
+  </section>
+</BaseLayout>
+<style>
+  article { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-block: 20px; overflow-wrap: anywhere; }
+  h2 { font-size: 18px; margin-block: 0 8px; }
+  h2 span, article p { color: var(--muted); font-size: 13px; }
+  blockquote { margin: 16px 0; white-space: pre-wrap; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+</style>
