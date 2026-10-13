@@ -19,7 +19,9 @@
     "audit:headers-collision": "node scripts/audit-headers-collision.mjs",
     "audit:details": "node scripts/audit-detail-pages.mjs",
     "details:pending": "node scripts/list-pending-details.mjs",
-    "details:apply": "node scripts/apply-detail-summaries.mjs"
+    "details:apply": "node scripts/apply-detail-summaries.mjs",
+    "translations:pending": "node scripts/translations-pending.mjs",
+    "translations:check": "node scripts/check-translations.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

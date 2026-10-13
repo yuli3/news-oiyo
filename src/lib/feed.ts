@@ -89,6 +89,7 @@ export type ExcerptSource = "og" | "meta" | "body" | "feed" | "readme";
  * curator = HN/GeekNews/Reddit text because the original could not be read.
  */
 export type DetailOrigin = "primary" | "readme" | "curator";
+export type TranslationStatus = "full" | "partial" | "blocked";
 
 export type NewsItemRecord = {
   id?: string;
@@ -106,6 +107,14 @@ export type NewsItemRecord = {
   detailStatus?: DetailStatus | string;
   detailFetchedAt?: string;
   detailOrigin?: DetailOrigin | string;
+  /** Who wrote summary/detailSummary when an agent authored them (2026-10-13). */
+  summaryAuthoredBy?: string;
+  /** Agent-written long Korean translation/해설 of the original (markdown). */
+  translationKo?: string;
+  /** full = whole article read, partial = part read/covered, blocked = original unreadable. */
+  translationStatus?: TranslationStatus | string;
+  translatedBy?: string;
+  translatedAt?: string;
   url: string;
   domain: string;
   comments?: number | null;
