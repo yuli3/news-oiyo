@@ -21,7 +21,8 @@
     "details:pending": "node scripts/list-pending-details.mjs",
     "details:apply": "node scripts/apply-detail-summaries.mjs",
     "translations:pending": "node scripts/translations-pending.mjs",
-    "translations:check": "node scripts/check-translations.mjs"
+    "translations:check": "node scripts/check-translations.mjs",
+    "test": "node --test tests/*.test.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

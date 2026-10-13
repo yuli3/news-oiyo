@@ -13,3 +13,7 @@ __pycache__/
 # 망가진다 — 테스트 러너가 그 안까지 수집하고, node_modules 중복이 쌓이고,
 # untracked 로 노출돼 git add -A 에 딸려 들어간다.
 .worktrees/
+
+# 2026-10-13 로컬 wrangler pages dev 상태(D1 로컬 DB 등)
+.wrangler/
+wrangler.toml

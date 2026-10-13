@@ -49,6 +49,10 @@ jobs:
       - name: Type Check
         run: npm run type-check
 
+      # 2026-10-13: 커뮤니티 입력·스팸 규칙(server/rules.ts) 단위 테스트.
+      - name: Unit tests
+        run: npm test
+
       - name: Build
         run: npm run build
 
