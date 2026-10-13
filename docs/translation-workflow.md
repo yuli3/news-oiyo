@@ -69,3 +69,7 @@ npm run lint && npm run build
 - news.json에 반영됐는지
 
 `--date`를 생략하면 번역 디렉터리가 있는 모든 날짜를 검사해요.
+
+## X AI 트렌딩
+
+X 게시물 카드는 번역 대상이 아니에요. 수집(Grok Bot 전용)과 파일 형식은 `docs/x-trending.md`를 봐요.

@@ -1,0 +1,267 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-14",
+  "collected_at": "2026-10-14T07:50:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물과 링크를 읽고 직접 썼어요.",
+  "budget": {
+    "calls_used": 12
+  },
+  "posts": [
+    {
+      "id": "2109412046244913643",
+      "url": "https://x.com/brian_armstrong/status/2109412046244913643",
+      "author": {
+        "username": "brian_armstrong",
+        "name": "Brian Armstrong",
+        "followers": 4025349
+      },
+      "created_at": "2026-10-11T22:33:17Z",
+      "quote": "We were able to fine tune an open weight model (Qwen3.5-9B) on proprietary internal data at @coinbase, and it out performed frontier models, at much lower cost and speed, for a specialized task (fraud prevention in this case).",
+      "metrics": {
+        "like": 9169,
+        "repost": 776,
+        "reply": 595,
+        "quote": 511,
+        "bookmark": 6153,
+        "impression": 1468932
+      },
+      "topic": "오픈 웨이트 파인튜닝",
+      "summary_ko": "Coinbase CEO가 사내 데이터로 Qwen3.5-9B를 파인튜닝했더니 사기 방지라는 좁은 작업에서 프런티어 모델보다 낫고 싸고 빨랐다고 밝혔어요. 인용·답글에서는 \"큰 모델이 기본값이지 상한은 아니다\"는 반응이 이어졌어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2110001044986163687",
+      "url": "https://x.com/alexgetmancom/status/2110001044986163687",
+      "author": {
+        "username": "alexgetmancom",
+        "name": "alex getman",
+        "followers": 2753
+      },
+      "created_at": "2026-10-13T13:33:45Z",
+      "quote": "🚨 Fable 5.5 appeared in Azure’s East US 2 model catalog with GenerallyAvailable status",
+      "metrics": {
+        "like": 1563,
+        "repost": 64,
+        "reply": 59,
+        "quote": 96,
+        "bookmark": 144,
+        "impression": 248433
+      },
+      "topic": "Anthropic 신모델 유출",
+      "summary_ko": "LiteLLM 커밋에 azure_ai/claude-fable-5-5가 추가되면서 Azure 카탈로그에 'Claude Fable 5.5'가 GA 상태로 보인다는 글이에요. Anthropic의 공식 발표는 아직 없어 출시 임박 추측으로만 봐야 해요.",
+      "link": "https://github.com/BerriAI/litellm/commit/7dd53d6adc6213e84f62f1366ba721d09f4af992",
+      "related_item_ids": [
+        "trend-295197dacea24bb7"
+      ]
+    },
+    {
+      "id": "2109924635693248790",
+      "url": "https://x.com/CNBC/status/2109924635693248790",
+      "author": {
+        "username": "CNBC",
+        "name": "CNBC",
+        "followers": 6254040
+      },
+      "created_at": "2026-10-13T08:30:08Z",
+      "quote": "Anthropic warns AI models could soon copy themselves across home devices",
+      "metrics": {
+        "like": 170,
+        "repost": 63,
+        "reply": 49,
+        "quote": 27,
+        "bookmark": 44,
+        "impression": 64829
+      },
+      "topic": "AI 안전 · 자기 복제",
+      "summary_ko": "Anthropic Frontier Red Team이 55달러짜리 안드로이드 TV 박스 15대로 26B 모델을 돌리고, 단순화한 환경에서 GLM-5.2가 여러 노드로 스스로 복제하는 데 성공했다는 연구를 CNBC가 전했어요. 데이터센터 없이도 자기 복제가 가능해질 수 있다는 경고예요.",
+      "link": "https://www.cnbc.com/2026/10/13/anthropic-ai-models-self-replication-smart-devices.html",
+      "related_item_ids": []
+    },
+    {
+      "id": "2109503830060888246",
+      "url": "https://x.com/aakashgupta/status/2109503830060888246",
+      "author": {
+        "username": "aakashgupta",
+        "name": "Aakash Gupta",
+        "followers": 334431
+      },
+      "created_at": "2026-10-12T04:38:00Z",
+      "quote": "A Fields Medal is basically the Nobel Prize of math. One of the guys who won it cried so hard Tuesday night that he woke up his daughter.",
+      "metrics": {
+        "like": 714,
+        "repost": 135,
+        "reply": 70,
+        "quote": 19,
+        "bookmark": 274,
+        "impression": 105218
+      },
+      "topic": "OpenAI 수학 논문 공개",
+      "summary_ko": "OpenAI가 하룻밤에 AI가 쓴 증명 700여 편을 공개하자 필즈상 수상자 위고 뒤미닐코팽이 충격으로 울었다는 일화를 소개한 글이에요. 수학계의 충격과 '검증되지 않은 대량 공개' 논란이 함께 퍼지고 있어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-828c76cf649fa511"
+      ]
+    },
+    {
+      "id": "2110121284600570128",
+      "url": "https://x.com/pmddomingos/status/2110121284600570128",
+      "author": {
+        "username": "pmddomingos",
+        "name": "Pedro Domingos",
+        "followers": 136469
+      },
+      "created_at": "2026-10-13T21:31:33Z",
+      "quote": "Review of every OpenAI math paper: impressive if it holds up, but please resubmit when you’ve written a coherent paper.",
+      "metrics": {
+        "like": 16,
+        "repost": 1,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 1,
+        "impression": 1701
+      },
+      "topic": "OpenAI 수학 논문 공개",
+      "summary_ko": "ML 연구자 페드로 도밍고스가 OpenAI 수학 논문 전체에 대한 '한 줄 심사평'을 남겼어요. 결과가 맞다면 인상적이지만 논문으로서 읽히게 써 달라는 꼬집음이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-828c76cf649fa511"
+      ]
+    },
+    {
+      "id": "2109694573408866351",
+      "url": "https://x.com/OpenBMB/status/2109694573408866351",
+      "author": {
+        "username": "OpenBMB",
+        "name": "OpenBMB",
+        "followers": 12152
+      },
+      "created_at": "2026-10-12T17:15:57Z",
+      "quote": "🚀 Introducing MiniCPM-V 4.7, our new open-source MLLM series!\nAdvancing the Performance–Efficiency Pareto Frontier.\nIt brings strong multimodal capabilities to iOS and Android devices…",
+      "metrics": {
+        "like": 4850,
+        "repost": 259,
+        "reply": 147,
+        "quote": 184,
+        "bookmark": 1608,
+        "impression": 1251350
+      },
+      "topic": "온디바이스 오픈 모델",
+      "summary_ko": "OpenBMB가 오픈소스 멀티모달 모델 MiniCPM-V 4.7(35B-A3B MoE, 1B)을 공개했어요. iOS·안드로이드 기기에서 돌리는 걸 목표로 하고, 이튿날 Mac용 온디바이스 추론 지원도 알렸어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2110127353607192665",
+      "url": "https://x.com/superalesha/status/2110127353607192665",
+      "author": {
+        "username": "superalesha",
+        "name": "Alexey Fateev",
+        "followers": 7838
+      },
+      "created_at": "2026-10-13T21:55:40Z",
+      "quote": "4 open weight releases in 2 days. I cant keep up anymore and Im so happy about it.",
+      "metrics": {
+        "like": 7,
+        "repost": 0,
+        "reply": 3,
+        "quote": 0,
+        "bookmark": 15,
+        "impression": 622
+      },
+      "topic": "온디바이스 오픈 모델",
+      "summary_ko": "이틀 새 나온 오픈 웨이트 4종을 묶어 정리한 글이에요. 아이폰 3GB 메모리에서 도는 35B 비전 모델, 단어 단위로 연출하는 음성 모델, 노트북에서 184 tok/s인 에이전트 모델(Liquid AI LFM2.5-24B-A2B로 보여요), 253MB 받아쓰기 모델을 꼽았어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2109928274268737837",
+      "url": "https://x.com/pparik__/status/2109928274268737837",
+      "author": {
+        "username": "pparik__",
+        "name": "Parik",
+        "followers": 202
+      },
+      "created_at": "2026-10-13T08:44:35Z",
+      "quote": "Claude Opus 5.5 is 58. Muse Wonder Full is 56. GPT-6.1 Sol and Muse Wonder are both 52",
+      "metrics": {
+        "like": 8,
+        "repost": 0,
+        "reply": 2,
+        "quote": 0,
+        "bookmark": 3,
+        "impression": 482
+      },
+      "topic": "Meta Muse Wonder",
+      "summary_ko": "Meta가 10월 12일 내놓은 Muse Wonder·Muse Wonder Full을 Artificial Analysis 지수로 비교한 글이에요. Opus 5.5(58)가 여전히 1위이고 Muse Wonder Full(56)이 바짝 따라붙었다고 정리했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2110081552017478102",
+      "url": "https://x.com/stevederico/status/2110081552017478102",
+      "author": {
+        "username": "stevederico",
+        "name": "Steve Derico",
+        "followers": 2885
+      },
+      "created_at": "2026-10-13T18:53:40Z",
+      "quote": "Gemini 4 Argon vs Meta Muse Wonder Full\n\nUSA-BENCH (closed weights: -10)\nMuse Wonder Full: 80\nGemini 4 Argon: 76\n\nDeepSWE v1.1\nMuse Wonder Full: 79.0%\nGemini 4 Argon: 77.9%",
+      "metrics": {
+        "like": 2,
+        "repost": 0,
+        "reply": 1,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 173
+      },
+      "topic": "Gemini 4 Argon",
+      "summary_ko": "같은 주에 나온 Gemini 4 Argon과 Muse Wonder Full의 벤치마크를 나란히 놓은 글이에요. 코딩(DeepSWE)은 Muse가, 금융 에이전트 과제는 Argon이 앞선다고 정리했어요. 수치는 작성자 정리라 원 출처 확인이 필요해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-59526bb97c554143",
+        "trend-0ce58098fe13db70",
+        "trend-a59d51b915df09f6"
+      ]
+    },
+    {
+      "id": "2110009845177045376",
+      "url": "https://x.com/adpc39/status/2110009845177045376",
+      "author": {
+        "username": "adpc39",
+        "name": "이적행위",
+        "followers": 1470
+      },
+      "created_at": "2026-10-13T14:08:43Z",
+      "quote": "직접 만든 곡이라도 인공지능(AI)을 일부 활용했다고 밝힌 창작자는 저작권료를 받지 못했다. 반면 AI로 곡을 대량 생산한 것으로 의심받은 이들에게는 저작권료 163억원이 지급됐다.",
+      "metrics": {
+        "like": 0,
+        "repost": 3,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 158
+      },
+      "topic": "AI 음악 · 저작권(국내)",
+      "summary_ko": "주간경향 기사를 공유한 국내 게시물이에요. AI 사용을 자진 신고하면 음저협 저작권료를 못 받고, 신고하지 않은 AI 대량 생산 의심 곡에는 163억 원이 지급됐다는 내용으로, AI 음악을 가려낼 기준이 없다는 문제를 짚어요.",
+      "link": "https://weekly.khan.co.kr/article/202610130600011/",
+      "related_item_ids": []
+    }
+  ],
+  "stories_seen": [
+    "Fields Medal Winner Cries Over OpenAI's AI Math Breakthroughs",
+    "Google Launches Gemini 4 Argon Globally for Advanced AI Tasks",
+    "Coinbase Fine-Tunes AI Model to Beat Fraud Detection Leaders",
+    "Claude Fable 5.5 Appears in Azure Catalog Ahead of Expected Launch",
+    "Anthropic Warns Small AI Models Could Self-Replicate on Smart Devices Soon",
+    "Meta's Muse Wonder Sparks Debate on Practical AI Coding Over Flashy Demos",
+    "MiniCPM-V 4.7 Brings Powerful AI Vision to iPhones and iPads",
+    "Liquid AI Releases Efficient 24B Reasoning Model for Local Devices",
+    "Anthropic Prepares for Potential $2 Trillion IPO Amid Growth and Compute Scrutiny",
+    "Vibe Coding / AI code 'slop' debate",
+    "AO3 fanfiction authors discover works scraped for AI training"
+  ],
+  "dropped": "스팸성 반복 게시물(\"DON'T USE GEMINI 4 ARGON...\" 복붙), 코인 홍보·'댓글 달면 링크 보내 줌' 유도 글, 노출 수십 회 수준 잡글, 비속어 글, 무관한 장문 비방 글(lang:ko)을 뺐어요. 한국 트렌드(woeid 23424868)에는 AI 키워드가 없었어요."
+}
