@@ -6,6 +6,7 @@ import { readFileSync, readdirSync, writeFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { adaptTrendSignals } from "./lib/news-pipeline-adapter.mjs";
+import { loadTranslations, applyTranslation } from "./lib/translations.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BRAIN = join(process.env.HOME, "coding", "company-brain");
@@ -48,6 +49,10 @@ if (dateFiles.length) {
     console.warn(`gap detected in trends dir: ${missing.length} day(s) missing (${missing[0]}..${missing[missing.length - 1]}) — not backfilled, see news/AGENTS.md — 수집은 news/scripts/collect-news.mjs`);
   }
 }
+
+// 2026-10-13: agent-authored summary + 본문 번역 (src/data/translations/<date>/<id>.md)
+const translations = loadTranslations();
+let translated = 0;
 
 const days = [];
 for (const f of dateFiles.slice().reverse()) {
@@ -96,7 +101,9 @@ for (const f of dateFiles.slice().reverse()) {
     seenContentHashes.add(item.contentHash);
     let domain = "";
     try { domain = new URL(item.canonicalUrl).hostname.replace(/^www\./, ""); } catch { /* already validated */ }
-    items.push({ ...item, domain });
+    const out = { ...item, domain };
+    if (translations.has(out.id)) { applyTranslation(out, translations.get(out.id)); translated++; }
+    items.push(out);
   }
 
   const ideas = [];
@@ -123,4 +130,4 @@ const sourceContract = {
 const payload = { generatedAt: new Date().toISOString(), sourceContract, days, market };
 const dryRun = process.env.NEWS_SYNC_DRY_RUN === "1";
 if (!dryRun) writeFileSync(OUT, JSON.stringify(payload, null, 1), "utf8");
-console.log(`${dryRun ? "validated" : "synced"} ${days.length} day(s), ${days.reduce((s, d) => s + d.items.length, 0)} items (deduped/dropped ${dropped}), evergreen proposals=${evergreenProposalCount} (not published), market=${market ? "ok" : "none"}${dryRun ? "" : " → src/data/news.json"}`);
+console.log(`${dryRun ? "validated" : "synced"} ${days.length} day(s), ${days.reduce((s, d) => s + d.items.length, 0)} items (deduped/dropped ${dropped}), evergreen proposals=${evergreenProposalCount} (not published), market=${market ? "ok" : "none"}, translations=${translated}${dryRun ? "" : " → src/data/news.json"}`);

@@ -53,6 +53,7 @@ collect-market.mjs → company-brain/reports/market-latest.json
 - **URL은 https만.** 어댑터가 거부한다.
 - **GeekNews는 원본 URL만.** `news.hada.io` 토픽 링크가 아니라 그 글의 원본 주소를 쓴다. `collect-news.mjs`가 자동 해석한다.
 - **추측성·YMYL 제외.** 확인되지 않은 루머와 의료·건강은 이 파이프라인이 검증할 수 없다.
+- **본문 번역·직접 요약 (2026-10-13~).** 그날 항목마다 직접 쓴 요약과 GeekNews식 본문 번역을 `src/data/translations/<date>/<id>.md`에 둔다. sync가 overlay하고, 이 요약이 아래 2026-09-23 정책보다 우선한다. 절차, 스키마, 스타일, `npm run translations:pending` / `translations:check`: **[docs/translation-workflow.md](docs/translation-workflow.md)**.
 - **항목 설명(`summary`) 정책 (2026-09-23).** 길이는 240자에서 자르고, URL 한 줄은 설명이 아니므로 버린다.
   - **GeekNews:** 피드 Atom `<content type="html">`만 `summary`로 쓴다(원문). 지어내지 않는다. `news.hada.io` 토픽은 계속 원본 URL로 해석한다.
   - **그 외 소스:** description / story_text / repo description 등 소스가 준 텍스트가 있으면 그걸 우선한다. **없으면** Grok Bot(또는 지정 요약 패스)이 한국어 1–2문장·최대 240자로 요약할 수 있다. 근거는 제목·공개 메타만. 추측·과장 금지.
