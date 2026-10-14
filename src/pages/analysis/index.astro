@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+const languages = [["ko", "한국어"], ["en", "English"], ["ja", "日本語"], ["zh", "简体中文"], ["fr", "Français"], ["es", "Español"]];
+---
+<BaseLayout title="AI 분석 — 가격·성능·업무 선택" description="공식 자료와 평가 방법론으로 AI 가격·성능을 읽어요. 구독·API·업무별 선택 기준을 정리한 OIYO News 분석 글이에요." crumbs={[{label:"AI",href:"/ai/"},{label:"분석"}]}>
+  <h1>AI 분석</h1><p class="lede">제품 발표와 순위에서 한 걸음 더 들어가, 어떤 조건의 비교인지 살펴봐요. 공식 문서 분석과 직접 사용 실험은 구분해서 표시해요.</p>
+  <article class="card"><p class="sub"><time datetime="2026-10-15">2026-10-15</time> · 공식 문서 분석</p><h2><a href="/analysis/ko/ai-price-performance/">AI 가격·성능 비교: ChatGPT·Claude·Gemini를 고르기 전에 확인할 것들</a></h2><p>구독료와 API 단가, 벤치마크 점수는 같은 숫자가 아니에요. 검수 시간까지 포함한 가상 비용 예제로 선택 기준을 설명해요. 제품별 성능 실측이나 최신 가격 순위표는 아니에요.</p><nav aria-label="기사 언어">{languages.map(([lang,label]) => <a class="language-link" href={`/analysis/${lang}/ai-price-performance/`} lang={lang} hreflang={lang}>{label}</a>)}</nav></article>
+  <style>.language-link{display:inline-block;padding:8px;margin:4px 8px 4px 0;min-height:44px}.card h2{margin-top:0;border:0;line-height:1.5}</style>
+</BaseLayout>
