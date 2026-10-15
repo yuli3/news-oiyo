@@ -2,7 +2,7 @@ import { handleMailingRequest } from "./http.mjs";
 import { createProductionMailer } from "./production-mailer.mjs";
 import { createD1Store, createD1Limiter } from "./d1-store.mjs";
 import { handleWeeklyRequest } from "./weekly-handler.mjs";
-import publishedNews from "../../src/data/news.json" with { type: "json" };
+import publishedNews from "../../.cache/mailing-list-news.mjs";
 
 export function onMailingList(context) {
   const env = context.env || {};
