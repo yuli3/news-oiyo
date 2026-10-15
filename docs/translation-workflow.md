@@ -47,12 +47,29 @@ sync가 채우는 필드는 `summary`, `detailSummary`(같은 요약), `summaryA
 - 원문을 다 읽지 못했으면 본문 첫머리나 끝에 그 사실을 밝혀요(예: "Reddit이 403을 돌려줘 RSS 본문을 기준으로 옮겼어요").
 - 큐레이터(HN, GeekNews, Lobsters, Reddit)가 아니라 가리키는 원문을 읽어요. 원문을 못 읽으면 `blocked`로 표시해요.
 
+## 원문 읽기 (폴백 체인)
+
+원문은 `node scripts/fetch-source.mjs <url>`로 읽어요(`--json`, `--max-chars N` 지원, 성공하면 exit 0, 아니면 3). 순서는 이래요.
+
+1. **direct**: 브라우저형 User-Agent로 직접 요청해요. 캡차/Cloudflare challenge 페이지는 성공으로 치지 않아요.
+2. **Reddit**: `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET`가 있으면 공식 OAuth API(`oauth.reddit.com`)를 써요. `REDDIT_USERNAME`/`REDDIT_PASSWORD`도 있으면 script 앱 password grant, 없으면 app-only(client_credentials)예요. 키가 없으면 비인증 `.json`/old.reddit은 쓰지 않고 바로 Wayback으로 넘어가요. Reddit 요청은 항상 `node:net.oiyo.news.fetch-source:v<버전> (by /u/<username>)` 형식의 정직한 UA를 써요.
+3. **Wayback Machine**: archive.org availability API로 가장 가까운 스냅샷을 읽어요. 번역에 쓰면 본문에 스냅샷 기준임을 밝혀요.
+4. **needs-browser**: 자동 경로가 다 막힌 상태예요. **Grok Bot만** 데스크톱 브라우저로 직접 열어 읽어요. 다른 에이전트는 `blocked`로 기록하고 넘어가요.
+
+규칙:
+
+- **페이월은 우회하지 않아요.** Bloomberg, WSJ, FT 같은 매체는 스크립트가 바로 `paywalled`를 돌려줘요. 이때는 1차 출처(보도자료, 공식 블로그, 공시, 논문)를 찾아 그걸 번역하고, 못 찾으면 `blocked`로 둬요. 브라우저 단계에서도 로그인, 캡차 풀기, 페이월 우회는 하지 않아요.
+- Reddit 글이 외부 링크면 `linked:`로 나오는 원문을 다시 이 스크립트로 읽어요(큐레이터가 아니라 원문을 번역).
+- 시크릿은 repo에 두지 않아요. 셸 env나 `.env.local`(`.gitignore`의 `.env.*`로 제외됨)에만 둬요.
+- Reddit API는 광고 사이트라 상업적 사용 승인이 필요해요(회사 브레인 `projects/oiyo-ecosystem/reddit-data-api-terms-2026-10-15.md`). 승인 전에는 키를 넣지 않아요.
+
 ## 명령
 
 ```bash
 npm run update                                      # 수집 → sync (번역 overlay 포함)
 npm run translations:pending -- --date 2026-10-13   # 번역 파일이 없는 항목과 만들 경로 (--json 지원)
-# … 원문을 읽고 md 파일 작성 …
+node scripts/fetch-source.mjs <sourceUrl>             # 원문 읽기 (폴백 체인)
+# … md 파일 작성 …
 npm run sync                                        # news.json에 반영
 npm run translations:check -- --date 2026-10-13 --report   # 검증, 실패하면 exit 1
 npm run lint && npm run build
