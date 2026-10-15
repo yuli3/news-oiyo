@@ -115,6 +115,92 @@
       "aliases": [
         "지디넷"
       ]
+    },
+    {
+      "id": "hankyung-finance",
+      "name": "한국경제 증권",
+      "homepage": "https://www.hankyung.com/finance",
+      "type": "secondary",
+      "aliases": [
+        "Hankyung",
+        "한국경제"
+      ]
+    },
+    {
+      "id": "hankyung-realestate",
+      "name": "한국경제 부동산",
+      "homepage": "https://www.hankyung.com/realestate",
+      "type": "secondary",
+      "aliases": [
+        "HankyungRE"
+      ]
+    },
+    {
+      "id": "mk-economy",
+      "name": "매일경제 경제",
+      "homepage": "https://www.mk.co.kr/news/economy/",
+      "type": "secondary",
+      "aliases": [
+        "MK",
+        "매일경제"
+      ]
+    },
+    {
+      "id": "bok",
+      "name": "한국은행",
+      "homepage": "https://www.bok.or.kr",
+      "type": "primary",
+      "aliases": [
+        "BOK",
+        "한국은행"
+      ]
+    },
+    {
+      "id": "moef",
+      "name": "재정경제부",
+      "homepage": "https://mofe.go.kr",
+      "type": "primary",
+      "aliases": [
+        "MOEF",
+        "기재부"
+      ]
+    },
+    {
+      "id": "federal-reserve",
+      "name": "Federal Reserve",
+      "homepage": "https://www.federalreserve.gov",
+      "type": "primary",
+      "aliases": [
+        "Fed",
+        "FederalReserve"
+      ]
+    },
+    {
+      "id": "sec",
+      "name": "U.S. SEC",
+      "homepage": "https://www.sec.gov",
+      "type": "primary",
+      "aliases": [
+        "SEC"
+      ]
+    },
+    {
+      "id": "coindesk",
+      "name": "CoinDesk",
+      "homepage": "https://www.coindesk.com",
+      "type": "secondary",
+      "aliases": [
+        "CoinDesk"
+      ]
+    },
+    {
+      "id": "cnbc-finance",
+      "name": "CNBC Finance",
+      "homepage": "https://www.cnbc.com/finance/",
+      "type": "secondary",
+      "aliases": [
+        "CNBC"
+      ]
     }
   ]
 }

@@ -32,6 +32,7 @@ import {
   UA as FETCH_UA,
 } from "./lib/fetch-article.mjs";
 import { politeGet, sleep } from "./lib/polite-fetch.mjs";
+import { FINANCE_SCOPE, FINANCE_SOURCES } from "./lib/story-scope.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TRENDS = join(process.env.HOME, "coding", "company-brain", "AI-Sessions", "wiki", "sources", "trends");
@@ -88,6 +89,7 @@ const DETAIL_SEED_SOURCES = new Set([
   "karpathy-blog",
   "aitimes",
   "zdnet-kr",
+  ...FINANCE_SOURCES,
   "geeknews",
   "github",
 ]);
@@ -132,7 +134,7 @@ function applyCuratorFallback(item, reason) {
  * 원문 페이지를 못 읽을 때(Cloudflare challenge 403) detailOrigin=primary, excerptSource=feed 로 쓴다.
  * challenge 를 우회하지 않는다 — 발행처가 공개한 피드만 쓴다.
  */
-const FIRST_PARTY_FEEDS = new Set(["openai-news", "deepmind-blog", "karpathy-blog", "aitimes", "zdnet-kr"]);
+const FIRST_PARTY_FEEDS = new Set(["openai-news", "deepmind-blog", "karpathy-blog", "aitimes", "zdnet-kr", ...FINANCE_SOURCES]);
 
 function applyFeedFallback(item, reason) {
   const text = cleanText(item.feedExcerpt ?? (FIRST_PARTY_FEEDS.has(item.src) ? item.summary : "") ?? "", 4_000);
@@ -410,16 +412,31 @@ async function reddit() {
   return out;
 }
 
-async function rssFeed(src, url) {
+// 피드 pubDate 는 RFC 822 가 보통이지만 재정경제부는 "2026-10-15 17:14:57.0"(KST, 시간대 없음)을 준다.
+function feedDate(raw) {
+  const pub = unwrap(raw ?? "");
+  if (!pub) return null;
+  const local = pub.match(/^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2}:\d{2})/);
+  const parsed = local && !/[zZ]|[+-]\d{2}:?\d{2}$/.test(pub) ? Date.parse(`${local[1]}T${local[2]}+09:00`) : Date.parse(pub);
+  return Number.isNaN(parsed) ? null : new Date(parsed).toISOString();
+}
+
+/**
+ * RSS 2.0 피드. limit = 최신 몇 건, maxAgeHours 가 있으면 그보다 오래된 항목은 뺀다
+ * (공공기관 게시판은 며칠에 한 건이라 첫 실행에 몇 주 전 글이 올라오지 않게).
+ * http 링크는 https 로 올린다 — 어댑터가 https 만 받는다. 페이월·캡차는 우회하지 않는다.
+ */
+async function rssFeed(src, url, { limit = 8, maxAgeHours = null } = {}) {
   const xml = await get(url, { retries: 1 });
   if (!xml) return [];
-  return entries(xml, "item").slice(0, 8).map((e) => {
-    const pub = unwrap(pick(e, /<pubDate>([\s\S]*?)<\/pubDate>/));
-    const publishedAt = pub && !Number.isNaN(Date.parse(pub)) ? new Date(pub).toISOString() : null;
+  const now = Date.now();
+  return entries(xml, "item").map((e) => {
+    const publishedAt = feedDate(pick(e, /<pubDate>([\s\S]*?)<\/pubDate>/));
+    const link = decodeEntities(unwrap(pick(e, /<link>([\s\S]*?)<\/link>/))).replace(/^http:\/\//, "https://");
     return {
       src,
-      title: unwrap(pick(e, /<title>([\s\S]*?)<\/title>/)),
-      url: pick(e, /<link>([\s\S]*?)<\/link>/),
+      title: cleanText(decodeEntities(unwrap(pick(e, /<title>([\s\S]*?)<\/title>/))), 300),
+      url: link,
       score: null,
       comments: null,
       publishedAt,
@@ -427,8 +444,26 @@ async function rssFeed(src, url) {
       // 발행처 피드 원문(content:encoded 가 있으면 그것, 없으면 description). 페이지를 못 읽을 때의 1차 근거.
       feedExcerpt: cleanText(unwrap(pick(e, /<content:encoded>([\s\S]*?)<\/content:encoded>/)) || unwrap(pick(e, /<description>([\s\S]*?)<\/description>/)), 4_000) || undefined,
     };
-  }).filter((x) => x.title && x.url);
+  })
+    .filter((x) => x.title && x.url)
+    .filter((x) => !maxAgeHours || !x.publishedAt || now - Date.parse(x.publishedAt) <= maxAgeHours * 3_600_000)
+    .slice(0, limit);
 }
+
+// 금융 데스크 피드(2026-10-16). 부동산·금·금융·투자·정책·주식·ETF·배당·크립토를 사람 손 없이 모은다.
+// 전부 발행처가 공개한 RSS 이고 Mac mini 에서 직접 받아지는 것만 둔다(검증 결과는 docs/finance-desk.md).
+// 이 소스의 항목은 FINANCE_SOURCES 라서 키워드가 없어도 금융 데스크에 실린다.
+const FINANCE_FEEDS = [
+  ["hankyung-finance", "https://www.hankyung.com/feed/finance", { limit: 6, maxAgeHours: 36 }],
+  ["hankyung-realestate", "https://www.hankyung.com/feed/realestate", { limit: 4, maxAgeHours: 36 }],
+  ["mk-economy", "https://www.mk.co.kr/rss/30100041/", { limit: 5, maxAgeHours: 36 }],
+  ["bok", "https://www.bok.or.kr/portal/bbs/P0000559/news.rss?menuNo=200690", { limit: 3, maxAgeHours: 72 }],
+  ["moef", "https://mofe.go.kr/com/detailRssTagService.do?bbsId=MOSFBBS_000000000028", { limit: 3, maxAgeHours: 48 }],
+  ["federal-reserve", "https://www.federalreserve.gov/feeds/press_all.xml", { limit: 3, maxAgeHours: 72 }],
+  ["sec", "https://www.sec.gov/news/pressreleases.rss", { limit: 3, maxAgeHours: 48 }],
+  ["coindesk", "https://www.coindesk.com/arc/outboundfeeds/rss/", { limit: 4, maxAgeHours: 36 }],
+  ["cnbc-finance", "https://www.cnbc.com/id/10000664/device/rss/rss.html", { limit: 4, maxAgeHours: 36 }],
+];
 
 // GitHub Trending — 공개 페이지를 읽는다. API 가 없는 목록이고, 레지스트리에
 // 이미 `github` 소스가 있는데도 실제 수집기가 없어 한 건도 들어오지 않았다
@@ -480,7 +515,8 @@ function select(items) {
     // 저장소 이름만으로는 무엇인지 알 수 없다(github.com/foo/bar). 설명까지 보고
     // 판정한다. 다른 소스도 설명이 있으면 같은 이득을 본다.
     const haystack = `${x.title} ${x.summary ?? ""}`;
-    if (!AI_TERMS.test(haystack)) return false;
+    // AI 신호 또는 금융 신호(2026-10-16). 금융 전용 피드는 피드 자체가 범위다.
+    if (!AI_TERMS.test(haystack) && !FINANCE_SCOPE.test(haystack) && !FINANCE_SOURCES.has(x.src)) return false;
     const key = x.title.trim().toLowerCase();
     if (seen.has(key)) return false;
     seen.add(key);
@@ -490,7 +526,9 @@ function select(items) {
 
 const SRC_TAG = { "hacker-news": "HN", lobsters: "lobsters", geeknews: "GeekNews", reddit: "Reddit",
   "openai-news": "OpenAI", "deepmind-blog": "DeepMind", "karpathy-blog": "Karpathy", github: "GitHub",
-  aitimes: "AI타임스", "zdnet-kr": "ZDNet" };
+  aitimes: "AI타임스", "zdnet-kr": "ZDNet", "hankyung-finance": "Hankyung", "hankyung-realestate": "HankyungRE",
+  "mk-economy": "MK", bok: "BOK", moef: "MOEF", "federal-reserve": "Fed", sec: "SEC", coindesk: "CoinDesk",
+  "cnbc-finance": "CNBC" };
 // 대괄호로 시작하는 제목([Megathread] 등)이 마크다운 링크를 깨뜨린다.
 const mdSafe = (s) => s.replace(/([[\]])/g, "\\$1");
 
@@ -559,6 +597,7 @@ async function main() {
     rssFeed("karpathy-blog", "https://karpathy.bearblog.dev/feed/?type=rss"),
     rssFeed("aitimes", "https://cdn.aitimes.com/rss/gn_rss_allArticle.xml"),
     rssFeed("zdnet-kr", "https://feeds.feedburner.com/zdkorea"),
+    ...FINANCE_FEEDS.map(([src, url, opts]) => rssFeed(src, url, opts)),
   ])).flat();
 
   // List HN summaries for selection haystack (title+summary AI filter). Detail seed runs after URL resolve.
@@ -602,7 +641,7 @@ async function main() {
   // ## Summary 는 사이트가 리드 문단·메타로 읽는 공개 절이다(sync-news.mjs).
   // 사건 문장만 두고, 건수 로그는 ## 수집 기록으로 내린다. 과거 노트는 소급하지 않는다.
   const publicSummary = buildPublicSummary(items);
-  const collectLog = `라이브 소스 raw ${collected.length}건 중 AI 중심 신호 ${items.length}건을 선별했다. 추측성 항목과 YMYL 은 규약대로 제외했다. 소스별 ${Object.entries(bySource).map(([k, v]) => `${k} ${v}`).join(" · ")}.`;
+  const collectLog = `라이브 소스 raw ${collected.length}건 중 AI·금융 신호 ${items.length}건을 선별했다. 추측성 항목과 YMYL 은 규약대로 제외했다. 소스별 ${Object.entries(bySource).map(([k, v]) => `${k} ${v}`).join(" · ")}.`;
   const note = `---
 type: source
 project: news
