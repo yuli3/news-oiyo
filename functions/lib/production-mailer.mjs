@@ -23,6 +23,9 @@ export function createProductionMailer(env = {}) {
         headers: {
           Authorization: `Bearer ${key}`,
           "Content-Type": "application/json",
+          // Resend requires an app User-Agent; missing identification can cause edge error 1010 (2026-10-15).
+          // https://resend.com/docs/knowledge-base/403-error-1010
+          "User-Agent": "OIYO-News/1.0",
           ...(idempotencyKey ? { "Idempotency-Key": idempotencyKey } : {}),
         },
         body: JSON.stringify({ from, to, subject, text }),
