@@ -1,0 +1,255 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-15",
+  "collected_at": "2026-10-15T06:56:22+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물과 링크를 읽고 직접 썼어요.",
+  "budget": {
+    "calls_used": 12
+  },
+  "posts": [
+    {
+      "id": "2110038898009407584",
+      "url": "https://x.com/sundarpichai/status/2110038898009407584",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11932678
+      },
+      "created_at": "2026-10-13T16:04:10Z",
+      "quote": "Gemini 4 Argon is here.\n\nIt’s available globally today for developers and enterprises in the paid tier of the Gemini API and the Gemini platform, for Ultra subscribers in Google Antigravity, and Ultra and Pro subscribers in the Gemini app and Search.\n\nHope you all enjoy it!",
+      "metrics": {
+        "like": 27032,
+        "repost": 2354,
+        "reply": 1422,
+        "quote": 1167,
+        "bookmark": 3654,
+        "impression": 5365545
+      },
+      "topic": "Gemini 4 Argon 출시",
+      "summary_ko": "구글 CEO 순다르 피차이가 Gemini 4 Argon 전 세계 출시를 알렸어요. Gemini API·플랫폼 유료 티어, Antigravity Ultra, Gemini 앱·검색의 Ultra·Pro 구독자에게 열려요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-07afe39a82c0aeeb"
+      ]
+    },
+    {
+      "id": "2110115571681690051",
+      "url": "https://x.com/physical_int/status/2110115571681690051",
+      "author": {
+        "username": "physical_int",
+        "name": "Physical Intelligence",
+        "followers": 52859
+      },
+      "created_at": "2026-10-13T21:08:50Z",
+      "quote": "Announcing the beta release of the Pi API. We’ve partnered with companies across diverse industries to adapt our models to their robots and applications, from harvesting strawberries to assembling servers. Now we’re opening access to more teams.",
+      "metrics": {
+        "like": 1938,
+        "repost": 212,
+        "reply": 94,
+        "quote": 198,
+        "bookmark": 792,
+        "impression": 301248
+      },
+      "topic": "Pi API 베타",
+      "summary_ko": "Physical Intelligence가 로봇 파운데이션 모델용 Pi API 베타를 열었어요. 로봇 데이터를 올려 π 모델을 파인튜닝하고 호스팅 추론으로 돌릴 수 있고, 딸기 수확부터 서버 조립까지 파트너가 이미 쓰고 있어요.",
+      "link": "https://www.pi.website/blog/api-beta",
+      "related_item_ids": []
+    },
+    {
+      "id": "2110024266741862501",
+      "url": "https://x.com/MTSlive/status/2110024266741862501",
+      "author": {
+        "username": "MTSlive",
+        "name": "MTS",
+        "followers": 560265
+      },
+      "created_at": "2026-10-13T15:06:02Z",
+      "quote": "SITUATION DETECTED: Anthropic co-founder Jack Clark says he now believes it is likely that full recursive self-improvement will become possible in 2027.",
+      "metrics": {
+        "like": 1735,
+        "repost": 90,
+        "reply": 34,
+        "quote": 14,
+        "bookmark": 171,
+        "impression": 46373
+      },
+      "topic": "RSI 타임라인 2027",
+      "summary_ko": "앤트로픽 공동창업자 Jack Clark이 완전 재귀적 자기 개선(RSI)이 2028보다 2027에 가능해질 가능성이 더 크다고 봤다는 소식이에요. 수학·연구 창의성 진전이 빨라진 게 이유로 알려져 있어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2110442001749659890",
+      "url": "https://x.com/OpenAI/status/2110442001749659890",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5434011
+      },
+      "created_at": "2026-10-14T18:45:57Z",
+      "quote": "European businesses are rapidly expanding their use of AI agents. More than half of the AI use among our EU enterprise and business customers now involves these tools, and the number of small business users has grown 8x across the region.",
+      "metrics": {
+        "like": 1470,
+        "repost": 95,
+        "reply": 286,
+        "quote": 55,
+        "bookmark": 214,
+        "impression": 161235
+      },
+      "topic": "EU 에이전트 AI 채택",
+      "summary_ko": "OpenAI가 EU 기업·비즈니스 고객 데이터로 에이전트형 AI(Codex·ChatGPT Work) 사용이 출력 토큰의 절반 넘게 늘었고, 중소기업 주간 사용자는 5월 이후 8배 늘었다고 밝혔어요.",
+      "link": "https://openai.com/index/the-eus-next-chapter-in-ai-is-agentic/",
+      "related_item_ids": [
+        "trend-add439269c558878"
+      ]
+    },
+    {
+      "id": "2110059840957768027",
+      "url": "https://x.com/sundarpichai/status/2110059840957768027",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11932678
+      },
+      "created_at": "2026-10-13T17:27:23Z",
+      "quote": "Some great use cases from Googlers building with Gemini 4 Argon 🧵\n\nIt has a much stronger grasp of coding and multi-step tool use - starting from a raw Pixel CAD file in Google Antigravity, Argon created this exploded-view animation, lighting, camera choreography, and audio",
+      "metrics": {
+        "like": 6389,
+        "repost": 458,
+        "reply": 298,
+        "quote": 76,
+        "bookmark": 1029,
+        "impression": 373006
+      },
+      "topic": "Argon 코딩·도구 사용",
+      "summary_ko": "피차이가 구글러들의 Gemini 4 Argon 활용 사례를 공유했어요. Antigravity에서 Pixel CAD로 분해도 애니메이션·조명·카메라·오디오까지 만들 정도로 코딩과 다단계 도구 사용이 강해졌다고 해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-07afe39a82c0aeeb"
+      ]
+    },
+    {
+      "id": "2110082853094498475",
+      "url": "https://x.com/ChrisGPT/status/2110082853094498475",
+      "author": {
+        "username": "ChrisGPT",
+        "name": "Chris",
+        "followers": 70166
+      },
+      "created_at": "2026-10-13T18:58:50Z",
+      "quote": "Jack Clark, Anthropic's co-founder, says he now believes full recursive self-improvement (RSI) is more likely to become possible in 2027 rather than 2028, citing rapid improvements in AI research capabilities and creativity.",
+      "metrics": {
+        "like": 257,
+        "repost": 18,
+        "reply": 8,
+        "quote": 1,
+        "bookmark": 40,
+        "impression": 8361
+      },
+      "topic": "Jack Clark RSI",
+      "summary_ko": "Jack Clark이 완전 RSI를 2028보다 2027에 더 가깝게 본다는 설명을 정리한 글이에요. AI 연구·창의성 능력이 예상보다 빨리 오른 점을 이유로 들어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2110021497318265191",
+      "url": "https://x.com/_Investinq/status/2110021497318265191",
+      "author": {
+        "username": "_Investinq",
+        "name": "StockMarket.News",
+        "followers": 87296
+      },
+      "created_at": "2026-10-13T14:55:01Z",
+      "quote": "Bain & Company says the AI industry will need about $6 trillion in annual revenue by 2031 just to justify the data center buildout underway today",
+      "metrics": {
+        "like": 3,
+        "repost": 4,
+        "reply": 2,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 2483
+      },
+      "topic": "Bain AI 수익 갭",
+      "summary_ko": "Bain이 2031년까지 AI 인프라를 정당화하려면 연 약 6조 달러 수익이 필요한데, 기존 제품은 1.2~1.8조 수준이라 약 4.2조 달러 갭이 난다고 추산했다는 요약이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-4eceb24795af16da"
+      ]
+    },
+    {
+      "id": "2110343893812474264",
+      "url": "https://x.com/Techmeme/status/2110343893812474264",
+      "author": {
+        "username": "Techmeme",
+        "name": "Techmeme",
+        "followers": 426397
+      },
+      "created_at": "2026-10-14T12:16:07Z",
+      "quote": "The EU Commission's AI Office launches formal AI Act probes into OpenAI and Anthropic over AI agent hacks; experts say the AI Act includes an R&D exemption (@bertuzluca / Euronews)",
+      "metrics": {
+        "like": 11,
+        "repost": 2,
+        "reply": 7,
+        "quote": 2,
+        "bookmark": 1,
+        "impression": 3602
+      },
+      "topic": "EU AI Act 조사",
+      "summary_ko": "EU 집행위원회 AI Office가 에이전트 해킹 이슈로 OpenAI·Anthropic에 AI Act 관련 정식 정보 요청을 시작했다는 Techmeme 요약이에요. 전문가들은 R&D 면제 조항이 쟁점이 될 수 있다고 봐요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-9263cae42c372703"
+      ]
+    },
+    {
+      "id": "2110108367247294885",
+      "url": "https://x.com/sundarpichai/status/2110108367247294885",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11932678
+      },
+      "created_at": "2026-10-13T20:40:13Z",
+      "quote": "Good summary of our security and alignment work for Argon 4.",
+      "metrics": {
+        "like": 1823,
+        "repost": 104,
+        "reply": 116,
+        "quote": 11,
+        "bookmark": 144,
+        "impression": 273584
+      },
+      "topic": "Argon 4 안전·정렬",
+      "summary_ko": "피차이가 Gemini 4 Argon(Argon 4)의 보안·정렬 작업을 정리한 글을 추천했어요. 출시와 함께 안전성 논의가 이어지는 맥락이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-07afe39a82c0aeeb"
+      ]
+    },
+    {
+      "id": "2110312541922771378",
+      "url": "https://x.com/22Astronauts_/status/2110312541922771378",
+      "author": {
+        "username": "22Astronauts_",
+        "name": "22Astronauts",
+        "followers": 594
+      },
+      "created_at": "2026-10-14T10:11:32Z",
+      "quote": "Physical Intelligence opens the Pi API beta, giving more robotics teams access to its robot foundation models.\n\nDevelopers can upload their own robot data, fine tune Pi's models on infrastructure Pi manages, and run them through hosted cloud inference.",
+      "metrics": {
+        "like": 3,
+        "repost": 1,
+        "reply": 1,
+        "quote": 0,
+        "bookmark": 1,
+        "impression": 203
+      },
+      "topic": "Pi API 해설",
+      "summary_ko": "Pi API 베타를 정리한 글이에요. 데이터 업로드→클라우드 파인튜닝→호스팅 추론 흐름과, Almond Axol이 4일 만에 디버링을 배운 사례, 대기열·미공개 가격·네트워크 이슈 한계를 함께 적었어요.",
+      "link": "https://www.pi.website/blog/api-beta",
+      "related_item_ids": []
+    }
+  ]
+}
