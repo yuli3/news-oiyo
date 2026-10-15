@@ -52,6 +52,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      # 2026-10-15: tests include built privacy HTML and real local SQLite/HTTP;
+      # run after build, without production credentials or external mail sending.
+      - name: Mailing-list regression checks
+        run: npm run test:mailing-list
+
       # 2026-10-05: 요약 없는 상세 페이지가 다시 생기면 여기서 멈춘다.
       - name: Audit detail pages
         run: npm run audit:details

@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "node scripts/build-mailing-news.mjs && astro build",
     "type-check": "astro check",
     "lint": "npm run type-check && npm run lint:shadcn",
     "lint:shadcn": "eslint --pass-on-unpruned-suppressions src",
@@ -20,6 +20,9 @@
     "audit:details": "node scripts/audit-detail-pages.mjs",
     "details:pending": "node scripts/list-pending-details.mjs",
     "details:apply": "node scripts/apply-detail-summaries.mjs",
+    "mailing-list:dev": "node scripts/mailing-list-dev.mjs",
+    "test:mailing-list": "node --test scripts/test/mailing-list*.test.mjs",
+    "mailing-list:digest": "node scripts/render-mailing-digest.mjs",
     "translations:pending": "node scripts/translations-pending.mjs",
     "translations:check": "node scripts/check-translations.mjs"
   },
