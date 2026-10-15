@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopicNav from "../../components/TopicNav.astro";
+import TopicFeed from "../../components/TopicFeed.astro";
+import MarketBrief from "../../components/MarketBrief.astro";
+import data from "../../data/news.json";
+import { flattenFeed,type Day } from "../../lib/feed";
+import { storySections } from "../../../scripts/lib/story-scope.mjs";
+const items=flattenFeed(data.days as Day[]).filter(item=>storySections(item).includes("finance"));
+const updated=data.generatedAt?.slice(0,16).replace("T"," ")??"";
+const market=data.market??null;
+---
+<BaseLayout title="금융 뉴스·시장 브리핑" description="금리·환율·기업 실적 소식과 기준일이 표시된 시장 브리핑을 함께 읽어요. 개인화된 투자 권유가 아닌 출처 기반 정보예요." canonical="https://news.oiyo.net/finance/" crumbs={[{label:"금융"}]}>
+  <h1>금융 뉴스와 시장 흐름</h1><p class="lede">시장 브리핑과 금리·환율·기업 소식을 살펴봐요. 실시간 시세나 개인화된 투자 권유는 아니에요.</p><TopicNav />
+  <MarketBrief market={market} updated={updated} />
+  <h2>최근 금융 뉴스</h2><p class="sub">수집된 기사를 날짜순으로 보여드려요. AI 기업의 금융 소식은 AI 섹션에도 있어요.</p><TopicFeed items={items.slice(0,30)} label="금융 뉴스" filters /><p><a href="/archive/">이전 날짜의 기사 보기</a></p>
+</BaseLayout>

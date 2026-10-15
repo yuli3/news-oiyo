@@ -6,7 +6,8 @@ export const AI_SCOPE =
   /\b(ai|llm|gpt|chatgpt|claude|gemini|anthropic|openai|deepmind|mistral|qwen|llama|deepseek|glm|agentic|transformer|embedding|rag|inference|hugging\s?face|copilot|cursor|codex|neural|machine learning|deep learning|prompt injection|prompt engineering)\b|(?:ai|llm).{0,24}agents?|agents?.{0,24}(?:ai|llm)|에이전트|인공지능|생성형|추론|프롬프트|독파모|과기정통|오픈AI|오픈에이아이|앤트로픽|엔비디아|클로드|거대언어|챗봇|멀티모달|파운데이션 모델|언어 모델|오픈웨이트|(?:ai|llm|언어|생성형|파운데이션).{0,16}모델|모델.{0,16}(?:ai|llm|언어|생성)/i;
 
 export const FINANCE_SCOPE =
-  /\b(etfs?|ipos?|nasdaq|kospi|kosdaq|s&p 500|dow jones|fomc|federal reserve|treasury|bond yields?|interest rates?|rate cut|rate hike|earnings|dividend|forex|central bank|stock market|stocks\b|share price|equities|bitcoin|ethereum)\b|금리|환율|증시|주가|코스피|코스닥|기준금리|한국은행|연준|국채|배당|공모주|비트코인|이더리움|가상자산|실적/i;
+  /\b(etfs?|ipos?|nasdaq|kospi|kosdaq|s&p 500|dow jones|fomc|federal reserve|treasury|bond yields?|interest rates?|rate cut|rate hike|earnings|dividend|forex|central bank|stock market|stocks\b|share price|equities|bitcoin|ethereum)\b|금리|환율|증시|주가|코스피|코스닥|기준금리|한국은행|연준|국채|배당|공모주|비트코인|이더리움|가상자산|(?<![가-힣])(?:실적|호실적|분기실적|연간실적)/i;
+// Korean word boundaries are not JS \b: preserve earnings compounds without matching 비현실적/초현실적 (2026-10-15).
 
 // 이 소스의 피드는 그 자체가 AI 범위다. 제목에 AI 가 없는 공식 발표도 남긴다.
 const AI_SOURCES = new Set([
@@ -32,4 +33,16 @@ export function itemInScope(item) {
   if (!item) return false;
   const src = item.sourceId || item.src;
   return inStoryScope(`${item.title ?? ""} ${item.summary ?? ""}`, src);
+}
+
+/** A financial AI story belongs to both desks; source alone must not make a finance-only story AI. */
+export function storySections(item) {
+  if (!item) return [];
+  // The existing collector excludes medical/health advice. Translated archive titles need the same desk boundary (2026-10-15).
+  if (/\b(cancer|suicide|overdose|adhd|diagnos\w*)\b|암\s*진단|암\s*치료|자살|약물\s*과다/i.test(item.title || "")) return [];
+  const text = `${item.title ?? ""} ${item.summary ?? ""}`;
+  const sections = [];
+  if (AI_SCOPE.test(text) || AI_SOURCES.has(item.sourceId || item.src)) sections.push("ai");
+  if (FINANCE_SCOPE.test(text)) sections.push("finance");
+  return sections;
 }

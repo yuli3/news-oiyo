@@ -1,0 +1,15 @@
+---
+const path = Astro.url.pathname;
+const ai = ["/ai/", "/analysis/", "/systems/"].some(prefix => path.startsWith(prefix));
+---
+<nav class="topic-nav" aria-label="뉴스 분야">
+  <a href="/ai/" aria-current={ai ? "page" : undefined}><strong>AI</strong><span>모델·도구·새로운 기술 소식</span></a>
+  <a href="/finance/" aria-current={path.startsWith("/finance/") ? "page" : undefined}><strong>금융</strong><span>시장·금리·환율·기업 실적</span></a>
+</nav>
+<style>
+  .topic-nav{display:grid;grid-template-columns:1fr 1fr;margin:20px 0 28px;border-block:1px solid var(--border)}
+  a{display:flex;flex-direction:column;gap:6px;padding:16px 12px;color:var(--ink);text-decoration:none;min-height:88px}
+  a+a{border-left:1px solid var(--border)}strong{font-size:24px;line-height:1.2}span{font-size:14px;color:var(--muted);line-height:1.5}
+  a:hover,a[aria-current="page"]{background:var(--accent-soft)}a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  @media(max-width:420px){a{padding:14px 10px}span{font-size:13px}}
+</style>

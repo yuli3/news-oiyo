@@ -1,5 +1,5 @@
 ---
-// 페이지 2부터의 랜딩 페이지네이션. /page/N/ 정적 생성.
+// Full archive starts at /page/1/; home is now a topic preview. Existing pages 2+ retain their offsets (2026-10-15).
 import data from "../../data/news.json";
 import Empty from "../../components/Empty.astro";
 import NewsItem from "../../components/NewsItem.astro";
@@ -13,9 +13,9 @@ const totalPages = pageCount(feed.length);
 export function getStaticPaths() {
   const all = flattenFeed(data.days as Day[]);
   const total = pageCount(all.length);
-  return Array.from({ length: Math.max(0, total - 1) }, (_, i) => ({
-    params: { page: String(i + 2) },
-    props: { pageNum: i + 1 },
+  return Array.from({ length: total }, (_, i) => ({
+    params: { page: String(i + 1) },
+    props: { pageNum: i },
   }));
 }
 
@@ -24,7 +24,7 @@ const items = feed.slice(pageNum * ITEMS_PER_PAGE, (pageNum + 1) * ITEMS_PER_PAG
 const title = `기술·경제 트렌드 아카이브 ${pageNum + 1}페이지 — OIYO News`;
 ---
 <BaseLayout title={title} description="HN·Lobsters·GeekNews·TechCrunch 등에서 수집한 기술·경제 큐레이션 아카이브." canonical={`https://news.oiyo.net/page/${pageNum + 1}/`}>
-  <div class="page-intro"><p class="eyebrow">archive</p><h1>지난 트렌드 — {pageNum + 1} / {totalPages} 페이지</h1><p class="lede">최신 피드는 <a href="/">1페이지</a>에 있습니다.</p></div>
+  <div class="page-intro"><h1>전체 기사 — {pageNum + 1} / {totalPages} 페이지</h1><p class="lede">모든 수집 기사를 순서대로 볼 수 있어요. 분야별 소식은 <a href="/ai/">AI</a>와 <a href="/finance/">금융</a>에서, 날짜별 기록은 <a href="/archive/">아카이브</a>에서 살펴보세요.</p></div>
       {items.length === 0 && <Empty id="news-empty-archive" />}
       {items.length > 0 && (
         <ol class="news-board">

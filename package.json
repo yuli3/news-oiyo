@@ -22,6 +22,7 @@
     "details:apply": "node scripts/apply-detail-summaries.mjs",
     "mailing-list:dev": "node scripts/mailing-list-dev.mjs",
     "test:mailing-list": "node --test scripts/test/mailing-list*.test.mjs",
+    "test:story-scope": "node --test scripts/test/story-scope.test.mjs",
     "mailing-list:digest": "node scripts/render-mailing-digest.mjs",
     "translations:pending": "node scripts/translations-pending.mjs",
     "translations:check": "node scripts/check-translations.mjs"
