@@ -52,6 +52,10 @@ jobs:
       - name: Build
         run: npm run build
 
+      # 2026-10-15: financial results must not match Korean adjectives such as 비현실적.
+      - name: Story scope regression checks
+        run: npm run test:story-scope
+
       # 2026-10-15: tests include built privacy HTML and real local SQLite/HTTP;
       # run after build, without production credentials or external mail sending.
       - name: Mailing-list regression checks

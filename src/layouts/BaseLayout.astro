@@ -111,15 +111,16 @@ const family = [
   </head>
   <body>
     <!-- 2026-09-28 2-11: 헤더 높이 64px·푸터 약관 링크·© 표기를 다른 네 사이트와 맞춘다. news 는 GA4 를 쓰는데 개인정보 처리방침 링크가 없었다. -->
-    <header class="site-header"><div class="header-inner"><a class="brand" href="/">OIYO <span>news</span></a><span class="lang-note" lang="ko" aria-label="이 사이트는 한국어로 제공됩니다"><span aria-hidden="true">🇰🇷</span> 한국어</span><nav class="primary-nav" aria-label="주요 탐색" style="margin-left:0"><a href="/">최신 뉴스</a><a href="/archive/">날짜별</a><a href="/ai/">AI</a><a href="/systems/">Systems</a></nav><button class="menu-btn" id="menu-open" aria-label="메뉴 열기" aria-controls="site-drawer" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button></div></header>
+    <!-- 2026-10-15: existing visual system, two topic desks. First viewport must explain purpose and offer AI/finance choices; no timed transition or speed claim. -->
+    <header class="site-header"><div class="header-inner"><a class="brand" href="/">OIYO <span>news</span></a><span class="lang-note" lang="ko" aria-label="이 사이트는 한국어로 제공됩니다"><span aria-hidden="true">🇰🇷</span> 한국어</span><nav class="primary-nav" aria-label="주요 탐색" style="margin-left:0"><a href="/ai/">AI</a><a href="/finance/">금융</a><a href="/archive/">날짜별</a></nav><button class="menu-btn" id="menu-open" aria-label="메뉴 열기" aria-controls="site-drawer" aria-expanded="false"><svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg></button></div></header>
 <div class="drawer-overlay" id="drawer-overlay" aria-hidden="true"></div>
 <aside class="drawer" id="site-drawer" role="dialog" aria-modal="true" aria-label="내비게이션 메뉴">
   <div class="drawer-head"><strong style={{letterSpacing:'-.03em'}}>OIYO <span style={{color:'var(--accent)'}}>news</span></strong><button class="drawer-close" id="menu-close" aria-label="메뉴 닫기">✕</button></div>
   <nav aria-label="모바일 내비게이션">
-    <a href="/">최신 뉴스</a>
+    <a href="/">뉴스 홈</a>
+    <a href="/ai/">AI 뉴스·모델·도구</a>
+    <a href="/finance/">금융 뉴스·시장 브리핑</a>
     <a href="/archive/">날짜별 모아보기</a>
-    <a href="/ai/">AI 모델·도구</a>
-    <a href="/systems/">운영 시스템</a>
     <a href="/saved/">저장한 뉴스</a>
     {/* 패밀리 링크는 공통 푸터에만 둔다(세운 결정 2026-09-24). */}
   </nav>
@@ -141,6 +142,10 @@ const family = [
       {crumbs.length > 0 && <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a>{crumbs.map((crumb) => crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>)}</nav>}
       <slot />
     </main>
-    <footer class="site-footer"><div class="footer-inner"><div class="footer-group"><strong>News</strong><a href="/">최신 뉴스</a><a href="/ai/">AI 모델·도구</a><a href="/systems/">운영 시스템</a><a href="/saved/">저장한 뉴스</a></div><div class="footer-group"><strong>안내</strong><span>날짜별 토론 댓글은 GitHub 로그인(giscus)으로 남겨요</span><span>출처 기반 기술·경제 큐레이션</span><span>개인화된 투자 권유가 아니에요</span><a href="https://paypal.me/chosean" target="_blank" rel="noopener noreferrer">OIYO 후원</a><a href="https://ko-fi.com/tqqq3" target="_blank" rel="noopener noreferrer">Ko-fi</a><a href="https://blog.oiyo.net/ko/privacy/">개인정보 처리방침</a><a href="https://blog.oiyo.net/ko/terms/">이용약관</a><span>© {new Date().getFullYear()} Oiyo Tech</span></div><div class="footer-group"><strong>OIYO 패밀리</strong>{family.map(([label,tag,href]) => <a href={`${href}?utm_source=news&utm_medium=footer&utm_campaign=family_nav`}><b>{label}</b><span>{tag}</span></a>)}</div></div></footer>
+    <footer class="site-footer"><div class="footer-inner">
+      <div class="footer-group"><strong>News</strong><a href="/">뉴스 홈</a><a href="/ai/">AI 뉴스·모델·도구</a><a href="/finance/">금융 뉴스·시장 브리핑</a><a href="/archive/">날짜별</a><a href="/saved/">저장한 뉴스</a></div>
+      <div class="footer-group"><strong>안내</strong><span>날짜별 토론 댓글은 GitHub 로그인(giscus)으로 남겨요</span><span>출처 기반 AI·금융 큐레이션</span><span>개인화된 투자 권유가 아니에요</span><a href="https://paypal.me/chosean" target="_blank" rel="noopener noreferrer">OIYO 후원</a><a href="https://ko-fi.com/tqqq3" target="_blank" rel="noopener noreferrer">Ko-fi</a><a href="https://blog.oiyo.net/ko/privacy/">개인정보 처리방침</a><a href="https://blog.oiyo.net/ko/terms/">이용약관</a><span>© {new Date().getFullYear()} Oiyo Tech</span></div>
+      <div class="footer-group"><strong>OIYO 패밀리</strong>{family.map(([label,tag,href]) => <a href={`${href}?utm_source=news&utm_medium=footer&utm_campaign=family_nav`}><b>{label}</b><span>{tag}</span></a>)}</div>
+    </div></footer>
   </body>
 </html>

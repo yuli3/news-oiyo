@@ -1,6 +1,6 @@
-/** Landing pager: page 1 is `/`, later pages are `/page/N/`. */
+/** Home is a two-desk preview, not the first 30 records; keep the complete archive on /page/N/ (2026-10-15). */
 export function pageHref(pageIndex0: number): string {
-  return pageIndex0 <= 0 ? "/" : `/page/${pageIndex0 + 1}/`;
+  return `/page/${Math.max(0, pageIndex0) + 1}/`;
 }
 
 export type PagerToken = { kind: "page"; index0: number } | { kind: "ellipsis" };

@@ -1,0 +1,35 @@
+---
+import NewsItem from "./NewsItem.astro";
+import { hasDetailPage, SOURCE_COLOR, type FeedItem } from "../lib/feed";
+interface Props { items: FeedItem[]; label: string; filters?: boolean }
+const { items, label, filters = false } = Astro.props;
+const entries = items.map((it,index) => ({ "@type":"ListItem",name:it.title,position:index+1,url:hasDetailPage(it)?new URL(`/item/${it.id}/`,Astro.site).href:it.url }));
+---
+<div data-topic-feed>
+  {filters && items.length > 0 && <div class="source-chips" role="group" aria-label={`${label} 출처 필터`}>
+    {[["all","전체"],["hn","HN"],["geeknews","GeekNews"],["reddit","Reddit"],["official","공식"],["kr","한국"]].map(([key,name]) => <button type="button" data-filter={key} aria-pressed={key==="all"?"true":"false"}>{name}</button>)}
+  </div>}
+  <p data-filter-empty hidden>이 출처의 항목은 현재 목록에 없어요. 다른 출처나 날짜별 목록을 확인해 주세요.</p>
+  {items.length===0 ? <p>이 분야에서 아직 표시할 기사가 없어요. <a href="/archive/">날짜별 기사</a>를 둘러보세요.</p> :
+    <ol class="news-board" aria-label={label}>{items.map(it => <NewsItem {...it} href={it.url} source={it.src} sourceColor={SOURCE_COLOR[it.src]} itemId={hasDetailPage(it)?it.id:undefined} />)}</ol>}
+  {entries.length>0 && <script is:inline type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"ItemList",name:label,itemListElement:entries})} />}
+</div>
+<script>
+  const sources: Record<string,string[]> = {hn:["hacker-news","hn"],geeknews:["geeknews"],reddit:["reddit"],official:["openai-news","openai","deepmind-blog","deepmind","karpathy-blog","karpathy"],kr:["aitimes","zdnet-kr","ai타임스","지디넷"]};
+  document.querySelectorAll<HTMLElement>("[data-topic-feed]").forEach(feed => {
+    const buttons=feed.querySelectorAll<HTMLButtonElement>("button[data-filter]");
+    buttons.forEach(button=>button.addEventListener("click",()=>{
+      const key=button.dataset.filter||"all";let visible=0;
+      feed.querySelectorAll<HTMLElement>(".news-board > li[data-source]").forEach(item=>{
+        const show=key==="all"||(sources[key]||[]).includes((item.dataset.source||"").toLowerCase());item.hidden=!show;if(show)visible++;
+      });
+      const empty=feed.querySelector<HTMLElement>("[data-filter-empty]");if(empty)empty.hidden=visible>0;
+      buttons.forEach(control=>control.setAttribute("aria-pressed",String(control===button)));
+    }));
+  });
+</script>
+<style>
+  .news-board{list-style:none;margin:8px 0 0;padding:0;border-top:1px solid var(--border)}.source-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+  button{min-height:44px;padding:8px 14px;border:1px solid var(--border);border-radius:16px;background:transparent;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+  button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}[data-filter-empty]{color:var(--muted)}
+</style>
