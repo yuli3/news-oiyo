@@ -2,7 +2,7 @@
 // 확인 토큰은 해시만 저장한다. 수신거부 토큰은 이후 메일마다 같은 링크를
 // 다시 만들려고 원문을 남긴다 (2026-10-14). 해시만 있으면 링크를 복원할 수 없다.
 
-export const POLICY_VERSION = "2026-10-14";
+export const POLICY_VERSION = "2026-10-15";
 export const CONFIRM_TTL_MS = 48 * 60 * 60 * 1000;
 
 const EMAIL_RE = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
@@ -88,6 +88,13 @@ export async function subscribe(deps) {
   if (!email) return { status: 400, body: { ok: false, error: "invalid_email" } };
   // 빈 함정 칸은 봇이다. 저장하지 않고 신청된 것처럼 답한다.
   if (deps.trap) return checkInbox();
+  if ((deps.requireTestRecipient && !/^[a-f0-9]{64}$/.test(deps.allowedEmailHash || ""))
+      || (deps.allowedEmailHash && await sha256Hex(email) !== deps.allowedEmailHash)) {
+    return { status: 503, body: { ok: false, error: "test_only" } };
+  }
+  if (deps.requireSuppressionSecret && (typeof deps.suppressionSecret !== "string" || deps.suppressionSecret.length < 32)) {
+    return { status: 503, body: { ok: false, error: "retention_unconfigured" } };
+  }
   // 확인 메일을 못 보내면 대기 열을 만들지 않는다. 확인 없는 주소는 구독이 아니다.
   if (!mailer?.canSend) return { status: 503, body: { ok: false, error: "mailer_unconfigured" } };
   if (!store) return { status: 503, body: { ok: false, error: "store_unconfigured" } };
@@ -99,6 +106,8 @@ export async function subscribe(deps) {
   }
 
   const existing = await store.getByEmail(email);
+  // During the user-approved 90-day suppression period, public requests cannot silently re-enroll an address.
+  if (await store.isSuppressed?.(email)) return checkInbox();
   if (existing?.status === "active") return checkInbox();
   if (deps.requireDurableConfirmation) return durableConfirmation({ ...deps, email }, existing);
 
@@ -214,7 +223,7 @@ export async function unsubscribe(deps) {
     return { status: 400, body: { ok: false, error: "invalid_token" } };
   }
   if (record.status === "unsubscribed") return { status: 200, body: { ok: true, state: "unsubscribed" } };
-  // 해지 기록을 지하지 않는다. 수신거부 뒤 새 동의 없이 다시 넣지 않기 위해서다.
+  // Production D1 atomically replaces this record with a keyed-hash-only suppression (2026-10-15).
   const next = {
     ...record,
     status: "unsubscribed",

@@ -34,7 +34,8 @@ export function createWeeklyStore(db) {
       return claimed ? "claimed" : "busy";
     },
     async markSent(id, emailHash) {
-      await run("UPDATE mailing_deliveries SET state = 'sent' WHERE issue_id = ? AND email_hash = ?", [id, emailHash]);
+      // A completed send needs its deduplication key, not a second copy of the address and bearer token (2026-10-15).
+      await run("UPDATE mailing_deliveries SET state = 'sent', subscriber_payload = '' WHERE issue_id = ? AND email_hash = ?", [id, emailHash]);
     },
   };
 }
