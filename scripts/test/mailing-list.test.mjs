@@ -180,6 +180,26 @@ test("production mailer stays closed without a send switch", () => {
   assert.equal(createProductionMailer({ MAILING_LIST_SEND: "1", RESEND_API_KEY: "k", MAILING_LIST_FROM: "OIYO <news@oiyo.net>" }).devExpose, false);
 });
 
+test("production mailer identifies the app and preserves provider idempotency", async () => {
+  const originalFetch = globalThis.fetch;
+  const requests = [];
+  globalThis.fetch = async (url, options) => {
+    requests.push({ url, options });
+    return { ok: true };
+  };
+  try {
+    const sender = createProductionMailer({ MAILING_LIST_SEND: "1", RESEND_API_KEY: "test-only", MAILING_LIST_FROM: "OIYO <test@example.com>" });
+    assert.deepEqual(await sender.send({ to: "recipient@example.com", subject: "Test", text: "Test body", idempotencyKey: "stable-key" }), { ok: true });
+    assert.equal(requests.length, 1);
+    assert.equal(requests[0].url, "https://api.resend.com/emails");
+    assert.equal(requests[0].options.headers["User-Agent"], "OIYO-News/1.0");
+    assert.equal(requests[0].options.headers["Idempotency-Key"], "stable-key");
+    assert.equal(JSON.parse(requests[0].options.body).to, "recipient@example.com");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("kv store round-trips a record without keeping a replaced confirm hash", async () => {
   const bucket = new Map();
   const kv = {
