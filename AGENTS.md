@@ -60,6 +60,7 @@ collect-market.mjs → company-brain/reports/market-latest.json
   - **기존 항목 자동 소급 백필은 기본 안 함.** 세운/Planner가 지정한 날짜만 채운다.
 - **이전 날짜에 실린 항목은 다시 뽑지 않는다 (2026-10-07).** sync는 같은 URL·제목의 최신 등장만 남기므로, 재수집하면 항목이 어제 페이지에서 사라지고 오늘로 옮겨 간다(10-06 → 10-07 23건). `collect-news.mjs`가 trends 폴더의 이전 날짜 `sources.json`(URL·토론 URL·제목)과 대조해 뺀다. GitHub 저장소만 예외로 **14일**(`REPO_REPEAT_DAYS`)이 지나면 다시 오를 수 있다.
 - **GitHub Trending은 그날의 별(stars today)로 센다.** 누적 스타로 정렬하면 오래된 대형 저장소가 늘 위에 온다. 선별은 제목이 아니라 `제목 + 설명`으로 판정한다 — `github.com/foo/bar` 이름만으로는 AI 신호인지 알 수 없다.
+- **금융 데스크는 수집기가 직접 모은다 (2026-10-16).** `FINANCE_FEEDS`(한경·매경·한국은행·재정경제부·Fed·SEC·CoinDesk·CNBC)와 `FINANCE_SCOPE`/`FINANCE_SOURCES`가 정본이다. company-brain `sources.json`을 손으로 고치지 않는다. 소스 검증표: **[docs/finance-desk.md](docs/finance-desk.md)**.
 - **`raw == 0`만 실패다.** 소스 일부가 429/403이어도 조용한 날과 구분해 계속 진행한다.
 
 ## 편집 요약
