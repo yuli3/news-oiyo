@@ -20,6 +20,12 @@ export default defineConfig({
   // 2026-10-10: preserve Astro5's lossless HTML whitespace during the security upgrade.
   // Astro7 defaults to JSX whitespace handling, which can change adjacent inline prose.
   compressHTML: true,
+  vite: {
+    server: {
+      // Local simulation uses a loopback-only inbox, never the production sender (2026-10-15).
+      proxy: { "/api/mailing-list": "http://127.0.0.1:8788" },
+    },
+  },
   integrations: [
     sitemap({
       // 2026-09-08 뒤집었다. 사이트맵 52개 중 29개가 `/page/N/` 페이지네이션이었고,
@@ -27,7 +33,8 @@ export default defineConfig({
       // 콘텐츠가 노출되지 않는 것은 콘텐츠 문제가 아니다.
       // 페이지네이션은 90일 노출 0 이라 빼도 잃을 것이 없다(blog 와 같은 정책).
       // 2026-10-12: /saved/ 는 브라우저 저장 목록(noindex)이라 사이트맵에서 뺀다.
-      filter: (page) => !/\/page\/\d+\/?$/.test(page) && !/\/saved\/?$/.test(page),
+      filter: (page) => !/\/page\/\d+\/?$/.test(page) && !/\/saved\/?$/.test(page)
+        && !/^\/subscribe(?:\/|$)/.test(new URL(page).pathname),
       serialize: (item) => {
         const path = new URL(item.url).pathname;
         const day = path.match(DATE_PAGE_RE)?.[1];

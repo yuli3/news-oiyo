@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+// 확인 토큰은 메일 링크의 쿼리다. 정적 빌드는 그 값을 모르므로 브라우저가 채운다 (2026-10-14).
+---
+
+<BaseLayout title="구독 확인" description="OIYO 뉴스 메일 수신을 확인해요." noindex={true} crumbs={[{ label: "뉴스 메일", href: "/subscribe/" }, { label: "구독 확인" }]}>
+  <h1>구독 확인</h1>
+  <p id="mail-status" class="mail-status" role="status" aria-live="polite"></p>
+  <form id="confirm-form" class="mail-form" method="post" action="/api/mailing-list/confirm" hidden>
+    <input type="hidden" name="token" value="" />
+    <p class="lede">이 브라우저에서 구독을 확인해요. 링크를 열람한 것만으로는 구독되지 않아요.</p>
+    <button class="mail-submit" type="submit">구독 확인</button>
+  </form>
+  <p id="mail-missing" hidden>확인 링크가 없어요. 메일의 주소가 잘리지 않았는지 봐 주세요.</p>
+  <noscript><p>확인 버튼을 쓰려면 이 페이지의 자바스크립트가 필요해요.</p></noscript>
+  <p><a href="/subscribe/">신청 화면</a></p>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    var messages = {
+      active: "구독이 확인됐어요. AI·금융 소식을 일주일에 한 통, 이 주소로 보내요.",
+      invalid_token: "확인 링크가 유효하지 않아요. 신청 화면에서 다시 받아 주세요.",
+      expired: "확인 시간이 지났어요. 신청 화면에서 다시 받아 주세요.",
+      unsubscribed: "이 주소는 수신 거부 상태예요. 다시 받으려면 신청 화면에서 새로 동의해 주세요.",
+      store_unconfigured: "구독 저장소가 아직 연결되지 않았어요."
+    };
+    var params = new URLSearchParams(location.search);
+    var status = params.get("status") || "";
+    var token = params.get("token") || "";
+    var statusEl = document.getElementById("mail-status");
+    var form = document.getElementById("confirm-form");
+    var missing = document.getElementById("mail-missing");
+    if (status && messages[status] && statusEl) statusEl.textContent = messages[status];
+    if (/^[A-Za-z0-9_-]{43}$/.test(token) && form && !status) {
+      var field = form.querySelector("input[name=token]");
+      if (field) field.value = token;
+      form.hidden = false;
+    } else if (!status && missing) {
+      missing.hidden = false;
+    }
+  })();
+</script>
+
+<script>
+  const form = document.querySelector("#confirm-form");
+  const status = document.querySelector("#mail-status");
+  const messages: Record<string, string> = {
+    active: "구독이 확인됐어요. AI·금융 소식을 일주일에 한 통, 이 주소로 보내요.",
+    invalid_token: "확인 링크가 유효하지 않아요.",
+    expired: "확인 시간이 지났어요. 신청 화면에서 다시 받아 주세요.",
+    unsubscribed: "이 주소는 수신 거부 상태예요.",
+    store_unconfigured: "구독 저장소가 아직 연결되지 않았어요.",
+  };
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!(form instanceof HTMLFormElement) || !(status instanceof HTMLElement)) return;
+    const button = form.querySelector("button[type=submit]");
+    if (button instanceof HTMLButtonElement && button.disabled) return;
+    if (button instanceof HTMLButtonElement) button.disabled = true;
+    form.setAttribute("aria-busy", "true");
+    status.textContent = "확인 요청을 처리하고 있어요.";
+    try {
+      const data = new FormData(form);
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: { "content-type": "application/json", accept: "application/json" },
+        body: JSON.stringify({ token: data.get("token") }),
+      });
+      const body = await response.json();
+      const key = typeof body.state === "string" ? body.state : typeof body.error === "string" ? body.error : "";
+      const succeeded = response.ok && body.ok === true && key === "active";
+      status.textContent = messages[key] || "확인 요청을 완료하지 못했어요. 잠시 뒤 다시 눌러 주세요.";
+      // A transport failure is not a completed action; keep the token/form available for retry (2026-10-15).
+      if (succeeded) form.hidden = true;
+    } catch {
+      status.textContent = "연결에 문제가 생겼어요. 잠시 뒤 다시 눌러 주세요.";
+    } finally {
+      form.removeAttribute("aria-busy");
+      if (button instanceof HTMLButtonElement) button.disabled = false;
+    }
+  });
+</script>
+
+<style>
+  .mail-form { max-width: 560px; }
+  .mail-submit { min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--accent); color: var(--card); font: inherit; font-weight: 700; cursor: pointer; }
+  .mail-status { min-height: 44px; color: var(--muted); }
+</style>
