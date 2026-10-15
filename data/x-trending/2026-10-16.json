@@ -1,0 +1,261 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-16",
+  "collected_at": "2026-10-16T08:20:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물과 링크를 읽고 직접 썼어요.",
+  "budget": {
+    "calls_used": 11
+  },
+  "posts": [
+    {
+      "id": "2110779754274292212",
+      "url": "https://x.com/AIatMeta/status/2110779754274292212",
+      "author": {
+        "username": "AIatMeta",
+        "name": "AI at Meta",
+        "followers": 867420
+      },
+      "created_at": "2026-10-15T17:08:04Z",
+      "quote": "Today we’re releasing Muse Spark Open, the most capable US open-weight model to date.\n\nBuilt for coding and agentic work, it excels at long-horizon tasks, complex software engineering, and multi-step…",
+      "metrics": {
+        "like": 7674,
+        "repost": 745,
+        "reply": 303,
+        "quote": 427,
+        "bookmark": 1551,
+        "impression": 468469
+      },
+      "topic": "Meta Muse Spark Open 공개",
+      "summary_ko": "Meta가 '미국 최고 성능 오픈웨이트 모델'이라며 Muse Spark Open을 공개했어요. 코딩·에이전트 작업용이고 총 816B·활성 42B 파라미터, 1M 토큰 컨텍스트를 내세워요.",
+      "link": "https://huggingface.co/collections/meta-models/muse-spark-open",
+      "related_item_ids": [
+        "trend-3ca3ffb2ecad6c9c",
+        "trend-3f7cb7d940de0b15"
+      ]
+    },
+    {
+      "id": "2110749836450713896",
+      "url": "https://x.com/NVIDIAAI/status/2110749836450713896",
+      "author": {
+        "username": "NVIDIAAI",
+        "name": "NVIDIA AI",
+        "followers": 349740
+      },
+      "created_at": "2026-10-15T15:09:11Z",
+      "quote": "Meet NVIDIA Nemotron 3.5 Super VL\n\nOur new open model combines reasoning and tool use with text, image, document, and video understanding for long-running AI agents.\n\n120B total parameters with 12B ac…",
+      "metrics": {
+        "like": 3395,
+        "repost": 406,
+        "reply": 207,
+        "quote": 246,
+        "bookmark": 914,
+        "impression": 316453
+      },
+      "topic": "NVIDIA Nemotron 3.5 Super VL",
+      "summary_ko": "NVIDIA가 장시간 돌아가는 AI 에이전트용 오픈 모델 Nemotron 3.5 Super VL을 내놨어요. 추론·도구 사용에 텍스트·이미지·문서·영상 이해를 합친 120B(활성 12B) 모델이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-e127700d6183a1ea",
+        "trend-51bbb13d95f8f59b",
+        "trend-421508250af0bf91"
+      ]
+    },
+    {
+      "id": "2110751201105256925",
+      "url": "https://x.com/bfl_ai/status/2110751201105256925",
+      "author": {
+        "username": "bfl_ai",
+        "name": "Black Forest Labs",
+        "followers": 55168
+      },
+      "created_at": "2026-10-15T15:14:36Z",
+      "quote": "FLUX 3 Image Klein is here.\n\nOpen Weights with the quality of a large frontier model. Customizable and fast.\n\n5.6B parameters and runs on a single consumer GPU.\n\nNative 4K, bounding boxes, and pixel-p…",
+      "metrics": {
+        "like": 2487,
+        "repost": 297,
+        "reply": 130,
+        "quote": 151,
+        "bookmark": 1336,
+        "impression": 148819
+      },
+      "topic": "FLUX 3 Image Klein 오픈웨이트",
+      "summary_ko": "Black Forest Labs가 5.6B 파라미터 이미지 모델 FLUX 3 Image Klein을 오픈웨이트로 공개했어요. 소비자용 GPU 한 장에서 돌고 네이티브 4K, 바운딩 박스, 픽셀 단위 편집을 지원한다고 해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-9b25f96e6df9bc9f"
+      ]
+    },
+    {
+      "id": "2110760441240752399",
+      "url": "https://x.com/ArtificialAnlys/status/2110760441240752399",
+      "author": {
+        "username": "ArtificialAnlys",
+        "name": "Artificial Analysis",
+        "followers": 160309
+      },
+      "created_at": "2026-10-15T15:51:19Z",
+      "quote": "Nvidia’s Nemotron 3.5 Super VL is now the leading US open weight model, scoring 26 on the Artificial Analysis Intelligence Index\n\nNemotron 3.5 Super VL achieves twice the intelligence of its predecess…",
+      "metrics": {
+        "like": 751,
+        "repost": 62,
+        "reply": 78,
+        "quote": 41,
+        "bookmark": 117,
+        "impression": 78056
+      },
+      "topic": "Artificial Analysis: 미국 오픈모델 순위",
+      "summary_ko": "Artificial Analysis는 Nemotron 3.5 Super VL이 지수 26점으로 미국 오픈웨이트 모델 1위가 됐고 전작보다 지능 점수가 두 배라고 평가했어요. 약 80분 뒤 Meta가 Muse Spark Open을 내며 1위 주장이 겹쳤어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-e127700d6183a1ea"
+      ]
+    },
+    {
+      "id": "2110745129883767052",
+      "url": "https://x.com/superalesha/status/2110745129883767052",
+      "author": {
+        "username": "superalesha",
+        "name": "Alexey Fateev",
+        "followers": 7936
+      },
+      "created_at": "2026-10-15T14:50:29Z",
+      "quote": "Nvidia released a new 120B open model today and compared it to Chinese models in its own table.\n\nQwen3.8 Flash-Next wins all 6 of the benchmarks every model in that table shares.\n\nSWE-bench Pro: 60.4…",
+      "metrics": {
+        "like": 213,
+        "repost": 8,
+        "reply": 27,
+        "quote": 6,
+        "bookmark": 66,
+        "impression": 14994
+      },
+      "topic": "Nemotron vs Qwen 벤치마크",
+      "summary_ko": "NVIDIA가 자사 표에서 중국 모델과 비교했지만, 같은 표의 공통 벤치마크 6개에서 모두 Qwen3.8 Flash-Next가 앞선다는 지적이에요. SWE-bench Pro 60.4 대 51.8 등을 예로 들어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-e127700d6183a1ea"
+      ]
+    },
+    {
+      "id": "2110773251685109928",
+      "url": "https://x.com/testingcatalog/status/2110773251685109928",
+      "author": {
+        "username": "testingcatalog",
+        "name": "🚨 AI News | TestingCatalog",
+        "followers": 80378
+      },
+      "created_at": "2026-10-15T16:42:14Z",
+      "quote": "Krea AI introduced Krea 3, a new image model designed for fast, precise image editing.\n\n> Krea 3 combines separate references for characters, their outfits, and the location into a single scene while…",
+      "metrics": {
+        "like": 93,
+        "repost": 5,
+        "reply": 11,
+        "quote": 2,
+        "bookmark": 35,
+        "impression": 7813
+      },
+      "topic": "Krea 3 이미지 편집 모델",
+      "summary_ko": "Krea AI가 대규모 편집용 이미지 모델 Krea 3를 공개했어요. 인물·의상·장소 레퍼런스를 한 장면에 합치면서 얼굴과 색보정을 일관되게 유지한다는 점을 내세워요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-82dd9c261ae5986d"
+      ]
+    },
+    {
+      "id": "2110817835509268817",
+      "url": "https://x.com/MichaelDell/status/2110817835509268817",
+      "author": {
+        "username": "MichaelDell",
+        "name": "Michael Dell 🇺🇸",
+        "followers": 8605032
+      },
+      "created_at": "2026-10-15T19:39:23Z",
+      "quote": "Customers love choice! \n\n@AIatMeta Muse Spark Open and @nvidia Nemotron 3.5 Super VL are now available on the Dell Enterprise Hub with @huggingface 🤗",
+      "metrics": {
+        "like": 79,
+        "repost": 12,
+        "reply": 15,
+        "quote": 0,
+        "bookmark": 6,
+        "impression": 14172
+      },
+      "topic": "Dell Enterprise Hub 탑재",
+      "summary_ko": "마이클 델이 Muse Spark Open과 Nemotron 3.5 Super VL을 Hugging Face와 함께하는 Dell Enterprise Hub에서 쓸 수 있게 됐다고 알렸어요. 새 오픈모델이 하루 만에 기업용 배포 채널에 올라왔어요.",
+      "link": "https://dell.huggingface.co/updates/muse-spark-open-nvidia-nemotron-3-5-super-vl",
+      "related_item_ids": [
+        "trend-3ca3ffb2ecad6c9c",
+        "trend-e127700d6183a1ea"
+      ]
+    },
+    {
+      "id": "2110701126618353885",
+      "url": "https://x.com/RealChickenBoy9/status/2110701126618353885",
+      "author": {
+        "username": "RealChickenBoy9",
+        "name": "리얼치킨보이",
+        "followers": 68726
+      },
+      "created_at": "2026-10-15T11:55:38Z",
+      "quote": "얀 르쿤\n\"LLM 키워서 인간 수준 AI? 절대 불가능. \n'데이터센터 속 천재들의 나라'는 완전 헛소리.\"\n\nLLM 규모만 키워서는 인간 수준 AI에 못 간다고 단언했음.\n\"앞으로 2년 안엔 절대 안 온다\"며 일부 '모험적인 동료들'의 주장을 정면 반박했음.\n'데이터센터 속 천재들의",
+      "metrics": {
+        "like": 32,
+        "repost": 2,
+        "reply": 2,
+        "quote": 0,
+        "bookmark": 8,
+        "impression": 5108
+      },
+      "topic": "얀 르쿤의 LLM 스케일링 비판",
+      "summary_ko": "얀 르쿤이 LLM 규모만 키워서는 인간 수준 AI에 갈 수 없고 2년 안엔 절대 오지 않는다고 단언했다는 한국어 정리 글이에요. '데이터센터 속 천재들의 나라' 주장도 정면 반박했다고 전해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2110694197640794614",
+      "url": "https://x.com/RealChickenBoy9/status/2110694197640794614",
+      "author": {
+        "username": "RealChickenBoy9",
+        "name": "리얼치킨보이",
+        "followers": 68726
+      },
+      "created_at": "2026-10-15T11:28:06Z",
+      "quote": "📉 10/15(목) 국내증시 마감\n코스피 -7.57%, 코스닥 -7.65%로 마감했어요. \n장 중에는 두 시장 모두 서킷브레이커가 발동됐어요.\n\n📊 지수\n▪️ 코스피 5,554.22(-454.59p, -7.57%). \n장 중 저점은 5,450.81(-9.29%)\n▪️ 코스닥 760.82(-63.06p, -7.65%)\n▪️ 1단계 서킷브레이커 발동: \n코스닥…",
+      "metrics": {
+        "like": 8,
+        "repost": 0,
+        "reply": 4,
+        "quote": 1,
+        "bookmark": 0,
+        "impression": 4701
+      },
+      "topic": "코스피·코스닥 서킷브레이커",
+      "summary_ko": "10월 15일 코스피가 -7.57%, 코스닥이 -7.65%로 마감했고 장중 두 시장 모두 서킷브레이커가 발동됐다는 마감 정리예요. 미국 CPI 상회와 AI 인프라 기업 신용 불안이 겹친 날이었어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2110602707291738347",
+      "url": "https://x.com/fulllleverage/status/2110602707291738347",
+      "author": {
+        "username": "fulllleverage",
+        "name": "풀레 🛰",
+        "followers": 15413
+      },
+      "created_at": "2026-10-15T05:24:33Z",
+      "quote": "이 악재도 무시 못함\n모든게 한번에 터지는 느낌\n\n☆코어위브 채권이 반도체를 흔드는 이유☆\n\n1. 코어위브 2032년물 회사채가 6월 9.625%에 발행됐는데 수익률이 약 15%까지 치솟았음\n\n2. 채권값은 1달러당 80센트 아래로 떨어졌고, 신용부도스와프에는 5년 내 부도 확률 50% 이상이 반영됐다는 말임",
+      "metrics": {
+        "like": 38,
+        "repost": 8,
+        "reply": 7,
+        "quote": 3,
+        "bookmark": 5,
+        "impression": 3505
+      },
+      "topic": "코어위브 회사채 급락",
+      "summary_ko": "AI 클라우드 기업 코어위브의 2032년물 회사채 수익률이 약 15%까지 오르고 채권값이 달러당 80센트 아래로 떨어졌다는 설명이에요. AI 인프라 '빚투' 우려가 반도체주를 흔든 이유로 꼽혀요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
