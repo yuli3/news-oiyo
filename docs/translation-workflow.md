@@ -52,7 +52,7 @@ sync가 채우는 필드는 `summary`, `detailSummary`(같은 요약), `summaryA
 원문은 `node scripts/fetch-source.mjs <url>`로 읽어요(`--json`, `--max-chars N` 지원, 성공하면 exit 0, 아니면 3). 순서는 이래요.
 
 1. **direct**: 브라우저형 User-Agent로 직접 요청해요. 캡차/Cloudflare challenge 페이지는 성공으로 치지 않아요.
-2. **Reddit**: `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET`가 있으면 공식 OAuth API(`oauth.reddit.com`)를 써요. `REDDIT_USERNAME`/`REDDIT_PASSWORD`도 있으면 script 앱 password grant, 없으면 app-only(client_credentials)예요. 키가 없으면 `.json` 엔드포인트 → old.reddit HTML 순서로 시도해요. Reddit 요청은 항상 `node:net.oiyo.news.fetch-source:v<버전> (by /u/<username>)` 형식의 정직한 UA를 써요.
+2. **Reddit**: `REDDIT_CLIENT_ID`/`REDDIT_CLIENT_SECRET`가 있으면 공식 OAuth API(`oauth.reddit.com`)를 써요. `REDDIT_USERNAME`/`REDDIT_PASSWORD`도 있으면 script 앱 password grant, 없으면 app-only(client_credentials)예요. 키가 없으면 비인증 `.json`/old.reddit은 쓰지 않고 바로 Wayback으로 넘어가요. Reddit 요청은 항상 `node:net.oiyo.news.fetch-source:v<버전> (by /u/<username>)` 형식의 정직한 UA를 써요.
 3. **Wayback Machine**: archive.org availability API로 가장 가까운 스냅샷을 읽어요. 번역에 쓰면 본문에 스냅샷 기준임을 밝혀요.
 4. **needs-browser**: 자동 경로가 다 막힌 상태예요. **Grok Bot만** 데스크톱 브라우저로 직접 열어 읽어요. 다른 에이전트는 `blocked`로 기록하고 넘어가요.
 

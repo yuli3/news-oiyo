@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // 번역용 원문 읽기 폴백 체인 (docs/translation-workflow.md "원문 읽기" 참고).
 //   1) direct fetch (브라우저형 UA)
-//   2) Reddit: REDDIT_CLIENT_ID/SECRET 있으면 공식 OAuth API, 없으면 .json → old.reddit
+//   2) Reddit: REDDIT_CLIENT_ID/SECRET 있으면 공식 OAuth API, 없으면 바로 Wayback (비인증 .json/old.reddit 은 쓰지 않음)
 //   3) Wayback Machine (archive.org availability API)
 //   4) needs-browser — Grok Bot 이 데스크톱 브라우저로 직접 읽는다.
 // 페이월/캡차/Cloudflare challenge 는 우회하지 않는다. 페이월 매체는 'paywalled' 로 기록하고
@@ -100,27 +100,6 @@ async function redditOAuth(url) {
   return parsed ? { method: "reddit-oauth", status: "ok", http: 200, ...parsed } : { method: "reddit-oauth", status: "failed", note: "파싱 실패" };
 }
 
-async function redditPublic(url) {
-  const attempts = [];
-  for (const host of ["www.reddit.com", "old.reddit.com"]) {
-    const r = await get(`https://${host}${postPath(url)}.json?raw_json=1&limit=30`, { "user-agent": redditUA(), accept: "application/json" });
-    if (r.status === 200 && r.type.includes("json")) {
-      try {
-        const parsed = redditListingToText(JSON.parse(r.body));
-        if (parsed) return [...attempts, { method: `reddit-json:${host}`, status: "ok", http: 200, ...parsed }];
-      } catch { /* fallthrough */ }
-    }
-    attempts.push({ method: `reddit-json:${host}`, status: "failed", http: r.status });
-  }
-  const r = await get(`https://old.reddit.com${postPath(url)}/`, { "user-agent": redditUA() });
-  // 차단 시 old.reddit 도 200 + "Welcome to Reddit" 안내 페이지를 준다 → 실제 스레드 마크업이 있어야 성공.
-  if (okHtml(r) && /id="siteTable/.test(r.body)) {
-    const self = r.body.match(/<div class="expando[\s\S]*?<div class="md">([\s\S]*?)<\/div>/)?.[1] ?? "";
-    return [...attempts, { method: "old.reddit-html", status: "ok", http: r.status, title: titleOf(r.body), text: htmlToText(self) || htmlToText(r.body).slice(0, 8000) }];
-  }
-  return [...attempts, { method: "old.reddit-html", status: "failed", http: r.status, note: r.status === 200 ? "차단 안내 페이지" : undefined }];
-}
-
 async function wayback(url) {
   const r = await get(`https://archive.org/wayback/available?url=${encodeURIComponent(url)}`, { accept: "application/json" });
   let snap;
@@ -144,11 +123,6 @@ export async function fetchSource(url) {
   if (isReddit(url)) {
     const o = await redditOAuth(url); attempts.push(o);
     if (o.status === "ok") return done(o, { linkedUrl: o.linkedUrl });
-    if (o.status === "skipped") {
-      const list = await redditPublic(url); attempts.push(...list);
-      const hit = list.find((a) => a.status === "ok");
-      if (hit) return done(hit, { linkedUrl: hit.linkedUrl });
-    }
   } else {
     const r = await get(url);
     const a = { method: "direct", status: okHtml(r) ? "ok" : "failed", http: r.status, error: r.error };
