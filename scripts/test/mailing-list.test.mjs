@@ -82,7 +82,7 @@ test("double opt-in keeps only the confirm hash and activates once", async () =>
   assert.equal(result.status, 202);
   const saved = await store.getByEmail("reader@example.com");
   assert.equal(saved.status, "pending");
-  assert.equal(saved.policyVersion, "2026-10-14");
+  assert.equal(saved.policyVersion, "2026-10-15");
   assert.equal("confirmToken" in saved, false);
   assert.match(saved.unsubscribeToken, /^[A-Za-z0-9_-]{43}$/);
   const confirmToken = tokenFrom(result.body.devConfirmUrl);

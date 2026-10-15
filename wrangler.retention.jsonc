@@ -1,0 +1,15 @@
+{
+  "name": "news-mailing-retention",
+  "main": "workers/mailing-retention.mjs",
+  "compatibility_date": "2026-10-15",
+  "workers_dev": false,
+  "preview_urls": false,
+  "observability": { "enabled": true },
+  "triggers": { "crons": ["17 * * * *"] },
+  "d1_databases": [{
+    "binding": "MAILING_LIST_DB",
+    "database_name": "news-mailing-list",
+    "database_id": "2cf4ed98-633a-44f1-855c-e6bfc188e6ec",
+    "migrations_dir": "migrations"
+  }]
+}
