@@ -1,0 +1,276 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-17",
+  "collected_at": "2026-10-17T07:23:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물과 링크를 읽고 직접 썼어요.",
+  "budget": {
+    "calls_used": 10
+  },
+  "posts": [
+    {
+      "id": "2111177834127601902",
+      "url": "https://x.com/claudeai/status/2111177834127601902",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 1908504
+      },
+      "created_at": "2026-10-16T19:29:54Z",
+      "quote": "Six projects from the last few weeks that caught our attention:\n\nA wildfire analysis prototype that maps the fire’s spread over time and tracks hot spots, made with Opus 5.5.",
+      "metrics": {
+        "like": 10896,
+        "repost": 557,
+        "reply": 221,
+        "quote": 72,
+        "bookmark": 4913,
+        "impression": 449310
+      },
+      "topic": "Claude로 만든 프로젝트 소개",
+      "summary_ko": "Claude 공식 계정이 최근 몇 주 사이 눈에 띈 프로젝트 6개를 소개하는 스레드를 올렸어요. 첫 번째는 Opus 5.5로 만든 산불 분석 시제품으로, 시간에 따른 화재 확산을 지도에 그리고 열점을 추적해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111192259073094035",
+      "url": "https://x.com/OpenAI/status/2111192259073094035",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5442222
+      },
+      "created_at": "2026-10-16T20:27:13Z",
+      "quote": "GPT-6 Astra Pro in ChatGPT got an upgrade with faster responses and improved use of plugins and tools.\n\nAnd now, multiple agents can tackle different parts of a task in parallel. You can follow each…",
+      "metrics": {
+        "like": 4003,
+        "repost": 182,
+        "reply": 298,
+        "quote": 105,
+        "bookmark": 403,
+        "impression": 229667
+      },
+      "topic": "ChatGPT GPT-6 Astra Pro 병렬 에이전트",
+      "summary_ko": "OpenAI가 ChatGPT의 GPT-6 Astra Pro를 업그레이드해 응답이 빨라지고 플러그인·도구 활용이 좋아졌다고 알렸어요. 이제 여러 에이전트가 한 작업의 다른 부분을 병렬로 처리하고, 각 진행 상황을 따라가며 끝난 작업을 열어 검토할 수 있어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111152183240511640",
+      "url": "https://x.com/AnthropicAI/status/2111152183240511640",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1809898
+      },
+      "created_at": "2026-10-16T17:47:58Z",
+      "quote": "New from our STEM Fellows Program: Designing more efficient quantum circuits with Claude.\n\nGiven plain-language instructions, Claude Mythos 5 designed quantum circuits that improve on the best…",
+      "metrics": {
+        "like": 2599,
+        "repost": 250,
+        "reply": 242,
+        "quote": 144,
+        "bookmark": 558,
+        "impression": 213207
+      },
+      "topic": "Claude로 양자 회로 설계",
+      "summary_ko": "Anthropic STEM 펠로 프로그램 연구로, Claude Mythos 5가 평범한 말로 된 지시만 받고 기존 최고 발표 회로보다 효율적인 양자 회로를 설계했다고 해요. 개선 폭이 한 자릿수 배 이상인 경우도 있었대요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-bae0c8571549ec69"
+      ]
+    },
+    {
+      "id": "2111127991401247033",
+      "url": "https://x.com/GoogleDeepMind/status/2111127991401247033",
+      "author": {
+        "username": "GoogleDeepMind",
+        "name": "Google DeepMind",
+        "followers": 1572462
+      },
+      "created_at": "2026-10-16T16:11:50Z",
+      "quote": "Four Gemini 4 Argon agents beat Minecraft from scratch in 27 hours.\n\nOperating in a sandbox using only code and text, they wrote 2,783 programs, divided up jobs over chat, shared notes, and debugged…",
+      "metrics": {
+        "like": 1414,
+        "repost": 106,
+        "reply": 186,
+        "quote": 68,
+        "bookmark": 250,
+        "impression": 90280
+      },
+      "topic": "Gemini 4 Argon 에이전트 마인크래프트 클리어",
+      "summary_ko": "Google DeepMind는 Gemini 4 Argon 에이전트 4개가 사람 도움 없이 27시간 만에 마인크래프트를 처음부터 깼다고 밝혔어요. 코드와 텍스트만 쓰는 샌드박스에서 프로그램 2,783개를 짜고, 채팅으로 역할을 나누고 메모를 공유하며 함께 디버깅했대요.",
+      "link": "https://x.com/maxencefaldor/status/2111023397106770026",
+      "related_item_ids": []
+    },
+    {
+      "id": "2111056939841163336",
+      "url": "https://x.com/MistralAI/status/2111056939841163336",
+      "author": {
+        "username": "MistralAI",
+        "name": "Mistral AI",
+        "followers": 223553
+      },
+      "created_at": "2026-10-16T11:29:30Z",
+      "quote": "Turns out le Chonk is into rocket science.\n\nMistral Large 4 scoring well in engineering and astronomy on Ulam’s private benchmark, STEMBench: https://t.co/OW3reppzWN",
+      "metrics": {
+        "like": 1274,
+        "repost": 99,
+        "reply": 93,
+        "quote": 17,
+        "bookmark": 119,
+        "impression": 46820
+      },
+      "topic": "Mistral Large 4 STEMBench 결과",
+      "summary_ko": "Mistral AI가 Ulam의 비공개 벤치마크 STEMBench에서 Mistral Large 4가 공학·천문학 분야 점수가 좋았다고 농담 섞어 알렸어요. 세부 점수는 링크된 STEMBench 페이지에 있어요.",
+      "link": "https://www.ulam.ai/stembench",
+      "related_item_ids": []
+    },
+    {
+      "id": "2111142258867335430",
+      "url": "https://x.com/OpenAIDevs/status/2111142258867335430",
+      "author": {
+        "username": "OpenAIDevs",
+        "name": "OpenAI Developers",
+        "followers": 458242
+      },
+      "created_at": "2026-10-16T17:08:32Z",
+      "quote": "Building apps with GPT-Live-1? Give them a voice that fits.\n\nHere’s how to shape a voice with a prompt or choose from new international preset voices:",
+      "metrics": {
+        "like": 963,
+        "repost": 72,
+        "reply": 72,
+        "quote": 23,
+        "bookmark": 289,
+        "impression": 60316
+      },
+      "topic": "GPT-Live-1 음성 맞춤",
+      "summary_ko": "OpenAI Developers가 GPT-Live-1로 앱을 만들 때 프롬프트로 목소리를 다듬거나 새로 추가된 다국어 프리셋 음성 중에서 고르는 방법을 영상으로 소개했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111027329816465435",
+      "url": "https://x.com/TencentHunyuan/status/2111027329816465435",
+      "author": {
+        "username": "TencentHunyuan",
+        "name": "Tencent Hy",
+        "followers": 53578
+      },
+      "created_at": "2026-10-16T09:31:51Z",
+      "quote": "🚀 Hy Memory 2.0 is out — open-source model, framework, and MemHub. \nYour private memory steward.\nFramework handles chat, work & code memories. \n#1 open-source on 4 benchmarks. \nHy-Memory-30B-A3B…",
+      "metrics": {
+        "like": 891,
+        "repost": 82,
+        "reply": 48,
+        "quote": 40,
+        "bookmark": 647,
+        "impression": 47367
+      },
+      "topic": "Tencent Hy Memory 2.0 오픈소스",
+      "summary_ko": "Tencent Hunyuan이 오픈소스 모델·프레임워크·MemHub로 구성된 Hy Memory 2.0을 공개했어요. 채팅·업무·코드 기억을 다루고, Hy-Memory-30B-A3B가 주요 프레임워크에서 Opus 5를 앞섰다고 주장하며, MemHub(CLI+Mac)는 10개 넘는 AI 도구와 동기화된대요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-38dc0cbb6351fe9f"
+      ]
+    },
+    {
+      "id": "2111079965529968798",
+      "url": "https://x.com/reflection_ai/status/2111079965529968798",
+      "author": {
+        "username": "reflection_ai",
+        "name": "Reflection",
+        "followers": 25883
+      },
+      "created_at": "2026-10-16T13:01:00Z",
+      "quote": "Beam is now available across platforms, with open weights under the Apache 2.0 license - in collaboration with an ecosystem of 40+ partners.\n\nWe're releasing:\n- Weights, tokenizer, and reference…",
+      "metrics": {
+        "like": 785,
+        "repost": 176,
+        "reply": 129,
+        "quote": 164,
+        "bookmark": 174,
+        "impression": 194068
+      },
+      "topic": "Reflection Beam 오픈웨이트 공개",
+      "summary_ko": "Reflection이 Beam을 Apache 2.0 오픈웨이트로 여러 플랫폼에 공개했어요. 40곳 넘는 파트너와 함께 가중치·토크나이저·참조 구현, BF16·FP8·NVFP4 가중치와 DFlash2 드래프터를 냈어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-6946aa4fd6efbb4d"
+      ]
+    },
+    {
+      "id": "2111204941801128366",
+      "url": "https://x.com/satyanadella/status/2111204941801128366",
+      "author": {
+        "username": "satyanadella",
+        "name": "Satya Nadella",
+        "followers": 9656116
+      },
+      "created_at": "2026-10-16T21:17:37Z",
+      "quote": "In @Nature this week, our new research shows how machine learning can improve weather forecasts two to six weeks out, a timeframe that's historically been very difficult to predict.\n\nIt's exciting to…",
+      "metrics": {
+        "like": 266,
+        "repost": 31,
+        "reply": 44,
+        "quote": 8,
+        "bookmark": 41,
+        "impression": 20975
+      },
+      "topic": "MS 연구 Nature: 2~6주 날씨 예보",
+      "summary_ko": "사티아 나델라가 이번 주 Nature에 실린 마이크로소프트 연구를 소개했어요. 그동안 예측이 매우 어려웠던 2~6주 뒤 날씨를 머신러닝으로 더 잘 예보할 수 있음을 보였고, 극한 기상에 대비하는 데 도움이 될 거라고 했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2110885882404467166",
+      "url": "https://x.com/zcbenz/status/2110885882404467166",
+      "author": {
+        "username": "zcbenz",
+        "name": "Cheng",
+        "followers": 7695
+      },
+      "created_at": "2026-10-16T00:09:47Z",
+      "quote": "Is this the first time Meta and Apple work together on CEO level? MLX is the preferred local inference platform for Meta, and we get 0-day support for Muse Spark Open in mlx-lm with vision…",
+      "metrics": {
+        "like": 137,
+        "repost": 17,
+        "reply": 13,
+        "quote": 2,
+        "bookmark": 41,
+        "impression": 9668
+      },
+      "topic": "MLX의 Muse Spark Open 0-day 지원",
+      "summary_ko": "MLX 개발자 Cheng(zcbenz)이 MLX가 Meta의 로컬 추론 우선 플랫폼이 됐고, mlx-lm이 비전까지 포함해 Muse Spark Open을 출시 당일 지원한다고 알렸어요. Meta와 Apple이 CEO 수준에서 협력한 첫 사례냐고 묻기도 했어요.",
+      "link": "https://twitter.com/AIatMeta/status/2110779756828557356",
+      "related_item_ids": [
+        "trend-8a912eccca2cc7b9"
+      ]
+    },
+    {
+      "id": "2111037093124440477",
+      "url": "https://x.com/TheRegister/status/2111037093124440477",
+      "author": {
+        "username": "TheRegister",
+        "name": "The Register",
+        "followers": 101086
+      },
+      "created_at": "2026-10-16T10:10:38Z",
+      "quote": "Postgres 19 delayed as Ai find bugs https://t.co/kTucQZrsdf",
+      "metrics": {
+        "like": 5,
+        "repost": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 1376
+      },
+      "topic": "Postgres 19 출시 연기",
+      "summary_ko": "The Register가 AI 리뷰어들이 사람이 고칠 수 있는 것보다 많은 버그를 찾아내 Postgres 19 출시가 늦춰졌다는 기사를 공유했어요. 반응은 작지만 오늘 AI 데스크의 주요 소식과 이어지는 게시물이에요.",
+      "link": "https://www.theregister.com/databases/2026/10/16/postgres-19-delayed-after-ai-reviewers-find-more-bugs-than-humans-can-fix/5303471",
+      "related_item_ids": [
+        "trend-c3732346b401dd0f"
+      ]
+    }
+  ]
+}
