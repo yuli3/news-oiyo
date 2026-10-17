@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-17",
+  "youtube": {
+    "status": "missing_credentials",
+    "guide": "credentials.env 에 YOUTUBE_* 설정 필요"
+  },
+  "instagram": {
+    "status": "missing_credentials",
+    "guide": "credentials.env 에 INSTAGRAM_* 설정 필요"
+  }
+}
