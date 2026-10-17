@@ -13,7 +13,8 @@
 // usage:
 //   node scripts/collect-market.mjs
 //   node scripts/collect-market.mjs --dry-run
-import { writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { writeFileSync, existsSync, mkdirSync, appendFileSync } from "node:fs";
+import { gzipSync } from "node:zlib";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { backoffMs, retryAfterMs, sleep } from "./lib/polite-fetch.mjs";
@@ -21,6 +22,8 @@ import { backoffMs, retryAfterMs, sleep } from "./lib/polite-fetch.mjs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BRAIN = join(process.env.HOME, "coding", "company-brain");
 const OUT = join(BRAIN, "reports", "market-latest.json");
+// 히스토리: 실행마다 ~/coding/_data/market/YYYY-MM-DD.jsonl.gz 에 한 줄 append (KST 날짜, gzip 멤버 연결)
+const HIST_DIR = join(process.env.HOME, "coding", "_data", "market");
 const DRY = process.argv.includes("--dry-run");
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
 
@@ -406,6 +409,13 @@ async function main() {
   if (!DRY) {
     mkdirSync(dirname(OUT), { recursive: true });
     writeFileSync(OUT, `${JSON.stringify(payload, null, 1)}\n`, "utf8");
+    try {
+      const day = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+      mkdirSync(HIST_DIR, { recursive: true });
+      appendFileSync(join(HIST_DIR, `${day}.jsonl.gz`), gzipSync(`${JSON.stringify(payload)}\n`));
+    } catch (e) {
+      console.error(`WARN 히스토리 저장 실패: ${e.message}`);
+    }
   }
   console.error(`${DRY ? "dry-run" : "작성"} ${total}행 (ok ${ok} · skip ${fail})${yahooDisabled ? " · yahoo=429 skipped" : ""}${DRY ? "" : ` → ${OUT}`}`);
 }
