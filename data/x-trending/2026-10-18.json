@@ -1,0 +1,261 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-18",
+  "collected_at": "2026-10-18T07:10:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물과 링크를 읽고 직접 썼어요. 한국 트렌드에는 AI 관련 항목이 없었어요.",
+  "budget": {
+    "calls_used": 11
+  },
+  "posts": [
+    {
+      "id": "2111375640717033777",
+      "url": "https://x.com/deepseek_ai/status/2111375640717033777",
+      "author": {
+        "username": "deepseek_ai",
+        "name": "DeepSeek",
+        "followers": 1155704
+      },
+      "created_at": "2026-10-17T08:35:54Z",
+      "quote": "🚀 DeepSeek-V4.1-Flash-1017 is here!\n\nStronger benchmark performance, faster task completion, and shorter outputs than the previous version—a Pareto improvement in performance and cost. Now live on our website, app, and API.",
+      "metrics": {
+        "like": 29170,
+        "repost": 3235,
+        "reply": 1249,
+        "quote": 2231,
+        "bookmark": 5290,
+        "impression": 4123920
+      },
+      "topic": "DeepSeek-V4.1-Flash-1017 출시",
+      "summary_ko": "DeepSeek이 V4.1-Flash-1017을 내놨어요. 이전 버전보다 벤치마크가 오르고 작업은 더 빨리 끝내며 출력은 짧아져 성능과 비용 모두 나아졌다고 해요. 웹사이트·앱·API에 바로 적용됐어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-893b20ed2a4af54e",
+        "trend-489e6df24ce913d9",
+        "trend-a6d7f34ae92b20c4",
+        "trend-0af4f1fedde7a183",
+        "trend-a0b5d03b0a2cbda5",
+        "trend-04f5fd0be0b85693",
+        "trend-fe59dbd004f658b7"
+      ]
+    },
+    {
+      "id": "2111576482879553726",
+      "url": "https://x.com/ollama/status/2111576482879553726",
+      "author": {
+        "username": "ollama",
+        "name": "ollama",
+        "followers": 185477
+      },
+      "created_at": "2026-10-17T21:53:59Z",
+      "quote": "✈ DeepSeek-V4.1-Flash-1017 is on Ollama! US-based hosting with zero data retention. \n\nIt's strong on agentic tasks while being cheaper per task. …",
+      "metrics": {
+        "like": 29,
+        "repost": 3,
+        "reply": 11,
+        "quote": 0,
+        "bookmark": 2,
+        "impression": 1724
+      },
+      "topic": "Ollama에 DeepSeek-V4.1-Flash-1017 추가",
+      "summary_ko": "Ollama가 DeepSeek-V4.1-Flash-1017을 올렸다고 알렸어요. 미국 내 호스팅에 데이터를 보관하지 않는 방식이고, 에이전트 작업에 강하면서 작업당 비용은 더 싸다고 소개했어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-893b20ed2a4af54e",
+        "trend-489e6df24ce913d9",
+        "trend-a6d7f34ae92b20c4",
+        "trend-0af4f1fedde7a183",
+        "trend-a0b5d03b0a2cbda5",
+        "trend-04f5fd0be0b85693",
+        "trend-fe59dbd004f658b7"
+      ]
+    },
+    {
+      "id": "2111371468399689740",
+      "url": "https://x.com/karanC_12/status/2111371468399689740",
+      "author": {
+        "username": "karanC_12",
+        "name": "KC",
+        "followers": 2220
+      },
+      "created_at": "2026-10-17T08:19:20Z",
+      "quote": "DeepSeek V4.1 Flash-1017 is a MUCH bigger upgrade than expected.\n\nSame prompt. Same scene. Look at the difference.\n\nLeft: Old V4.1 Flash \nRight: New V4.1 Flash-1017 💥",
+      "metrics": {
+        "like": 279,
+        "repost": 9,
+        "reply": 17,
+        "quote": 3,
+        "bookmark": 32,
+        "impression": 22142
+      },
+      "topic": "DeepSeek 새 Flash 비교 체험",
+      "summary_ko": "한 사용자가 같은 프롬프트로 이전 V4.1 Flash와 새 Flash-1017이 만든 장면을 나란히 비교하며, 기대보다 훨씬 큰 업그레이드라고 평가했어요. 개인의 체험 비교라 일반화하긴 어려워요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-893b20ed2a4af54e"
+      ]
+    },
+    {
+      "id": "2111507711653564543",
+      "url": "https://x.com/fchollet/status/2111507711653564543",
+      "author": {
+        "username": "fchollet",
+        "name": "François Chollet",
+        "followers": 747985
+      },
+      "created_at": "2026-10-17T17:20:43Z",
+      "quote": "Some observations about the \"total\" automation of software engineering:\n\n1. There are more software engineers now than in 2025, and demand is growing.\n\n2. Software engineers have never worked harder than they do now.\n\n3. They largely don't write code anymore, agents write ~100%",
+      "metrics": {
+        "like": 1378,
+        "repost": 135,
+        "reply": 177,
+        "quote": 24,
+        "bookmark": 464,
+        "impression": 94017
+      },
+      "topic": "소프트웨어 공학 \"완전 자동화\"에 대한 관찰",
+      "summary_ko": "프랑수아 숄레가 소프트웨어 공학의 '완전 자동화'에 대한 관찰을 나열했어요. 2025년보다 소프트웨어 엔지니어가 더 많고 수요도 늘고 있으며, 지금처럼 열심히 일한 적이 없고, 코드는 이제 거의 에이전트가 쓴다는 거예요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111525362446520466",
+      "url": "https://x.com/levie/status/2111525362446520466",
+      "author": {
+        "username": "levie",
+        "name": "Aaron Levie",
+        "followers": 3529258
+      },
+      "created_at": "2026-10-17T18:30:51Z",
+      "quote": "The biggest misread of anyone predicting the end of software engineering was imagining that the world only needed a certain amount of software, and bringing automation to the field would reduce the need for labor. \n\nExactly the opposite is happening where essentially most things",
+      "metrics": {
+        "like": 456,
+        "repost": 50,
+        "reply": 75,
+        "quote": 9,
+        "bookmark": 279,
+        "impression": 33871
+      },
+      "topic": "소프트웨어 엔지니어링 종말론 반박",
+      "summary_ko": "박스 CEO 애런 레비가 숄레의 글을 인용하며, 소프트웨어 엔지니어링의 종말을 예측한 사람들은 세상에 필요한 소프트웨어 양이 정해져 있다고 착각했다고 했어요. 자동화로 노동 수요가 줄기는커녕 정반대 일이 벌어지고 있다는 주장이에요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111312141609586862",
+      "url": "https://x.com/levie/status/2111312141609586862",
+      "author": {
+        "username": "levie",
+        "name": "Aaron Levie",
+        "followers": 3529258
+      },
+      "created_at": "2026-10-17T04:23:35Z",
+      "quote": "It’s incredible to have reached a threshold where it’s practical that AI will be better at training models than humans are so quickly. One day recursive self improvement feels far off, and the next we already have signs of what it will look like.\n\nModel capability finally",
+      "metrics": {
+        "like": 352,
+        "repost": 39,
+        "reply": 83,
+        "quote": 6,
+        "bookmark": 125,
+        "impression": 67601
+      },
+      "topic": "AI가 모델 학습을 더 잘하게 되는 문턱",
+      "summary_ko": "애런 레비가 AI가 사람보다 모델 학습을 더 잘하는 게 현실적인 단계에 이렇게 빨리 왔다는 게 놀랍다고 했어요. 재귀적 자기 개선이 멀게 느껴지다가 어느새 그 모습의 신호가 보인다는 소감이에요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111553608609096055",
+      "url": "https://x.com/TechCrunch/status/2111553608609096055",
+      "author": {
+        "username": "TechCrunch",
+        "name": "TechCrunch",
+        "followers": 11064562
+      },
+      "created_at": "2026-10-17T20:23:05Z",
+      "quote": "The composition of Anthropic’s workforce and the type of work getting done have changed significantly in the past year.",
+      "metrics": {
+        "like": 31,
+        "repost": 1,
+        "reply": 11,
+        "quote": 2,
+        "bookmark": 12,
+        "impression": 16524
+      },
+      "topic": "앤스로픽 인력 구성 변화",
+      "summary_ko": "TechCrunch가 지난 1년 사이 앤스로픽의 인력 구성과 실제로 하는 일의 종류가 크게 바뀌었다는 기사를 공유했어요. 게시물에는 기사 링크만 있고 세부 수치는 담기지 않았어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111529951555891386",
+      "url": "https://x.com/TechCrunch/status/2111529951555891386",
+      "author": {
+        "username": "TechCrunch",
+        "name": "TechCrunch",
+        "followers": 11064562
+      },
+      "created_at": "2026-10-17T18:49:05Z",
+      "quote": "Over the weekend, Masad clarified that OpenAI would replace Anthropic as its default model provider. Claude will still be available to customers on the platform.",
+      "metrics": {
+        "like": 27,
+        "repost": 3,
+        "reply": 23,
+        "quote": 3,
+        "bookmark": 4,
+        "impression": 18301
+      },
+      "topic": "Replit 기본 모델 공급사 교체",
+      "summary_ko": "TechCrunch에 따르면 Replit의 암자드 마사드 CEO가 주말 사이 OpenAI가 앤스로픽을 대신해 기본 모델 공급사가 된다고 밝혔어요. Claude는 플랫폼에서 계속 쓸 수 있다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111562151772950629",
+      "url": "https://x.com/Mylovanov/status/2111562151772950629",
+      "author": {
+        "username": "Mylovanov",
+        "name": "Tymofiy Mylovanov",
+        "followers": 192421
+      },
+      "created_at": "2026-10-17T20:57:02Z",
+      "quote": "Terence Tao, Fields Medal winner, on AI in math: \"I'm on a war footing.\"\n\nTao now barely does his own research. He is trying to understand how to work with AI and explain it to students and colleagues, NYT. 1/",
+      "metrics": {
+        "like": 12,
+        "repost": 0,
+        "reply": 1,
+        "quote": 0,
+        "bookmark": 6,
+        "impression": 2129
+      },
+      "topic": "테렌스 타오와 수학 속 AI",
+      "summary_ko": "NYT 보도를 인용한 스레드로, 필즈상 수상자 테렌스 타오가 수학 속 AI에 대해 '전시 태세'라고 말했다고 전해요. 타오는 요즘 자기 연구는 거의 하지 않고 AI와 일하는 법을 익혀 학생·동료에게 설명하는 데 힘쓴다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111317384262754515",
+      "url": "https://x.com/automattic/status/2111317384262754515",
+      "author": {
+        "username": "automattic",
+        "name": "Automattic",
+        "followers": 57583
+      },
+      "created_at": "2026-10-17T04:44:25Z",
+      "quote": "Attie looks fun. If Bluesky wants those sites on real infrastructure with a database, auth, email, and spam protection, we built @SpacefastHQ for exactly this. Open invite to plug in.",
+      "metrics": {
+        "like": 13,
+        "repost": 0,
+        "reply": 2,
+        "quote": 0,
+        "bookmark": 2,
+        "impression": 1928
+      },
+      "topic": "블루스카이 Attie와 Automattic 제안",
+      "summary_ko": "블루스카이가 AI 앱 Attie로 누구나 웹사이트·게임을 만들 수 있게 넓히자, 워드프레스 운영사 Automattic이 그런 사이트를 DB·인증·이메일·스팸 방지를 갖춘 인프라에 올리려면 자사 Spacefast를 연결하라고 공개 제안했어요.",
+      "link": "https://techcrunch.com/2026/10/15/bluesky-expands-its-ai-powered-attie-app-to-let-anyone-build-websites-games-and-more/",
+      "related_item_ids": []
+    }
+  ]
+}
