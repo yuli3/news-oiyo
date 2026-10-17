@@ -7,12 +7,12 @@ type Locale = typeof locales[number];
 interface Props { frontmatter: { title: string; description: string; lang: Locale; date: string; slug: string; }; }
 const { title, description, lang, date, slug } = Astro.props.frontmatter;
 const labels = {
-  ko: ["분석", "최신 뉴스", "AI", "본문 바로가기", "다른 언어", "발행·출처 확인", "OIYO 편집부", "관련 정보", "패밀리 사이트", "개인정보", "이용약관"],
-  en: ["Analysis", "Latest news", "AI", "Skip to content", "Other languages", "Published · sources checked", "OIYO Editorial", "Related information", "Family sites", "Privacy", "Terms"],
-  ja: ["分析", "最新ニュース", "AI", "本文へ", "他の言語", "公開・出典確認", "OIYO編集部", "関連情報", "ファミリーサイト", "プライバシー", "利用規約"],
-  zh: ["分析", "最新资讯", "AI", "跳至正文", "其他语言", "发布与来源核对", "OIYO编辑部", "相关信息", "网站家族", "隐私", "使用条款"],
-  fr: ["Analyses", "Actualités", "IA", "Aller au contenu", "Autres langues", "Publication · sources vérifiées", "Rédaction OIYO", "Pour aller plus loin", "Sites du groupe", "Confidentialité", "Conditions"],
-  es: ["Análisis", "Noticias", "IA", "Ir al contenido", "Otros idiomas", "Publicación · fuentes comprobadas", "Redacción OIYO", "Información relacionada", "Sitios del grupo", "Privacidad", "Condiciones"],
+  ko: ["분석", "최신 뉴스", "AI", "본문 바로가기", "다른 언어", "발행·출처 확인", "OIYO 편집부", "관련 정보", "패밀리 사이트", "개인정보", "이용약관", "라이선스"],
+  en: ["Analysis", "Latest news", "AI", "Skip to content", "Other languages", "Published · sources checked", "OIYO Editorial", "Related information", "Family sites", "Privacy", "Terms", "License"],
+  ja: ["分析", "最新ニュース", "AI", "本文へ", "他の言語", "公開・出典確認", "OIYO編集部", "関連情報", "ファミリーサイト", "プライバシー", "利用規約", "ライセンス"],
+  zh: ["分析", "最新资讯", "AI", "跳至正文", "其他语言", "发布与来源核对", "OIYO编辑部", "相关信息", "网站家族", "隐私", "使用条款", "许可协议"],
+  fr: ["Analyses", "Actualités", "IA", "Aller au contenu", "Autres langues", "Publication · sources vérifiées", "Rédaction OIYO", "Pour aller plus loin", "Sites du groupe", "Confidentialité", "Conditions", "Licence"],
+  es: ["Análisis", "Noticias", "IA", "Ir al contenido", "Otros idiomas", "Publicación · fuentes comprobadas", "Redacción OIYO", "Información relacionada", "Sitios del grupo", "Privacidad", "Condiciones", "Licencia"],
 }[lang];
 const names = { ko: "한국어", en: "English", ja: "日本語", zh: "简体中文", fr: "Français", es: "Español" };
 const href = (locale: Locale) => `https://news.oiyo.net/analysis/${locale}/${slug}/`;
@@ -58,7 +58,7 @@ const crumbs = { "@context": "https://schema.org", "@type": "BreadcrumbList", it
       <article><p class="eyebrow">{labels[0]} · {labels[6]}</p><h1>{title}</h1><p class="lede">{description}</p><p class="meta">{labels[5]}: <time datetime={date}>{date}</time></p><slot /><ManualAds /></article>
       <aside aria-label={labels[7]}><h2>{labels[7]}</h2><a href="/ai/">{labels[2]} · OIYO News</a> · <a href="/">{labels[1]} <span lang="ko">(한국어)</span></a></aside>
     </main>
-    <footer><p>{labels[8]}: <a href={`https://oiyo.net/${lang}/`}>OIYO</a> · <a href={`https://blog.oiyo.net/${lang}/`}>Blog</a> · <a href={`https://wiki.oiyo.net/${lang}/`}>Wiki</a> · <a href={`https://game.oiyo.net/${lang}/`}>Game</a></p><p><a href={`https://blog.oiyo.net/${lang}/privacy/`}>{labels[9]}</a> · <a href={`https://blog.oiyo.net/${lang}/terms/`}>{labels[10]}</a></p><p><a href="https://ko-fi.com/tqqq3">Ko-fi</a> · <a href="https://paypal.me/chosean">PayPal</a></p><p>© {new Date().getFullYear()} Oiyo Tech</p></footer>
+    <footer><p>{labels[8]}: <a href={`https://oiyo.net/${lang}/`}>OIYO</a> · <a href={`https://blog.oiyo.net/${lang}/`}>Blog</a> · <a href={`https://wiki.oiyo.net/${lang}/`}>Wiki</a> · <a href={`https://game.oiyo.net/${lang}/`}>Game</a></p><p><a href={`https://blog.oiyo.net/${lang}/privacy/`}>{labels[9]}</a> · <a href={`https://blog.oiyo.net/${lang}/terms/`}>{labels[10]}</a></p><p><a href="https://ko-fi.com/tqqq3">Ko-fi</a> · <a href="https://paypal.me/chosean">PayPal</a></p><p>© {new Date().getFullYear()} Oiyo Tech · <a href={`https://blog.oiyo.net/${lang}/license/`}>{labels[11]}</a></p></footer>
   </body>
 </html>
 <style is:global>
