@@ -96,14 +96,16 @@ const scenes = [
     tag: "오늘의 헤드라인",
     headline: "오늘 놓치면 안 될 AI·금융 핵심 뉴스 5선",
     subline: cleanText(targetDay.summary || "출처와 함께 핵심만 짚어드립니다.").slice(0, 100),
-    narration: `${dateStr} 오이요 60초 AI·금융 브리핑입니다. 오늘 가장 중요한 소식 다섯 가지를 빠르게 짚어드립니다.`,
+    narration: `${dateStr} 오이요 60초 AI·금융 브리핑입니다. 오늘의 핵심 뉴스입니다.`,
     isHook: true,
   },
 ];
 
 picked.forEach((entry, idx) => {
   const title = cleanText(entry.item.title);
-  const summary = cleanText(entry.item.detailSummary || entry.item.summary || entry.item.title).slice(0, 120);
+  const summary = cleanText(entry.item.detailSummary || entry.item.summary || entry.item.title).slice(0, 110);
+  // 간결한 나레이션으로 60초 이내 준수
+  const shortTitle = title.length > 38 ? title.slice(0, 38) : title;
   scenes.push({
     id: `scene-${idx + 1}`,
     badge: `${entry.desk} #${entry.rank} · ${entry.item.source || "News"}`,
@@ -111,10 +113,20 @@ picked.forEach((entry, idx) => {
     headline: title,
     subline: summary,
     sourceUrl: entry.item.url || "https://news.oiyo.net",
-    narration: `${entry.desk} ${entry.rank}번째 소식입니다. ${title}. ${summary}`,
+    narration: `${entry.desk} ${entry.rank}위 소식. ${shortTitle}.`,
     isHook: false,
     rank: idx + 1,
   });
+});
+
+scenes.push({
+  id: `scene-${picked.length + 1}`,
+  badge: "OIYO News",
+  tag: "더 알아보기",
+  headline: "자세한 뉴스 원문은 news.oiyo.net",
+  subline: "매일 아침 AI가 팩트체크하고 요약하는 데일리 뉴스 포털",
+  narration: "자세한 원문과 팩트체크는 프로필 링크 news.oiyo.net에서 확인하세요.",
+  isHook: false,
 });
 
 const tmpDir = path.resolve(outDir, `.tmp-${dateStr}`);

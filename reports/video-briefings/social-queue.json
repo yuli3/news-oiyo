@@ -1,0 +1,21 @@
+[
+  {
+    "date": "2026-10-17",
+    "videoFile": "2026-10-17-briefing.mp4",
+    "coverFile": "2026-10-17-cover.png",
+    "duration": 35.933333,
+    "status": "ready",
+    "scheduledFor": "2026-10-17T10:13:00+09:00",
+    "updatedAt": "2026-10-17T16:03:10.217Z",
+    "targets": [
+      "youtubeShorts",
+      "instagramReels",
+      "xTwitter"
+    ],
+    "summary": [
+      "1. Claude reveals ECDSA curve origins",
+      "2. 90% of US working hours are spent on tasks not covered well by AI benchmarks",
+      "3. Apple ML Research: Muse Spark Open with MLX on Mac Studio"
+    ]
+  }
+]

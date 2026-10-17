@@ -12,7 +12,7 @@
   "scenes": [
     {
       "id": "scene-0",
-      "durationSec": 9.157732,
+      "durationSec": 7.102766,
       "badge": "2026-10-17 OIYO 60초 브리핑",
       "headline": "오늘 놓치면 안 될 AI·금융 핵심 뉴스 5선",
       "subline": "타입세이프 AI, 의사결정 모델 제브에 멀티모달 등 기능 확장. MS, 정식 출시 앞서 2.8조 매개변수 모델 공개…‘독자 역량’ 부각. 구글 창립자 “플래시부터 AI가 후속 모델",
@@ -20,43 +20,51 @@
     },
     {
       "id": "scene-1",
-      "durationSec": 19.839365,
+      "durationSec": 4.444626,
       "badge": "AI #1 · News",
       "headline": "Claude reveals ECDSA curve origins",
-      "subline": "Anthropic 프런티어 레드팀이 NSA가 출처 설명 없이 내놓은 NIST ECDSA 곡선 시드가 해시가 아니라 Unix 타임스탬프로 초기화한 lrand48 난수 출력이었다고 밝혔어요. Claude가 30분 안에 ",
+      "subline": "Anthropic 프런티어 레드팀이 NSA가 출처 설명 없이 내놓은 NIST ECDSA 곡선 시드가 해시가 아니라 Unix 타임스탬프로 초기화한 lrand48 난수 출력이었다고 밝혔어요. Claud",
       "slideAsset": "scenes/scene_1.png"
     },
     {
       "id": "scene-2",
-      "durationSec": 26.422222,
+      "durationSec": 5.175918,
       "badge": "AI #2 · News",
       "headline": "90% of US working hours are spent on tasks not covered well by AI benchmarks",
-      "subline": "Mercor가 O*NET 직업 923개·과업 18,797개에 AI 벤치마크 29개를 대응시킨 벤치마크 지도를 냈어요. 프롬프트 5개 이상으로 다뤄진 직업은 208개뿐이고, 미국 근로시간의 90%가 벤치마크가 거의 안",
+      "subline": "Mercor가 O*NET 직업 923개·과업 18,797개에 AI 벤치마크 29개를 대응시킨 벤치마크 지도를 냈어요. 프롬프트 5개 이상으로 다뤄진 직업은 208개뿐이고, 미국 근로시간의 90%가 ",
       "slideAsset": "scenes/scene_2.png"
     },
     {
       "id": "scene-3",
-      "durationSec": 21.151293,
+      "durationSec": 5.442857,
       "badge": "AI #3 · News",
       "headline": "Show HN: Gemini 4 Argon plays StarCraft",
-      "subline": "StarSkirmish Bench v0.2는 LLM이 1시간 안에 C++로 스타크래프트: 브루드 워 프로토스 봇을 짜게 하는 벤치마크예요. 각 연구소 공식 CLI에서 돌린 결과 GPT-6 Astra가 1위였고, Ge",
+      "subline": "StarSkirmish Bench v0.2는 LLM이 1시간 안에 C++로 스타크래프트: 브루드 워 프로토스 봇을 짜게 하는 벤치마크예요. 각 연구소 공식 CLI에서 돌린 결과 GPT-6 Astra",
       "slideAsset": "scenes/scene_3.png"
     },
     {
       "id": "scene-4",
-      "durationSec": 22.933605,
+      "durationSec": 4.508571,
       "badge": "금융 #1 · News",
       "headline": "Show HN: Stoke Money – Personal finance app built around a cash flow forecast",
-      "subline": "Stoke Money는 예산 대신 거래 내역의 반복 수입·지출을 찾아 계좌 잔액을 하루 단위로 예측하는 개인 재무 앱이에요. 무료 플랜은 수기 입력, 월 5달러 Plus는 Plaid 은행 연동, 월 8달러 Pro는 ",
+      "subline": "Stoke Money는 예산 대신 거래 내역의 반복 수입·지출을 찾아 계좌 잔액을 하루 단위로 예측하는 개인 재무 앱이에요. 무료 플랜은 수기 입력, 월 5달러 Plus는 Plaid 은행 연동, 월",
       "slideAsset": "scenes/scene_4.png"
     },
     {
       "id": "scene-5",
-      "durationSec": 20.64644,
+      "durationSec": 3.846803,
       "badge": "금융 #2 · News",
       "headline": "The debt-fueled AI boom is cracking",
-      "subline": "Axios는 월가가 부채로 굴러가는 AI 지출에 한계를 느끼고 있다고 보도했어요. AI 설비투자의 3분의 1이 부채로 조달되는 가운데 9월 AI 관련 채권 발행이 6월의 1,130억 달러에서 230억 달러로 급감했고",
+      "subline": "Axios는 월가가 부채로 굴러가는 AI 지출에 한계를 느끼고 있다고 보도했어요. AI 설비투자의 3분의 1이 부채로 조달되는 가운데 9월 AI 관련 채권 발행이 6월의 1,130억 달러에서 230",
       "slideAsset": "scenes/scene_5.png"
+    },
+    {
+      "id": "scene-6",
+      "durationSec": 5.374376,
+      "badge": "OIYO News",
+      "headline": "자세한 뉴스 원문은 news.oiyo.net",
+      "subline": "매일 아침 AI가 팩트체크하고 요약하는 데일리 뉴스 포털",
+      "slideAsset": "scenes/scene_6.png"
     }
   ]
 }

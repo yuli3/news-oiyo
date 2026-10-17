@@ -29,7 +29,9 @@
     "translations:check": "node scripts/check-translations.mjs",
     "showcase:sync": "node scripts/sync-showcase-weekly.mjs",
     "video:briefing": "node scripts/generate-daily-video-briefing.mjs",
-    "video:render": "node scripts/render-daily-video.mjs"
+    "video:render": "node scripts/render-daily-video.mjs",
+    "video:publish": "node scripts/publish-social-video.mjs",
+    "video:schedule": "node scripts/publish-social-video.mjs --queue"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

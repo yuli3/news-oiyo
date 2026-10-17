@@ -21,4 +21,5 @@ __pycache__/
 reports/video-briefings/*.mp4
 reports/video-briefings/*.m4a
 reports/video-briefings/*.aiff
+reports/video-briefings/*.png
 reports/video-briefings/.tmp-*
