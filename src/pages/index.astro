@@ -3,6 +3,7 @@ import data from "../data/news.json";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import TopicNav from "../components/TopicNav.astro";
 import TopicFeed from "../components/TopicFeed.astro";
+import ShowcaseWeeklyCard from "../components/ShowcaseWeeklyCard.astro";
 import { flattenFeed,type Day } from "../lib/feed";
 import { storySections } from "../../scripts/lib/story-scope.mjs";
 const feed=flattenFeed(data.days as Day[]);
@@ -16,6 +17,7 @@ const finance=feed.filter(item=>storySections(item).includes("finance"));
     <section aria-labelledby="ai-heading"><h2 id="ai-heading"><a href="/ai/">AI 뉴스</a></h2><p class="desk-intro">모델 발표와 실무 도구, 기술 변화의 맥락을 살펴봐요.</p><TopicFeed items={ai.slice(0,8)} label="최신 AI 뉴스" filters /><a class="more" href="/ai/">AI 뉴스·분석 더 보기</a></section>
     <section aria-labelledby="finance-heading"><h2 id="finance-heading"><a href="/finance/">금융 뉴스</a></h2><p class="desk-intro">시장 브리핑과 금리·환율·기업 소식을 살펴봐요. 투자 권유는 아니에요.</p><TopicFeed items={finance.slice(0,5)} label="최근 금융 뉴스" /><a class="more" href="/finance/">금융 뉴스·시장 브리핑 보기</a></section>
   </div>
+  <ShowcaseWeeklyCard />
   <p class="archive-link"><a href="/page/1/">전체 기사 목록</a> · <a href="/archive/">날짜별 전체 기사 보기</a><br />두 분야에 걸친 기사는 각각의 섹션에서 볼 수 있어요.</p>
   <style>
     .page-intro{padding:24px 0 0}.page-intro h1{max-width:24ch;font-size:clamp(30px,5vw,44px);line-height:1.35;margin:0 0 12px;letter-spacing:-.03em}.page-intro .lede{max-width:60ch;margin:0;font-size:16px}

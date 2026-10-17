@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, initial-scale=1.0" />
+  <title>2026-10-17 OIYO 60s Briefing (9:16)</title>
+  <style>
+    :root {
+      --bg: #111a14;
+      --card: #1a271e;
+      --ink: #f3f7f2;
+      --muted: #a6b9ab;
+      --accent: #84cc16;
+      --border: #2c4033;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 0%, #1f3325 0%, var(--bg) 70%);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 96px 72px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 28px;
+    }
+    .brand { font-size: 42px; font-weight: 900; letter-spacing: -0.03em; }
+    .brand span { color: var(--accent); }
+    .date-pill {
+      background: rgba(132, 204, 22, 0.16);
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-size: 28px;
+      font-weight: 800;
+    }
+    .deck {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      my: auto;
+    }
+    .scene-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 28px;
+      padding: 34px 38px;
+    }
+    .scene-badge {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .scene-title {
+      font-size: 36px;
+      line-height: 1.32;
+      font-weight: 850;
+      margin-bottom: 12px;
+    }
+    .scene-sub {
+      font-size: 26px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+    footer {
+      border-top: 2px solid var(--border);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 28px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    footer strong { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">OIYO <span>news</span></div>
+    <div class="date-pill">2026-10-17 · 60s BRIEFING</div>
+  </header>
+  <main class="deck">
+    
+    <article class="scene-card">
+      <div class="scene-badge">AI #1 · hacker-news</div>
+      <h2 class="scene-title">Claude reveals ECDSA curve origins</h2>
+      <p class="scene-sub">Anthropic 프런티어 레드팀이 NSA가 출처 설명 없이 내놓은 NIST ECDSA 곡선 시드가 해시가 아니라 Unix 타임스탬프로 초기화한 lrand48 난수 출력이었다고 밝혔어요. Claud</p>
+    </article>
+
+    <article class="scene-card">
+      <div class="scene-badge">AI #2 · hacker-news</div>
+      <h2 class="scene-title">90% of US working hours are spent on tasks not covered well by AI benchmarks</h2>
+      <p class="scene-sub">Mercor가 O*NET 직업 923개·과업 18,797개에 AI 벤치마크 29개를 대응시킨 '벤치마크 지도'를 냈어요. 프롬프트 5개 이상으로 다뤄진 직업은 208개뿐이고, 미국 근로시간의 90%</p>
+    </article>
+
+    <article class="scene-card">
+      <div class="scene-badge">AI #3 · hacker-news</div>
+      <h2 class="scene-title">Show HN: Gemini 4 Argon plays StarCraft</h2>
+      <p class="scene-sub">StarSkirmish Bench v0.2는 LLM이 1시간 안에 C++로 스타크래프트: 브루드 워 프로토스 봇을 짜게 하는 벤치마크예요. 각 연구소 공식 CLI에서 돌린 결과 GPT-6 Astra</p>
+    </article>
+
+    <article class="scene-card">
+      <div class="scene-badge">금융 #1 · hacker-news</div>
+      <h2 class="scene-title">Show HN: Stoke Money – Personal finance app built around a cash flow forecast</h2>
+      <p class="scene-sub">Stoke Money는 예산 대신 거래 내역의 반복 수입·지출을 찾아 계좌 잔액을 하루 단위로 예측하는 개인 재무 앱이에요. 무료 플랜은 수기 입력, 월 5달러 Plus는 Plaid 은행 연동, 월</p>
+    </article>
+
+    <article class="scene-card">
+      <div class="scene-badge">금융 #2 · reddit</div>
+      <h2 class="scene-title">The debt-fueled AI boom is cracking</h2>
+      <p class="scene-sub">Axios는 월가가 부채로 굴러가는 AI 지출에 한계를 느끼고 있다고 보도했어요. AI 설비투자의 3분의 1이 부채로 조달되는 가운데 9월 AI 관련 채권 발행이 6월의 1,130억 달러에서 230</p>
+    </article>
+  </main>
+  <footer>
+    <span>원문·상세 요약 <strong>news.oiyo.net</strong></span>
+    <span>AI 창작 쇼케이스 <strong>show.oiyo.net</strong></span>
+  </footer>
+</body>
+</html>
