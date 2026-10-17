@@ -1,4 +1,5 @@
 ---
+import ManualAds from "../components/ManualAds.astro";
 // 2026-10-15: isolate authored multilingual articles from Grok's daily-news shell.
 // BaseLayout is Korean-only; changing its language would affect unrelated routes.
 const locales = ["ko", "en", "ja", "zh", "fr", "es"] as const;
@@ -54,7 +55,7 @@ const crumbs = { "@context": "https://schema.org", "@type": "BreadcrumbList", it
     <header><a class="brand" href="/">OIYO news</a><nav aria-label={labels[7]}><a href="/ai/">{labels[2]}</a><a href="/analysis/">{labels[0]}</a></nav></header>
     <main id="content">
       <nav class="languages" aria-label={labels[4]}>{locales.map(locale => <a href={`/analysis/${locale}/${slug}/`} lang={locale} hreflang={locale} aria-current={locale === lang ? "page" : undefined}>{names[locale]}</a>)}</nav>
-      <article><p class="eyebrow">{labels[0]} · {labels[6]}</p><h1>{title}</h1><p class="lede">{description}</p><p class="meta">{labels[5]}: <time datetime={date}>{date}</time></p><slot /></article>
+      <article><p class="eyebrow">{labels[0]} · {labels[6]}</p><h1>{title}</h1><p class="lede">{description}</p><p class="meta">{labels[5]}: <time datetime={date}>{date}</time></p><slot /><ManualAds /></article>
       <aside aria-label={labels[7]}><h2>{labels[7]}</h2><a href="/ai/">{labels[2]} · OIYO News</a> · <a href="/">{labels[1]} <span lang="ko">(한국어)</span></a></aside>
     </main>
     <footer><p>{labels[8]}: <a href={`https://oiyo.net/${lang}/`}>OIYO</a> · <a href={`https://blog.oiyo.net/${lang}/`}>Blog</a> · <a href={`https://wiki.oiyo.net/${lang}/`}>Wiki</a> · <a href={`https://game.oiyo.net/${lang}/`}>Game</a></p><p><a href={`https://blog.oiyo.net/${lang}/privacy/`}>{labels[9]}</a> · <a href={`https://blog.oiyo.net/${lang}/terms/`}>{labels[10]}</a></p><p><a href="https://ko-fi.com/tqqq3">Ko-fi</a> · <a href="https://paypal.me/chosean">PayPal</a></p><p>© {new Date().getFullYear()} Oiyo Tech</p></footer>

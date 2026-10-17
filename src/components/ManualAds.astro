@@ -1,0 +1,58 @@
+---
+/**
+ * Hand-placed AdSense units for OIYO News, alongside Auto ads (세운 결정 2026-10-17: 하이브리드 전환).
+ *
+ * Places a clean, responsive display unit after the news content / analysis article before the footer.
+ *
+ * Ensures:
+ * 1) Height reservation (min-h-72) to prevent Cumulative Layout Shift (CLS).
+ * 2) IntersectionObserver lazy loading (loads only within 300px of viewport to protect viewability).
+ * 3) MutationObserver auto-hiding when AdSense returns 'unfilled'.
+ * 4) Localized '광고' disclaimer.
+ */
+interface Props {
+  slot?: string;
+  noindex?: boolean;
+}
+
+const { slot = "2768903568", noindex = false } = Astro.props as Props;
+const client = "ca-pub-9541920090543312";
+---
+
+{!noindex && (
+  <aside class="not-prose my-8 min-h-72 rounded-2xl border border-border bg-card p-3 shadow-xs max-w-225 mx-auto" data-manual-ad="news-bottom" aria-label="광고">
+    <p class="mb-1 text-center text-xs text-muted-foreground">광고</p>
+    <ins
+      class="adsbygoogle block"
+      data-ad-client={client}
+      data-ad-slot={slot}
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+    />
+  </aside>
+  <script is:inline set:html={`(function(){
+  var host=location.hostname;
+  var preview=false;try{preview=localStorage.getItem("oiyo:ads-preview")==="1"}catch(e){}
+  if(!/(^|\\.)oiyo\\.net$/.test(host)&&!preview)return;
+  var wrap=document.querySelector('[data-manual-ad="news-bottom"]');
+  if(!wrap)return;
+  var ins=wrap.querySelector('ins.adsbygoogle');
+  if(!ins)return;
+  if("MutationObserver" in window){
+    new MutationObserver(function(){
+      if(ins.getAttribute("data-ad-status")==="unfilled")wrap.hidden=true;
+    }).observe(ins,{attributes:true,attributeFilter:["data-ad-status"]});
+  }
+  function fill(){try{(window.adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}wrap.setAttribute("data-manual-ad-requested","1")}
+  if(!("IntersectionObserver" in window)){fill();return}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting)return;
+      if(wrap.getAttribute("data-manual-ad-requested"))return;
+      fill();
+      io.unobserve(wrap);
+    });
+  },{rootMargin:"300px 0px"});
+  io.observe(wrap);
+})()`} />
+)}
