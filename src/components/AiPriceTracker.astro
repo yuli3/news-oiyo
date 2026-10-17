@@ -1,0 +1,26 @@
+---
+// AI API 비용 절약 확인표 카드. 정본 데이터: src/data/ai-price-tracker.ts
+// 공식 가격 페이지 직결만 쓰고 제휴·추적 파라미터는 붙이지 않는다(2026-10-17 hotdeal MVP 원칙).
+import { AI_PRICE_SOURCES, AI_PRICE_SOURCES_UPDATED } from "../data/ai-price-tracker";
+const changes = AI_PRICE_SOURCES.filter((s) => s.lastChange);
+---
+<section class="price-tracker" aria-labelledby="ai-price-title">
+  <h2 id="ai-price-title">AI API 비용 아끼기 — 공식 가격표 바로가기</h2>
+  <p class="sub">가격은 자주 바뀌어서 숫자는 옮겨 적지 않았어요. 아래 항목을 공식 페이지에서 비교하면 같은 작업을 더 싸게 돌릴 수 있어요. 목록 기준일 {AI_PRICE_SOURCES_UPDATED}.</p>
+  {changes.length > 0 && (
+    <ul class="changes">
+      {changes.map((s) => (
+        <li><span class="tag">{s.lastChange!.date}</span>{s.provider}: {s.lastChange!.summary} <a href={s.lastChange!.sourceUrl} rel="noopener">원문</a></li>
+      ))}
+    </ul>
+  )}
+  <div class="grid">
+    {AI_PRICE_SOURCES.map((s) => (
+      <div class="card">
+        <a href={s.pricingUrl} rel="noopener">{s.provider} {s.product} 가격표 →</a>
+        <ul>{s.checks.map((c) => <li>{c}</li>)}</ul>
+      </div>
+    ))}
+  </div>
+  <style>.price-tracker ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:13px}.price-tracker .card a{display:inline-flex;align-items:center;min-height:44px}.price-tracker .changes{padding-left:0;list-style:none}</style>
+</section>
