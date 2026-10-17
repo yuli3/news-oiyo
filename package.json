@@ -27,7 +27,8 @@
     "translations:pending": "node scripts/translations-pending.mjs",
     "translations:check": "node scripts/check-translations.mjs",
     "showcase:sync": "node scripts/sync-showcase-weekly.mjs",
-    "video:briefing": "node scripts/generate-daily-video-briefing.mjs"
+    "video:briefing": "node scripts/generate-daily-video-briefing.mjs",
+    "video:render": "node scripts/render-daily-video.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

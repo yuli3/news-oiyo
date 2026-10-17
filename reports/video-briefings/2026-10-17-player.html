@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2026-10-17 OIYO 60초 비디오 브리핑 플레이어</title>
+  <style>
+    body {
+      background: #0d140f;
+      color: #f3f7f2;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", sans-serif;
+      margin: 0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 480px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .video-viewport {
+      width: 100%;
+      aspect-ratio: 9/16;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      border: 2px solid #2c4033;
+      background: #000;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .meta-box {
+      width: 100%;
+      background: #1a271e;
+      border: 1px solid #2c4033;
+      border-radius: 18px;
+      padding: 18px;
+      box-sizing: border-box;
+    }
+    .meta-title { font-size: 15px; font-weight: 800; color: #84cc16; margin-bottom: 8px; }
+    .meta-content { font-size: 13px; color: #a6b9ab; line-height: 1.5; white-space: pre-wrap; }
+    .btn {
+      background: #84cc16;
+      color: #111a14;
+      font-weight: 800;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 style="margin:0 0 8px 0; font-size:20px; font-weight:900;">OIYO 60s Briefing <span style="color:#84cc16;">2026-10-17</span></h2>
+    <div class="video-viewport">
+      <video controls playsinline poster=".tmp-2026-10-17/scene_0.png">
+        <source src="2026-10-17-briefing.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="meta-box">
+      <div class="meta-title">YouTube Shorts & Instagram Reels 메타데이터</div>
+      <div class="meta-content" id="socialText">[2026-10-17] 오늘의 AI·금융 1분 핵심 브리핑 | OIYO News #Shorts
+
+1. Claude reveals ECDSA curve origins
+2. 90% of US working hours are spent on tasks not covered well by AI benchmarks
+3. Show HN: Gemini 4 Argon plays StarCraft
+4. Show HN: Stoke Money – Personal finance app built around a cash flow forecast
+5. The debt-fueled AI boom is cracking
+
+🔗 원문 출처·상세 요약: news.oiyo.net
+✨ AI 창작 쇼케이스: show.oiyo.net</div>
+      <button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('socialText').innerText); alert('복사되었습니다!');">소셜 문구 복사</button>
+    </div>
+  </div>
+</body>
+</html>

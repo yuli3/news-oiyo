@@ -16,3 +16,9 @@ __pycache__/
 
 # Local-only subscription fixtures and outbox contain addresses/tokens (2026-10-15).
 .cache/
+
+# Video briefing generated media binaries and temp frame dirs
+reports/video-briefings/*.mp4
+reports/video-briefings/*.m4a
+reports/video-briefings/*.aiff
+reports/video-briefings/.tmp-*
