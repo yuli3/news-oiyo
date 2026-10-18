@@ -321,3 +321,22 @@ test("send flag without a mailer exits 2", () => {
   assert.equal(result.status, 2);
   assert.match(result.stderr, /보내지 않았습니다/);
 });
+
+test("new-year launch notice gets its own confirmation copy and topic", async () => {
+  const run = await apply({ topic: "new-year-2027" });
+  assert.equal(run.result.status, 202);
+  assert.equal(run.mailer.sent[0].subject, "[OIYO 신년운세] 출시 알림 수신 확인");
+  assert.ok(run.mailer.sent[0].text.includes("주간 AI·금융 소식은 보내지 않습니다"));
+  assert.deepEqual((await run.store.getByEmail("reader@example.com")).topics, ["new-year-2027"]);
+
+  const weekly = await apply({ email: "weekly@example.com" });
+  assert.equal(weekly.mailer.sent[0].subject, "[OIYO AI·금융] 수신 확인");
+  assert.deepEqual((await weekly.store.getByEmail("weekly@example.com")).topics, ["weekly"]);
+});
+
+test("unknown topics are rejected before any write or mail", async () => {
+  const run = await apply({ topic: "lottery" });
+  assert.equal(run.result.body.error, "invalid_topic");
+  assert.equal(run.mailer.sent.length, 0);
+  assert.equal(await run.store.getByEmail("reader@example.com"), null);
+});

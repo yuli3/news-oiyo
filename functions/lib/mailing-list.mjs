@@ -5,6 +5,30 @@
 export const POLICY_VERSION = "2026-10-15";
 export const CONFIRM_TTL_MS = 48 * 60 * 60 * 1000;
 
+// 주제마다 따로 동의받는다. 신년운세 출시 알림 신청자에게 주간 소식을 보내지 않는다 (2026-10-19).
+// topics가 없는 옛 기록은 주간 소식 구독이다.
+export const TOPICS = {
+  weekly: {
+    subject: "[OIYO AI·금융] 수신 확인",
+    intro: ["OIYO AI·금융 소식 메일 수신을 신청하셨습니다.", "소식 메일은 일주일에 한 통이고, 지난 7일을 모읍니다."],
+    footer: "이 메일은 수신 확인이며 소식 요약이 아닙니다.",
+  },
+  "new-year-2027": {
+    subject: "[OIYO 신년운세] 출시 알림 수신 확인",
+    intro: ["OIYO 2027 신년운세 전체 리포트 출시 알림을 신청하셨습니다.", "리포트가 나오면 알림 메일을 한 통 보냅니다. 주간 AI·금융 소식은 보내지 않습니다."],
+    footer: "이 메일은 수신 확인이며 광고가 아닙니다.",
+  },
+};
+
+export function normalizeTopic(value) {
+  if (value === undefined || value === null || value === "") return "weekly";
+  return typeof value === "string" && Object.hasOwn(TOPICS, value) ? value : null;
+}
+
+export function recordTopics(record) {
+  return Array.isArray(record?.topics) && record.topics.length ? record.topics : ["weekly"];
+}
+
 const EMAIL_RE = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
 const TOKEN_RE = /^[A-Za-z0-9_-]{43}$/;
 
@@ -58,12 +82,12 @@ function checkInbox(extra = {}) {
   return { status: 202, body: { ok: true, state: "check_inbox", ...extra } };
 }
 
-export function buildConfirmMail({ origin, confirmToken, unsubToken }) {
+export function buildConfirmMail({ origin, confirmToken, unsubToken, topic = "weekly" }) {
+  const copy = TOPICS[topic] || TOPICS.weekly;
   const confirmUrl = `${origin}/subscribe/confirm/?token=${encodeURIComponent(confirmToken)}`;
   const unsubUrl = `${origin}/subscribe/unsubscribe/?token=${encodeURIComponent(unsubToken)}`;
   const text = [
-    "OIYO AI·금융 소식 메일 수신을 신청하셨습니다.",
-    "소식 메일은 일주일에 한 통이고, 지난 7일을 모읍니다.",
+    ...copy.intro,
     "아래 주소로 확인해야 구독이 시작됩니다. 48시간 안에 확인하지 않으면 이 신청은 끝납니다.",
     confirmUrl,
     "",
@@ -72,10 +96,10 @@ export function buildConfirmMail({ origin, confirmToken, unsubToken }) {
     unsubUrl,
     "",
     "보내는 이: OIYO News (https://news.oiyo.net/)",
-    "이 메일은 수신 확인이며 소식 요약이 아닙니다.",
+    copy.footer,
   ].join("\n");
   return {
-    subject: "[OIYO AI·금융] 수신 확인",
+    subject: copy.subject,
     text,
     confirmUrl,
   };
@@ -86,6 +110,8 @@ export async function subscribe(deps) {
   if (deps.consent !== true) return { status: 400, body: { ok: false, error: "consent_required" } };
   const email = normalizeEmail(deps.email);
   if (!email) return { status: 400, body: { ok: false, error: "invalid_email" } };
+  const topic = normalizeTopic(deps.topic);
+  if (!topic) return { status: 400, body: { ok: false, error: "invalid_topic" } };
   // 빈 함정 칸은 봇이다. 저장하지 않고 신청된 것처럼 답한다.
   if (deps.trap) return checkInbox();
   if ((deps.requireTestRecipient && !/^[a-f0-9]{64}$/.test(deps.allowedEmailHash || ""))
@@ -109,7 +135,7 @@ export async function subscribe(deps) {
   // During the user-approved 90-day suppression period, public requests cannot silently re-enroll an address.
   if (await store.isSuppressed?.(email)) return checkInbox();
   if (existing?.status === "active") return checkInbox();
-  if (deps.requireDurableConfirmation) return durableConfirmation({ ...deps, email }, existing);
+  if (deps.requireDurableConfirmation) return durableConfirmation({ ...deps, email, topic }, existing);
 
   const confirmToken = newToken();
   const unsubToken = newToken();
@@ -117,6 +143,7 @@ export async function subscribe(deps) {
     email,
     status: "pending",
     policyVersion: POLICY_VERSION,
+    topics: [topic],
     consentedAt: new Date(now).toISOString(),
     confirmTokenHash: await sha256Hex(confirmToken),
     confirmExpiresAt: now + CONFIRM_TTL_MS,
@@ -126,7 +153,7 @@ export async function subscribe(deps) {
     confirmedAt: null,
     unsubscribedAt: existing?.status === "unsubscribed" ? existing.unsubscribedAt : null,
   };
-  const mail = buildConfirmMail({ origin, confirmToken, unsubToken });
+  const mail = buildConfirmMail({ origin, confirmToken, unsubToken, topic });
   const sent = await mailer.send({ to: email, subject: mail.subject, text: mail.text });
   if (!sent?.ok) return { status: 503, body: { ok: false, error: "send_failed" } };
   if (await store.save(next, existing) === false) {
@@ -138,7 +165,7 @@ export async function subscribe(deps) {
 }
 
 async function durableConfirmation(deps, existing) {
-  const { store, mailer, email, now, origin, confirmSecret } = deps;
+  const { store, mailer, email, now, origin, confirmSecret, topic = "weekly" } = deps;
   const needsReview = () => ({ status: 503, body: { ok: false, error: "confirmation_review_required" } });
   const scope = typeof mailer.scope === "function" ? await mailer.scope() : mailer.scope;
   if (!scope) return needsReview();
@@ -155,7 +182,7 @@ async function durableConfirmation(deps, existing) {
     const nonce = newToken();
     const unsubToken = newToken();
     record = {
-      email, status: "pending", policyVersion: POLICY_VERSION,
+      email, status: "pending", policyVersion: POLICY_VERSION, topics: [topic],
       consentedAt: new Date(now).toISOString(), confirmExpiresAt: now + CONFIRM_TTL_MS,
       unsubscribeToken: unsubToken, unsubscribeTokenHash: await sha256Hex(unsubToken),
       createdAt: existing?.createdAt || new Date(now).toISOString(), confirmedAt: null,
@@ -172,7 +199,7 @@ async function durableConfirmation(deps, existing) {
   if (record.confirmTokenHash && record.confirmTokenHash !== hash) return needsReview();
   record.confirmTokenHash = hash;
   if (!record.confirmation.template) {
-    const mail = buildConfirmMail({ origin, confirmToken: token, unsubToken: record.unsubscribeToken });
+    const mail = buildConfirmMail({ origin, confirmToken: token, unsubToken: record.unsubscribeToken, topic: recordTopics(record)[0] });
     record.confirmation = { ...record.confirmation, subject: mail.subject,
       template: mail.text.replace(token, "{{CONFIRM_TOKEN}}") };
   }

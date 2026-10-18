@@ -1,4 +1,4 @@
-import { sha256Hex } from "./mailing-list.mjs";
+import { recordTopics, sha256Hex } from "./mailing-list.mjs";
 import { readMailingBody } from "./http.mjs";
 import { buildDigest, selectWeeklyItems, withUnsubscribe } from "./digest.mjs";
 import { createWeeklyStore } from "./weekly-store.mjs";
@@ -73,6 +73,8 @@ async function processWeeklyRequest(request, deps) {
     // Return a cursor for the unprocessed tail rather than holding one admin request indefinitely.
     if (processed && Date.now() >= deadline) break;
     processed += 1;
+    // Launch-notice consent is not weekly-news consent (2026-10-19).
+    if (!recordTopics(JSON.parse(recipient.payload)).includes("weekly")) { counts.skipped += 1; continue; }
     const state = await store.claim(id, recipient, deps.now ?? Date.now());
     if (state !== "claimed") {
       counts[state === "review_required" || state === "consent_changed" ? "review" : state === "busy" ? "pending" : "skipped"] += 1;
