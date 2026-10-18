@@ -1,0 +1,186 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-19",
+  "collected_at": "2026-10-19T07:30:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물과 링크를 읽고 직접 썼어요. 일부 게시물은 24시간보다 조금 앞서 올라왔지만 이날 news 항목과 같은 이야기라 넣었어요. 한국 트렌드에는 AI 관련 항목이 없었어요.",
+  "budget": {
+    "calls_used": 13
+  },
+  "posts": [
+    {
+      "id": "2111799253920256160",
+      "url": "https://x.com/unusual_whales/status/2111799253920256160",
+      "author": {
+        "username": "unusual_whales",
+        "name": "unusual_whales",
+        "followers": 5425723
+      },
+      "created_at": "2026-10-18T12:39:12Z",
+      "quote": "BREAKING: Anthropic has quietly pitched Capitol Hill lawmakers on a draft bill to regulate frontier AI safety and security, per POLITICO\n\nThe bill would let the government block a model’s release or …",
+      "metrics": {
+        "like": 1145,
+        "repost": 89,
+        "reply": 212,
+        "quote": 67,
+        "bookmark": 168,
+        "impression": 262305
+      },
+      "topic": "Anthropic의 프런티어 AI 안전 법안 초안",
+      "summary_ko": "Anthropic이 의회에 프런티어 AI 안전·보안 법안 초안을 비공개로 제안했다는 POLITICO 보도를 전한 게시물이에요. 정부가 모델 출시·사용을 막을 수 있는 조건을 10억달러 넘는 피해나 50명 넘는 사망·중상의 예견 가능하고 임박한 위험으로 좁혔다는 내용이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-c18cbc625f619769"
+      ]
+    },
+    {
+      "id": "2111802397148471496",
+      "url": "https://x.com/deanwball/status/2111802397148471496",
+      "author": {
+        "username": "deanwball",
+        "name": "Dean W. Ball",
+        "followers": 75985
+      },
+      "created_at": "2026-10-18T12:51:41Z",
+      "quote": "Distillation has always been part of the explanation for why China is so close behind the U.S. in model benchmark performance. But one of my updates after joining openai is that distillation probably …",
+      "metrics": {
+        "like": 812,
+        "repost": 43,
+        "reply": 55,
+        "quote": 23,
+        "bookmark": 206,
+        "impression": 76690
+      },
+      "topic": "OpenAI 딘 볼, \"중국 추격의 절반은 증류\"",
+      "summary_ko": "OpenAI 전략적 미래 책임자 딘 볼이 중국 모델이 벤치마크에서 미국을 바짝 쫓는 이유 중 증류(distillation) 비중이 생각보다 크다고 밝혔어요. 이어진 답글에선 입사 전 약 30%로 봤던 몫을 지금은 50% 정도로 본다고 했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2111821242273587695",
+      "url": "https://x.com/glenngabe/status/2111821242273587695",
+      "author": {
+        "username": "glenngabe",
+        "name": "Glenn Gabe",
+        "followers": 85544
+      },
+      "created_at": "2026-10-18T14:06:34Z",
+      "quote": "If companies start messing with agents like Google is messing with scrapers now, then the entire agent market could get hammered. Imagine your agent ends up returning bad data, the wrong products, …",
+      "metrics": {
+        "like": 29,
+        "repost": 3,
+        "reply": 33,
+        "quote": 3,
+        "bookmark": 5,
+        "impression": 1857
+      },
+      "topic": "웹사이트들이 AI 에이전트를 막기 시작",
+      "summary_ko": "글렌 게이브가 The Verge 기사를 인용하며, 사이트들이 스크레이퍼처럼 에이전트를 교란하면 잘못된 데이터·상품·가격이 돌아와 에이전트 시장 전체가 타격받을 수 있다고 짚었어요. 기사엔 Yelp, 델타항공, JPMorgan Chase, Charles Schwab의 차단 사례가 나와요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-db00f640d394307e"
+      ]
+    },
+    {
+      "id": "2111199863689879841",
+      "url": "https://x.com/testingcatalog/status/2111199863689879841",
+      "author": {
+        "username": "testingcatalog",
+        "name": "🚨 AI News | TestingCatalog",
+        "followers": 80724
+      },
+      "created_at": "2026-10-16T20:57:26Z",
+      "quote": "OPENAI 🔥: GPT-6 Astra Pro got upgraded with a better use of plugins and tools along with a speed improvement. \n\n> Additionally, multiple agents can tackle different parts of a task in parallel! \n\n> …",
+      "metrics": {
+        "like": 496,
+        "repost": 21,
+        "reply": 25,
+        "quote": 3,
+        "bookmark": 30,
+        "impression": 26646
+      },
+      "topic": "GPT-6 Astra Pro 업그레이드, 병렬 에이전트",
+      "summary_ko": "OpenAI 발표를 인용해 GPT-6 Astra Pro가 플러그인·도구 활용과 속도가 좋아졌고, 여러 에이전트가 한 작업의 다른 부분을 병렬로 처리할 수 있게 됐다고 전했어요. ChatGPT Pro 사용자부터 적용됐다고 해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-40613fb7f1ef3e42"
+      ]
+    },
+    {
+      "id": "2111717335522586718",
+      "url": "https://x.com/ahmetb/status/2111717335522586718",
+      "author": {
+        "username": "ahmetb",
+        "name": "ahmet alp balkan",
+        "followers": 51395
+      },
+      "created_at": "2026-10-18T07:13:41Z",
+      "quote": "DeepSeek launches a web search API at $0.75/1000 requests, undercutting US-based providers like exa/parallel  https://t.co/lN1XjQx9Th",
+      "metrics": {
+        "like": 91,
+        "repost": 5,
+        "reply": 10,
+        "quote": 0,
+        "bookmark": 60,
+        "impression": 9911
+      },
+      "topic": "DeepSeek 웹 검색 API 1천 건당 0.75달러",
+      "summary_ko": "DeepSeek이 1천 건당 0.75달러짜리 웹 검색 API를 내놔 Exa, Parallel 같은 미국 업체보다 싸게 나왔다는 게시물이에요. DeepSeek 공식 검색 가이드 문서를 링크했어요.",
+      "link": "https://api-docs.deepseek.com/guides/search/",
+      "related_item_ids": [
+        "trend-42c237eb3529c6fa"
+      ]
+    },
+    {
+      "id": "2111815813842026866",
+      "url": "https://x.com/RoundtableSpace/status/2111815813842026866",
+      "author": {
+        "username": "RoundtableSpace",
+        "name": "0xMarioNawfal",
+        "followers": 268822
+      },
+      "created_at": "2026-10-18T13:45:00Z",
+      "quote": "Google Gemini 4 Argon has successfully defeated Minecraft. https://t.co/bBOCczIsID",
+      "metrics": {
+        "like": 45,
+        "repost": 0,
+        "reply": 11,
+        "quote": 2,
+        "bookmark": 6,
+        "impression": 41510
+      },
+      "topic": "Gemini 4 Argon, 마인크래프트 클리어",
+      "summary_ko": "Gemini 4 Argon이 마인크래프트를 깼다는 짧은 소식이에요. 같은 날 news의 AI타임스 기사는 에이전트 4개가 역할을 나눠 27시간 만에 엔더 드래곤을 잡은 실험을 다뤄요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-df9f6159d959e0f5"
+      ]
+    },
+    {
+      "id": "2111775549190254711",
+      "url": "https://x.com/ynetnews/status/2111775549190254711",
+      "author": {
+        "username": "ynetnews",
+        "name": "Ynet Global",
+        "followers": 100325
+      },
+      "created_at": "2026-10-18T11:05:00Z",
+      "quote": "Claude cracks 25-year NSA cryptography mystery in under 30 minutes\nhttps://t.co/9ktR9IZw1j",
+      "metrics": {
+        "like": 0,
+        "repost": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 1024
+      },
+      "topic": "Claude, 25년 된 NSA 암호 미스터리 해결",
+      "summary_ko": "Ynet Global이 Claude가 25년 동안 풀리지 않던 NSA 관련 암호 미스터리를 30분도 안 돼 풀었다는 기사를 공유했어요. NIST 타원곡선 시드의 출처를 다룬 이야기로, news의 AI타임스 기사와 같은 소식이에요.",
+      "link": "https://www.ynetnews.com/tech-and-digital/article/bkro9bgnmg",
+      "related_item_ids": [
+        "trend-3fa5d00cfe4c793e"
+      ]
+    }
+  ]
+}
