@@ -148,3 +148,17 @@ test("authorized preview uses the last seven days and never invokes a sender", a
   assert.equal(body.digest.text.includes("https://example.com/old"), false);
   assert.equal(sent, false);
 });
+
+test("weekly digest skips subscribers who only asked for the new-year launch notice", async t => {
+  const { deps, delivered } = fixture(t);
+  const { createD1Store } = await import("../../functions/lib/d1-store.mjs");
+  const store = createD1Store(deps.db);
+  await store.save({ email: "weekly@example.com", status: "active", topics: ["weekly"], confirmTokenHash: null,
+    unsubscribeTokenHash: "weekly-hash", unsubscribeToken: "weekly-token" }, null);
+  await store.save({ email: "fortune@example.com", status: "active", topics: ["new-year-2027"], confirmTokenHash: null,
+    unsubscribeTokenHash: "fortune-hash", unsubscribeToken: "fortune-token" }, null);
+  const body = await (await send(deps)).json();
+  assert.equal(body.sent, 1);
+  assert.equal(body.skipped, 1);
+  assert.deepEqual(delivered.map(message => message.to), ["weekly@example.com"]);
+});
