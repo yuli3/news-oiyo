@@ -1,0 +1,192 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopicNav from "../../components/TopicNav.astro";
+import { PRICING_CHECKED, SUBSCRIPTIONS, API_MODELS } from "../../data/ai-pricing";
+
+// 기본 계산 예시: 한 달에 입력 1,000만 토큰, 출력 200만 토큰, 캐시 적중 0%.
+const DEFAULT = { input: 10, output: 2, cache: 0 };
+const usd = (n: number) => `$${n < 1 ? n.toFixed(2) : n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+const monthly = (m: (typeof API_MODELS)[number], input = DEFAULT.input, output = DEFAULT.output, cache = DEFAULT.cache) => {
+  const hit = input * (cache / 100);
+  return (input - hit) * m.input + hit * m.cached + output * m.output;
+};
+const ranked = [...API_MODELS].sort((a, b) => monthly(a) - monthly(b));
+
+// 원화가가 있는 요금제만 예산 구간에 넣는다. 앱스토어가(부가세 포함)를 우선, 없으면 한국 공식 웹 원화가.
+const krw = (s: string | null | undefined) => (s ? Number(s.replace(/[^0-9]/g, "")) : NaN);
+const appPlans = SUBSCRIPTIONS.flatMap((v) => v.plans.map((p) => ({ product: v.product, name: p.name, price: krw(p.krwApp ?? p.krwWeb) })))
+  .filter((p) => p.price > 0)
+  .sort((a, b) => a.price - b.price);
+const bands = [
+  { label: "₩15,000 이하", min: 1, max: 15000 },
+  { label: "₩15,001 ~ ₩50,000", min: 15001, max: 50000 },
+  { label: "₩50,001 ~ ₩200,000", min: 50001, max: 200000 },
+  { label: "₩200,001 이상", min: 200001, max: Infinity },
+].map((b) => ({ ...b, plans: appPlans.filter((p) => p.price >= b.min && p.price <= b.max) }));
+
+const allSources = [...new Map([
+  ...SUBSCRIPTIONS.flatMap((v) => v.sources.map((s) => [s.url, s.label] as const)),
+  ...API_MODELS.map((m) => [m.source, `${m.vendor} API 가격 문서`] as const),
+]).entries()];
+
+const title = "AI 구독료·API 비용 비교 (2026년 10월): ChatGPT·Claude·Gemini·Grok·Muse";
+const description = `ChatGPT·Claude·Gemini·Grok·Meta Muse Code 구독 요금제와 OpenAI·Anthropic·Google·xAI·Meta·DeepSeek API 단가를 공식 페이지 기준으로 정리했어요. 확인일 ${PRICING_CHECKED}.`;
+const dataset = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  datePublished: PRICING_CHECKED,
+  dateModified: PRICING_CHECKED,
+  inLanguage: "ko",
+  author: { "@type": "Organization", name: "OIYO 편집부", url: "https://news.oiyo.net/" },
+  citation: allSources.map(([url]) => url),
+};
+---
+<BaseLayout title={title} description={description} canonical="https://news.oiyo.net/ai/pricing/" type="article" publishedTime={PRICING_CHECKED} crumbs={[{ label: "AI", href: "/ai/" }, { label: "요금 비교" }]}>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(dataset)} />
+  <h1>AI 구독료·API 비용 비교</h1>
+  <p class="lede">2026년 10월 기준, 다섯 회사의 구독 요금제와 여섯 회사의 API 단가를 공식 페이지에서 옮겼어요. 확인일 <time datetime={PRICING_CHECKED}>{PRICING_CHECKED}</time>.</p>
+  <TopicNav />
+
+  <p class="note">가격은 자주 바뀌어요. 모든 숫자 옆의 출처를 결제 직전에 다시 열어 보세요. 공식 페이지에서 금액을 읽지 못한 칸은 비워 두었고, 보도로만 확인한 금액은 따로 표시했어요.</p>
+
+  <nav class="toc" aria-label="이 페이지 목차">
+    <a href="#budget">예산별로 보기</a><a href="#plans">구독 요금제</a><a href="#billing">구독 방식 차이</a><a href="#api">API 단가</a><a href="#calc">API 월 비용 계산</a><a href="#sources">출처</a>
+  </nav>
+
+  <h2 id="budget">한 달 예산별로 보기</h2>
+  <p>원화 가격이 확인된 요금제만 묶었어요. 한국 앱스토어 가격(부가세 포함)을 우선 썼고, 없으면 한국 공식 웹 가격을 썼어요. 웹에서 달러로 결제하면 세금이 따로 붙거나 환율에 따라 달라질 수 있어요.</p>
+  <div class="bands">
+    {bands.map((b) => (
+      <section class="band" aria-label={b.label}>
+        <h3>{b.label}</h3>
+        <ul>{b.plans.map((p) => <li><span>{p.product} {p.name}</span><b>₩{p.price.toLocaleString("ko-KR")}</b></li>)}</ul>
+      </section>
+    ))}
+  </div>
+
+  <h2 id="plans">회사별 구독 요금제</h2>
+  {SUBSCRIPTIONS.map((v) => (
+    <section class="vendor" id={v.id} aria-labelledby={`${v.id}-title`}>
+      <h3 id={`${v.id}-title`}>{v.product} <span class="sub">{v.vendor}</span></h3>
+      <div class="table-scroll" tabindex="0" role="region" aria-label={`${v.product} 요금제`}>
+        <table>
+          <thead><tr><th scope="col">요금제</th><th scope="col">공식 달러가(월)</th><th scope="col">한국 원화가(월)</th><th scope="col">무엇이 달라요</th></tr></thead>
+          <tbody>
+            {v.plans.map((p) => (
+              <tr>
+                <th scope="row">{p.name}</th>
+                <td>{p.usd ?? (p.reported ? <span>보도 기준 {p.reported.price} <a href={p.reported.source.url} rel="noopener">출처</a></span> : "—")}</td>
+                <td>{p.krwWeb ? <span>{p.krwWeb} <small>공식 웹</small></span> : p.krwApp ? <span>{p.krwApp} <small>앱스토어</small></span> : "—"}{p.krwWeb && p.krwApp && p.krwApp !== p.krwWeb ? <span> · {p.krwApp} <small>앱스토어</small></span> : null}</td>
+                <td>{p.summary}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <ul class="notes">{v.notes.map((n) => <li>{n}</li>)}</ul>
+      <p class="src">출처: {v.sources.map((s, i) => <>{i > 0 && " · "}<a href={s.url} rel="noopener">{s.label}</a></>)}</p>
+    </section>
+  ))}
+
+  <h2 id="billing">같은 "월 구독"이라도 방식이 달라요</h2>
+  <div class="table-scroll" tabindex="0" role="region" aria-label="구독 방식 비교">
+    <table>
+      <thead><tr><th scope="col">확인할 것</th><th scope="col">왜 중요해요</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">웹 결제 vs 앱 결제</th><td>공식 웹 가격은 대개 달러·세금 별도, 앱스토어는 원화·부가세 포함이에요. 예를 들어 Claude Pro는 $20(세금 별도)와 앱 ₩33,000이 같은 요금제예요.</td></tr>
+        <tr><th scope="row">사용량 리셋 주기</th><td>Claude는 5시간 단위로 한도가 다시 차고 주간 한도가 따로 있을 수 있어요. Muse Code도 5시간·주간 주기를 써요. "무제한"이라고 적힌 곳도 남용 방지 한도가 있어요.</td></tr>
+        <tr><th scope="row">배수로 표시된 한도</th><td>Claude Max 5x·20x, Google AI Ultra 5x·20x, Muse Code 5배·20배·80배처럼 기준 요금제 대비 배수로 적어요. 기준 한도가 숫자로 공개되지 않은 경우가 많아요.</td></tr>
+        <tr><th scope="row">API 크레딧 포함 여부</th><td>Claude Max는 매달 API 크레딧 $100·$200, Team은 팀 전체 최대 $500을 포함해요. 다른 회사 구독은 API 사용료가 별도예요.</td></tr>
+        <tr><th scope="row">저장공간·번들</th><td>Google AI 요금제에는 Drive 저장공간(400GB~)이 같이 들어 있어요. 이미 Google One을 쓰고 있다면 실제 추가 비용은 그만큼 작아요.</td></tr>
+        <tr><th scope="row">연간 결제</th><td>Claude Pro는 연간 월 $17($200 선결제), ChatGPT Business와 Claude Team은 연간이 좌석당 $5씩 싸요. 중도 해지 조건을 먼저 확인하세요.</td></tr>
+        <tr><th scope="row">코딩 에이전트 포함</th><td>ChatGPT는 Codex, Claude는 Claude Code, Google AI Pro는 Antigravity, Meta는 Muse Code를 같은 구독 안에서 써요. 코딩을 많이 하면 상위 요금제의 한도가 체감 차이를 만들어요.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="api">API 단가 (100만 토큰당, USD)</h2>
+  <p>직접 앱이나 자동화를 만들 때 내는 종량제 요금이에요. 구독과 별개로 청구돼요. 표는 각 회사의 표준 처리 단가이고, 묶음 처리(Batch)는 대부분 50% 싸요.</p>
+  <div class="table-scroll" tabindex="0" role="region" aria-label="API 단가 비교">
+    <table>
+      <thead><tr><th scope="col">모델</th><th scope="col">입력</th><th scope="col">캐시 입력</th><th scope="col">출력</th><th scope="col">참고</th></tr></thead>
+      <tbody>
+        {API_MODELS.map((m) => (
+          <tr><th scope="row">{m.model} <small>{m.vendor}</small></th><td>{usd(m.input)}</td><td>{usd(m.cached)}</td><td>{usd(m.output)}</td><td>{m.note} <a href={m.source} rel="noopener">원문</a></td></tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <h2 id="calc">내 사용량으로 API 월 비용 계산</h2>
+  <p>한 달에 보내는 입력·출력 토큰 수를 넣으면 모델별 비용을 싼 순서로 보여 줘요. 한국어 1글자는 대략 1~2토큰이지만 모델마다 달라요. 정확한 값은 실제 사용 기록에서 확인하세요.</p>
+  <form class="calc" data-api-calc aria-describedby="calc-help">
+    <label>입력 토큰 (백만/월)<input name="input" type="number" min="0" step="any" value={DEFAULT.input} inputmode="decimal" /></label>
+    <label>출력 토큰 (백만/월)<input name="output" type="number" min="0" step="any" value={DEFAULT.output} inputmode="decimal" /></label>
+    <label>캐시 적중 비율 (%)<input name="cache" type="number" min="0" max="100" step="any" value={DEFAULT.cache} inputmode="decimal" /></label>
+  </form>
+  <p id="calc-help" class="sub">기본값: 입력 1,000만, 출력 200만 토큰, 캐시 0%. 캐시 쓰기 비용, 도구 호출료, 긴 프롬프트 할증, 할인 시간대는 빠져 있어요.</p>
+  <ol class="ranking" data-api-ranking aria-live="polite">
+    {ranked.map((m) => <li data-model={m.model}><span>{m.model} <small>{m.vendor}</small></span><b>{usd(monthly(m))}</b></li>)}
+  </ol>
+  <script is:inline type="application/json" id="api-models" set:html={JSON.stringify(API_MODELS.map(({ vendor, model, input, cached, output }) => ({ vendor, model, input, cached, output })))} />
+  <script>
+    const form = document.querySelector<HTMLFormElement>("[data-api-calc]");
+    const list = document.querySelector<HTMLOListElement>("[data-api-ranking]");
+    const raw = document.getElementById("api-models")?.textContent;
+    if (form && list && raw) {
+      const models: { vendor: string; model: string; input: number; cached: number; output: number }[] = JSON.parse(raw);
+      const fmt = (n: number) => `$${n < 1 ? n.toFixed(2) : n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+      const render = () => {
+        const d = new FormData(form);
+        const num = (k: string) => Math.max(0, Number(d.get(k)) || 0);
+        const input = num("input"), output = num("output"), cache = Math.min(100, num("cache"));
+        const hit = input * (cache / 100);
+        const rows = models.map((m) => ({ m, cost: (input - hit) * m.input + hit * m.cached + output * m.output })).sort((a, b) => a.cost - b.cost);
+        list.replaceChildren(...rows.map(({ m, cost }) => {
+          const li = document.createElement("li");
+          const name = document.createElement("span");
+          name.textContent = `${m.model} `;
+          const vendor = document.createElement("small");
+          vendor.textContent = m.vendor;
+          name.append(vendor);
+          const price = document.createElement("b");
+          price.textContent = fmt(cost);
+          li.append(name, price);
+          return li;
+        }));
+      };
+      form.addEventListener("input", render);
+    }
+  </script>
+
+  <h2>고를 때 기억할 세 가지</h2>
+  <ol>
+    <li><b>단가보다 끝낸 작업당 비용</b>을 보세요. 싼 모델로 세 번 고치는 것보다 비싼 모델로 한 번에 끝내는 편이 쌀 수 있어요. 계산법은 <a href="/analysis/ko/ai-price-performance/">AI 가격·성능 비교 분석</a>에 있어요.</li>
+    <li><b>예정된 인상</b>을 확인하세요. Gemini 4 Argon은 2026-12-01, Gemini 3.8 Flash는 2027-01-01부터 단가가 두 배가 돼요.</li>
+    <li><b>민감한 자료</b>를 넣기 전에 데이터 조건을 읽으세요. Meta Muse Spark의 Contributor 모드처럼 싼 대신 입력이 제품 개선에 쓰이는 등급도 있어요.</li>
+  </ol>
+
+  <h2 id="sources">출처와 확인 범위</h2>
+  <p class="sub">{PRICING_CHECKED}에 아래 공식 페이지를 열어 숫자를 옮겼어요. 보도로만 확인한 Muse Code 금액은 표에 "보도 기준"으로 따로 표시했어요. 직접 결제해 본 가격이 아니며, 국가·결제 수단·프로모션에 따라 달라질 수 있어요.</p>
+  <ul class="sources">{allSources.map(([url, label]) => <li><a href={url} rel="noopener">{label}</a></li>)}</ul>
+
+  <style>
+    .note{padding:12px 16px;border-inline-start:4px solid var(--accent);background:var(--accent-soft)}
+    .toc{display:flex;flex-wrap:wrap;gap:4px 20px;margin:12px 0 8px}.toc a{display:inline-flex;align-items:center;min-height:44px;color:var(--accent)}
+    .bands{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .band{border:1px solid var(--border);border-radius:8px;padding:12px 16px}.band h3{margin:0 0 8px;font-size:16px}
+    .band ul,.ranking{list-style:none;padding:0;margin:0}.band li,.ranking li{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--border);font-size:14px}
+    .vendor{margin-top:28px}.vendor h3 .sub{font-weight:400}
+    .table-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:8px;margin:12px 0}
+    table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:start;padding:10px;vertical-align:top;border-bottom:1px solid var(--border)}thead th{background:var(--accent-soft)}tbody th{min-width:110px}.table-scroll table{min-width:640px}td{white-space:normal}td:last-child{min-width:220px}
+    small{color:var(--muted);font-weight:400}
+    .notes{font-size:14px;color:var(--muted)}.src{font-size:13px;color:var(--muted)}
+    .calc{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin:12px 0}
+    .calc label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700}
+    .calc input{min-height:44px;font-size:16px;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--ink)}
+    .ranking{counter-reset:r}.ranking li{counter-increment:r}.ranking li span::before{content:counter(r) ". ";color:var(--muted)}
+    .sources{font-size:14px}
+  </style>
+</BaseLayout>
