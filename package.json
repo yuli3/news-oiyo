@@ -25,6 +25,7 @@
     "test:mailing-list": "node --test scripts/test/mailing-list*.test.mjs",
     "test:story-scope": "node --test scripts/test/story-scope.test.mjs",
     "mailing-list:digest": "node scripts/render-mailing-digest.mjs",
+    "mailing-list:launch-notice": "node scripts/send-launch-notice.mjs",
     "translations:pending": "node scripts/translations-pending.mjs",
     "translations:check": "node scripts/check-translations.mjs",
     "showcase:sync": "node scripts/sync-showcase-weekly.mjs",
