@@ -4,7 +4,7 @@ import { buildDigest, selectWeeklyItems, withUnsubscribe } from "./digest.mjs";
 import { createWeeklyStore } from "./weekly-store.mjs";
 import { itemInScope } from "../../scripts/lib/story-scope.mjs";
 
-function reply(status, body) {
+export function reply(status, body) {
   return new Response(JSON.stringify(body), { status,
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
   });
@@ -15,29 +15,38 @@ export async function handleWeeklyRequest(request, deps) {
   catch { return reply(503, { ok: false, error: "service_unavailable" }); }
 }
 
-async function processWeeklyRequest(request, deps) {
-  if (request.method !== "POST") return reply(405, { ok: false, error: "method" });
+// 관리 요청 공통 관문: POST, 32자 이상 관리 키, 같은 출처, JSON 본문. 출시 알림 발송도 같은 관문을 쓴다.
+// 통과하면 { data }, 막히면 { response }를 돌려준다.
+export async function readAdminRequest(request, deps) {
+  if (request.method !== "POST") return { response: reply(405, { ok: false, error: "method" }) };
   const supplied = request.headers.get("authorization") || "";
   const secret = deps.adminKey || "";
   if (secret.length < 32 || !supplied.startsWith("Bearer ") || supplied.length > 520) {
-    return reply(401, { ok: false, error: "unauthorized" });
+    return { response: reply(401, { ok: false, error: "unauthorized" }) };
   }
   const expected = await sha256Hex(secret);
   const actual = await sha256Hex(supplied.slice(7));
   let mismatch = 0;
   for (let i = 0; i < expected.length; i += 1) mismatch |= expected.charCodeAt(i) ^ actual.charCodeAt(i);
-  if (mismatch) return reply(401, { ok: false, error: "unauthorized" });
+  if (mismatch) return { response: reply(401, { ok: false, error: "unauthorized" }) };
   const requestOrigin = request.headers.get("origin");
   if (requestOrigin && requestOrigin !== new URL(deps.origin || "https://news.oiyo.net").origin) {
-    return reply(403, { ok: false, error: "origin_not_allowed" });
+    return { response: reply(403, { ok: false, error: "origin_not_allowed" }) };
   }
   if (!(request.headers.get("content-type") || "").includes("application/json")) {
-    return reply(415, { ok: false, error: "json_required" });
+    return { response: reply(415, { ok: false, error: "json_required" }) };
   }
   const parsed = await readMailingBody(request);
-  if (parsed.error) return reply(parsed.error === "too_large" ? 413 : 400, { ok: false, error: parsed.error });
+  if (parsed.error) return { response: reply(parsed.error === "too_large" ? 413 : 400, { ok: false, error: parsed.error }) };
   const data = parsed.data;
-  if (!data || typeof data !== "object" || Array.isArray(data)) return reply(400, { ok: false, error: "bad_json" });
+  if (!data || typeof data !== "object" || Array.isArray(data)) return { response: reply(400, { ok: false, error: "bad_json" }) };
+  return { data };
+}
+
+async function processWeeklyRequest(request, deps) {
+  const admin = await readAdminRequest(request, deps);
+  if (admin.response) return admin.response;
+  const data = admin.data;
   // Use the product's Korean day, not the deployment host's timezone (2026-10-15).
   const today = new Date((deps.now ?? Date.now()) + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
   const through = data.through ?? today;
