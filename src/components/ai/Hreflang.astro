@@ -1,0 +1,8 @@
+---
+// hreflang alternates for the Korean AI pages, passed into BaseLayout's head slot.
+import { LOCALES, type Locale } from "../../data/ai-i18n";
+interface Props { paths: Record<Locale, string> }
+const { paths } = Astro.props;
+---
+{LOCALES.map((l) => <link rel="alternate" hreflang={l === "zh" ? "zh-CN" : l} href={`https://news.oiyo.net${paths[l]}`} />)}
+<link rel="alternate" hreflang="x-default" href={`https://news.oiyo.net${paths.ko}`} />

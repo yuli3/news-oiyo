@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopicNav from "../../components/TopicNav.astro";
+import PricingView from "../../components/ai/PricingView.astro";
+import { PRICING_CHECKED, SUBSCRIPTIONS, API_MODELS } from "../../data/ai-pricing";
+import Hreflang from "../../components/ai/Hreflang.astro";
+import LangLinks from "../../components/ai/LangLinks.astro";
+import { UI, allPaths, pricingPath } from "../../data/ai-i18n";
+
+const t = UI.ko;
+const description = `ChatGPT·Claude·Gemini·Grok·Meta Muse Code 구독 요금제와 OpenAI·Anthropic·Google·xAI·Meta·DeepSeek API 단가를 공식 페이지 기준으로 정리했어요. 확인일 ${PRICING_CHECKED}.`;
+const dataset = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: t.pricingTitle,
+  description,
+  datePublished: PRICING_CHECKED,
+  dateModified: PRICING_CHECKED,
+  inLanguage: "ko",
+  author: { "@type": "Organization", name: "OIYO 편집부", url: "https://news.oiyo.net/" },
+  citation: [...new Set([...SUBSCRIPTIONS.flatMap((v) => v.sources.map((s) => s.url)), ...API_MODELS.map((m) => m.source)])],
+};
+// 원화가가 있는 요금제만 예산 구간에 넣는다. 앱스토어가(부가세 포함)를 우선, 없으면 한국 공식 웹 원화가.
+const bands: [string, number, number][] = [["₩15,000 이하", 1, 15000], ["₩15,001 ~ ₩50,000", 15001, 50000], ["₩50,001 ~ ₩200,000", 50001, 200000], ["₩200,001 이상", 200001, Infinity]];
+---
+<BaseLayout title={t.pricingTitle} description={description} canonical="https://news.oiyo.net/ai/pricing/" type="article" publishedTime={PRICING_CHECKED} crumbs={[{ label: "AI", href: "/ai/" }, { label: "요금 비교" }]}>
+  <Hreflang slot="head" paths={allPaths(pricingPath)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(dataset)} />
+  <h1>{t.pricingH1}</h1>
+  <PricingView lang="ko" vendors={SUBSCRIPTIONS} bands={bands}><TopicNav /><LangLinks lang="ko" paths={allPaths(pricingPath)} /></PricingView>
+</BaseLayout>
