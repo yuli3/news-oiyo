@@ -4,6 +4,8 @@
 // (2) 출처가 확인 못 한 항목(가격·대상)은 비워 두고 지어내지 않는다. (3) 사람의 최종 판단이 필요한 분야는
 // cautions에 경계를 적는다. (4) KEYWORD_MAP은 앞으로 쓸 페이지 목록이다. 페이지를 쓰면 slug를 GUIDES에 추가한다.
 
+import { guides as creativeGuides } from "./ai-use-cases-locales/ko-extra";
+
 export interface Source { label: string; url: string }
 
 export interface Tool {
@@ -31,7 +33,9 @@ export interface Guide {
   keywords: string[];
 }
 
-export const KEYWORD_MAP: { category: string; cases: { name: string; slug?: string; keywords: string[] }[] }[] = [
+export interface KeywordCategory { category: string; cases: { name: string; slug?: string; keywords: string[] }[] }
+
+export const KEYWORD_MAP: KeywordCategory[] = [
   {
     category: "전문 업무",
     cases: [
@@ -59,8 +63,8 @@ export const KEYWORD_MAP: { category: string; cases: { name: string; slug?: stri
   {
     category: "디자인·인쇄물",
     cases: [
-      { name: "포스터", keywords: ["포스터 만들기 AI", "행사 포스터 AI", "AI 포스터 디자인"] },
-      { name: "팜플렛·리플릿", keywords: ["팜플렛 만들기 AI", "리플릿 AI", "브로셔 AI"] },
+      { name: "포스터", slug: "poster", keywords: ["포스터 만들기 AI", "행사 포스터 AI", "AI 포스터 디자인"] },
+      { name: "팜플렛·리플릿", slug: "pamphlet", keywords: ["팜플렛 만들기 AI", "리플릿 AI", "브로셔 AI"] },
       { name: "로고·명함", keywords: ["로고 만들기 AI", "명함 디자인 AI"] },
       { name: "상세페이지", keywords: ["상세페이지 AI", "스마트스토어 상세페이지", "쇼핑몰 상세페이지 AI"] },
       { name: "썸네일·카드뉴스", keywords: ["썸네일 AI", "카드뉴스 AI", "인스타 카드뉴스 만들기"] },
@@ -69,8 +73,8 @@ export const KEYWORD_MAP: { category: string; cases: { name: string; slug?: stri
   {
     category: "마케팅·광고",
     cases: [
-      { name: "광고 이미지", keywords: ["광고 이미지 AI", "제품 사진 AI", "배너 AI"] },
-      { name: "광고 영상", keywords: ["광고 영상 AI", "Veo", "Kling", "Runway", "숏폼 광고 AI"] },
+      { name: "광고 이미지", slug: "ad-image", keywords: ["광고 이미지 AI", "제품 사진 AI", "배너 AI"] },
+      { name: "광고 영상", slug: "ad-video", keywords: ["광고 영상 AI", "Veo", "Kling", "Runway", "숏폼 광고 AI"] },
       { name: "광고 카피·문구", keywords: ["광고 문구 AI", "카피라이팅 AI", "슬로건 AI"] },
       { name: "SNS 운영", keywords: ["SNS 콘텐츠 AI", "릴스 AI", "쇼츠 자동화"] },
       { name: "블로그·SEO", keywords: ["블로그 글쓰기 AI", "SEO AI", "네이버 블로그 AI"] },
@@ -92,7 +96,7 @@ export const KEYWORD_MAP: { category: string; cases: { name: string; slug?: stri
 const LAWTIMES_LES = { label: "법률신문 · LES 2026 출품 기업 (2026-06-17)", url: "https://www.lawtimes.co.kr/news/articleView.html?idxno=222131" };
 const LAWTIMES_REVIEW = { label: "법률신문 · \"법률 AI, 진화와 발전 거듭\" (2026-06-27)", url: "https://www.lawtimes.co.kr/news/articleView.html?idxno=222618" };
 
-export const GUIDES: Guide[] = [
+const BASE_GUIDES: Guide[] = [
   {
     slug: "legal",
     category: "전문 업무",
@@ -225,3 +229,5 @@ export const GUIDES: Guide[] = [
     keywords: ["PPT 만들기 AI", "AI 프레젠테이션", "Gamma 사용법", "발표자료 자동 생성", "PPTX 내보내기"],
   },
 ];
+
+export const GUIDES: Guide[] = [...BASE_GUIDES, ...creativeGuides];

@@ -1,0 +1,10 @@
+---
+// Language switcher for the Korean AI pages (the other languages get it from AiLocaleLayout).
+import { LOCALES, LOCALE_NAMES, type Locale } from "../../data/ai-i18n";
+interface Props { lang: Locale; paths: Record<Locale, string> }
+const { lang, paths } = Astro.props;
+---
+<nav class="languages" aria-label="languages">{LOCALES.map((l) => <a href={paths[l]} lang={l} hreflang={l} aria-current={l === lang ? "page" : undefined}>{LOCALE_NAMES[l]}</a>)}</nav>
+<style>
+  .languages{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}.languages a{display:inline-flex;align-items:center;padding:6px 10px;min-height:44px;border:1px solid var(--border);border-radius:8px;text-decoration:none;font-size:14px}.languages [aria-current]{background:var(--accent-soft);font-weight:700}
+</style>

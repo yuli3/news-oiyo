@@ -1,59 +1,21 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import TopicNav from "../../../components/TopicNav.astro";
+import HubView from "../../../components/ai/HubView.astro";
+import Hreflang from "../../../components/ai/Hreflang.astro";
+import LangLinks from "../../../components/ai/LangLinks.astro";
 import { KEYWORD_MAP, GUIDES } from "../../../data/ai-use-cases";
+import { UI, allPaths, hubPath } from "../../../data/ai-i18n";
 
-const ready = new Set(GUIDES.map((g) => g.slug));
-const total = KEYWORD_MAP.reduce((n, c) => n + c.cases.length, 0);
 const list = {
   "@context": "https://schema.org",
   "@type": "ItemList",
-  name: "분야별 AI 활용 가이드",
+  name: UI.ko.hubH1,
   itemListElement: GUIDES.map((g, i) => ({ "@type": "ListItem", position: i + 1, url: `https://news.oiyo.net/ai/use-cases/${g.slug}/`, name: g.title })),
 };
 ---
-<BaseLayout title="분야별 AI 활용 가이드 — 노무·법무·세무·PPT·광고까지" description="노무·법무·세무·회계·행정부터 포스터·팜플렛·프레젠테이션·광고 이미지·광고 영상까지, 일마다 어떤 AI를 어떻게 조합해 쓰는지 최신 서비스와 워크플로우로 정리해요." canonical="https://news.oiyo.net/ai/use-cases/" crumbs={[{ label: "AI", href: "/ai/" }, { label: "분야별 활용" }]}>
+<BaseLayout title={UI.ko.hubTitle} description="노무·법무·세무·회계·행정부터 포스터·팜플렛·프레젠테이션·광고 이미지·광고 영상까지, 일마다 어떤 AI를 어떻게 조합해 쓰는지 최신 서비스와 워크플로우로 정리해요." canonical="https://news.oiyo.net/ai/use-cases/" crumbs={[{ label: "AI", href: "/ai/" }, { label: "분야별 활용" }]}>
+  <Hreflang slot="head" paths={allPaths(hubPath)} />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(list)} />
-  <h1>분야별 AI 활용 가이드</h1>
-  <p class="lede">"AI가 좋다"보다 "이 일에는 어떤 서비스를 무엇과 묶어 쓰는지"를 정리해요. 각 가이드는 확인일과 출처를 붙이고, 사람이 최종 판단해야 하는 선을 함께 적어요.</p>
-  <TopicNav />
-
-  <h2>지금 읽을 수 있는 가이드</h2>
-  <div class="guides">
-    {GUIDES.map((g) => (
-      <a class="guide" href={`/ai/use-cases/${g.slug}/`}>
-        <span class="cat">{g.category} · 확인 {g.checked}</span>
-        <strong>{g.title}</strong>
-        <span>{g.description}</span>
-      </a>
-    ))}
-  </div>
-
-  <h2>앞으로 다룰 분야 ({total}개)</h2>
-  <p class="sub">분야를 누르면 그 분야에서 사람들이 찾는 말을 볼 수 있어요. 가이드가 있는 분야는 바로 연결돼요.</p>
-  {KEYWORD_MAP.map((c) => (
-    <section class="cat-block" aria-label={c.category}>
-      <h3>{c.category}</h3>
-      {c.cases.map((k) => (
-        <details>
-          <summary>{k.slug && ready.has(k.slug) ? <a href={`/ai/use-cases/${k.slug}/`}>{k.name}</a> : <span>{k.name}</span>}{k.slug && ready.has(k.slug) ? <em>가이드 있음</em> : <em class="soon">준비 중</em>}</summary>
-          <ul>{k.keywords.map((w) => <li>{w}</li>)}</ul>
-        </details>
-      ))}
-    </section>
-  ))}
-
-  <p>요금이 궁금하면 <a href="/ai/pricing/">AI 구독료·API 비용 비교</a>를 함께 보세요.</p>
-
-  <style>
-    .guides{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-    .guide{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid var(--border);border-radius:8px;color:var(--ink);text-decoration:none;background:var(--card)}
-    .guide:hover{background:var(--accent-soft)}.guide strong{font-size:16px;line-height:1.4}.guide span{font-size:14px;color:var(--muted)}.guide .cat{font-size:12px}
-    .cat-block{margin-top:20px}.cat-block h3{font-size:16px;margin:0 0 6px}
-    details{border-bottom:1px solid var(--border)}
-    summary{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;cursor:pointer;font-weight:700}
-    summary a{color:var(--accent)}summary em{font-style:normal;font-size:12px;color:var(--accent)}summary em.soon{color:var(--muted)}
-    details ul{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0 0 12px;margin:0}
-    details li{font-size:13px;padding:2px 8px;border:1px solid var(--border);border-radius:999px;color:var(--muted)}
-  </style>
+  <HubView lang="ko" guides={GUIDES} keywordMap={KEYWORD_MAP}><TopicNav /><LangLinks lang="ko" paths={allPaths(hubPath)} /></HubView>
 </BaseLayout>

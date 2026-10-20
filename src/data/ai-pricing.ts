@@ -13,10 +13,10 @@ export interface Plan {
   name: string;
   /** 공식 페이지의 달러 정가(월). 연간 결제가가 있으면 함께. */
   usd: string | null;
-  /** Apple 한국 App Store 앱 내 구입가(월, 부가세 포함). */
-  krwApp: string | null;
-  /** 한국 공식 웹페이지에 원화로 적힌 가격. */
-  krwWeb?: string;
+  /** 그 나라 Apple App Store 앱 내 구입가(월, 세금 포함). */
+  localApp: string | null;
+  /** 그 나라 공식 웹페이지에 현지 통화로 적힌 가격. */
+  localWeb?: string;
   summary: string;
   /** 공식 페이지에 없고 언론 보도로만 확인된 가격. */
   reported?: { price: string; source: Source };
@@ -42,13 +42,13 @@ export const SUBSCRIPTIONS: Vendor[] = [
     vendor: "OpenAI",
     product: "ChatGPT",
     plans: [
-      { name: "Free", usd: "$0", krwApp: null, summary: "기본 대화. 이미지 생성·심층 리서치·Codex는 제한적으로 써요." },
-      { name: "Go", usd: null, krwApp: "₩13,000", summary: "무료보다 메시지·업로드·이미지 생성이 많아요. 광고가 붙을 수 있어요." },
-      { name: "Plus", usd: "$20", krwApp: "₩29,000", summary: "프로젝트·예약 작업·맞춤 GPT, 더 많은 심층 리서치." },
-      { name: "Pro 100", usd: "$100", krwApp: "₩159,000", summary: "Pro 세 단계 중 첫 번째. Ultrafast 모드는 빠져 있어요." },
-      { name: "Pro 200", usd: "$200", krwApp: "₩299,000", summary: "Pro 100보다 넉넉한 사용량. Ultrafast는 빠져 있어요." },
-      { name: "Pro 500", usd: "$500", krwApp: "₩790,000", summary: "포함 사용량이 가장 많고 Ultrafast 모드가 들어 있어요." },
-      { name: "Business", usd: "좌석당 $25 (연간 $20)", krwApp: null, summary: "2인부터. 프리미엄 좌석은 $125 (연간 $100)." },
+      { name: "Free", usd: "$0", localApp: null, summary: "기본 대화. 이미지 생성·심층 리서치·Codex는 제한적으로 써요." },
+      { name: "Go", usd: null, localApp: "₩13,000", summary: "무료보다 메시지·업로드·이미지 생성이 많아요. 광고가 붙을 수 있어요." },
+      { name: "Plus", usd: "$20", localApp: "₩29,000", summary: "프로젝트·예약 작업·맞춤 GPT, 더 많은 심층 리서치." },
+      { name: "Pro 100", usd: "$100", localApp: "₩159,000", summary: "Pro 세 단계 중 첫 번째. Ultrafast 모드는 빠져 있어요." },
+      { name: "Pro 200", usd: "$200", localApp: "₩299,000", summary: "Pro 100보다 넉넉한 사용량. Ultrafast는 빠져 있어요." },
+      { name: "Pro 500", usd: "$500", localApp: "₩790,000", summary: "포함 사용량이 가장 많고 Ultrafast 모드가 들어 있어요." },
+      { name: "Business", usd: "좌석당 $25 (연간 $20)", localApp: null, summary: "2인부터. 프리미엄 좌석은 $125 (연간 $100)." },
     ],
     notes: [
       "공식 가격 페이지(chatgpt.com/pricing)는 금액을 스크립트로 그려서 이번 확인에서 숫자를 읽지 못했어요. Plus와 Pro는 도움말 센터, Business는 공식 발표문의 금액이에요.",
@@ -68,12 +68,12 @@ export const SUBSCRIPTIONS: Vendor[] = [
     vendor: "Anthropic",
     product: "Claude",
     plans: [
-      { name: "Free", usd: "$0", krwApp: null, summary: "일상 사용. 5시간 단위로 한도가 다시 채워져요." },
-      { name: "Pro", usd: "$20 (연간 월 $17)", krwApp: "₩33,000", summary: "5시간 세션당 무료의 5배 이상. 연간은 $200 선결제, 앱스토어 연간 ₩349,000." },
-      { name: "Max 5x", usd: "$100", krwApp: "₩199,000", summary: "Pro의 5배 사용량, 매달 API 크레딧 $100 포함. 월 결제만 가능." },
-      { name: "Max 20x", usd: "$200", krwApp: "₩449,000", summary: "Pro의 20배 사용량, 매달 API 크레딧 $200 포함." },
-      { name: "Team 표준 좌석", usd: "$25 (연간 $20)", krwApp: null, summary: "2~150명. Pro보다 많은 사용량." },
-      { name: "Team 프리미엄 좌석", usd: "$125 (연간 $100)", krwApp: null, summary: "표준 좌석의 5배. 팀 전체에 최대 월 $500 API 크레딧." },
+      { name: "Free", usd: "$0", localApp: null, summary: "일상 사용. 5시간 단위로 한도가 다시 채워져요." },
+      { name: "Pro", usd: "$20 (연간 월 $17)", localApp: "₩33,000", summary: "5시간 세션당 무료의 5배 이상. 연간은 $200 선결제, 앱스토어 연간 ₩349,000." },
+      { name: "Max 5x", usd: "$100", localApp: "₩199,000", summary: "Pro의 5배 사용량, 매달 API 크레딧 $100 포함. 월 결제만 가능." },
+      { name: "Max 20x", usd: "$200", localApp: "₩449,000", summary: "Pro의 20배 사용량, 매달 API 크레딧 $200 포함." },
+      { name: "Team 표준 좌석", usd: "$25 (연간 $20)", localApp: null, summary: "2~150명. Pro보다 많은 사용량." },
+      { name: "Team 프리미엄 좌석", usd: "$125 (연간 $100)", localApp: null, summary: "표준 좌석의 5배. 팀 전체에 최대 월 $500 API 크레딧." },
     ],
     notes: [
       "공식 가격표의 달러 금액은 세금 별도예요. 앱스토어 원화가는 부가세 포함이라 두 숫자를 그대로 비교하면 안 돼요.",
@@ -86,11 +86,11 @@ export const SUBSCRIPTIONS: Vendor[] = [
     vendor: "Google",
     product: "Gemini (Google AI 요금제)",
     plans: [
-      { name: "무료", usd: null, krwApp: null, krwWeb: "₩0", summary: "Flash-Lite 모델, 15GB 저장공간, Deep Research·Gemini Live·Canvas." },
-      { name: "Google AI Plus", usd: null, krwApp: "₩7,500", krwWeb: "₩7,500", summary: "Flash 모델, 무료의 2배 한도, 400GB, Flow 크레딧 200." },
-      { name: "Google AI Pro", usd: null, krwApp: "₩29,000", summary: "Gemini 4 Argon·Pro 모델, 무료의 4배 한도, 5TB, Antigravity 기본 한도." },
-      { name: "Google AI Ultra (5x)", usd: null, krwApp: null, krwWeb: "₩119,000", summary: "AI Pro의 5배 한도, Flow 크레딧 10,000, Project Genie." },
-      { name: "Google AI Ultra (20x)", usd: null, krwApp: "₩300,000", krwWeb: "₩300,000", summary: "AI Pro의 20배 한도, Flow 크레딧 25,000, Antigravity Ultra 20x." },
+      { name: "무료", usd: null, localApp: null, localWeb: "₩0", summary: "Flash-Lite 모델, 15GB 저장공간, Deep Research·Gemini Live·Canvas." },
+      { name: "Google AI Plus", usd: null, localApp: "₩7,500", localWeb: "₩7,500", summary: "Flash 모델, 무료의 2배 한도, 400GB, Flow 크레딧 200." },
+      { name: "Google AI Pro", usd: null, localApp: "₩29,000", summary: "Gemini 4 Argon·Pro 모델, 무료의 4배 한도, 5TB, Antigravity 기본 한도." },
+      { name: "Google AI Ultra (5x)", usd: null, localApp: null, localWeb: "₩119,000", summary: "AI Pro의 5배 한도, Flow 크레딧 10,000, Project Genie." },
+      { name: "Google AI Ultra (20x)", usd: null, localApp: "₩300,000", localWeb: "₩300,000", summary: "AI Pro의 20배 한도, Flow 크레딧 25,000, Antigravity Ultra 20x." },
     ],
     notes: [
       "한국 공식 요금제 페이지에서 Plus와 Ultra 원화가는 읽었지만 AI Pro 금액은 표시되지 않았어요. AI Pro는 앱스토어 가격이에요.",
@@ -108,16 +108,16 @@ export const SUBSCRIPTIONS: Vendor[] = [
     vendor: "xAI",
     product: "Grok",
     plans: [
-      { name: "Free", usd: "$0", krwApp: null, summary: "기본 사용." },
-      { name: "Plus", usd: "$8", krwApp: null, summary: "x.ai 가격표 기준 이름." },
-      { name: "Premium", usd: "$30", krwApp: null, summary: "x.ai 가격표 기준 이름." },
-      { name: "Super", usd: "$100", krwApp: null, summary: "x.ai 가격표 기준 이름." },
-      { name: "Ultra", usd: "$200", krwApp: null, summary: "x.ai 가격표 기준 이름." },
-      { name: "Teams", usd: "좌석당 $30부터", krwApp: null, summary: "팀 관리." },
-      { name: "SuperGrok Lite (앱)", usd: null, krwApp: "₩14,000", summary: "앱스토어 이름." },
-      { name: "SuperGrok (앱)", usd: null, krwApp: "₩44,000", summary: "앱스토어 이름." },
-      { name: "SuperGrok Plus (앱)", usd: null, krwApp: "₩149,000", summary: "앱스토어 이름." },
-      { name: "SuperGrok Heavy (앱)", usd: null, krwApp: "₩449,000", summary: "앱스토어 이름." },
+      { name: "Free", usd: "$0", localApp: null, summary: "기본 사용." },
+      { name: "Plus", usd: "$8", localApp: null, summary: "x.ai 가격표 기준 이름." },
+      { name: "Premium", usd: "$30", localApp: null, summary: "x.ai 가격표 기준 이름." },
+      { name: "Super", usd: "$100", localApp: null, summary: "x.ai 가격표 기준 이름." },
+      { name: "Ultra", usd: "$200", localApp: null, summary: "x.ai 가격표 기준 이름." },
+      { name: "Teams", usd: "좌석당 $30부터", localApp: null, summary: "팀 관리." },
+      { name: "SuperGrok Lite (앱)", usd: null, localApp: "₩14,000", summary: "앱스토어 이름." },
+      { name: "SuperGrok (앱)", usd: null, localApp: "₩44,000", summary: "앱스토어 이름." },
+      { name: "SuperGrok Plus (앱)", usd: null, localApp: "₩149,000", summary: "앱스토어 이름." },
+      { name: "SuperGrok Heavy (앱)", usd: null, localApp: "₩449,000", summary: "앱스토어 이름." },
     ],
     notes: [
       "x.ai 가격표와 앱스토어가 서로 다른 요금제 이름을 써요. 어느 이름이 어느 상품과 같은지 공식 문서로 확인하지 못해서 짝짓지 않고 따로 적었어요.",
@@ -130,10 +130,10 @@ export const SUBSCRIPTIONS: Vendor[] = [
     vendor: "Meta",
     product: "Muse Code (Muse Wonder)",
     plans: [
-      { name: "Everyday Usage", usd: null, krwApp: null, summary: "5시간마다 프롬프트 10~50개. Muse Spark·Muse Wonder·Muse Image.", reported: { price: "$5", source: { label: "Subscription Insider (2026-09-01)", url: "https://www.subscriptioninsider.com/blog/meta-adds-monthly-plans-as-muse-code-exits-beta" } } },
-      { name: "High Usage", usd: null, krwApp: null, summary: "Everyday의 5배.", reported: { price: "$15", source: { label: "Subscription Insider (2026-09-01)", url: "https://www.subscriptioninsider.com/blog/meta-adds-monthly-plans-as-muse-code-exits-beta" } } },
-      { name: "Power Usage", usd: null, krwApp: null, summary: "Everyday의 20배, Muse Wonder Full 포함.", reported: { price: "$50", source: { label: "Subscription Insider (2026-09-01)", url: "https://www.subscriptioninsider.com/blog/meta-adds-monthly-plans-as-muse-code-exits-beta" } } },
-      { name: "Maximum Usage", usd: null, krwApp: null, summary: "Everyday의 80배, Muse Wonder Full 포함.", reported: { price: "$200", source: { label: "Yotta Labs", url: "https://www.yottalabs.ai/post/meta-muse-wonder-pricing-api-cost-muse-code-plans" } } },
+      { name: "Everyday Usage", usd: null, localApp: null, summary: "5시간마다 프롬프트 10~50개. Muse Spark·Muse Wonder·Muse Image.", reported: { price: "$5", source: { label: "Subscription Insider (2026-09-01)", url: "https://www.subscriptioninsider.com/blog/meta-adds-monthly-plans-as-muse-code-exits-beta" } } },
+      { name: "High Usage", usd: null, localApp: null, summary: "Everyday의 5배.", reported: { price: "$15", source: { label: "Subscription Insider (2026-09-01)", url: "https://www.subscriptioninsider.com/blog/meta-adds-monthly-plans-as-muse-code-exits-beta" } } },
+      { name: "Power Usage", usd: null, localApp: null, summary: "Everyday의 20배, Muse Wonder Full 포함.", reported: { price: "$50", source: { label: "Subscription Insider (2026-09-01)", url: "https://www.subscriptioninsider.com/blog/meta-adds-monthly-plans-as-muse-code-exits-beta" } } },
+      { name: "Maximum Usage", usd: null, localApp: null, summary: "Everyday의 80배, Muse Wonder Full 포함.", reported: { price: "$200", source: { label: "Yotta Labs", url: "https://www.yottalabs.ai/post/meta-muse-wonder-pricing-api-cost-muse-code-plans" } } },
     ],
     notes: [
       "Meta 공식 문서는 요금제 구성과 사용량 배수만 적고, 금액은 가입 화면에서 보여 준다고 해요. 그래서 금액은 보도 기준으로만 적었어요.",

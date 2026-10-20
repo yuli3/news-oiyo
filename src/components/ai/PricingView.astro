@@ -1,0 +1,185 @@
+---
+// Body of the AI pricing page, shared by /ai/pricing/ (ko) and /ai/{lang}/pricing/ (2026-10-20).
+// Vendors and budget bands come from the caller so each country shows its own prices.
+import { API_MODELS, PRICING_CHECKED, type Vendor } from "../../data/ai-pricing";
+import type { PricingLocale } from "../../data/ai-pricing-locales";
+import { UI, type Locale } from "../../data/ai-i18n";
+
+interface Props {
+  lang: Locale;
+  vendors: Vendor[];
+  bands: [string, number, number][];
+  localApi?: PricingLocale["localApi"];
+}
+const { lang, vendors, bands, localApi } = Astro.props;
+const t = UI[lang];
+
+// Default example: 10M input and 2M output tokens a month, no cache hits.
+const DEFAULT = { input: 10, output: 2, cache: 0 };
+const usd = (n: number) => `$${n < 1 ? n.toFixed(2) : n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+const monthly = (m: (typeof API_MODELS)[number]) => {
+  const hit = DEFAULT.input * (DEFAULT.cache / 100);
+  return (DEFAULT.input - hit) * m.input + hit * m.cached + DEFAULT.output * m.output;
+};
+const ranked = [...API_MODELS].sort((a, b) => monthly(a) - monthly(b));
+
+// "₩13,000", "$19.99", "¥3,000", "68元" use commas for thousands; euro prices ("22,99 €") use a decimal comma.
+const amount = (s: string | null | undefined) => {
+  if (!s) return NaN;
+  const n = s.includes("€") ? s.replace(/\./g, "").replace(",", ".") : s.replace(/,/g, "");
+  return Number(n.replace(/[^0-9.]/g, "")) || NaN;
+};
+const priced = vendors.flatMap((v) => v.plans.map((p) => ({ product: v.product, name: p.name, label: (p.localApp ?? p.localWeb)!, price: amount(p.localApp ?? p.localWeb) })))
+  .filter((p) => p.price > 0)
+  .sort((a, b) => a.price - b.price);
+const budget = bands.map(([label, min, max]) => ({ label, plans: priced.filter((p) => p.price >= min && p.price <= max) })).filter((b) => b.plans.length);
+
+const sources = [...new Map([
+  ...vendors.flatMap((v) => v.sources.map((s) => [s.url, s.label] as const)),
+  ...API_MODELS.map((m) => [m.source, `${m.vendor} API`] as const),
+  ...(localApi ? [[localApi.source.url, localApi.source.label] as const] : []),
+]).entries()];
+const analysisLabel: Record<Locale, string> = { ko: "AI 가격·성능 비교 분석", en: "AI price-performance analysis", ja: "AIの価格性能比較分析", zh: "AI 性价比分析", fr: "Analyse prix-performance des IA", es: "Análisis de precio y rendimiento de la IA" };
+const ids = ["budget", "plans", "billing", "api", "calc", "sources"];
+---
+<p class="lede">{t.pricingLede} {t.checkedOn} <time datetime={PRICING_CHECKED}>{PRICING_CHECKED}</time>.</p>
+<slot />
+<p class="note">{t.pricingNote}</p>
+
+<nav class="toc" aria-label="toc">{t.toc.map((label, i) => <a href={`#${ids[i]}`}>{label}</a>)}</nav>
+
+<h2 id="budget">{t.toc[0]}</h2>
+<p>{t.budgetLede}</p>
+<div class="bands">
+  {budget.map((b) => (
+    <section class="band" aria-label={b.label}>
+      <h3>{b.label}</h3>
+      <ul>{b.plans.map((p) => <li><span>{p.product} {p.name}</span><b>{p.label}</b></li>)}</ul>
+    </section>
+  ))}
+</div>
+
+<h2 id="plans">{t.plansTitle}</h2>
+{vendors.map((v) => (
+  <section class="vendor" id={v.id} aria-labelledby={`${v.id}-title`}>
+    <h3 id={`${v.id}-title`}>{v.product} <span class="sub">{v.vendor}</span></h3>
+    <div class="table-scroll" tabindex="0" role="region" aria-label={`${v.product} ${t.colPlan}`}>
+      <table>
+        <thead><tr><th scope="col">{t.colPlan}</th><th scope="col">{t.colUsd}</th><th scope="col">{t.colLocal}</th><th scope="col">{t.colWhat}</th></tr></thead>
+        <tbody>
+          {v.plans.map((p) => (
+            <tr>
+              <th scope="row">{p.name}</th>
+              <td>{p.usd ?? (p.reported ? <span>{t.reported} {p.reported.price} <a href={p.reported.source.url} rel="noopener">{t.source}</a></span> : "—")}</td>
+              <td>{p.localWeb ? <span>{p.localWeb} <small>{t.officialWeb}</small></span> : p.localApp ? <span>{p.localApp} <small>{t.appStore}</small></span> : "—"}{p.localWeb && p.localApp && p.localApp !== p.localWeb ? <span> · {p.localApp} <small>{t.appStore}</small></span> : null}</td>
+              <td>{p.summary}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <ul class="notes">{v.notes.map((n) => <li>{n}</li>)}</ul>
+    <p class="src">{t.source}: {v.sources.map((s, i) => <>{i > 0 && " · "}<a href={s.url} rel="noopener">{s.label}</a></>)}</p>
+  </section>
+))}
+
+<h2 id="billing">{t.billingTitle}</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label={t.billingTitle}>
+  <table>
+    <thead><tr><th scope="col">{t.colCheck}</th><th scope="col">{t.colWhy}</th></tr></thead>
+    <tbody>{t.billingRows.map(([k, v]) => <tr><th scope="row">{k}</th><td>{v}</td></tr>)}</tbody>
+  </table>
+</div>
+
+<h2 id="api">{t.apiTitle}</h2>
+<p>{t.apiLede}</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label={t.apiTitle}>
+  <table>
+    <thead><tr><th scope="col">{t.colModel}</th><th scope="col">{t.colInput}</th><th scope="col">{t.colCached}</th><th scope="col">{t.colOutput}</th><th scope="col">{t.colNote}</th></tr></thead>
+    <tbody>
+      {API_MODELS.map((m) => (
+        <tr><th scope="row">{m.model} <small>{m.vendor}</small></th><td>{usd(m.input)}</td><td>{usd(m.cached)}</td><td>{usd(m.output)}</td><td>{m.note} <a href={m.source} rel="noopener">{t.original}</a></td></tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+{localApi && (
+  <>
+    <h3>{localApi.title}</h3>
+    <p>{localApi.lede}</p>
+    <div class="table-scroll" tabindex="0" role="region" aria-label={localApi.title}>
+      <table>
+        <thead><tr><th scope="col">{t.colModel}</th><th scope="col">{t.colInput}</th><th scope="col">{t.colCached}</th><th scope="col">{t.colOutput}</th><th scope="col">{t.colNote}</th></tr></thead>
+        <tbody>{localApi.rows.map((r) => <tr><th scope="row">{r.model}</th><td>{r.input}</td><td>{r.cached}</td><td>{r.output}</td><td>{r.note} <a href={localApi.source.url} rel="noopener">{t.original}</a></td></tr>)}</tbody>
+      </table>
+    </div>
+  </>
+)}
+
+<h2 id="calc">{t.calcTitle}</h2>
+<p>{t.calcLede}</p>
+<form class="calc" data-api-calc aria-describedby="calc-help">
+  <label>{t.calcInput}<input name="input" type="number" min="0" step="any" value={DEFAULT.input} inputmode="decimal" /></label>
+  <label>{t.calcOutput}<input name="output" type="number" min="0" step="any" value={DEFAULT.output} inputmode="decimal" /></label>
+  <label>{t.calcCache}<input name="cache" type="number" min="0" max="100" step="any" value={DEFAULT.cache} inputmode="decimal" /></label>
+</form>
+<p id="calc-help" class="sub">{t.calcHelp}</p>
+<ol class="ranking" data-api-ranking aria-live="polite">
+  {ranked.map((m) => <li><span>{m.model} <small>{m.vendor}</small></span><b>{usd(monthly(m))}</b></li>)}
+</ol>
+<script is:inline type="application/json" id="api-models" set:html={JSON.stringify(API_MODELS.map(({ vendor, model, input, cached, output }) => ({ vendor, model, input, cached, output })))} />
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-api-calc]");
+  const list = document.querySelector<HTMLOListElement>("[data-api-ranking]");
+  const raw = document.getElementById("api-models")?.textContent;
+  if (form && list && raw) {
+    const models: { vendor: string; model: string; input: number; cached: number; output: number }[] = JSON.parse(raw);
+    const fmt = (n: number) => `$${n < 1 ? n.toFixed(2) : n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
+    const render = () => {
+      const d = new FormData(form);
+      const num = (k: string) => Math.max(0, Number(d.get(k)) || 0);
+      const input = num("input"), output = num("output"), cache = Math.min(100, num("cache"));
+      const hit = input * (cache / 100);
+      const rows = models.map((m) => ({ m, cost: (input - hit) * m.input + hit * m.cached + output * m.output })).sort((a, b) => a.cost - b.cost);
+      list.replaceChildren(...rows.map(({ m, cost }) => {
+        const li = document.createElement("li");
+        const name = document.createElement("span");
+        name.textContent = `${m.model} `;
+        const vendor = document.createElement("small");
+        vendor.textContent = m.vendor;
+        name.append(vendor);
+        const price = document.createElement("b");
+        price.textContent = fmt(cost);
+        li.append(name, price);
+        return li;
+      }));
+    };
+    form.addEventListener("input", render);
+  }
+</script>
+
+<h2>{t.tipsTitle}</h2>
+<ol>{t.tips.map((tip) => <li>{tip}</li>)}</ol>
+<p><a href={`/analysis/${lang}/ai-price-performance/`}>{analysisLabel[lang]}</a></p>
+
+<h2 id="sources">{t.sourcesTitle}</h2>
+<p class="sub">{PRICING_CHECKED} · {t.sourcesLede}</p>
+<ul class="sources">{sources.map(([url, label]) => <li><a href={url} rel="noopener">{label}</a></li>)}</ul>
+
+<style>
+  .note{padding:12px 16px;border-inline-start:4px solid var(--accent);background:var(--accent-soft)}
+  .toc{display:flex;flex-wrap:wrap;gap:4px 20px;margin:12px 0 8px}.toc a{display:inline-flex;align-items:center;min-height:44px;color:var(--accent)}
+  .bands{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .band{border:1px solid var(--border);border-radius:8px;padding:12px 16px}.band h3{margin:0 0 8px;font-size:16px}
+  .band ul,.ranking{list-style:none;padding:0;margin:0}.band li,.ranking li{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--border);font-size:14px}
+  .vendor{margin-top:28px}.vendor h3 .sub{font-weight:400}
+  .table-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:8px;margin:12px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:start;padding:10px;vertical-align:top;border-bottom:1px solid var(--border)}thead th{background:var(--accent-soft)}tbody th{min-width:110px}.table-scroll table{min-width:640px}td{white-space:normal}td:last-child{min-width:220px}
+  small{color:var(--muted);font-weight:400}
+  .notes{font-size:14px;color:var(--muted)}.src{font-size:13px;color:var(--muted)}
+  .calc{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin:12px 0}
+  .calc label{display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700}
+  .calc input{min-height:44px;font-size:16px;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--ink)}
+  .ranking{counter-reset:r}.ranking li{counter-increment:r}.ranking li span::before{content:counter(r) ". ";color:var(--muted)}
+  .sources{font-size:14px}
+</style>
