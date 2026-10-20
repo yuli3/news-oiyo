@@ -25,7 +25,7 @@ import "../../styles/community.css";
     };
     async function render() {
       const [config, me] = await Promise.all([getConfig(), getMe(true)]);
-      if (!config.enabled) { root.replaceChildren(el("p", { class: "cm-note", text: "회원 기능은 아직 열리지 않았어요." })); return; }
+      if (!config.enabled) { root.replaceChildren(el("p", { class: "cm-note", text: "회원 기능을 준비하고 있어요. 곧 로그인할 수 있어요." })); return; }
       const why = new URLSearchParams(location.search).get("login");
       const notice = why && ERR[why] ? el("p", { class: "acc-error", role: "alert", text: ERR[why] }) : null;
       if (!me) {

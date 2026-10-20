@@ -115,11 +115,10 @@ export function attachTurnstile(slot: HTMLElement): { token(): string | undefine
   };
 }
 
-/** 커뮤니티가 켜졌을 때만 data-community-only 요소를 보여 준다(헤더 링크 등). */
+/** 커뮤니티가 켜져 있고 로그인했으면 계정 링크를 닉네임으로 바꾼다. 링크 자체는 늘 보인다(2026-10-20). */
 export function revealCommunityLinks(): void {
   getConfig().then((c) => {
     if (!c.enabled) return;
-    for (const n of document.querySelectorAll<HTMLElement>("[data-community-only]")) n.hidden = false;
     getMe().then((me) => {
       for (const n of document.querySelectorAll<HTMLElement>("[data-account-link]")) n.textContent = me ? me.nickname : "로그인";
     });

@@ -49,7 +49,7 @@ import "../../styles/community.css";
         if (reset && rows.length === 0) list.replaceChildren(el("li", { class: "cm-empty", text: "아직 글이 없어요. 첫 글을 남겨 보세요." }));
         more.hidden = !d.hasMore;
       } catch (e) {
-        list.replaceChildren(el("li", { class: "cm-empty", text: e instanceof ApiError && e.status === 503 ? "커뮤니티가 아직 열리지 않았어요." : "글을 불러오지 못했어요." }));
+        list.replaceChildren(el("li", { class: "cm-empty", text: e instanceof ApiError && e.status === 503 ? "커뮤니티를 준비하고 있어요. 곧 글을 쓸 수 있어요." : "글을 불러오지 못했어요." }));
       }
     }
 
@@ -62,10 +62,13 @@ import "../../styles/community.css";
 
     async function setupWrite() {
       const [config, me] = await Promise.all([getConfig(), getMe()]);
-      if (!config.enabled) return;
       write.hidden = false;
       write.addEventListener("click", () => {
         if (compose.firstChild) { compose.replaceChildren(); return; }
+        if (!config.enabled) {
+          compose.replaceChildren(el("p", { class: "cm-note", role: "status", text: "커뮤니티를 준비하고 있어요. 곧 글을 쓸 수 있어요." }));
+          return;
+        }
         if (!me) {
           compose.replaceChildren(el("div", { class: "cm-form cm-login" },
             el("p", { text: "글을 쓰려면 로그인해 주세요." }),
