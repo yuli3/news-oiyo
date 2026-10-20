@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import TopicNav from "../../../components/TopicNav.astro";
+import { GUIDES, type Guide } from "../../../data/ai-use-cases";
+
+export function getStaticPaths() {
+  return GUIDES.map((guide) => ({ params: { slug: guide.slug }, props: { guide } }));
+}
+const { guide } = Astro.props as { guide: Guide };
+const canonical = `https://news.oiyo.net/ai/use-cases/${guide.slug}/`;
+const sources = [...new Map(guide.tools.map((t) => [t.source.url, t.source.label])).entries()];
+const others = GUIDES.filter((g) => g.slug !== guide.slug);
+const article = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: guide.title,
+  description: guide.description,
+  inLanguage: "ko",
+  datePublished: guide.checked,
+  dateModified: guide.checked,
+  author: { "@type": "Organization", name: "OIYO 편집부", url: "https://news.oiyo.net/" },
+  keywords: guide.keywords.join(", "),
+  citation: sources.map(([url]) => url),
+};
+const howTo = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  name: `${guide.title.replace(/ \(.*\)$/, "")} 워크플로우`,
+  step: guide.workflow.map((w, i) => ({ "@type": "HowToStep", position: i + 1, name: w.step, text: w.detail })),
+};
+---
+<BaseLayout title={guide.title} description={guide.description} canonical={canonical} type="article" publishedTime={guide.checked} crumbs={[{ label: "AI", href: "/ai/" }, { label: "분야별 활용", href: "/ai/use-cases/" }, { label: guide.title.replace(/ \(.*\)$/, "") }]}>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(article)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(howTo)} />
+  <span class="tag">{guide.category}</span>
+  <h1>{guide.title}</h1>
+  <p class="lede">{guide.intro}</p>
+  <p class="sub">확인일 <time datetime={guide.checked}>{guide.checked}</time> · 아래 서비스 정보는 각 줄의 출처 기사·공식 자료를 따랐어요.</p>
+  <TopicNav />
+
+  <h2>어떤 서비스가 있나요</h2>
+  <div class="tools">
+    {guide.tools.map((t) => (
+      <article class="tool">
+        <h3>{t.name}{t.maker && <small> · {t.maker}</small>}</h3>
+        <p class="aud">대상: {t.audience}</p>
+        <p>{t.what}</p>
+        {t.price && <p class="price">가격: {t.price}</p>}
+        <p class="src"><a href={t.source.url} rel="noopener">출처: {t.source.label}</a></p>
+      </article>
+    ))}
+  </div>
+
+  <h2>이 순서로 써 보세요</h2>
+  <ol class="flow">
+    {guide.workflow.map((w) => <li><strong>{w.step}</strong><span>{w.detail}</span></li>)}
+  </ol>
+
+  <h2>함께 쓰면 좋은 조합</h2>
+  <div class="table-scroll" tabindex="0" role="region" aria-label="도구 조합">
+    <table>
+      <thead><tr><th scope="col">조합</th><th scope="col">왜 좋아요</th></tr></thead>
+      <tbody>{guide.combos.map((c) => <tr><th scope="row">{c.pair}</th><td>{c.why}</td></tr>)}</tbody>
+    </table>
+  </div>
+
+  <h2>쓸 때 지킬 선</h2>
+  <ul class="cautions">{guide.cautions.map((c) => <li>{c}</li>)}</ul>
+
+  <h2>함께 보기</h2>
+  <ul>
+    <li><a href="/ai/pricing/">AI 구독료·API 비용 비교</a>: ChatGPT·Claude·Gemini 같은 범용 AI 요금</li>
+    {others.map((g) => <li><a href={`/ai/use-cases/${g.slug}/`}>{g.title}</a></li>)}
+    <li><a href="/ai/use-cases/">분야별 AI 활용 가이드 전체</a></li>
+  </ul>
+
+  <h2>출처</h2>
+  <ul class="sources">{sources.map(([url, label]) => <li><a href={url} rel="noopener">{label}</a></li>)}</ul>
+
+  <style>
+    .tools{display:grid;gap:12px}
+    .tool{border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--card)}
+    .tool h3{margin:0 0 4px;font-size:17px}.tool small{color:var(--muted);font-weight:400}.tool p{margin:6px 0;font-size:14.5px}
+    .aud,.src{color:var(--muted);font-size:13px}.price{font-weight:700}
+    .flow{padding-inline-start:22px}.flow li{margin-block:10px}.flow strong{display:block}.flow span{font-size:14.5px}
+    .table-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:8px;margin:12px 0}
+    table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:start;padding:10px;vertical-align:top;border-bottom:1px solid var(--border)}thead th{background:var(--accent-soft)}tbody th{min-width:140px}
+    .cautions li{margin-block:6px}.sources{font-size:14px}
+  </style>
+</BaseLayout>
