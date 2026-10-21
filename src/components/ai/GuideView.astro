@@ -1,0 +1,62 @@
+---
+// Body of one use-case guide, shared by /ai/use-cases/{slug}/ (ko) and /ai/{lang}/use-cases/{slug}/ (2026-10-20).
+import type { Guide } from "../../data/ai-use-cases";
+import { UI, guidePath, hubPath, pricingPath, type Locale } from "../../data/ai-i18n";
+interface Props { lang: Locale; guide: Guide; others: Guide[] }
+const { lang, guide, others } = Astro.props;
+const t = UI[lang];
+const sources = [...new Map(guide.tools.map((x) => [x.source.url, x.source.label])).entries()];
+---
+<span class="tag">{guide.category}</span>
+<h1>{guide.title}</h1>
+<p class="lede">{guide.intro}</p>
+<p class="sub">{t.checkedOn} <time datetime={guide.checked}>{guide.checked}</time> · {t.checkedLine}</p>
+<slot />
+
+<h2>{t.services}</h2>
+<div class="tools">
+  {guide.tools.map((x) => (
+    <article class="tool">
+      <h3>{x.name}{x.maker && <small> · {x.maker}</small>}</h3>
+      <p class="aud">{t.audience}: {x.audience}</p>
+      <p>{x.what}</p>
+      {x.price && <p class="price">{t.price}: {x.price}</p>}
+      <p class="src"><a href={x.source.url} rel="noopener">{t.source}: {x.source.label}</a></p>
+    </article>
+  ))}
+</div>
+
+<h2>{t.workflow}</h2>
+<ol class="flow">{guide.workflow.map((w) => <li><strong>{w.step}</strong><span>{w.detail}</span></li>)}</ol>
+
+<h2>{t.combos}</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label={t.combos}>
+  <table>
+    <thead><tr><th scope="col">{t.colCombo}</th><th scope="col">{t.colWhyCombo}</th></tr></thead>
+    <tbody>{guide.combos.map((c) => <tr><th scope="row">{c.pair}</th><td>{c.why}</td></tr>)}</tbody>
+  </table>
+</div>
+
+<h2>{t.cautions}</h2>
+<ul class="cautions">{guide.cautions.map((c) => <li>{c}</li>)}</ul>
+
+<h2>{t.seeAlso}</h2>
+<ul>
+  <li><a href={pricingPath(lang)}>{t.pricingH1}</a></li>
+  {others.map((g) => <li><a href={guidePath(lang, g.slug)}>{g.title}</a></li>)}
+  <li><a href={hubPath(lang)}>{t.allGuides}</a></li>
+</ul>
+
+<h2>{t.sources}</h2>
+<ul class="sources">{sources.map(([url, label]) => <li><a href={url} rel="noopener">{label}</a></li>)}</ul>
+
+<style>
+  .tools{display:grid;gap:12px}
+  .tool{border:1px solid var(--border);border-radius:8px;padding:14px 16px;background:var(--card)}
+  .tool h3{margin:0 0 4px;font-size:17px}.tool small{color:var(--muted);font-weight:400}.tool p{margin:6px 0;font-size:14.5px}
+  .aud,.src{color:var(--muted);font-size:13px}.price{font-weight:700}
+  .flow{padding-inline-start:22px}.flow li{margin-block:10px}.flow strong{display:block}.flow span{font-size:14.5px}
+  .table-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:8px;margin:12px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:start;padding:10px;vertical-align:top;border-bottom:1px solid var(--border)}thead th{background:var(--accent-soft)}tbody th{min-width:140px}
+  .cautions li{margin-block:6px}.sources{font-size:14px}
+</style>

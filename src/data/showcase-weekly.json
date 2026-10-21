@@ -1,33 +1,45 @@
 {
-  "week": "2026-W42",
-  "updatedAt": "2026-10-17T15:28:13.847Z",
+  "week": "2026-W43",
   "eligibleCount": 0,
   "newsCard": {
-    "mode": "seed_spotlight",
-    "section": "이번 주 AI 창작 쇼케이스 추천작",
-    "title": "OIYO 생활·금융·세금 계산기 35종",
-    "oneLiner": "연봉 실수령액부터 전월세 환산·증여세·전기요금까지 가입 없이 바로 계산해요.",
-    "maker": "OIYO Lab",
-    "aiTools": [
-      "Claude Code",
-      "Codex",
-      "Astro 7"
-    ],
-    "showcaseUrl": "https://show.oiyo.net/p/oiyo-tools-korea-life-calculators/",
+    "mode": "open-call",
+    "section": "인디 제품 쇼케이스",
+    "headline": "인디 개발자의 독립 제품을 만나요",
+    "summary": "앱·게임·웹사이트·디자인 시스템·개발 도구를 선별해요. 아래 운영자 제품 예시는 외부 메이커 순위가 아니에요. 소개 초안 작성은 접수 완료가 아니에요.",
+    "showcaseUrl": "https://show.oiyo.net/",
     "submitUrl": "https://show.oiyo.net/submit/",
-    "runnersUp": [
+    "featuredSeeds": [
       {
-        "title": "한국 공휴일·대체공휴일 무료 JSON API & Swagger 허브",
+        "title": "OIYO Tools — 생활 계산·파일 도구",
+        "oneLiner": "생활 계산기와 이미지·PDF·QR 도구를 한곳에서 사용해요.",
+        "aiTools": [
+          "Claude Code",
+          "Codex"
+        ],
+        "url": "https://show.oiyo.net/p/oiyo-tools-korea-life-calculators/"
+      },
+      {
+        "title": "OIYO API — 계산·공휴일 개발 API",
+        "oneLiner": "공휴일과 계산 엔드포인트를 OpenAPI 문서에서 확인해요.",
+        "aiTools": [
+          "Claude Code",
+          "Codex"
+        ],
         "url": "https://show.oiyo.net/p/oiyo-api-kr-holiday-swagger-hub/"
       },
       {
-        "title": "수박게임 3D (Watermelon Drop 3D)",
-        "url": "https://show.oiyo.net/p/oiyo-game-watermelon-3d/"
-      },
-      {
-        "title": "코스믹 서바이버즈 (Cosmic Survivors)",
-        "url": "https://show.oiyo.net/p/oiyo-game-cosmic-survivors/"
+        "title": "OIYO Arcade — 브라우저 게임 모음",
+        "oneLiner": "설치 없이 여러 브라우저 게임을 찾아 플레이하는 서비스예요.",
+        "aiTools": [
+          "Claude Code",
+          "Codex",
+          "Gemini"
+        ],
+        "url": "https://show.oiyo.net/p/oiyo-arcade/"
       }
     ]
+  },
+  "socialDrafts": {
+    "xPost": ""
   }
 }

@@ -1,4 +1,7 @@
 /radar/ /ai/curator/ 301
+# 2026-10-18: the unbuilt Indie catalog is superseded by Show; no duplicate directory.
+/indie https://show.oiyo.net/ 301
+/indie/ https://show.oiyo.net/ 301
 /radar /ai/curator/ 301
 /2 /page/2/ 301
 /2/ /page/2/ 301

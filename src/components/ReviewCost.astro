@@ -1,0 +1,50 @@
+---
+import { reviewCost } from '../lib/review-cost.mjs';
+interface Props { lang: 'ko' | 'en' | 'ja' | 'zh' | 'fr' | 'es' }
+const { lang } = Astro.props;
+const copy = {
+  ko: ['검수 시간의 값을 바꿔 보세요', '편집용 가상 예시예요. 실제 제품 가격이나 성능이 아니에요.', '검수 시간단가 (USD/분)', '총비용', '통과 결과당 비용', '0~100 사이의 숫자를 입력해 주세요. 마지막 정상 결과를 유지해요.', '통과 결과만 검수하며 실패 판별·재시도 시간은 제외해요. A: 호출 $2, 60개 × 3분. B: 호출 $5, 95개 × 0.5분. 총비용 = 호출료 + 통과 개수 × 검수 분 × 시간단가.', 'JavaScript 없이도 위 본문의 기본 계산 예시를 읽을 수 있어요.'],
+  en: ['Change the value of review time', 'Fictional editorial example, not actual product prices or measured performance.', 'Review rate (USD/min)', 'Total cost', 'Cost per passed result', 'Enter a number from 0 to 100. The last valid results remain visible.', 'Only passed results are reviewed; failure detection and retries are excluded. A: $2 calls, 60 × 3 min. B: $5 calls, 95 × 0.5 min. Total = calls + passed count × review minutes × rate.', 'The article above includes the default calculation without JavaScript.'],
+  ja: ['確認作業の時間単価を変えてみましょう', '編集上の架空例です。実際の製品価格や性能測定値ではありません。', '確認作業の単価（USD/分）', '総費用', '合格した結果1件あたりの費用', '0〜100の数値を入力してください。直前の有効な結果を保持します。', '合格した結果のみを確認し、失敗の判別と再試行の時間は除きます。A：呼び出し$2、60件×3分。B：呼び出し$5、95件×0.5分。総費用＝呼び出し費用＋合格件数×確認時間×単価。', 'JavaScriptが無効でも、上の本文で初期値の計算例を読めます。'],
+  zh: ['调整审核时间的单价', '这是虚构的编辑示例，不是实际产品价格或性能实测。', '审核单价（美元/分钟）', '总成本', '每个合格结果的成本', '请输入0至100之间的数字。保留上一次有效结果。', '仅审核合格结果，不计失败识别和重试时间。A：调用费$2，60个×3分钟。B：调用费$5，95个×0.5分钟。总成本＝调用费＋合格数量×审核分钟数×单价。', '即使未启用JavaScript，也可阅读上文中的默认计算示例。'],
+  fr: ['Faites varier le coût du temps de vérification', 'Exemple éditorial fictif, ni tarifs réels ni performances mesurées.', 'Coût de vérification (USD/min)', 'Coût total', 'Coût par résultat validé', 'Saisissez un nombre de 0 à 100. Les derniers résultats valides restent affichés.', 'Seuls les résultats validés sont vérifiés ; détection des échecs et nouvelles tentatives sont exclues. A : appels à 2 $, 60 × 3 min. B : appels à 5 $, 95 × 0,5 min. Total = appels + résultats validés × minutes de vérification × coût par minute.', 'Le calcul par défaut figure dans le texte ci-dessus, même sans JavaScript.'],
+  es: ['Cambia el coste del tiempo de revisión', 'Ejemplo editorial ficticio, no precios reales ni rendimiento medido.', 'Coste de revisión (USD/min)', 'Coste total', 'Coste por resultado aprobado', 'Introduce un número entre 0 y 100. Se conservan los últimos resultados válidos.', 'Solo se revisan los resultados aprobados; se excluyen la detección de fallos y los reintentos. A: llamadas de 2 $, 60 × 3 min. B: llamadas de 5 $, 95 × 0,5 min. Total = llamadas + resultados aprobados × minutos de revisión × coste por minuto.', 'El texto anterior incluye el cálculo predeterminado, incluso sin JavaScript.'],
+}[lang];
+const money = (n: number) => new Intl.NumberFormat(lang, { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(n);
+---
+<section class="review-cost" data-review-cost data-locale={lang} aria-labelledby="review-cost-title">
+  <h2 id="review-cost-title">{copy[0]}</h2>
+  <p>{copy[1]}</p><p id="review-cost-assumptions">{copy[6]}</p>
+  <div data-controls hidden>
+    <label for="review-rate">{copy[2]}</label>
+    <input id="review-rate" type="number" min="0" max="100" step="any" value="0.30" inputmode="decimal" aria-describedby="review-cost-assumptions review-cost-error" />
+    <p id="review-cost-error" role="alert" hidden>{copy[5]}</p>
+  </div>
+  <div aria-live="polite" aria-atomic="true">
+    {reviewCost(0.3)!.map(row => <p><strong>{row.name}</strong> · {copy[3]}: <output data-total={row.name}>{money(row.total)}</output><br />{copy[4]}: <output data-per={row.name}>{money(row.perPassed)}</output></p>)}
+  </div>
+  <noscript><p>{copy[7]}</p></noscript>
+</section>
+<script>
+  import { reviewCost } from '../lib/review-cost.mjs';
+  document.querySelectorAll<HTMLElement>('[data-review-cost]').forEach(root => {
+    const input = root.querySelector<HTMLInputElement>('input')!;
+    const error = root.querySelector<HTMLElement>('[role="alert"]')!;
+    root.querySelector<HTMLElement>('[data-controls]')!.hidden = false;
+    const money = new Intl.NumberFormat(root.dataset.locale, { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });
+    input.addEventListener('input', () => {
+      const rows = input.value.trim() ? reviewCost(input.valueAsNumber) : null;
+      error.hidden = Boolean(rows);
+      input.setAttribute('aria-invalid', String(!rows));
+      if (!rows) return;
+      for (const row of rows) {
+        root.querySelector<HTMLOutputElement>(`[data-total="${row.name}"]`)!.value = money.format(row.total);
+        root.querySelector<HTMLOutputElement>(`[data-per="${row.name}"]`)!.value = money.format(row.perPassed);
+      }
+    });
+  });
+</script>
+<style>
+  .review-cost{padding:1rem;margin-block:2rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);overflow-wrap:anywhere}
+  .review-cost h2{margin-top:0}label{display:block;font-weight:600}input{box-sizing:border-box;width:100%;max-width:100%;min-height:44px;padding:.75rem;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--border);border-radius:.5rem}input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}[aria-invalid="true"]{border-style:dashed}output{font-variant-numeric:tabular-nums;font-weight:600}
+</style>

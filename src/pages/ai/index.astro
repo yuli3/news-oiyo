@@ -13,7 +13,7 @@ const repoDay=days.find(day=>splitDayItems(day.items).repos.length>0);
 ---
 <BaseLayout title="AI 뉴스·모델·도구" description="최신 AI 소식부터 모델·도구 비교, 가격·성능 분석과 활용 자료까지 출처와 함께 살펴봐요." canonical="https://news.oiyo.net/ai/" crumbs={[{label:"AI"}]}>
   <h1>AI 소식과 활용 자료</h1><p class="lede">새 모델과 도구의 변화부터 가격·성능을 읽는 기준까지 살펴봐요.</p><TopicNav />
-  <nav class="reading-links" aria-label="AI 참고자료"><a href="/analysis/">가격·성능 분석</a><a href="/ai/curator/">모델·도구 큐레이터</a><a href="/ai/faq/">활용 FAQ</a><a href="/systems/">AI 운영 시스템</a></nav>
+  <nav class="reading-links" aria-label="AI 참고자료"><a href="/ai/pricing/">구독료·API 비용 비교</a><a href="/ai/use-cases/">분야별 AI 활용</a><a href="/analysis/">가격·성능 분석</a><a href="/ai/curator/">모델·도구 큐레이터</a><a href="/ai/faq/">활용 FAQ</a><a href="/systems/">AI 운영 시스템</a></nav>
   <h2>최근 AI 뉴스</h2><TopicFeed items={items.slice(0,30)} label="AI 뉴스" filters /><p><a href="/archive/">이전 날짜의 기사 보기</a></p>
   <AiPriceTracker />
   {repoDay&&<RepoList repos={splitDayItems(repoDay.items).repos} date={repoDay.date} moreHref={`/${repoDay.date}/`} />}

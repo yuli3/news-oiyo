@@ -1,0 +1,22 @@
+---
+import AiLocaleLayout from "../../../../layouts/AiLocaleLayout.astro";
+import HubView from "../../../../components/ai/HubView.astro";
+import { GUIDES_BY_LOCALE } from "../../../../data/ai-guides-by-locale";
+import { LOCALES, UI, allPaths, guidePath, hubPath, type Locale } from "../../../../data/ai-i18n";
+
+export function getStaticPaths() {
+  return LOCALES.filter((l) => l !== "ko").map((lang) => ({ params: { lang } }));
+}
+const lang = Astro.params.lang as Exclude<Locale, "ko">;
+const t = UI[lang];
+const { guides, keywordMap } = GUIDES_BY_LOCALE[lang];
+const list = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: t.hubH1,
+  itemListElement: guides.map((g, i) => ({ "@type": "ListItem", position: i + 1, url: `https://news.oiyo.net${guidePath(lang, g.slug)}`, name: g.title })),
+};
+---
+<AiLocaleLayout lang={lang} title={t.hubTitle} description={t.hubLede} paths={allPaths(hubPath)} crumbs={[{ label: t.useCasesShort }]} jsonLd={[list]}>
+  <HubView lang={lang} guides={guides} keywordMap={keywordMap} />
+</AiLocaleLayout>

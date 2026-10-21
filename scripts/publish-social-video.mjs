@@ -21,7 +21,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,12 +29,10 @@ const newsPath = path.resolve(__dirname, "../src/data/news.json");
 const outDir = path.resolve(__dirname, "../reports/video-briefings");
 const brainDir = path.resolve(process.env.HOME || "", "coding/company-brain/reports");
 
-if (!fs.existsSync(outDir)) {
-  fs.mkdirSync(outDir, { recursive: true });
-}
-
 const args = process.argv.slice(2);
 const isDryRun = args.includes("--dry-run");
+const isReadOnly = isDryRun || args.includes("--check-only");
+if (!isReadOnly && !fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 const isQueue = args.includes("--queue") || (!isDryRun && !args.includes("--check-only"));
 if (isQueue) console.log("📌 [모드] 소셜 큐 등록 및 동기화 활성화");
 const targetDateArg = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
@@ -42,7 +40,7 @@ const targetDateArg = args.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
 const news = JSON.parse(fs.readFileSync(newsPath, "utf8"));
 const days = Array.isArray(news.days) ? news.days : [];
 const targetDay =
-  (targetDateArg ? days.find((d) => d.date === targetDateArg) : null) ||
+  targetDateArg ? days.find((d) => d.date === targetDateArg) :
   days.find((d) => Array.isArray(d.items) && d.items.length > 0);
 
 if (!targetDay) {
@@ -60,10 +58,15 @@ console.log(`🎬 [OIYO Social Video Dispatcher] ${dateStr} 브리핑 점검 시
 
 // 1. 비디오 파일 존재 확인
 if (!fs.existsSync(mp4Path)) {
+  // 2026-10-18: verification must never trigger rendering or modify production files.
+  if (isReadOnly) {
+    console.error("Video missing; read-only verification does not render assets.");
+    process.exit(1);
+  }
   console.warn(`⚠️ 비디오 파일이 없습니다: ${mp4Path}`);
   console.log(`💡 렌더러를 먼저 실행합니다: npm run video:render ${dateStr}`);
   try {
-    execSync(`node ${path.resolve(__dirname, "render-daily-video.mjs")} ${dateStr}`, {
+    execFileSync(process.execPath, [path.resolve(__dirname, "render-daily-video.mjs"), dateStr], {
       stdio: "inherit",
     });
   } catch (err) {
@@ -75,12 +78,13 @@ if (!fs.existsSync(mp4Path)) {
 // 2. ffprobe 규격 검증
 let videoMeta = { duration: 0, width: 0, height: 0, sizeMb: 0 };
 try {
-  const probeRaw = execSync(
-    `ffprobe -v error -select_streams v:0 -show_entries stream=width,height,duration -show_entries format=duration,size -of json "${mp4Path}"`,
+  const probeRaw = execFileSync(
+    "ffprobe", ["-v", "error", "-show_entries", "stream=codec_type,codec_name,width,height,duration", "-show_entries", "format=duration,size", "-of", "json", mp4Path],
     { encoding: "utf8" }
   );
   const probe = JSON.parse(probeRaw);
-  const stream = probe.streams?.[0] || {};
+  const stream = probe.streams?.find((item) => item.codec_type === "video") || {};
+  const audio = probe.streams?.find((item) => item.codec_type === "audio");
   const format = probe.format || {};
   const duration = parseFloat(stream.duration || format.duration || "0");
   const width = parseInt(stream.width || "0", 10);
@@ -92,24 +96,44 @@ try {
 
   console.log(`\n📹 [비디오 규격 검증]`);
   console.log(`  - 해상도: ${width}x${height} ${width === 1080 && height === 1920 ? "✅ (9:16 정규격)" : "⚠️"}`);
-  console.log(`  - 재생시간: ${duration.toFixed(1)}초 ${duration <= 60.0 ? "✅ (Shorts/Reels 60초 이내 준수)" : "❌ 60초 초과!"}`);
-  console.log(`  - 파일크기: ${sizeMb} MB ✅ (<50MB 모바일 스트리밍 최적화)`);
+    console.log(`  - 재생시간: ${duration.toFixed(1)}초 (OIYO 편집 기준 30–55초)`);
+  console.log(`  - 파일크기: ${sizeMb} MB`);
 
-  if (width !== 1080 || height !== 1920) {
-    console.warn(`⚠️ 경고: 세로형 1080x1920 규격이 아닙니다.`);
-  }
-  if (duration > 60.0) {
-    console.error(`❌ 오류: 쇼츠/릴스 최대 길이(60초)를 초과했습니다.`);
-    process.exit(1);
+  // 2026-10-18: these are OIYO editorial requirements, not universal platform limits.
+  if (width !== 1080 || height !== 1920 || stream.codec_name !== "h264" || audio?.codec_name !== "aac" ||
+      !Number.isFinite(duration) || duration < 30 || duration > 55 || !Number.isFinite(sizeBytes) || sizeBytes <= 0 || sizeBytes >= 50 * 1024 * 1024) {
+    throw new Error("Invalid OIYO video: expected 1080x1920 H.264/AAC, 30–55 seconds and below 50 MiB");
   }
 } catch (e) {
-  console.warn(`⚠️ ffprobe 실행 불가 또는 메타데이터 읽기 실패: ${e.message}`);
+  console.error(`Video verification failed: ${e.message}`);
+  process.exit(1);
+}
+
+if (isReadOnly) {
+  console.log("Read-only verification complete; no assets, payloads or queue were written.");
+  process.exit(0);
+}
+
+// 2026-10-18: a corrupt or previously dispatched record is evidence, not an empty queue.
+let queue = [];
+try {
+  if (fs.existsSync(queueJsonPath)) queue = JSON.parse(fs.readFileSync(queueJsonPath, "utf8"));
+  if (!Array.isArray(queue) || queue.some((entry) => !entry || typeof entry.date !== "string" || typeof entry.status !== "string")) throw new Error("Invalid queue structure");
+} catch {
+  console.error("Queue unreadable; original data preserved. No preparation performed.");
+  process.exit(1);
+}
+const existingIdx = queue.findIndex((entry) => entry.date === dateStr);
+const previous = queue[existingIdx];
+if (previous && !["ready", "scheduled"].includes(previous.status)) {
+  console.log("Existing dispatched/unknown state preserved; not requeued.");
+  process.exit(0);
 }
 
 // 3. 썸네일/커버 이미지 추출 (첫 장면 또는 1초 시점)
 if (!fs.existsSync(coverPath)) {
   try {
-    execSync(`ffmpeg -y -ss 00:00:01.000 -i "${mp4Path}" -vframes 1 "${coverPath}" 2>/dev/null`);
+    execFileSync("ffmpeg", ["-y", "-ss", "00:00:01.000", "-i", mp4Path, "-vframes", "1", coverPath], { stdio: "ignore" });
     console.log(`🖼️ [커버 이미지 추출] ${coverPath}`);
   } catch (e) {
     console.warn(`⚠️ 커버 추출 실패: ${e.message}`);
@@ -167,21 +191,13 @@ fs.writeFileSync(payloadJsonPath, JSON.stringify(payload, null, 2), "utf8");
 console.log(`\n📄 [소셜 페이로드 생성 완료] ${payloadJsonPath}`);
 
 // 6. 소셜 큐 관리
-let queue = [];
-if (fs.existsSync(queueJsonPath)) {
-  try {
-    queue = JSON.parse(fs.readFileSync(queueJsonPath, "utf8"));
-  } catch {}
-}
-
-const existingIdx = queue.findIndex((q) => q.date === dateStr);
 const queueEntry = {
   date: dateStr,
   videoFile: `${dateStr}-briefing.mp4`,
   coverFile: `${dateStr}-cover.png`,
   duration: videoMeta.duration,
-  status: "ready", // ready | scheduled | published
-  scheduledFor: `${dateStr}T10:13:00+09:00`,
+  status: previous?.status || "ready", // Queue preparation is not an external publication.
+  scheduledFor: previous?.scheduledFor || `${dateStr}T10:13:00+09:00`,
   updatedAt: new Date().toISOString(),
   targets: ["youtubeShorts", "instagramReels", "xTwitter"],
   summary: topHeadlines.slice(0, 3),
