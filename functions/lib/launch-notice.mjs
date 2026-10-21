@@ -23,8 +23,9 @@ export function normalizeLaunchUrl(value) {
 
 // 정보통신망법 제50조: 제목 맨 앞 (광고), 보내는 이·연락처, 본문 수신 거부 방법.
 // 수신 거부 줄은 받는 사람마다 digest.mjs withUnsubscribe()로 바꾼다.
+// 한 통을 모두에게 고정해 보내므로(발송 기록·멱등 키 공유) 영어 신청자를 위해 영어 문단을 아래에 붙인다 (2026-10-19).
 export function buildLaunchNotice({ launchUrl }) {
-  const subject = "(광고) OIYO 2027 신년운세 리포트 출시 알림";
+  const subject = "(광고) OIYO 2027 신년운세 리포트 출시 알림 · [Ad] 2027 New Year report is out";
   const text = [
     subject,
     "보내는 이: OIYO News · https://news.oiyo.net/",
@@ -36,6 +37,12 @@ export function buildLaunchNotice({ launchUrl }) {
     "이 알림을 보낸 뒤 출시 알림 신청 목록에서 주소를 지웁니다. 주간 AI·금융 소식을 따로 신청하셨다면 그 구독은 그대로입니다.",
     UNSUBSCRIBE_PLACEHOLDER,
     "문의: support@oiyo.net",
+    "",
+    "— English —",
+    "The full OIYO 2027 New Year fortune report you asked about is out:",
+    launchUrl,
+    "We send this alert once, only to addresses that agreed to it, and then remove you from the alert list.",
+    "To stop all OIYO email, use the 수신 거부 (unsubscribe) link above. Contact: support@oiyo.net",
   ].join("\n");
   return { subject, text };
 }

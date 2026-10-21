@@ -11,6 +11,8 @@ interface Props {
   // Keeps a page out of the index and, like blog/wiki/game SEO.astro, out of
   // AdSense (no ads on noindex pages).
   noindex?: boolean;
+  // 본문 언어. 신년운세 영어 알림 신청 페이지만 en을 쓴다 (2026-10-19).
+  lang?: string;
 }
 
 const {
@@ -21,6 +23,7 @@ const {
   crumbs = [],
   publishedTime,
   noindex = false,
+  lang = "ko",
 } = Astro.props;
 const fullTitle = title.includes("OIYO News") ? title : `${title} | OIYO News`;
 // Confirmation/unsubscribe links contain bearer tokens; exclude the whole analytics bootstrap (2026-10-15).
@@ -36,7 +39,7 @@ const family = [
 ---
 
 <!doctype html>
-<html lang="ko">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
