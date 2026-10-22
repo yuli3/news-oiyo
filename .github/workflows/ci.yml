@@ -52,6 +52,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Authored AI analysis regression checks
+        run: node --test scripts/test/official-price-html.test.mjs scripts/test/review-cost.test.mjs
+
       # 2026-10-15: financial results must not match Korean adjectives such as 비현실적.
       - name: Story scope regression checks
         run: npm run test:story-scope
