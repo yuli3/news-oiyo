@@ -1,0 +1,222 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-23",
+  "collected_at": "2026-10-23T07:19:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문을 읽고 직접 썼어요. 한국 트렌드(WOEID 23424868)에는 AI 관련 항목이 없었고, 홍보·재게시·중복 게시물은 뺐어요. Dario Amodei의 안전 결정 답글은 24시간 창 밖이라 넣지 않았어요.",
+  "budget": {
+    "calls_used": 9
+  },
+  "posts": [
+    {
+      "id": "2113301454597640570",
+      "url": "https://x.com/arcinternet/status/2113301454597640570",
+      "author": {
+        "username": "arcinternet",
+        "name": "Arc",
+        "followers": 83666
+      },
+      "created_at": "2026-10-22T16:08:24Z",
+      "quote": "We've decided to sunset Arc on December 22, 2026.\n\nThat's not an easy sentence to write. We spent years building Arc and celebrating each and every release along the way: we have so much pride and lov…",
+      "metrics": {
+        "like": 5060,
+        "repost": 448,
+        "reply": 1499,
+        "quote": 1459,
+        "bookmark": 1369,
+        "impression": 1033541
+      },
+      "topic": "Arc 브라우저 12월 22일 종료",
+      "summary_ko": "Arc 공식 계정이 2026년 12월 22일에 Arc를 종료한다고 알렸어요. AI 시대에 브라우저 보안 유지 부담이 커져 처음부터 최신 보안 기준으로 만든 Dia에 집중한다고 해요. 비밀번호·북마크·확장·기록과 Spaces·폴더·탭 그룹을 Dia로 그대로 옮길 수 있고, Arc에서 쓰던 기능은 Dia에서 무료이며 AI는 선택 사항이래요. 조회 100만 회를 넘겨 오늘 반응이 가장 컸던 이야기예요.",
+      "link": "https://arc.net/",
+      "related_item_ids": [
+        "trend-7756dec006aaf5d4"
+      ]
+    },
+    {
+      "id": "2113360845409583307",
+      "url": "https://x.com/claudeai/status/2113360845409583307",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 1941931
+      },
+      "created_at": "2026-10-22T20:04:24Z",
+      "quote": "Starting next week, sessions across Claude web, desktop, and mobile apps will run in auto mode by default on Pro, Max, and Team plans.\n\nRather than asking you to approve each step, an automated check…",
+      "metrics": {
+        "like": 7824,
+        "repost": 237,
+        "reply": 346,
+        "quote": 123,
+        "bookmark": 623,
+        "impression": 353771
+      },
+      "topic": "Claude 앱 auto mode 기본값 전환",
+      "summary_ko": "Claude 공식 계정이 다음 주부터 Pro·Max·Team 요금제의 Claude 웹·데스크톱·모바일 앱 세션이 기본으로 auto mode로 돌아간다고 알렸어요. 단계마다 승인을 묻는 대신 자동 검사가 위험한 행동을 막고, 언제든 수동 모드로 되돌릴 수 있대요. 8월 Claude Code에서 먼저 기본값이 된 방식을 앱 전체로 넓히는 거예요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2113287431382601765",
+      "url": "https://x.com/LyalinDotCom/status/2113287431382601765",
+      "author": {
+        "username": "LyalinDotCom",
+        "name": "Dmitry Lyalin",
+        "followers": 29326
+      },
+      "created_at": "2026-10-22T15:12:41Z",
+      "quote": "Introducing Gemini API CLI (gemini-api), now available in preview!\n\nOur CLI gives your agent power to generate images, videos, text-to-speech, or music, analyze media, transcribe audio, or manage agen…",
+      "metrics": {
+        "like": 1135,
+        "repost": 93,
+        "reply": 74,
+        "quote": 39,
+        "bookmark": 630,
+        "impression": 73628
+      },
+      "topic": "Google Gemini API CLI 프리뷰",
+      "summary_ko": "Google의 Dmitry Lyalin이 에이전트용 명령줄 도구 Gemini API CLI(gemini-api) 프리뷰를 소개했어요. 에이전트가 터미널에서 이미지·영상·음성(TTS)·음악을 만들고, 미디어를 분석하고, 오디오를 받아 적고, 에이전트를 관리할 수 있대요. 모델 이름을 추측하거나 일회용 스크립트·curl을 반복할 필요가 없다는 게 핵심이에요. X에선 Claude Code·Codex에 붙여 쓰는 도구로 많이 공유됐어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2113346642787086538",
+      "url": "https://x.com/OpenAIDevs/status/2113346642787086538",
+      "author": {
+        "username": "OpenAIDevs",
+        "name": "OpenAI Developers",
+        "followers": 464071
+      },
+      "created_at": "2026-10-22T19:07:58Z",
+      "quote": "Add near real-time decisions to your workflow with the Decisions API, now generally available.\n\nBuild faster, more cost-efficient apps and agents that can classify text and images, evaluate inputs, an…",
+      "metrics": {
+        "like": 732,
+        "repost": 43,
+        "reply": 91,
+        "quote": 28,
+        "bookmark": 234,
+        "impression": 47840
+      },
+      "topic": "OpenAI Decisions API 정식 출시",
+      "summary_ko": "OpenAI Developers가 Decisions API를 정식 출시(GA)했다고 알렸어요. 전체 모델 응답을 만들지 않고도 텍스트·이미지 분류, 입력 평가, 다음 행동 결정을 거의 실시간으로 처리해 앱과 에이전트를 더 빠르고 싸게 만들 수 있대요. 10월 6일 공개 베타 때는 Responses API로 GPT-6 Luna를 쓰는 것보다 최대 10배 빠르다고 소개했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2113380122468454765",
+      "url": "https://x.com/claudeai/status/2113380122468454765",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 1941931
+      },
+      "created_at": "2026-10-22T21:21:00Z",
+      "quote": "Claude Models on Google Cloud (Anthropic managed) is now generally available.\n\nGet the full set of Claude Platform features on Google Cloud, with Google Cloud IAM credentials, billing, and commitment…",
+      "metrics": {
+        "like": 1559,
+        "repost": 79,
+        "reply": 117,
+        "quote": 41,
+        "bookmark": 224,
+        "impression": 109364
+      },
+      "topic": "Claude Models on Google Cloud 정식 출시",
+      "summary_ko": "Claude 공식 계정이 Anthropic이 직접 운영하는 'Claude Models on Google Cloud'를 정식 출시했다고 밝혔어요. Google Cloud IAM 자격 증명과 결제, 약정 소진(commitment retirement)을 그대로 쓰면서 Claude Platform 기능 전체를 Google Cloud에서 쓸 수 있대요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2113285915258794378",
+      "url": "https://x.com/googlecloud/status/2113285915258794378",
+      "author": {
+        "username": "googlecloud",
+        "name": "Google Cloud",
+        "followers": 574892
+      },
+      "created_at": "2026-10-22T15:06:39Z",
+      "quote": "Announced at AGNTCon + MCPCon: the new Agent Compute Engine plus expanded Gemini for business agent governance deliver the control you need to run, govern, and scale your agents.\n\nLearn more about Age…",
+      "metrics": {
+        "like": 167,
+        "repost": 25,
+        "reply": 16,
+        "quote": 12,
+        "bookmark": 73,
+        "impression": 18572
+      },
+      "topic": "Google Cloud Agent Compute Engine 발표",
+      "summary_ko": "Google Cloud가 AGNTCon + MCPCon에서 Agent Compute Engine과 기업용 Gemini 에이전트 거버넌스 확대를 발표했어요. 에이전트를 돌리고 통제하고 확장하는 데 필요한 제어 기능을 준다는 설명이에요. X에선 에이전트마다 하드웨어로 격리된 microVM을 주는 구조이고 프리뷰는 올해 안에 나온다는 소개(The New Stack 등)가 이어졌어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2113298833392496746",
+      "url": "https://x.com/OpenAI/status/2113298833392496746",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5464684
+      },
+      "created_at": "2026-10-22T15:57:59Z",
+      "quote": "This summer, we invited METR and Redwood Research to pilot an embedded evaluation of our internal monitoring system, providing deep access to our infrastructure over three weeks. \n\nTheir findings help…",
+      "metrics": {
+        "like": 1824,
+        "repost": 110,
+        "reply": 261,
+        "quote": 58,
+        "bookmark": 185,
+        "impression": 220942
+      },
+      "topic": "OpenAI, METR·Redwood 상주 평가 공개",
+      "summary_ko": "OpenAI가 올여름 METR와 Redwood Research를 초청해 3주 동안 인프라에 깊이 접근하게 하고 내부 모니터링 시스템을 상주 평가하는 시범 사업을 했다고 밝혔어요. 인용된 METR 게시물에 따르면 두 기관 직원이 OpenAI에 상주하며 내부 에이전트의 정렬 이탈(misalignment)을 감시하는 시스템을 평가했고, 결과는 안전장치 강화에 쓰였대요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2113390212911083894",
+      "url": "https://x.com/AnthropicAI/status/2113390212911083894",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1831314
+      },
+      "created_at": "2026-10-22T22:01:06Z",
+      "quote": "New on our Frontier Red Team blog: using Claude to formally verify software at large scale.\n\nFormal verification can prove that code is free of certain bugs, but historically it has only been feasible…",
+      "metrics": {
+        "like": 513,
+        "repost": 49,
+        "reply": 80,
+        "quote": 16,
+        "bookmark": 140,
+        "impression": 27924
+      },
+      "topic": "Anthropic, Claude로 대규모 형식 검증",
+      "summary_ko": "Anthropic이 Frontier Red Team 블로그에 Claude로 소프트웨어를 대규모로 형식 검증한 연구를 올렸어요. 형식 검증은 특정 버그가 없음을 증명할 수 있지만 그동안 작은 코드베이스에서만 가능했는데, Theorem Labs와 함께 몇 주 만에 실제 오픈소스 라이브러리 100개 이상의 보안 속성을 증명했대요.",
+      "link": "https://www.anthropic.com/research/formal-verification",
+      "related_item_ids": []
+    },
+    {
+      "id": "2113343041805127839",
+      "url": "https://x.com/GeminiApp/status/2113343041805127839",
+      "author": {
+        "username": "GeminiApp",
+        "name": "Google Gemini",
+        "followers": 599016
+      },
+      "created_at": "2026-10-22T18:53:39Z",
+      "quote": "With your permission, Gemini can now reference your @GoogleMaps searches and saved places alongside your Google Calendar to give you tailored recommendations for your day. 📍",
+      "metrics": {
+        "like": 436,
+        "repost": 31,
+        "reply": 43,
+        "quote": 15,
+        "bookmark": 50,
+        "impression": 28204
+      },
+      "topic": "Gemini, Google 지도 기록 참고",
+      "summary_ko": "Google Gemini 계정이 사용자가 허락하면 Gemini가 Google 지도 검색 기록과 저장한 장소를 Google 캘린더와 함께 참고해 하루 일정에 맞춘 추천을 해 준다고 알렸어요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
