@@ -15,6 +15,7 @@
 //   node scripts/collect-news.mjs --date 2026-09-01
 //   node scripts/collect-news.mjs --force      # 기존 날짜 덮어쓰기
 //   node scripts/collect-news.mjs --dry-run    # 파일을 쓰지 않고 결과만 출력
+//   node scripts/collect-news.mjs --raw-only --raw-dir /path/to/raw --source openai-news
 import { readFileSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -33,6 +34,7 @@ import {
 } from "./lib/fetch-article.mjs";
 import { politeGet, sleep } from "./lib/polite-fetch.mjs";
 import { FINANCE_SCOPE, FINANCE_SOURCES } from "./lib/story-scope.mjs";
+import { createRawArchive } from "./lib/raw-news-archive.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TRENDS = join(process.env.HOME, "coding", "company-brain", "AI-Sessions", "wiki", "sources", "trends");
@@ -50,10 +52,17 @@ const value = (name) => { const i = argv.indexOf(`--${name}`); return i >= 0 ? a
 const DATE = value("date") ?? new Date().toLocaleDateString("sv-SE"); // sv-SE = YYYY-MM-DD, 로컬 기준
 const FORCE = flag("force");
 const DRY = flag("dry-run");
+const RAW_ONLY = flag("raw-only");
+let rawArchive = null;
 
 // 재시도는 60s·120s 가 아니라 짧게 둔다. 크론이 아니라 사람/에이전트가 부르는
 // 명령이므로, 죽은 소스 하나 때문에 3분을 기다리게 하면 아무도 안 쓴다.
-async function get(url, { retries = 2 } = {}) {
+async function get(url, { retries = 2, headers = { "User-Agent": UA } } = {}) {
+  if (rawArchive) {
+    const result = await politeGet(url, { headers, retries, timeoutMs: 25_000, maxWaitMs: 10_000 });
+    rawArchive.record(url, result);
+    return result.text;
+  }
   for (let i = 0; ; i++) {
     try {
       const res = await fetch(url, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(25_000) });
@@ -367,6 +376,7 @@ const REDDIT_GAP_MS = Number(process.env.REDDIT_GAP_MS ?? 6_000);
 let redditNextAt = 0;
 
 async function redditFeed(sub) {
+  if (rawArchive) return get(`https://www.reddit.com/r/${sub}/hot/.rss?limit=25`, { headers: { "User-Agent": REDDIT_UA }, retries: 1 });
   const res = await politeGet(`https://www.reddit.com/r/${sub}/hot/.rss?limit=25`, {
     headers: { "User-Agent": REDDIT_UA, Accept: "application/atom+xml,application/xml;q=0.9,*/*;q=0.1" },
     retries: 2,
@@ -581,6 +591,34 @@ function buildPublicSummary(items) {
 }
 
 async function main() {
+  const jobs = [
+    ["hacker-news", hackerNews], ["lobsters", lobsters], ["geeknews", geekNews], ["reddit", reddit], ["github", githubTrending],
+    ["openai-news", () => rssFeed("openai-news", "https://openai.com/news/rss.xml")],
+    ["deepmind-blog", () => rssFeed("deepmind-blog", "https://deepmind.google/blog/rss.xml")],
+    ["karpathy-blog", () => rssFeed("karpathy-blog", "https://karpathy.bearblog.dev/feed/?type=rss")],
+    ["aitimes", () => rssFeed("aitimes", "https://cdn.aitimes.com/rss/gn_rss_allArticle.xml")],
+    ["zdnet-kr", () => rssFeed("zdnet-kr", "https://feeds.feedburner.com/zdkorea")],
+    ...FINANCE_FEEDS.map(([src, url, opts]) => [src, () => rssFeed(src, url, opts)]),
+  ];
+  if (RAW_ONLY) {
+    const allowed = new Set(["--raw-only", "--raw-dir", "--source", "--date", "--dry-run", "--help"]);
+    for (let i = 0; i < argv.length; i++) {
+      if (!allowed.has(argv[i])) throw new Error(`Unknown raw option: ${argv[i]}`);
+      if (["--raw-dir", "--source", "--date"].includes(argv[i])) {
+        if (!argv[i + 1] || argv[i + 1].startsWith("--")) throw new Error(`Missing value: ${argv[i]}`);
+        i++;
+      }
+    }
+    if (flag("help")) { console.log("--raw-only --raw-dir PATH [--source ID[,ID]] [--date YYYY-MM-DD] [--dry-run]"); return; }
+    const selected = value("source")?.split(",") ?? jobs.map(([id]) => id);
+    if (selected.some((id) => !jobs.some(([known]) => known === id))) throw new Error("Unknown raw source");
+    rawArchive = createRawArchive({ directory: value("raw-dir"), date: DATE, dryRun: DRY });
+    await Promise.all(jobs.filter(([id]) => selected.includes(id)).map(([id, load]) => rawArchive.runSource(id, load)));
+    const manifest = rawArchive.finish();
+    console.log(JSON.stringify(manifest));
+    process.exitCode = ["ok", "empty"].includes(manifest.state) ? 0 : 1;
+    return; // Never enrich notes, summarize, sync news.json or publish from this mode.
+  }
   const notePath = join(TRENDS, `${DATE}.md`);
   const sourcePath = join(TRENDS, `${DATE}.sources.json`);
   if (existsSync(notePath) && !FORCE && !DRY) {
@@ -590,15 +628,7 @@ async function main() {
   }
 
   console.error("수집 중…");
-  const collected = (await Promise.all([
-    hackerNews(), lobsters(), geekNews(), reddit(), githubTrending(),
-    rssFeed("openai-news", "https://openai.com/news/rss.xml"),
-    rssFeed("deepmind-blog", "https://deepmind.google/blog/rss.xml"),
-    rssFeed("karpathy-blog", "https://karpathy.bearblog.dev/feed/?type=rss"),
-    rssFeed("aitimes", "https://cdn.aitimes.com/rss/gn_rss_allArticle.xml"),
-    rssFeed("zdnet-kr", "https://feeds.feedburner.com/zdkorea"),
-    ...FINANCE_FEEDS.map(([src, url, opts]) => rssFeed(src, url, opts)),
-  ])).flat();
+  const collected = (await Promise.all(jobs.map(([, load]) => load()))).flat();
 
   // List HN summaries for selection haystack (title+summary AI filter). Detail seed runs after URL resolve.
   await fillHackerNewsSummaries(collected);
