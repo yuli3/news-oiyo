@@ -18,11 +18,11 @@ export const keywordMap: KeywordCategory[] = [
     category: "文档与演示",
     cases: [
       { name: "PPT演示文稿", slug: "presentation", keywords: ["AI做PPT", "AI生成PPT免费", "Kimi PPT", "WPS AI PPT", "讯飞智文"] },
-      { name: "报告与方案", keywords: ["AI写报告", "工作总结AI", "商业计划书AI", "项目申报书AI"] },
-      { name: "会议纪要与录音整理", keywords: ["会议纪要AI", "录音转文字", "通义听悟", "飞书妙记"] },
-      { name: "Excel与数据整理", keywords: ["Excel AI", "AI写公式", "WPS表格AI"] },
-      { name: "翻译与本地化", keywords: ["AI翻译文档", "PDF翻译", "出海本地化AI"] },
-      { name: "论文与文献", keywords: ["论文AI", "文献综述AI", "AI查资料"] },
+      { name: "商业计划书与方案", slug: "business-plan", keywords: ["AI写报告", "工作总结AI", "商业计划书AI", "项目申报书AI"] },
+      { name: "会议纪要与录音整理", slug: "meeting-notes", keywords: ["会议纪要AI", "录音转文字", "通义听悟", "飞书妙记"] },
+      { name: "Excel与数据整理", slug: "spreadsheet", keywords: ["Excel AI", "AI写公式", "WPS表格AI"] },
+      { name: "翻译与本地化", slug: "translation", keywords: ["AI翻译文档", "PDF翻译", "出海本地化AI"] },
+      { name: "论文与文献", slug: "research", keywords: ["论文AI", "文献综述AI", "AI查资料"] },
     ],
   },
   {
@@ -41,7 +41,7 @@ export const keywordMap: KeywordCategory[] = [
       { name: "广告图与商品图", slug: "ad-image", keywords: ["AI商品图", "电商主图AI", "AI白底图", "广告banner AI", "模特试穿AI"] },
       { name: "广告视频与商品视频", slug: "ad-video", keywords: ["AI广告视频", "即梦AI视频", "可灵AI", "商品视频AI", "带货短视频AI"] },
       { name: "广告文案", keywords: ["AI写文案", "广告语生成", "极限词检测"] },
-      { name: "小红书笔记", keywords: ["小红书笔记AI", "种草文案AI", "小红书爆款标题"] },
+      { name: "小红书笔记", slug: "xiaohongshu", keywords: ["小红书笔记AI", "种草文案AI", "小红书爆款标题"] },
       { name: "抖音与视频号运营", keywords: ["抖音脚本AI", "口播文案AI", "数字人直播"] },
       { name: "配音与配乐", keywords: ["AI配音", "TTS中文", "AI作曲", "广告背景音乐AI"] },
     ],
@@ -49,8 +49,8 @@ export const keywordMap: KeywordCategory[] = [
   {
     category: "运营与开发",
     cases: [
-      { name: "客服机器人", keywords: ["AI客服", "企业微信AI客服", "智能客服搭建"] },
-      { name: "编程与建站", keywords: ["AI编程", "通义灵码", "AI建站"] },
+      { name: "客服机器人", slug: "customer-chat", keywords: ["AI客服", "企业微信AI客服", "智能客服搭建"] },
+      { name: "编程与建站", slug: "coding-website", keywords: ["AI编程", "通义灵码", "AI建站"] },
       { name: "办公自动化智能体", keywords: ["AI智能体", "扣子Coze", "办公自动化AI"] },
       { name: "招聘与面试", keywords: ["AI写JD", "简历筛选AI", "AI面试"] },
       { name: "教学课件", keywords: ["AI做课件", "AI出题", "教案生成AI"] },

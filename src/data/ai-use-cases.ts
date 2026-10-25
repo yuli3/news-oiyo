@@ -5,6 +5,7 @@
 // cautions에 경계를 적는다. (4) KEYWORD_MAP은 앞으로 쓸 페이지 목록이다. 페이지를 쓰면 slug를 GUIDES에 추가한다.
 
 import { guides as creativeGuides } from "./ai-use-cases-locales/ko-extra";
+import { guides as workGuides } from "./ai-use-cases-locales/ko-work";
 
 export interface Source { label: string; url: string }
 
@@ -53,11 +54,11 @@ export const KEYWORD_MAP: KeywordCategory[] = [
     category: "문서·발표",
     cases: [
       { name: "프레젠테이션(PPT)", slug: "presentation", keywords: ["PPT 만들기 AI", "AI 프레젠테이션", "Gamma", "발표자료 자동 생성", "PPTX 변환"] },
-      { name: "보고서·기획서", keywords: ["보고서 작성 AI", "기획서 AI", "사업계획서 AI", "정부지원사업 사업계획서"] },
-      { name: "회의록·녹취 정리", keywords: ["회의록 AI", "녹음 요약 AI", "통화 녹음 정리"] },
-      { name: "엑셀·데이터 정리", keywords: ["엑셀 AI", "함수 만들기 AI", "데이터 정리 AI"] },
-      { name: "번역·현지화", keywords: ["번역 AI", "문서 번역", "현지화 AI"] },
-      { name: "논문·리서치", keywords: ["논문 요약 AI", "딥리서치", "문헌 조사 AI"] },
+      { name: "사업계획서·기획서", slug: "business-plan", keywords: ["사업계획서 AI", "정부지원사업 사업계획서", "예비창업패키지 AI", "기획서 AI"] },
+      { name: "회의록·녹취 정리", slug: "meeting-notes", keywords: ["회의록 AI", "녹음 요약 AI", "통화 녹음 정리"] },
+      { name: "엑셀·데이터 정리", slug: "spreadsheet", keywords: ["엑셀 AI", "함수 만들기 AI", "데이터 정리 AI"] },
+      { name: "번역·현지화", slug: "translation", keywords: ["번역 AI", "문서 번역", "현지화 AI"] },
+      { name: "논문·리서치", slug: "research", keywords: ["논문 요약 AI", "딥리서치", "문헌 조사 AI"] },
     ],
   },
   {
@@ -77,15 +78,15 @@ export const KEYWORD_MAP: KeywordCategory[] = [
       { name: "광고 영상", slug: "ad-video", keywords: ["광고 영상 AI", "Veo", "Kling", "Runway", "숏폼 광고 AI"] },
       { name: "광고 카피·문구", keywords: ["광고 문구 AI", "카피라이팅 AI", "슬로건 AI"] },
       { name: "SNS 운영", keywords: ["SNS 콘텐츠 AI", "릴스 AI", "쇼츠 자동화"] },
-      { name: "블로그·SEO", keywords: ["블로그 글쓰기 AI", "SEO AI", "네이버 블로그 AI"] },
+      { name: "블로그·SEO", slug: "blog-seo", keywords: ["블로그 글쓰기 AI", "SEO AI", "네이버 블로그 AI"] },
       { name: "음성·더빙·음악", keywords: ["AI 더빙", "TTS", "AI 작곡", "광고 배경음악 AI"] },
     ],
   },
   {
     category: "운영·개발",
     cases: [
-      { name: "고객 응대 챗봇", keywords: ["고객상담 AI", "카카오톡 챗봇 AI", "CS 자동화"] },
-      { name: "코딩·웹사이트 제작", keywords: ["코딩 AI", "바이브 코딩", "웹사이트 만들기 AI"] },
+      { name: "고객 응대 챗봇", slug: "customer-chat", keywords: ["고객상담 AI", "카카오톡 챗봇 AI", "CS 자동화"] },
+      { name: "코딩·웹사이트 제작", slug: "coding-website", keywords: ["코딩 AI", "바이브 코딩", "웹사이트 만들기 AI"] },
       { name: "업무 자동화 에이전트", keywords: ["업무 자동화 AI", "AI 에이전트", "MCP"] },
       { name: "채용·면접", keywords: ["채용공고 AI", "이력서 검토 AI", "AI 면접"] },
       { name: "교육·강의 자료", keywords: ["강의자료 AI", "문제 출제 AI", "교안 만들기 AI"] },
@@ -230,4 +231,4 @@ const BASE_GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES: Guide[] = [...BASE_GUIDES, ...creativeGuides];
+export const GUIDES: Guide[] = [...BASE_GUIDES, ...creativeGuides, ...workGuides];
