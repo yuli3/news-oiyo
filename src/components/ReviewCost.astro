@@ -11,11 +11,21 @@ const copy = {
   es: ['Cambia el coste del tiempo de revisión', 'Ejemplo editorial ficticio, no precios reales ni rendimiento medido.', 'Coste de revisión (USD/min)', 'Coste total', 'Coste por resultado aprobado', 'Introduce un número entre 0 y 100. Se conservan los últimos resultados válidos.', 'Solo se revisan los resultados aprobados; se excluyen la detección de fallos y los reintentos. A: llamadas de 2 $, 60 × 3 min. B: llamadas de 5 $, 95 × 0,5 min. Total = llamadas + resultados aprobados × minutos de revisión × coste por minuto.', 'El texto anterior incluye el cálculo predeterminado, incluso sin JavaScript.'],
 }[lang];
 const money = (n: number) => new Intl.NumberFormat(lang, { style: 'currency', currency: 'USD', minimumFractionDigits: 2 }).format(n);
+const guide = {
+  ko: ['가정 비교', '검수비 제외', '본문 예시로 복원', '호출료', '검수 시간 × 시간단가', '통과한 결과 수로 나누기', '검수비가 0이면 A는 건당 약 $0.033, B는 약 $0.053예요. 시간단가 $0.30/분에서는 각각 약 $0.93, $0.20으로 순서가 바뀌어요. 같은 작업 수·통과 개수를 고정한 가상 예시이며 실제 모델 추천이 아니에요.'],
+  en: ['Compare assumptions', 'Exclude review cost', 'Restore article example', 'Call charges', 'Review time × rate', 'Divide by accepted results', 'With no review cost, A is about $0.033 and B $0.053 per accepted result. At $0.30/min, they become about $0.93 and $0.20. This fictional example holds the attempt and acceptance counts fixed; it is not a model recommendation.'],
+  ja: ['前提を比べる', '確認費用を除く', '本文の例に戻す', '呼び出し費用', '確認時間 × 時間単価', '合格件数で割る', '確認費用が0なら合格1件あたりAは約$0.033、Bは約$0.053です。$0.30/分では約$0.93、$0.20に逆転します。試行数と合格件数を固定した架空例であり、モデルの推奨ではありません。'],
+  zh: ['比较假设', '不计审核成本', '恢复正文示例', '调用费用', '审核时间 × 单价', '除以合格结果数量', '不计审核成本时，每个合格结果A约$0.033，B约$0.053。按$0.30/分钟计算时，分别约$0.93和$0.20，顺序发生变化。这是固定尝试次数和合格数量的虚构示例，不是模型推荐。'],
+  fr: ['Comparer les hypothèses', 'Sans coût de vérification', 'Rétablir l’exemple', 'Coût des appels', 'Temps de vérification × tarif', 'Diviser par les résultats validés', 'Sans vérification, A coûte environ 0,033 $ et B 0,053 $ par résultat validé. À 0,30 $/min, ces coûts deviennent environ 0,93 $ et 0,20 $. Cet exemple fictif fixe le nombre de tentatives et de résultats validés ; il ne recommande aucun modèle.'],
+  es: ['Comparar supuestos', 'Sin coste de revisión', 'Restaurar el ejemplo', 'Coste de llamadas', 'Tiempo de revisión × tarifa', 'Dividir entre resultados aprobados', 'Sin revisión, A cuesta unos 0,033 $ y B 0,053 $ por resultado aprobado. A 0,30 $/min pasan a unos 0,93 $ y 0,20 $. El ejemplo es ficticio y mantiene fijos los intentos y los resultados aprobados; no recomienda ningún modelo.'],
+}[lang];
 ---
 <section class="review-cost" data-review-cost data-locale={lang} aria-labelledby="review-cost-title">
   <h2 id="review-cost-title">{copy[0]}</h2>
   <p>{copy[1]}</p><p id="review-cost-assumptions">{copy[6]}</p>
+  <ol class="cost-path" aria-label={guide[0]}><li>{guide[3]}</li><li>+ {guide[4]}</li><li>÷ {guide[5]}</li></ol>
   <div data-controls hidden>
+    <div class="scenario-buttons" role="group" aria-label={guide[0]}><button type="button" data-review-rate="0">{guide[1]}</button><button type="button" data-review-rate="0.30">{guide[2]}</button></div>
     <label for="review-rate">{copy[2]}</label>
     <input id="review-rate" type="number" min="0" max="100" step="any" value="0.30" inputmode="decimal" aria-describedby="review-cost-assumptions review-cost-error" />
     <p id="review-cost-error" role="alert" hidden>{copy[5]}</p>
@@ -23,6 +33,7 @@ const money = (n: number) => new Intl.NumberFormat(lang, { style: 'currency', cu
   <div aria-live="polite" aria-atomic="true">
     {reviewCost(0.3)!.map(row => <p><strong>{row.name}</strong> · {copy[3]}: <output data-total={row.name}>{money(row.total)}</output><br />{copy[4]}: <output data-per={row.name}>{money(row.perPassed)}</output></p>)}
   </div>
+  <p>{guide[6]}</p>
   <noscript><p>{copy[7]}</p></noscript>
 </section>
 <script>
@@ -42,9 +53,16 @@ const money = (n: number) => new Intl.NumberFormat(lang, { style: 'currency', cu
         root.querySelector<HTMLOutputElement>(`[data-per="${row.name}"]`)!.value = money.format(row.perPassed);
       }
     });
+    root.querySelectorAll<HTMLButtonElement>('[data-review-rate]').forEach(button => {
+      button.addEventListener('click', () => {
+        input.value = button.dataset.reviewRate!;
+        input.dispatchEvent(new Event('input'));
+      });
+    });
   });
 </script>
 <style>
   .review-cost{padding:1rem;margin-block:2rem;border:1px solid var(--border);border-radius:.5rem;background:var(--card);overflow-wrap:anywhere}
   .review-cost h2{margin-top:0}label{display:block;font-weight:600}input{box-sizing:border-box;width:100%;max-width:100%;min-height:44px;padding:.75rem;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--border);border-radius:.5rem}input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}[aria-invalid="true"]{border-style:dashed}output{font-variant-numeric:tabular-nums;font-weight:600}
+  .cost-path{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;padding:0}.cost-path li{padding:.5rem;background:var(--accent-soft);border-radius:.4rem}.scenario-buttons{display:flex;flex-wrap:wrap;gap:.5rem;margin-block:.75rem}.scenario-buttons button{min-height:44px;padding:.5rem .75rem;border:1px solid var(--border);border-radius:.4rem;background:var(--bg);color:var(--ink);font:inherit;cursor:pointer}.scenario-buttons button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 </style>
