@@ -11,11 +11,14 @@ import * as es from "./ai-use-cases-locales/es";
 import { guides as enWork } from "./ai-use-cases-locales/en-work";
 import { guides as jaWork } from "./ai-use-cases-locales/ja-work";
 import { guides as zhWork } from "./ai-use-cases-locales/zh-work";
+import { guides as frWork } from "./ai-use-cases-locales/fr-work";
+import { guides as esWork } from "./ai-use-cases-locales/es-work";
 
 export const GUIDES_BY_LOCALE: Record<Locale, { guides: Guide[]; keywordMap: KeywordCategory[] }> = {
   ko: { guides: GUIDES, keywordMap: KEYWORD_MAP },
   en: { guides: [...en.guides, ...enWork], keywordMap: en.keywordMap },
   ja: { guides: [...ja.guides, ...jaWork], keywordMap: ja.keywordMap },
   zh: { guides: [...zh.guides, ...zhWork], keywordMap: zh.keywordMap },
-  fr, es,
+  fr: { guides: [...fr.guides, ...frWork], keywordMap: fr.keywordMap },
+  es: { guides: [...es.guides, ...esWork], keywordMap: es.keywordMap },
 };
