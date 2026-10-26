@@ -15,11 +15,14 @@ interface Props {
   noindex?: boolean;
 }
 
-const { slot = "2768903568", noindex = false } = Astro.props as Props;
+// Off switch: false removes the unit from every page. oiyo-news-article-end has been news's own unit
+// since 2026-10-26; before that it borrowed blog's article-end slot, which mixed the per-site numbers.
+const ENABLED = true;
+const { slot = "7704648399", noindex = false } = Astro.props as Props;
 const client = "ca-pub-9541920090543312";
 ---
 
-{!noindex && (
+{ENABLED && !noindex && (
   <aside class="not-prose my-8 min-h-72 rounded-2xl border border-border bg-card p-3 shadow-xs max-w-225 mx-auto" data-manual-ad="news-bottom" aria-label="광고">
     <p class="mb-1 text-center text-xs text-muted-foreground">광고</p>
     <ins
