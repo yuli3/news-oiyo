@@ -1,19 +1,30 @@
 ---
 // Body of one use-case guide, shared by /ai/use-cases/{slug}/ (ko) and /ai/{lang}/use-cases/{slug}/ (2026-10-20).
+import PdfTableCheck from "./PdfTableCheck.astro";
 import type { Guide } from "../../data/ai-use-cases";
 import { UI, guidePath, hubPath, pricingPath, type Locale } from "../../data/ai-i18n";
 interface Props { lang: Locale; guide: Guide; others: Guide[] }
 const { lang, guide, others } = Astro.props;
 const t = UI[lang];
+const isPdf = guide.slug === "pdf-table-verification";
+const pdfLabels = {
+ ko: {references:"표 구조 참고", examples:"검산 예시", value:"표현·계산", explanation:"확인할 점"},
+ en: {references:"Table structure reference", examples:"Worked checks", value:"Notation or calculation", explanation:"What to check"},
+ ja: {references:"表の構造の参考", examples:"検算の例", value:"表記・計算", explanation:"確認する点"},
+ zh: {references:"表格结构参考", examples:"核算示例", value:"写法与计算", explanation:"核对要点"},
+ fr: {references:"Référence sur la structure des tableaux", examples:"Exemples de vérification", value:"Notation ou calcul", explanation:"Point à vérifier"},
+ es: {references:"Referencia sobre la estructura de tablas", examples:"Ejemplos de comprobación", value:"Notación o cálculo", explanation:"Qué comprobar"}
+}[lang];
 const sources = [...new Map(guide.tools.map((x) => [x.source.url, x.source.label])).entries()];
 ---
 <span class="tag">{guide.category}</span>
 <h1>{guide.title}</h1>
 <p class="lede">{guide.intro}</p>
-<p class="sub">{t.checkedOn} <time datetime={guide.checked}>{guide.checked}</time> · {t.checkedLine}</p>
+<p class="sub">{t.checkedOn} <time datetime={guide.checked}>{guide.checked}</time>{!isPdf && <> · {t.checkedLine}</>}</p>
 <slot />
+{guide.slug === "pdf-table-verification" && <PdfTableCheck lang={lang}/>}
 
-<h2>{t.services}</h2>
+<h2>{isPdf ? pdfLabels.references : t.services}</h2>
 <div class="tools">
   {guide.tools.map((x) => (
     <article class="tool">
@@ -29,10 +40,10 @@ const sources = [...new Map(guide.tools.map((x) => [x.source.url, x.source.label
 <h2>{t.workflow}</h2>
 <ol class="flow">{guide.workflow.map((w) => <li><strong>{w.step}</strong><span>{w.detail}</span></li>)}</ol>
 
-<h2>{t.combos}</h2>
-<div class="table-scroll" tabindex="0" role="region" aria-label={t.combos}>
+<h2>{isPdf ? pdfLabels.examples : t.combos}</h2>
+<div class="table-scroll" tabindex="0" role="region" aria-label={isPdf ? pdfLabels.examples : t.combos}>
   <table>
-    <thead><tr><th scope="col">{t.colCombo}</th><th scope="col">{t.colWhyCombo}</th></tr></thead>
+    <thead><tr><th scope="col">{isPdf ? pdfLabels.value : t.colCombo}</th><th scope="col">{isPdf ? pdfLabels.explanation : t.colWhyCombo}</th></tr></thead>
     <tbody>{guide.combos.map((c) => <tr><th scope="row">{c.pair}</th><td>{c.why}</td></tr>)}</tbody>
   </table>
 </div>

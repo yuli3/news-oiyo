@@ -4,6 +4,7 @@
 // (2) 출처가 확인 못 한 항목(가격·대상)은 비워 두고 지어내지 않는다. (3) 사람의 최종 판단이 필요한 분야는
 // cautions에 경계를 적는다. (4) KEYWORD_MAP은 앞으로 쓸 페이지 목록이다. 페이지를 쓰면 slug를 GUIDES에 추가한다.
 
+import { pdfGuides } from "./pdf-table-guide";
 import { guides as creativeGuides } from "./ai-use-cases-locales/ko-extra";
 import { guides as workGuides } from "./ai-use-cases-locales/ko-work";
 
@@ -231,4 +232,4 @@ const BASE_GUIDES: Guide[] = [
   },
 ];
 
-export const GUIDES: Guide[] = [...BASE_GUIDES, ...creativeGuides, ...workGuides];
+export const GUIDES: Guide[] = [...BASE_GUIDES, ...creativeGuides, ...workGuides, pdfGuides.ko];
