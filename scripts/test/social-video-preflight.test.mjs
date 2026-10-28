@@ -8,8 +8,9 @@ import { spawnSync } from 'node:child_process';
 function fixture(t) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'oiyo-video-preflight-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
-  for (const dir of ['scripts', 'src/data', 'reports/video-briefings', 'bin']) fs.mkdirSync(path.join(root, dir), { recursive: true });
+  for (const dir of ['scripts', 'scripts/lib', 'src/data', 'reports/video-briefings', 'bin']) fs.mkdirSync(path.join(root, dir), { recursive: true });
   fs.copyFileSync(new URL('../publish-social-video.mjs', import.meta.url), path.join(root, 'scripts/publish-social-video.mjs'));
+  fs.copyFileSync(new URL('../lib/social-attribution.mjs', import.meta.url), path.join(root, 'scripts/lib/social-attribution.mjs'));
   fs.writeFileSync(path.join(root, 'src/data/news.json'), JSON.stringify({ days: [{ date: '2026-10-18', items: [{ title: 'A verified headline' }] }] }));
   const out = path.join(root, 'reports/video-briefings');
   fs.writeFileSync(path.join(out, '2026-10-18-briefing.mp4'), 'fixture');
@@ -80,4 +81,25 @@ test('valid preparation produces a ready queue without claiming publication', t 
   const queue = JSON.parse(fs.readFileSync(path.join(out, 'social-queue.json'), 'utf8'));
   assert.equal(queue[0].status, 'ready');
   assert.equal(fs.existsSync(path.join(out, '2026-10-18-social-payload.json')), true);
+});
+
+// Verify the public preparation CLI's actual output, without posting or credentials.
+test('prepared platform payloads attribute each OIYO destination without publishing', t => {
+  const { out, run } = fixture(t);
+  const result = run(['2026-10-18', '--queue']);
+  assert.equal(result.status, 0, result.stderr);
+  const { platforms } = JSON.parse(fs.readFileSync(path.join(out, '2026-10-18-social-payload.json'), 'utf8'));
+  for (const [key, field, source, medium] of [['youtubeShorts', 'description', 'youtube', 'shorts'], ['instagramReels', 'caption', 'instagram', 'shorts'], ['xTwitter', 'text', 'x', 'social']]) {
+    const links = platforms[key][field].match(/https:\/\/[^\s]+/g);
+    assert.ok(links?.length);
+    for (const link of links) {
+      const url = new URL(link);
+      assert.ok(['news.oiyo.net', 'show.oiyo.net'].includes(url.hostname));
+      assert.equal(url.searchParams.get('utm_source'), source);
+      assert.equal(url.searchParams.get('utm_medium'), medium);
+      assert.equal(url.searchParams.get('utm_campaign'), 'briefing-2026-10-18');
+    }
+  }
+  const queue = JSON.parse(fs.readFileSync(path.join(out, 'social-queue.json'), 'utf8'));
+  assert.notEqual(queue[0].status, 'published');
 });
