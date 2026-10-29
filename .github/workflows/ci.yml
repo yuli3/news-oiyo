@@ -51,6 +51,8 @@ jobs:
 
       - name: Build
         run: npm run build
+      - name: Authored output regression
+        run: node --test scripts/test/cardnews-guide-html.test.mjs scripts/test/cardnews.test.mjs
 
       - name: Authored AI analysis regression checks
         run: node --test scripts/test/official-price-html.test.mjs scripts/test/review-cost.test.mjs scripts/test/api-pricing-locales-html.test.mjs
