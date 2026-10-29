@@ -137,7 +137,7 @@ export const SUBSCRIPTIONS: Vendor[] = [
     ],
     notes: [
       "Meta 공식 문서는 요금제 구성과 사용량 배수만 적고, 금액은 가입 화면에서 보여 준다고 해요. 그래서 금액은 보도 기준으로만 적었어요.",
-      "Muse Wonder Full은 API로 팔지 않고 Muse Code 구독(Power·Maximum)에서만 써요. 지역마다 혜택이 다를 수 있다고 안내해요.",
+      "Muse Code 구독 혜택과 API 제공 범위는 별도로 확인하세요. 여기서는 Wonder Full의 API 제공 여부를 확정하지 않아요.",
     ],
     sources: [
       { label: "Meta · Muse Code 구독", url: "https://dev.meta.ai/docs/muse-code/subscriptions" },
@@ -177,7 +177,7 @@ export const API_MODELS: ApiModel[] = [
   { vendor: "Google", model: "Gemini 3.5 Flash-Lite", input: 0.3, cached: 0.03, output: 2.5, note: "무료 등급 있음", source: GEMINI_API },
   { vendor: "xAI", model: "grok-4.7", input: 2, cached: 0.5, output: 6, note: "프롬프트 20만 토큰부터 2배", source: XAI_API },
   { vendor: "xAI", model: "grok-build-0.1", input: 1, cached: 0.2, output: 2, note: "코딩용, 20만 토큰부터 2배", source: XAI_API },
-  { vendor: "Meta", model: "muse-wonder-1.0", input: 4, cached: 0.2, output: 20, note: "Wonder Full은 API 미제공", source: META_API },
+  { vendor: "Meta", model: "muse-wonder-1.0", input: 4, cached: 0.2, output: 20, note: "API 제공 범위는 Muse Code 구독 혜택과 별도로 공식 문서에서 확인", source: META_API },
   { vendor: "Meta", model: "muse-spark-1.3", input: 1.25, cached: 0.15, output: 4.25, note: "Contributor 모드는 $0.10 / $0.20, 데이터가 제품 개선에 쓰여요", source: META_API },
   { vendor: "DeepSeek", model: "deepseek-v4-pro", input: 1.32, cached: 0.044, output: 3.96, note: "피크 시간 기준. 그 외 시간은 절반", source: DEEPSEEK_API },
   { vendor: "DeepSeek", model: "deepseek-flash", input: 0.3, cached: 0.006, output: 1.2, note: "피크 시간 기준. 그 외 시간은 절반", source: DEEPSEEK_API },

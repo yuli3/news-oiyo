@@ -36,7 +36,7 @@ const en = {
   gemini: ["Flash model, 2x Free limits, 400 GB storage, 200 Flow credits.", "Gemini 4 Argon and Pro models, 4x Free limits, 5 TB, Antigravity.", "Highest limits, Flow credits, Project Genie, 30 TB in the app listing."],
   grok: ["Name on x.ai's price list.", "Name on x.ai's price list.", "Name on x.ai's price list.", "Name on x.ai's price list.", "Per user, team management."],
   muse: ["10–50 prompts every 5 hours; Muse Spark, Wonder and Image.", "5x Everyday.", "20x Everyday, includes Muse Wonder Full.", "80x Everyday, includes Muse Wonder Full."],
-  museNotes: ["Meta's docs list plan structure and multiples but show prices only during signup, so amounts here are press-reported.", "Muse Wonder Full is not sold via API; it is only in the Power and Maximum plans. Benefits may vary by region."],
+  museNotes: ["Meta's docs list plan structure and multiples but show prices only during signup, so amounts here are press-reported.", "Check Muse Code subscription benefits separately from the official API offering. This table does not establish whether Wonder Full is available by API."],
 };
 
 const ja = {
@@ -45,7 +45,7 @@ const ja = {
   gemini: ["Flashモデル、無料の2倍の上限、400GB、Flowクレジット200。", "Gemini 4 Argon・Proモデル、無料の4倍、5TB、Antigravity。", "最上位の上限、Flowクレジット、Project Genie。アプリ表記は30TB。"],
   grok: ["x.aiの料金表の名称。", "x.aiの料金表の名称。", "x.aiの料金表の名称。", "x.aiの料金表の名称。", "1ユーザーあたり、チーム管理。"],
   muse: ["5時間ごとに10〜50プロンプト。Muse Spark・Wonder・Image。", "Everydayの5倍。", "Everydayの20倍、Muse Wonder Full付き。", "Everydayの80倍、Muse Wonder Full付き。"],
-  museNotes: ["Metaの公式文書はプラン構成と倍率のみで、金額は登録画面で表示されるため、ここでは報道ベースで記載しています。", "Muse Wonder FullはAPI提供がなく、Power・Maximumプランのみで使えます。地域により特典が異なる場合があります。"],
+  museNotes: ["Metaの公式文書はプラン構成と倍率のみで、金額は登録画面で表示されるため、ここでは報道ベースで記載しています。", "Muse Codeの購読特典とAPI提供範囲は別々に確認してください。この表ではWonder FullのAPI提供の有無を断定しません。"],
 };
 
 const fr = {
@@ -54,7 +54,7 @@ const fr = {
   gemini: ["Modèle Flash, 2x les limites gratuites, 400 Go, 200 crédits Flow.", "Gemini 4 Argon et modèles Pro, 4x les limites gratuites, 5 To, Antigravity.", "Limites maximales, crédits Flow, Project Genie."],
   grok: ["Nom sur la grille x.ai.", "Nom sur la grille x.ai.", "Nom sur la grille x.ai.", "Nom sur la grille x.ai.", "Par utilisateur, gestion d'équipe."],
   muse: ["10 à 50 requêtes toutes les 5 heures ; Muse Spark, Wonder et Image.", "5x Everyday.", "20x Everyday, avec Muse Wonder Full.", "80x Everyday, avec Muse Wonder Full."],
-  museNotes: ["La documentation de Meta décrit les offres et leurs multiples mais n'affiche les prix qu'à l'inscription : les montants viennent de la presse.", "Muse Wonder Full n'est pas vendu en API ; il n'existe que dans les offres Power et Maximum. Les avantages peuvent varier selon la région."],
+  museNotes: ["La documentation de Meta décrit les offres et leurs multiples mais n'affiche les prix qu'à l'inscription : les montants viennent de la presse.", "Vérifiez séparément les avantages de Muse Code et l’offre API officielle. Ce tableau ne confirme pas la disponibilité de Wonder Full par API."],
 };
 
 const es = {
@@ -63,7 +63,7 @@ const es = {
   gemini: ["Modelo Flash, el doble de límites que gratis, 400 GB, 200 créditos de Flow.", "Gemini 4 Argon y modelos Pro, 4x los límites gratuitos, 5 TB, Antigravity.", "Límites máximos, créditos de Flow, Project Genie."],
   grok: ["Nombre en la tabla de x.ai.", "Nombre en la tabla de x.ai.", "Nombre en la tabla de x.ai.", "Nombre en la tabla de x.ai.", "Por usuario, gestión de equipo."],
   muse: ["10–50 peticiones cada 5 horas; Muse Spark, Wonder e Image.", "5x Everyday.", "20x Everyday, incluye Muse Wonder Full.", "80x Everyday, incluye Muse Wonder Full."],
-  museNotes: ["La documentación de Meta describe los planes y sus múltiplos, pero solo muestra precios al registrarse: los importes proceden de la prensa.", "Muse Wonder Full no se vende por API; solo está en los planes Power y Maximum. Las ventajas pueden variar por región."],
+  museNotes: ["La documentación de Meta describe los planes y sus múltiplos, pero solo muestra precios al registrarse: los importes proceden de la prensa.", "Comprueba por separado las ventajas de Muse Code y la oferta API oficial. Esta tabla no confirma si Wonder Full está disponible por API."],
 };
 
 type Copy = typeof en;
