@@ -4,6 +4,7 @@
 import { API_MODELS, PRICING_CHECKED, type Vendor } from "../../data/ai-pricing";
 import type { PricingLocale } from "../../data/ai-pricing-locales";
 import { UI, type Locale } from "../../data/ai-i18n";
+import { apiPricingNote } from "../../data/ai-api-notes";
 
 interface Props {
   lang: Locale;
@@ -94,11 +95,11 @@ const ids = ["budget", "plans", "billing", "api", "calc", "sources"];
 <h2 id="api">{t.apiTitle}</h2>
 <p>{t.apiLede}</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label={t.apiTitle}>
-  <table>
+  <table data-api-pricing>
     <thead><tr><th scope="col">{t.colModel}</th><th scope="col">{t.colInput}</th><th scope="col">{t.colCached}</th><th scope="col">{t.colOutput}</th><th scope="col">{t.colNote}</th></tr></thead>
     <tbody>
       {API_MODELS.map((m) => (
-        <tr><th scope="row">{m.model} <small>{m.vendor}</small></th><td>{usd(m.input)}</td><td>{usd(m.cached)}</td><td>{usd(m.output)}</td><td>{m.note} <a href={m.source} rel="noopener">{t.original}</a></td></tr>
+        <tr><th scope="row">{m.model} <small>{m.vendor}</small></th><td>{usd(m.input)}</td><td>{usd(m.cached)}</td><td>{usd(m.output)}</td><td>{apiPricingNote(m.model, m.note, lang)} <a href={m.source} rel="noopener">{t.original}</a></td></tr>
       ))}
     </tbody>
   </table>

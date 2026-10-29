@@ -53,7 +53,7 @@ jobs:
         run: npm run build
 
       - name: Authored AI analysis regression checks
-        run: node --test scripts/test/official-price-html.test.mjs scripts/test/review-cost.test.mjs
+        run: node --test scripts/test/official-price-html.test.mjs scripts/test/review-cost.test.mjs scripts/test/api-pricing-locales-html.test.mjs
 
       - name: Video renderer and read-only preflight regressions
         run: node --test scripts/test/video-renderer.test.mjs scripts/test/social-video-preflight.test.mjs
