@@ -6,12 +6,18 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
 <BaseLayout
   title="뉴스 메일"
-  description="OIYO의 AI·금융 소식을 일주일에 한 번 메일로 받아요. 확인 메일의 링크를 눌러야 구독이 시작돼요."
+  description="세계 AI 거장들의 글과 지금 뜨는 AI 소식을 매주 한국어로 골라 보내요. 무료이고, 확인 메일의 링크를 눌러야 구독이 시작돼요."
   noindex={true}
   crumbs={[{ label: "뉴스 메일" }]}
 >
-  <h1>뉴스 메일</h1>
-  <p class="lede">OIYO의 AI·금융 소식에서 고른 제목과 요약을 메일로 받아요. 일주일에 한 번, 지난 7일을 한 통으로 모아서 보내요. 그 주에 보낼 내용이 없으면 쉬고, 확인을 마친 주소로만 보내요. 개인화된 투자 권유는 아니에요.</p>
+  <h1>세계 AI 거장들의 생각, 매주 가장 빠르게 받아 보세요</h1>
+  <p class="lede">OpenAI·Google DeepMind·안드레이 카르파시가 직접 쓴 글부터 해커뉴스·GeekNews·X에서 지금 뜨는 이야기까지. 지난 7일의 AI 흐름과 핵심 인사이트를 한국어로 골라 매주 한 통에 담아 보내요. 놓치면 아쉬운 소식만 모았어요.</p>
+  <ul class="mail-points">
+    <li>매주 한 번, 지난 7일의 AI 핵심만 한 통으로</li>
+    <li>AI를 만드는 사람들이 직접 쓴 글을 한국어 요약으로</li>
+    <li>무료예요. 메일마다 한 번에 해지할 수 있어요</li>
+  </ul>
+  <p class="mail-fine">AI 소식과 함께 금융 소식도 일부 담겨요. 그 주에 보낼 내용이 없으면 쉬고, 확인을 마친 주소로만 보내요. 개인화된 투자 권유는 아니에요.</p>
   <form class="mail-form" method="post" action="/api/mailing-list/subscribe">
     <label class="mail-field" for="email">이메일
       <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" />
@@ -23,7 +29,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
     <div class="mail-trap" aria-hidden="true">
       <label>회사<input name="company" type="text" tabindex="-1" autocomplete="off" /></label>
     </div>
-    <button class="mail-submit" type="submit">확인 메일 받기</button>
+    <button class="mail-submit" type="submit">무료로 매주 받아 보기</button>
     <p id="mail-status" class="mail-status" role="status" aria-live="polite"></p>
   </form>
   <section class="card">
@@ -113,6 +119,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 </script>
 
 <style>
+  .mail-points { margin: 12px 0 0; padding-left: 20px; line-height: 1.7; }
+  .mail-fine { font-size: 14px; color: var(--muted, inherit); margin-top: 8px; }
   .mail-form { max-width: 560px; margin-top: 18px; }
   .mail-field { display: flex; flex-direction: column; gap: 6px; font-weight: 700; }
   .mail-field input { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--ink); font: inherit; }
