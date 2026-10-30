@@ -24,10 +24,12 @@ function fixture(t) {
   };
   return { deps, delivered };
 }
-async function send(deps, through = "2026-10-15") {
+const DRAFT = { id: "mailing-20261103", subject: "OIYO AI·금융 요약 2026-11-03", reviewed: true,
+  body: "이번 호 한 줄\nhttps://news.oiyo.net/item/trend-1/" };
+async function send(deps, through = "2026-10-15", extra = { draft: DRAFT, confirm: DRAFT.id }) {
   return handleWeeklyRequest(new Request("https://news.oiyo.net/api/mailing-list/digest", {
     method: "POST", headers: { "content-type": "application/json", authorization: `Bearer ${KEY}` },
-    body: JSON.stringify({ through, send: true }),
+    body: JSON.stringify({ through, send: true, ...extra }),
   }), deps);
 }
 
@@ -161,4 +163,40 @@ test("weekly digest skips subscribers who only asked for the new-year launch not
   assert.equal(body.sent, 1);
   assert.equal(body.skipped, 1);
   assert.deepEqual(delivered.map(message => message.to), ["weekly@example.com"]);
+});
+
+test("send path refuses auto summaries and unconfirmed drafts without touching mail", async t => {
+  const { deps, delivered } = fixture(t);
+  const { createD1Store } = await import("../../functions/lib/d1-store.mjs");
+  await createD1Store(deps.db).save({ email: "a@example.com", status: "active", confirmTokenHash: null,
+    unsubscribeTokenHash: "a-hash", unsubscribeToken: "a-token" }, null);
+  const cases = [
+    [{}, "reviewed_draft_required"],
+    [{ draft: { ...DRAFT, reviewed: false }, confirm: DRAFT.id }, "draft_not_reviewed"],
+    [{ draft: DRAFT }, "confirm_required"],
+    [{ draft: DRAFT, confirm: "mailing-20261027" }, "confirm_required"],
+    [{ draft: { ...DRAFT, id: "Bad Id" }, confirm: "Bad Id" }, "invalid_draft"],
+  ];
+  for (const [extra, error] of cases) {
+    const response = await send(deps, "2026-10-15", extra);
+    assert.equal(response.status, 400);
+    assert.equal((await response.json()).error, error);
+  }
+  assert.equal(delivered.length, 0);
+});
+
+test("reviewed draft is what subscribers get: (광고) subject, UTM links, contact, own unsubscribe link", async t => {
+  const { deps, delivered } = fixture(t);
+  const { createD1Store } = await import("../../functions/lib/d1-store.mjs");
+  await createD1Store(deps.db).save({ email: "a@example.com", status: "active", confirmTokenHash: null,
+    unsubscribeTokenHash: "a-hash", unsubscribeToken: "a-token" }, null);
+  assert.equal((await (await send(deps)).json()).sent, 1);
+  const [mail] = delivered;
+  assert.equal(mail.subject, "(광고) OIYO AI·금융 요약 2026-11-03");
+  assert.ok(mail.text.includes("https://news.oiyo.net/item/trend-1/?utm_source=newsletter&utm_medium=email&utm_campaign=mailing-20261103"));
+  assert.equal(mail.text.includes("OpenAI release"), false, "auto summary must not be sent");
+  assert.match(mail.text, /문의: support@oiyo\.net/);
+  assert.match(mail.text, /수신 거부: https:\/\/news\.oiyo\.net\/subscribe\/unsubscribe\/\?token=a-token$/m);
+  const other = await send(deps, "2026-10-15", { draft: { ...DRAFT, id: "mailing-20261104" }, confirm: "mailing-20261104" });
+  assert.equal(other.status, 409);
 });
