@@ -17,8 +17,7 @@ function json(status, body) {
   });
 }
 
-export async function readMailingBody(request) {
-  const limit = 4096;
+export async function readMailingBody(request, { limit = 4096 } = {}) {
   if (Number(request.headers.get("content-length")) > limit) return { error: "too_large" };
   const reader = request.body?.getReader();
   const decoder = new TextDecoder();

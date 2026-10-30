@@ -44,7 +44,10 @@
 - [x] 확인 메일은 광고가 아님을 밝힌다 (`mailing-list.mjs` TOPICS footer).
 - [x] 주간 소식·출시 알림 본문에 보내는 이, 받는 사람별 수신 거부 링크가 있다 (`digest.mjs` `withUnsubscribe`).
 - [x] 출시 알림 제목은 법정 표기 `(광고)`로 시작한다 (`launch-notice.mjs`).
-- [ ] 주간 소식 제목은 아직 `[광고]`다. 법령 표기 `(광고)`에 맞출지 정하고, 맞추면 `digest.mjs`와 `mailing-list.test.mjs`를 같이 고친다.
+- [x] 주간 소식 제목은 법정 표기 `(광고)`로 시작한다. 광고성 정보가 없는 호는 초안 frontmatter `promotional: false`로 끌 수 있다 (`digest.mjs` `adSubject`, 2026-10-30).
+- [x] 주간 소식 바닥글에 보내는 이·문의 `support@oiyo.net`(`MAILING_LIST_CONTACT`로 변경 가능)·받는 사람별 수신 거부 링크가 있다.
+- [x] 본문 링크 전부에 `utm_source=newsletter&utm_medium=email&utm_campaign=<초안 id>`가 붙는다(수신 거부 링크 제외).
+- [x] 자동 요약은 미리보기 전용이다. 발송은 검토한 초안(`review_status: checked-*`, reviewer 있음, sent_count 빈칸) + 같은 id의 `--confirm`이 있어야 한다.
 - [ ] **세운** 본문의 문의 주소 `support@oiyo.net`이 실제로 받는지 확인한다.
 
 ## 5. 테스트 발송 (아직 `MAILING_LIST_MODE=test`)
@@ -60,7 +63,7 @@
 
 - [ ] **세운** `MAILING_LIST_MODE`를 지우거나 `live`로, `MAILING_LIST_TEST_RECIPIENT_HASH`를 지우고 다시 배포한다.
 - [ ] **세운** 다른 주소로 신청·확인이 되는지 한 번 본다.
-- [ ] **세운** 주간 소식 첫 발송: `MAILING_LIST_SEND=1 MAILING_LIST_ADMIN_KEY=… npm run mailing-list:digest -- --send`. 출시 알림: `… npm run mailing-list:launch-notice -- --launch-url=<출시 주소> --send --confirm=new-year-2027`. 결과가 "재확인 대기"·"수동 검토"면 바로 다시 돌리지 않는다 (5분 임대, 23시간 뒤에는 자동 재발송 안 함).
+- [ ] **세운** 주간 소식 첫 발송: `npm run mailing-list:digest -- --draft=<검토 초안.md>`로 미리본 뒤 `MAILING_LIST_SEND=1 MAILING_LIST_ADMIN_KEY=… npm run mailing-list:digest -- --draft=<검토 초안.md> --confirm=<초안 id> --send`. 출시 알림: `… npm run mailing-list:launch-notice -- --launch-url=<출시 주소> --send --confirm=new-year-2027`. 결과가 "재확인 대기"·"수동 검토"면 바로 다시 돌리지 않는다 (5분 임대, 23시간 뒤에는 자동 재발송 안 함).
 
 ## 7. 되돌리기
 
