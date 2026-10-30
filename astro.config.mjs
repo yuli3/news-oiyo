@@ -32,9 +32,10 @@ export default defineConfig({
       // 본문 1만 자짜리 날짜 페이지 39개는 이 필터가 걷어내고 있었다 — 광고한 적 없는
       // 콘텐츠가 노출되지 않는 것은 콘텐츠 문제가 아니다.
       // 페이지네이션은 90일 노출 0 이라 빼도 잃을 것이 없다(blog 와 같은 정책).
+      // 2026-10-30: 모집 공개로 /subscribe/ 만 사이트맵에 넣고 confirm·unsubscribe·new-year 하위는 계속 뺀다.
       // 2026-10-12: /saved/ 는 브라우저 저장 목록(noindex)이라 사이트맵에서 뺀다.
       filter: (page) => !/\/page\/\d+\/?$/.test(page) && !/\/saved\/?$/.test(page)
-        && !/^\/subscribe(?:\/|$)/.test(new URL(page).pathname),
+        && !/^\/subscribe\/.+/.test(new URL(page).pathname),
       serialize: (item) => {
         const path = new URL(item.url).pathname;
         const day = path.match(DATE_PAGE_RE)?.[1];
