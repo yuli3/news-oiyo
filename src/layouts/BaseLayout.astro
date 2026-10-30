@@ -28,6 +28,9 @@ const {
 const fullTitle = title.includes("OIYO News") ? title : `${title} | OIYO News`;
 // Confirmation/unsubscribe links contain bearer tokens; exclude the whole analytics bootstrap (2026-10-15).
 const subscriptionPage = /^\/subscribe(?:\/|$)/.test(Astro.url.pathname);
+// 2026-10-30 세운 지시로 뉴스 메일 모집 공개. 구독 경로 밖 한국어 페이지에만 띄우고, /subscribe/ 는 광고 없이 둔다.
+const adsOff = noindex || subscriptionPage;
+const showMailCta = !subscriptionPage && lang === "ko";
 const family = [
   ["OIYO tests", "심리테스트", "https://oiyo.net/ko/"],
   ["OIYO tools", "계산기", "https://tools.oiyo.net/ko/"],
@@ -62,7 +65,7 @@ const family = [
     <meta name="twitter:card" content="summary_large_image" />
     {subscriptionPage && <meta name="referrer" content="no-referrer" />}
     {!subscriptionPage && <link rel="preconnect" href="https://www.googletagmanager.com" />}
-    {!noindex && (
+    {!adsOff && (
       <>
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
         <link rel="preconnect" href="https://googleads.g.doubleclick.net" />
@@ -87,7 +90,7 @@ const family = [
     </script>}
     {/* AdSense Auto Ads, same tag as blog/wiki/game SEO.astro. Gated on
         !noindex so noindex pages carry no ads. */}
-    {!noindex && (
+    {!adsOff && (
       <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9541920090543312" crossorigin="anonymous"></script>
     )}
     <title>{fullTitle}</title>
@@ -113,6 +116,7 @@ const family = [
       button,[role=button],a{touch-action:manipulation}@media(max-width:640px){.header-inner{min-height:64px}.shell{padding-inline:14px}.doc-grid{grid-template-columns:1fr}.footer-inner{grid-template-columns:repeat(2,minmax(0,1fr))}.footer-group:last-child{grid-column:1/-1}}
       /* Long consent/contact notices must wrap inside narrow footer tracks (2026-10-15 mobile regression). */
       .footer-group{min-width:0;overflow-wrap:anywhere}
+      .mail-cta{margin:36px 0 8px;padding:16px 18px;border:1px solid var(--border);border-radius:12px;background:var(--accent-soft);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}.mail-cta div{display:grid;gap:4px;min-width:0;flex:1 1 280px}.mail-cta strong{font-size:16px;line-height:1.35}.mail-cta span{color:var(--muted);font-size:13px}.mail-cta-btn{display:inline-block;padding:9px 16px;border-radius:999px;background:var(--accent);color:#fff;font-weight:700;text-decoration:none;white-space:nowrap}.mail-cta-btn:hover{text-decoration:none;filter:brightness(1.08)}
     </style>
   </head>
   <body>
@@ -147,10 +151,11 @@ const family = [
     <main class="shell">
       {crumbs.length > 0 && <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a>{crumbs.map((crumb) => crumb.href ? <a href={crumb.href}>{crumb.label}</a> : <span aria-current="page">{crumb.label}</span>)}</nav>}
       <slot />
-      <ManualAds noindex={noindex} />
+      {showMailCta && <aside class="mail-cta" aria-label="뉴스 메일 구독"><div><strong>세계 AI 거장들의 생각, 매주 가장 빠르게 받아 보세요</strong><span>지난 7일의 AI 핵심을 한국어로 골라 매주 한 통에 담아 보내요. 무료예요.</span></div><a class="mail-cta-btn" href="/subscribe/">무료로 매주 받아 보기</a></aside>}
+      <ManualAds noindex={adsOff} />
     </main>
     <footer class="site-footer"><div class="footer-inner">
-      <div class="footer-group"><strong>News</strong><a href="/">뉴스 홈</a><a href="/ai/">AI 뉴스·모델·도구</a><a href="/finance/">금융 뉴스·시장 브리핑</a><a href="/archive/">날짜별</a><a href="/saved/">저장한 뉴스</a></div>
+      <div class="footer-group"><strong>News</strong><a href="/">뉴스 홈</a><a href="/subscribe/">뉴스 메일 무료 구독</a><a href="/ai/">AI 뉴스·모델·도구</a><a href="/finance/">금융 뉴스·시장 브리핑</a><a href="/archive/">날짜별</a><a href="/saved/">저장한 뉴스</a></div>
       <div class="footer-group"><strong>안내</strong><span>날짜별 토론 댓글은 GitHub 로그인(giscus)으로 남겨요</span><span>출처 기반 AI·금융 큐레이션</span><span>개인화된 투자 권유가 아니에요</span><a href="https://paypal.me/chosean" target="_blank" rel="noopener noreferrer">OIYO 후원</a><a href="https://ko-fi.com/tqqq3" target="_blank" rel="noopener noreferrer">Ko-fi</a><a href="https://blog.oiyo.net/ko/privacy/">개인정보 처리방침</a><a href="https://blog.oiyo.net/ko/terms/">이용약관</a><span>© {new Date().getFullYear()} Oiyo Tech · <a href="https://blog.oiyo.net/ko/license/">라이선스</a></span></div>
       <div class="footer-group"><strong>OIYO 패밀리</strong>{family.map(([label,tag,href]) => <a href={`${href}?utm_source=news&utm_medium=footer&utm_campaign=family_nav`}><b>{label}</b><span>{tag}</span></a>)}</div>
     </div></footer>

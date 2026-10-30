@@ -14,7 +14,9 @@ test("subscription pages do not expose token URLs to analytics or referrers", ()
     const html = readFileSync(new URL(`../../dist/${page}/index.html`, import.meta.url), "utf8");
     assert.equal(html.includes("G-915L6V38X6"), false, page);
     assert.match(html, /<meta\s+name="referrer"\s+content="no-referrer"\s*\/?>(?:)/, page);
-    assert.match(html, /name="robots"\s+content="noindex, follow"/, page);
+    // 2026-10-30: 모집 공개로 토큰이 없는 /subscribe/ 랜딩만 색인을 허용하고, 토큰 페이지는 계속 noindex.
+    if (page === "subscribe") assert.equal(/name="robots"/.test(html), false, page);
+    else assert.match(html, /name="robots"\s+content="noindex, follow"/, page);
     assert.equal(html.includes("adsbygoogle.js"), false, page);
   }
   const home = readFileSync(new URL("../../dist/index.html", import.meta.url), "utf8");
