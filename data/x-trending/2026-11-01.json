@@ -1,0 +1,157 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-01",
+  "collected_at": "2026-11-01T07:14:50+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 스레드를 읽고 직접 썼어요. 게임 플레이테스트 에이전트, AI 활용 격차 논쟁, QwenPU, Anthropic 차단 비판, Gemini 업데이트 위주로 골랐어요. 4사 공동 robots.txt AI 학습 거부 토큰도 화제였지만 원 게시물 노출이 작아 카드에서 뺐어요. 한국 X 트렌드에는 AI 주제가 없었어요.",
+  "budget": {
+    "calls_used": 13
+  },
+  "posts": [
+    {
+      "id": "2116191580063404100",
+      "url": "https://x.com/Aura_Assistant/status/2116191580063404100",
+      "author": {
+        "username": "Aura_Assistant",
+        "name": "Aura",
+        "followers": 1644
+      },
+      "created_at": "2026-10-30T15:32:44.000Z",
+      "quote": "We're open-sourcing Autopilot.\n\nA self-improving agent that plays your game and finds bugs. Unity, Godot and Unreal.\n\n→ 43% more accurate\n→ Almost 2X faster\n→ Beats Claude Code at playtesting",
+      "metrics": {
+        "like": 3812,
+        "repost": 348,
+        "reply": 205,
+        "quote": 185,
+        "bookmark": 5245,
+        "impression": 1980711
+      },
+      "topic": "게임 플레이테스트 에이전트 Aura Autopilot 오픈소스",
+      "summary_ko": "게임 개발용 AI 에이전트를 만드는 Aura가 Unity·Godot·Unreal에서 게임을 직접 플레이하며 버그를 찾는 자기 개선형 에이전트 Autopilot을 오픈소스로 공개했어요. 자체 비교에서 Claude Code보다 43% 정확하고 거의 2배 빠르다고 주장해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2116029912243184006",
+      "url": "https://x.com/levie/status/2116029912243184006",
+      "author": {
+        "username": "levie",
+        "name": "Aaron Levie",
+        "followers": 3526739
+      },
+      "created_at": "2026-10-30T04:50:19.000Z",
+      "quote": "It’s almost incomprehensible how wide the distance is between someone who’s working at the frontier with AI and basically everyone else right now. \n\nThe crazy thing is these lines are not converging, ",
+      "metrics": {
+        "like": 9614,
+        "repost": 1160,
+        "reply": 858,
+        "quote": 470,
+        "bookmark": 5349,
+        "impression": 3073517
+      },
+      "topic": "AI 최전선과 나머지의 격차",
+      "summary_ko": "Box CEO Aaron Levie가 AI를 최전선에서 쓰는 사람과 나머지 사이의 거리가 믿기 어려울 만큼 벌어졌고, 두 선이 좁혀지지 않고 오히려 더 멀어지고 있다고 썼어요. 조회 300만 회를 넘기며 크게 퍼졌어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2116109588554498081",
+      "url": "https://x.com/dhh/status/2116109588554498081",
+      "author": {
+        "username": "dhh",
+        "name": "DHH",
+        "followers": 943624
+      },
+      "created_at": "2026-10-30T10:06:55.000Z",
+      "quote": "The real AI psychosis is thinking \"this is just another tool\" or \"it's just a stochastic parrot\" and \"humans still need to review every line\". You gotta snap out of it.",
+      "metrics": {
+        "like": 7384,
+        "repost": 447,
+        "reply": 536,
+        "quote": 154,
+        "bookmark": 693,
+        "impression": 365380
+      },
+      "topic": "DHH의 'AI 정신병' 발언",
+      "summary_ko": "Ruby on Rails를 만든 DHH가 AI를 '그냥 또 하나의 도구'나 '확률적 앵무새'로 보고 사람이 모든 줄을 검토해야 한다고 믿는 것이 진짜 'AI 정신병'이라며 정신 차리라고 썼어요. 댓글에선 찬반이 크게 갈렸어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2116544960023687432",
+      "url": "https://x.com/divagr1925/status/2116544960023687432",
+      "author": {
+        "username": "divagr1925",
+        "name": "div (fp32)",
+        "followers": 3505
+      },
+      "created_at": "2026-10-31T14:56:56.000Z",
+      "quote": "1/3  \n\nA CPU inside an LLM is one thing, but running another LLM inside an LLM would be taking things a bit too far, wouldn't it?   \n\nAnyways, here's an LLM running inside an LLM : QwenPU, an LLM (@ka",
+      "metrics": {
+        "like": 1244,
+        "repost": 127,
+        "reply": 97,
+        "quote": 62,
+        "bookmark": 743,
+        "impression": 58392
+      },
+      "topic": "LLM 안에서 도는 LLM, QwenPU",
+      "summary_ko": "Qwen 가중치 안에 RISC-V CPU를 넣었던 개발자가 이번엔 Qwen 3.5-4B 가중치 안에 NPU를 컴파일해 Karpathy의 stories260K를 돌리는 QwenPU를 공개했어요. 외부 도구 없이 행렬곱·어텐션을 비트 단위로 정확히 계산한대요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-8890fb31bbae29e9"
+      ]
+    },
+    {
+      "id": "2116475922190922088",
+      "url": "https://x.com/jiahaoshao1/status/2116475922190922088",
+      "author": {
+        "username": "jiahaoshao1",
+        "name": "Jiahao Shao",
+        "followers": 523
+      },
+      "created_at": "2026-10-31T10:22:36.000Z",
+      "quote": "Shame on @DarioAmodei / Anthropic. I never distilled Claude—rollouts came from a strong open-source model; Claude just helped submit jobs and run analysis. Still got tagged for \"training a competitor,",
+      "metrics": {
+        "like": 1606,
+        "repost": 79,
+        "reply": 63,
+        "quote": 16,
+        "bookmark": 186,
+        "impression": 118387
+      },
+      "topic": "Anthropic '경쟁 모델 학습' 차단 비판",
+      "summary_ko": "HKUST 박사과정생이 Claude를 증류하지 않았는데도 '경쟁 모델 학습'으로 분류돼 RFT·SFT 관련 작업마다 차단되거나 Opus 5.5가 Opus 5로 강등된다고 Anthropic을 비판했어요. 한 사용자의 주장이고 Anthropic 입장은 없어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-3adde024795e45ed"
+      ]
+    },
+    {
+      "id": "2116304609383710988",
+      "url": "https://x.com/GeminiApp/status/2116304609383710988",
+      "author": {
+        "username": "GeminiApp",
+        "name": "Google Gemini",
+        "followers": 606838
+      },
+      "created_at": "2026-10-30T23:01:52.000Z",
+      "quote": "Whether you're tackling complex projects with Gemini 4 Argon, connecting your favorite apps to Gemini, or creating a custom skill for repetitive prompts, our latest Gemini Drops put more power and per",
+      "metrics": {
+        "like": 1333,
+        "repost": 107,
+        "reply": 101,
+        "quote": 38,
+        "bookmark": 332,
+        "impression": 135638
+      },
+      "topic": "Gemini Drops: Gemini 4 Argon·채팅 안 파일 편집·스킬",
+      "summary_ko": "Google Gemini가 이번 업데이트 묶음을 스레드로 소개했어요. 최상위 모델 Gemini 4 Argon, Mac 앱의 Antigravity 코딩 전환, 반복 지시를 저장하는 스킬, 채팅 안에서 PDF·Docs·Sheets를 만들고 고치는 기능, 음악 모델 Lyria 3.5 등이 들어 있어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-36b4a065fc7591f9"
+      ]
+    }
+  ]
+}
