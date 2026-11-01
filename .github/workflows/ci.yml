@@ -48,6 +48,8 @@ jobs:
 
       - name: Type Check
         run: npm run type-check
+      - name: Remote showcase sync contract
+        run: node --test scripts/test/showcase-sync.test.mjs
 
       - name: Build
         run: npm run build

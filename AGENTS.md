@@ -44,7 +44,7 @@ collect-market.mjs → company-brain/reports/market-latest.json
 | `scripts/apply-detail-summaries.mjs` | `{id, detailSummary}` 적용 |
 | `scripts/daily-publish.sh` | 발행(입력 나이 보고 포함) |
 | `scripts/lib/news-pipeline-sources.json` | **소스 이름 SSOT** |
-| `scripts/sync-showcase-weekly.mjs` | `show.oiyo.net` 주간 상위작 + X/인스타 초안 → `src/data/showcase-weekly.json` (`npm run showcase:sync`) |
+| `scripts/sync-showcase-weekly.mjs` | `https://show.oiyo.net/weekly.json`의 검증된 주간 자료 → `src/data/showcase-weekly.json` (`npm run showcase:sync`). 로컬 Show 불필요. 실패하면 기존 자료 보존. `SHOW_WEEKLY_PAYLOAD_PATH`는 검증된 JSON 파일 입력, `SHOW_SUBMISSIONS_PATH`는 명시적 로컬 시험용 |
 | `scripts/generate-daily-video-briefing.mjs` | 당일 AI·금융 Top 5 → 60초 세로형(9:16) TTS 대본·씬 타임라인·HTML 스토리보드 (`npm run video:briefing`) |
 
 ## 지켜야 할 계약

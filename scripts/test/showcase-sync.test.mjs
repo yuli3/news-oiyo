@@ -45,3 +45,58 @@ test('malformed Show data or rejected contract leaves previous News data intact'
   assert.notEqual(f.run().status, 0);
   assert.equal(fs.readFileSync(f.output, 'utf8'), 'original-published-payload');
 });
+
+const publishedFeed = () => ({ schemaVersion: 1, week: '2026-W43', eligibleCount: 0,
+  newsCard: { mode: 'open-call', section: '인디 제품 쇼케이스', headline: '기존 주차',
+    summary: '운영자 제품 소개', showcaseUrl: 'https://show.oiyo.net/',
+    submitUrl: 'https://show.oiyo.net/submit/', featuredSeeds: [] }, socialDrafts: { xPost: '' } });
+function remoteFixture(t) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'oiyo-show-remote-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const script = path.join(root, 'sync.mjs'), output = path.join(root, 'published.json');
+  fs.copyFileSync(new URL('../sync-showcase-weekly.mjs', import.meta.url), script);
+  fs.writeFileSync(output, 'last-good');
+  return { root, output, run(options = {}) {
+    const env = { ...process.env, SHOWCASE_OUTPUT_PATH: output };
+    delete env.SHOW_SUBMISSIONS_PATH; delete env.SHOW_WEEKLY_PAYLOAD_PATH;
+    const args = [];
+    if ('text' in options) {
+      const feed = path.join(root, 'feed.json'); fs.writeFileSync(feed, options.text);
+      env.SHOW_WEEKLY_PAYLOAD_PATH = feed;
+    } else {
+      const stub = path.join(root, 'fetch.mjs');
+      // Exercise the public CLI and fetch contract without a network or a sibling Show repo.
+      fs.writeFileSync(stub, `globalThis.fetch = async (url, options) => {
+        if (url !== 'https://show.oiyo.net/weekly.json' || options.redirect !== 'error' || !options.signal) throw new Error('wrong fetch contract');
+        ${options.reject ? "throw new Error('offline');" : `return new Response(${JSON.stringify(options.body ?? JSON.stringify(publishedFeed()))}, { status: ${options.status ?? 200}, headers: { 'content-type': ${JSON.stringify(options.type ?? 'application/json')} } });`}
+      };`);
+      args.push('--import', stub);
+    }
+    return spawnSync(process.execPath, [...args, script], { env, encoding: 'utf8' });
+  } };
+}
+test('remote JSON sync works without any Show checkout and preserves the source week', t => {
+  const f = remoteFixture(t); const r = f.run(); assert.equal(r.status, 0, r.stderr);
+  const { schemaVersion, ...expected } = publishedFeed();
+  assert.deepEqual(JSON.parse(fs.readFileSync(f.output)), expected);
+  assert.equal(fs.existsSync(path.join(f.root, 'show')), false);
+  assert.equal(fs.readdirSync(f.root).some(n => n.startsWith('.showcase-sync-')), false);
+});
+test('invalid version/week/link/content cannot replace the last good published payload', t => {
+  const f = remoteFixture(t);
+  for (const change of [d => { d.schemaVersion = 2; }, d => { d.week = '2026-W99'; },
+    d => { d.newsCard.showcaseUrl = 'https://example.test/'; },
+    d => { d.socialDrafts.xPost = 'invented winner'; }, d => { d.eligibleCount = -1; }]) {
+    const data = publishedFeed(); change(data);
+    assert.notEqual(f.run({ text: JSON.stringify(data) }).status, 0);
+    assert.equal(fs.readFileSync(f.output, 'utf8'), 'last-good');
+  }
+});
+test('network failure, HTTP error, HTML, malformed JSON and oversized feeds preserve prior output', t => {
+  const f = remoteFixture(t);
+  for (const options of [{ reject: true }, { status: 503 }, { type: 'text/html', body: '<h1>no</h1>' },
+    { body: '{' }, { body: ' '.repeat(70 * 1024) }]) {
+    assert.notEqual(f.run(options).status, 0);
+    assert.equal(fs.readFileSync(f.output, 'utf8'), 'last-good');
+  }
+});
