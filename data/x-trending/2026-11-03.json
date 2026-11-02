@@ -1,0 +1,177 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-03",
+  "collected_at": "2026-11-03T07:01:40+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 링크를 읽고 직접 썼어요. SemiAnalysis GDPx 벤치마크, Anthropic 메시지 스레드·워터마크·S-1 RSI 공개, Revolut 오픈소스 코딩 전환, Open Duet 위주로 골랐어요. 한국 X 트렌드에는 AI 주제가 없었어요.",
+  "budget": {
+    "calls_used": 14
+  },
+  "posts": [
+    {
+      "id": "2117075900575477855",
+      "url": "https://x.com/SemiAnalysis_/status/2117075900575477855",
+      "author": {
+        "username": "SemiAnalysis_",
+        "name": "SemiAnalysis",
+        "followers": 181093
+      },
+      "created_at": "2026-11-02T02:06:42.000Z",
+      "quote": "Today we’re releasing GDPx, a benchmark for measuring agentic capabilities across the most valuable domains.\n\nGDPx is a true frontier-level benchmark: even the best model scores just 12% (1/7)",
+      "metrics": {
+        "like": 3034,
+        "repost": 294,
+        "reply": 320,
+        "quote": 407,
+        "bookmark": 1242,
+        "impression": 1430598
+      },
+      "topic": "SemiAnalysis GDPx 벤치마크",
+      "summary_ko": "SemiAnalysis가 칩 설계·사이버보안·금융 등 11개 영역의 에이전트 과제 206개로 된 GDPx를 공개했고, 최고점이 Claude Opus 5.5의 12%라고 했어요. Sundar Pichai도 품질과 Carbon의 비용 줄을 주목했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2117332449382510884",
+      "url": "https://x.com/ClaudeDevs/status/2117332449382510884",
+      "author": {
+        "username": "ClaudeDevs",
+        "name": "ClaudeDevs",
+        "followers": 792639
+      },
+      "created_at": "2026-11-02T19:06:08.000Z",
+      "quote": "Message threads are now in public beta on the Messages API.\n\nThe API caches your conversation on the server between turns, so instead of resending the full conversation, you send only new messages and the previous message ID, and Claude starts responding sooner.",
+      "metrics": {
+        "like": 4030,
+        "repost": 134,
+        "reply": 161,
+        "quote": 101,
+        "bookmark": 1157,
+        "impression": 241528
+      },
+      "topic": "Claude 메시지 스레드 공개 베타",
+      "summary_ko": "Anthropic이 Messages API에 메시지 스레드를 공개 베타로 넣었어요. 대화 이력을 서버에 캐시해 새 메시지와 이전 ID만 보내면 되고, 긴 세션에서 첫 응답까지 시간이 줄어든다고 안내했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2117228989010088395",
+      "url": "https://x.com/m0xt_/status/2117228989010088395",
+      "author": {
+        "username": "m0xt_",
+        "name": "m0xt",
+        "followers": 5781
+      },
+      "created_at": "2026-11-02T12:15:01.000Z",
+      "quote": "Revolut: Europe's most valuable startup ($200B) just showed the world its AI strategy.\n\nEvery company will end up copying it.\n\nAt the start of this year, Revolut leaned on the frontier labs. Its 2,000 engineers used Claude Code and Codex, and some burned $1,000 to $10,000 a month",
+      "metrics": {
+        "like": 1314,
+        "repost": 144,
+        "reply": 80,
+        "quote": 29,
+        "bookmark": 1113,
+        "impression": 159054
+      },
+      "topic": "Revolut 오픈소스 코딩 AI 전환",
+      "summary_ko": "Revolut가 엔지니어 기본 코딩 AI를 Claude·Codex에서 자체 호스팅 GLM으로 바꿨고, 비용은 약 1/10, 코딩·리드 타임은 각각 60%·70% 줄었다고 정리한 글이에요. 프런티어 모델은 어려운 일에만 예외로 쓴다고 했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2117285761641001040",
+      "url": "https://x.com/MTSlive/status/2117285761641001040",
+      "author": {
+        "username": "MTSlive",
+        "name": "MTS",
+        "followers": 575826
+      },
+      "created_at": "2026-11-02T16:00:37.000Z",
+      "quote": "SITUATION DETECTED: In an amended S-1 filed this morning, Anthropic disclosed that internal estimates show its models may imminently cross its RSI Responsible Scaling Policy threshold for \"dramatically accelerated progress attributable to AI\".",
+      "metrics": {
+        "like": 1898,
+        "repost": 105,
+        "reply": 68,
+        "quote": 66,
+        "bookmark": 311,
+        "impression": 422976
+      },
+      "topic": "Anthropic S-1 RSI 임계치 공개",
+      "summary_ko": "Anthropic이 수정 S-1에서 앞으로의 모델이 Responsible Scaling Policy의 'AI로 인한 극적 가속' 기준에 곧 닿을 수 있다고 밝혔다는 소식이에요. 현재 모델은 아직 그 선을 넘지 않았다고 덧붙였어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-936be36695c75fa8",
+        "trend-62ca6ab0087a7791"
+      ]
+    },
+    {
+      "id": "2117113121102045347",
+      "url": "https://x.com/sundarpichai/status/2117113121102045347",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11890163
+      },
+      "created_at": "2026-11-02T04:34:36.000Z",
+      "quote": "Great to see high quality benchmarks with headroom and look at that cost line for Carbon🚀",
+      "metrics": {
+        "like": 4012,
+        "repost": 248,
+        "reply": 321,
+        "quote": 55,
+        "bookmark": 332,
+        "impression": 425402
+      },
+      "topic": "Pichai, GDPx·Carbon 비용 반응",
+      "summary_ko": "Sundar Pichai가 SemiAnalysis GDPx를 인용하며 여유 있는 고품질 벤치마크와 Gemini 4 Carbon의 과제당 비용 줄을 눈여겨본다고 짧게 남겼어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2114684718264594605",
+      "url": "https://x.com/RoundtableSpace/status/2114684718264594605",
+      "author": {
+        "username": "RoundtableSpace",
+        "name": "0xMarioNawfal",
+        "followers": 271032
+      },
+      "created_at": "2026-10-26T11:45:00.000Z",
+      "quote": "Claude Duet is waitlist-only for now. Someone open-sourced their own version.\n\nOpen Duet lets you build a team of AI coworkers that run on your computer. Give each one a name and a job, like researcher, writer or support. A lead agent hands work to the others, they remember",
+      "metrics": {
+        "like": 112,
+        "repost": 9,
+        "reply": 23,
+        "quote": 0,
+        "bookmark": 78,
+        "impression": 49633
+      },
+      "topic": "Open Duet 셀프호스트 에이전트 팀",
+      "summary_ko": "Claude Duet이 대기자 명단인 가운데, 로컬에서 역할별 AI 동료 팀을 만들고 스케줄·승인 단계를 두는 오픈소스 Open Duet이 소개됐어요. Apache-2.0이고 GitHub 스타가 빠르게 늘었다고 해요.",
+      "link": "https://github.com/Anil-matcha/open-duet",
+      "related_item_ids": []
+    },
+    {
+      "id": "2116997178644406647",
+      "url": "https://x.com/awhxtech/status/2116997178644406647",
+      "author": {
+        "username": "awhxtech",
+        "name": "AWH Industries",
+        "followers": 6
+      },
+      "created_at": "2026-11-01T20:53:53.000Z",
+      "quote": "Starting Tuesday, Nov 3, Anthropic adds its invisible text watermark to four more Claude models: Mythos 5, Opus 4.7, Opus 4.6 and Sonnet 4.6. Newer models already carry it. It covers the API, the Claude apps and Claude Code, worldwide, under the EU AI Act.",
+      "metrics": {
+        "like": 2,
+        "repost": 0,
+        "reply": 2,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 85
+      },
+      "topic": "Claude 텍스트 워터마크 확대",
+      "summary_ko": "11월 3일부터 Anthropic이 Mythos 5·Opus 4.7·Opus 4.6·Sonnet 4.6에도 보이지 않는 텍스트 워터마크를 넣는다고 정리한 글이에요. EU AI Act 대응이며 API·앱·Claude Code에 적용된다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
