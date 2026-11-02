@@ -27,6 +27,13 @@ export function tagItem(item, topics) {
   return topics.filter((t) => t.patterns.some((p) => p.test(text))).map((t) => t.id);
 }
 
+// WHY 2026-11-02: a topic word buried in a long summary still counts the story, but it
+// made poor newsletter examples (Mistral weights under "보안", Nasdaq under "반도체").
+// Examples prefer stories whose title names the topic (a side word in the summary still counts).
+export function headlineHit(item, topic) {
+  return topic.patterns.some((p) => p.test(item.title ?? ""));
+}
+
 // Monday of the week containing a YYYY-MM-DD date.
 export function weekStart(date) {
   const d = new Date(`${date}T00:00:00Z`);
@@ -41,6 +48,7 @@ function addDays(date, n) {
 }
 
 export function countWeek(days, topics, start) {
+  const byId = Object.fromEntries(topics.map((t) => [t.id, t]));
   const end = addDays(start, 6);
   const counts = new Map();
   let items = 0;
@@ -52,7 +60,7 @@ export function countWeek(days, topics, start) {
         const c = counts.get(id) ?? { items: 0, days: new Set(), examples: [] };
         c.items += 1;
         c.days.add(day.date);
-        c.examples.push({ date: day.date, title: item.title, url: item.url, score: item.score ?? 0 });
+        c.examples.push({ date: day.date, title: item.title, url: item.url, score: item.score ?? 0, headline: headlineHit(item, byId[id]) });
         counts.set(id, c);
       }
     }
@@ -68,7 +76,9 @@ export function rankWeek(days, topics, start, top = 10) {
     .map(([id, c]) => ({
       id, label: label[id], items: c.items, days: c.days.size, prevItems: prev.counts.get(id)?.items ?? 0,
       // Show the most-discussed stories, not whichever came first.
-      examples: c.examples.sort((a, b) => b.score - a.score).slice(0, 3).map(({ score, ...e }) => e),
+      examples: c.examples
+        .sort((a, b) => Number(b.headline) - Number(a.headline) || b.score - a.score)
+        .slice(0, 3).map(({ score, headline, ...e }) => e),
     }))
     // Topics seen on one day only are usually a single story, not a trend.
     .filter((r) => r.days >= 2)

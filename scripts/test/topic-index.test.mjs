@@ -34,3 +34,16 @@ test("rankWeek counts each item once, drops one-day topics, compares with the we
   assert.deepEqual(r.rows.map((x) => [x.id, x.items, x.days, x.prevItems]), [["anthropic", 2, 2, 1]]);
   assert.equal(r.rows[0].examples[0].title, "클로드");
 });
+
+test("examples prefer title hits over higher-scored side mentions in the summary", () => {
+  const days = [
+    { date: "2026-10-20", items: [{ title: "New model weights", summary: "보안 성능도 올렸어요", score: 99 }] },
+    { date: "2026-10-21", items: [{ title: "Binance 해킹 사건", score: 3 }] },
+  ];
+  const sec_topics = compileTopics({ topics: [{ id: "security", label: "보안", aliases: ["보안", "해킹"] }] });
+  const r = rankWeek(days, sec_topics, "2026-10-19", 10);
+  const sec = r.rows.find((x) => x.id === "security");
+  assert.equal(sec.items, 2); // counting is unchanged
+  assert.equal(sec.examples[0].title, "Binance 해킹 사건");
+  assert.ok(!("headline" in sec.examples[0]));
+});
