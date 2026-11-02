@@ -19,14 +19,14 @@ export const AI_PRICE_SOURCES: AiPriceSource[] = [
   {
     provider: "OpenAI",
     product: "API",
-    pricingUrl: "https://openai.com/api/pricing/",
+    pricingUrl: "https://developers.openai.com/api/docs/pricing",
     checks: ["모델별 입력·출력 단가", "Batch API 할인", "캐시된 입력 할인"],
     lastChange: null,
   },
   {
     provider: "Anthropic",
     product: "Claude API",
-    pricingUrl: "https://www.anthropic.com/pricing",
+    pricingUrl: "https://platform.claude.com/docs/en/about-claude/pricing",
     checks: ["모델별 입력·출력 단가", "프롬프트 캐싱 단가", "Message Batches 할인"],
     lastChange: null,
   },

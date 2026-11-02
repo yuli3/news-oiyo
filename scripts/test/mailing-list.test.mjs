@@ -267,7 +267,7 @@ test("digest keeps our summary, drops excerpts and internal notes", () => {
   assert.equal(digest.text.includes("오이요"), false);
   assert.equal(digest.text.includes("빈 배열"), false);
   assert.equal(digest.text.includes("http://example.com"), false);
-  assert.match(digest.subject, /^\[광고\]/);
+  assert.match(digest.subject, /^\(광고\) /);
 });
 
 test("weekly digest keeps three items a day for seven days", () => {

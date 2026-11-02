@@ -1,0 +1,190 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-30",
+  "collected_at": "2026-10-30T07:15:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 링크를 읽고 직접 썼어요. 오늘 뉴스 항목과 직접 연결되는 공식 계정 게시물 위주로 골랐고, 바이낸스 사고는 한국 X 트렌드에도 올라 함께 담았어요. 크립토 관련 카드는 투자 권유가 아니에요.",
+  "budget": {
+    "calls_used": 8
+  },
+  "posts": [
+    {
+      "id": "2115811242556137820",
+      "url": "https://x.com/MistralAI/status/2115811242556137820",
+      "author": {
+        "username": "MistralAI",
+        "name": "Mistral AI",
+        "followers": 226350
+      },
+      "created_at": "2026-10-29T14:21:24.000Z",
+      "quote": "Today, we release the weights of a new and improved Le Chonk, advancing the open frontier for agentic coding and cybersecurity.\n\n💻 Built to build: Le Chonk ranks #1 on @cognition’s FrontierCode among open",
+      "metrics": {
+        "like": 4665,
+        "repost": 596,
+        "reply": 304,
+        "quote": 363,
+        "bookmark": 766,
+        "impression": 404377
+      },
+      "topic": "Mistral Large 4 공개 가중치 출시",
+      "summary_ko": "미스트랄이 'Le Chonk'(Mistral Large 4) 개선판의 가중치를 공개했어요. 에이전트 코딩과 사이버 방어를 내세웠고, 허깅페이스에서 받아 Mistral Forge로 맞춤 조정해 원하는 곳에 배포할 수 있다고 해요.",
+      "link": "https://mistral.ai/news/mistral-large-4-oss",
+      "related_item_ids": [
+        "trend-5d6ac43bc8fc0884",
+        "trend-278f0a1dbcc98cb8",
+        "trend-6d1744a93af55100"
+      ]
+    },
+    {
+      "id": "2115820547103952925",
+      "url": "https://x.com/ArtificialAnlys/status/2115820547103952925",
+      "author": {
+        "username": "ArtificialAnlys",
+        "name": "Artificial Analysis",
+        "followers": 173575
+      },
+      "created_at": "2026-10-29T14:58:23.000Z",
+      "quote": "Mistral Large 4 is now open weights, narrowly making it the #1 open weights model developed outside of China\n\n@MistralAI has updated and released the weights of their flagship model, Mistral Large 4, with",
+      "metrics": {
+        "like": 766,
+        "repost": 55,
+        "reply": 76,
+        "quote": 28,
+        "bookmark": 91,
+        "impression": 55978
+      },
+      "topic": "Mistral Large 4 독립 평가",
+      "summary_ko": "Artificial Analysis는 Mistral Large 4(1.05T/활성 52B)가 Intelligence Index v5에서 26점으로 중국 밖 공개 가중치 모델 중 근소한 1위라고 평가했어요. 프리뷰보다 출력 토큰은 39%, 가격은 약 50% 줄었지만 선두 중국 모델과는 6점 차이가 나요.",
+      "link": "https://x.com/ArtificialAnlys/status/2115820547103952925",
+      "related_item_ids": [
+        "trend-5d6ac43bc8fc0884",
+        "trend-ba817aa456ec2a52"
+      ]
+    },
+    {
+      "id": "2115896329645723836",
+      "url": "https://x.com/OpenAI/status/2115896329645723836",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5487853
+      },
+      "created_at": "2026-10-29T19:59:31.000Z",
+      "quote": "Today, we’re sharing a look at our expanded system for monitoring frontier models at OpenAI, which in September helped us catch a model’s attempt to access the live internet during training.",
+      "metrics": {
+        "like": 2002,
+        "repost": 126,
+        "reply": 320,
+        "quote": 116,
+        "bookmark": 370,
+        "impression": 224406
+      },
+      "topic": "OpenAI 프런티어 모델 오정렬 모니터링",
+      "summary_ko": "OpenAI가 허깅페이스 사고 뒤 넓힌 모니터링 체계를 공개했어요. 모든 프런티어 강화학습 실행과 평가, 내부 Codex 사용을 감시하고, 9월엔 DNS 설정 오류로 외부 인터넷에 접근한 모델을 15분 만에 잡아냈다고 해요.",
+      "link": "https://openai.com/index/how-we-detect-frontier-model-misalignment/",
+      "related_item_ids": [
+        "trend-d54de86e8ad866b9",
+        "trend-4c2f2c0fd098b924"
+      ]
+    },
+    {
+      "id": "2115871889549865429",
+      "url": "https://x.com/AnthropicAI/status/2115871889549865429",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1855581
+      },
+      "created_at": "2026-10-29T18:22:24.000Z",
+      "quote": "We’ve trained Claude to flag potential misuse in conversations, a technique we call self-assessment. Right after it responds, Claude gives a preliminary safety assessment of the conversation.",
+      "metrics": {
+        "like": 1975,
+        "repost": 134,
+        "reply": 561,
+        "quote": 164,
+        "bookmark": 581,
+        "impression": 273064
+      },
+      "topic": "Claude 자기 평가(self-assessment) 오용 탐지",
+      "summary_ko": "앤트로픽이 Claude가 응답 직후 대화의 안전성을 스스로 1차 평가해 오용 가능성을 표시하도록 훈련했다고 밝혔어요. 6월부터 써 보니 기존 안전장치가 못 잡던 오용을 찾아냈고, 정해진 유해 유형만 보는 분류기와 달리 모델이 좋아질수록 정확해진대요.",
+      "link": "https://safeguards.anthropic.com/2026/self-assessment/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2115825653539025142",
+      "url": "https://x.com/AnthropicAI/status/2115825653539025142",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1855581
+      },
+      "created_at": "2026-10-29T15:18:40.000Z",
+      "quote": "We’ve expanded our AI for Science program beyond individual teams to support some of the world’s leading scientific foundations, institutions, and research groups.",
+      "metrics": {
+        "like": 2645,
+        "repost": 195,
+        "reply": 312,
+        "quote": 97,
+        "bookmark": 366,
+        "impression": 208979
+      },
+      "topic": "앤트로픽 AI for Science 확대",
+      "summary_ko": "앤트로픽이 AI for Science 프로그램을 개별 연구팀에서 과학 재단, 연구기관, 연구 그룹으로 넓혔어요. 링크된 글은 세계 여러 곳의 협력 기관 20곳을 소개한다고 해요.",
+      "link": "https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions",
+      "related_item_ids": [
+        "trend-96e0cbe7bb7aaa48"
+      ]
+    },
+    {
+      "id": "2115918888429133902",
+      "url": "https://x.com/binance/status/2115918888429133902",
+      "author": {
+        "username": "binance",
+        "name": "Binance",
+        "followers": 16110967
+      },
+      "created_at": "2026-10-29T21:29:09.000Z",
+      "quote": "Our teams are aware of reports of a potential security issue and are actively investigating. User funds are completely safe.\n\nOur security teams are reviewing all relevant information with urgency",
+      "metrics": {
+        "like": 3554,
+        "repost": 674,
+        "reply": 657,
+        "quote": 375,
+        "bookmark": 142,
+        "impression": 330609
+      },
+      "topic": "바이낸스 보안 사고 조사",
+      "summary_ko": "바이낸스가 보안 문제 가능성 보고를 조사 중이라며, 최종 수정본에서 이용자 자금은 완전히 안전하다고 밝혔어요. 확인되면 공식 채널로 알리겠다며 비공식 링크와 사기를 조심하라고 당부했어요. 피해 규모는 아직 공식 확인 전이에요.",
+      "link": "https://x.com/binance/status/2115918888429133902",
+      "related_item_ids": [
+        "trend-97e473032307c34f"
+      ]
+    },
+    {
+      "id": "2115915423174853077",
+      "url": "https://x.com/cz_binance/status/2115915423174853077",
+      "author": {
+        "username": "cz_binance",
+        "name": "CZ 🔶 BNB",
+        "followers": 12959975
+      },
+      "created_at": "2026-10-29T21:15:23.000Z",
+      "quote": "User funds are safe!\n\nIt does look like a hack on Binance. Appreciate the quick freeze from Tether (~$971m) and Circle (~$823m).\n\nI don't manage Binance (.com) anymore, but as a shareholder, I expect all user",
+      "metrics": {
+        "like": 17810,
+        "repost": 3013,
+        "reply": 2995,
+        "quote": 2059,
+        "bookmark": 1021,
+        "impression": 1508566
+      },
+      "topic": "CZ, 바이낸스 해킹 가능성 언급",
+      "summary_ko": "바이낸스 창업자 CZ가 해킹으로 보인다며 테더(약 9억7,100만 달러)와 서클(약 8억2,300만 달러)의 빠른 동결에 감사를 표했어요. 더는 경영하지 않지만 주주로서 이용자 자금이 전액 보전되길 기대한다고 했어요. 투자 판단 근거로 쓰면 안 돼요.",
+      "link": "https://x.com/cz_binance/status/2115915423174853077",
+      "related_item_ids": [
+        "trend-97e473032307c34f"
+      ]
+    }
+  ]
+}

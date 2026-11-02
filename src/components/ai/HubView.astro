@@ -1,0 +1,55 @@
+---
+// Use-case hub body, shared by /ai/use-cases/ (ko) and /ai/{lang}/use-cases/ (2026-10-20).
+import type { Guide, KeywordCategory } from "../../data/ai-use-cases";
+import { UI, guidePath, pricingPath, type Locale } from "../../data/ai-i18n";
+interface Props { lang: Locale; guides: Guide[]; keywordMap: KeywordCategory[] }
+const { lang, guides, keywordMap } = Astro.props;
+const t = UI[lang];
+const ready = new Set(guides.map((g) => g.slug));
+const total = keywordMap.reduce((n, c) => n + c.cases.length, 0);
+---
+<h1>{t.hubH1}</h1>
+<p class="lede">{t.hubLede}</p>
+<slot />
+
+<h2>{t.hubReady}</h2>
+<div class="guides">
+  {guides.map((g) => (
+    <a class="guide" href={guidePath(lang, g.slug)}>
+      <span class="cat">{g.category} · {t.checkedOn} {g.checked}</span>
+      <strong>{g.title}</strong>
+      <span>{g.description}</span>
+    </a>
+  ))}
+</div>
+
+<h2>{t.hubMore(total)}</h2>
+<p class="sub">{t.hubMoreLede}</p>
+{keywordMap.map((c) => (
+  <section class="cat-block" aria-label={c.category}>
+    <h3>{c.category}</h3>
+    {c.cases.map((k) => {
+      const has = k.slug && ready.has(k.slug);
+      return (
+        <details>
+          <summary>{has ? <a href={guidePath(lang, k.slug!)}>{k.name}</a> : <span>{k.name}</span>}{has ? <em>{t.guideReady}</em> : <em class="soon">{t.soon}</em>}</summary>
+          <ul>{k.keywords.map((w) => <li>{w}</li>)}</ul>
+        </details>
+      );
+    })}
+  </section>
+))}
+
+<p><a href={pricingPath(lang)}>{t.hubPricing}</a></p>
+
+<style>
+  .guides{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .guide{display:flex;flex-direction:column;gap:6px;padding:16px;border:1px solid var(--border);border-radius:8px;color:var(--ink);text-decoration:none;background:var(--card)}
+  .guide:hover{background:var(--accent-soft)}.guide strong{font-size:16px;line-height:1.4}.guide span{font-size:14px;color:var(--muted)}.guide .cat{font-size:12px}
+  .cat-block{margin-top:20px}.cat-block h3{font-size:16px;margin:0 0 6px}
+  details{border-bottom:1px solid var(--border)}
+  summary{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;cursor:pointer;font-weight:700}
+  summary a{color:var(--accent)}summary em{font-style:normal;font-size:12px;color:var(--accent)}summary em.soon{color:var(--muted)}
+  details ul{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0 0 12px;margin:0}
+  details li{font-size:13px;padding:2px 8px;border:1px solid var(--border);border-radius:999px;color:var(--muted)}
+</style>

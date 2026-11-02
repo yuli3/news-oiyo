@@ -4,7 +4,7 @@
  *
  * 당일 AI·금융 60초 브리핑을
  * 1) 로컬 TTS(macOS say 'Yuna' 음성) 음성 합성 및 AAC 오디오 트랙 생성
- * 2) 1080x1920 (9:16) SVG 슬라이드 생성 및 macOS sips 고해상도 PNG 변환
+ * 2) 1080x1920 (9:16) SVG 슬라이드 생성 및 기존 rsvg-convert 고해상도 PNG 변환
  * 3) FFmpeg concat demuxer를 통한 실비디오(<date>-briefing.mp4) 렌더링
  * 4) HeyGen Hyperframes 호환 매니페스트(<date>-hyperframes.json) 생성
  * 5) 오디오 동기화 인터랙티브 HTML5 웹 플레이어(<date>-player.html) 생성
@@ -15,7 +15,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { storySections } from "./lib/story-scope.mjs";
 
@@ -31,7 +31,7 @@ const news = JSON.parse(fs.readFileSync(newsPath, "utf8"));
 const days = Array.isArray(news.days) ? news.days : [];
 const targetDateArg = process.argv.find((a) => /^\d{4}-\d{2}-\d{2}$/.test(a));
 const targetDay =
-  (targetDateArg ? days.find((d) => d.date === targetDateArg) : null) ||
+  targetDateArg ? days.find((d) => d.date === targetDateArg) :
   days.find((d) => Array.isArray(d.items) && d.items.length > 0);
 
 if (!targetDay) {
@@ -124,8 +124,8 @@ scenes.push({
   badge: "OIYO News",
   tag: "더 알아보기",
   headline: "자세한 뉴스 원문은 news.oiyo.net",
-  subline: "매일 아침 AI가 팩트체크하고 요약하는 데일리 뉴스 포털",
-  narration: "자세한 원문과 팩트체크는 프로필 링크 news.oiyo.net에서 확인하세요.",
+  subline: "AI·금융 소식과 원문 출처를 함께 확인해요",
+  narration: "자세한 원문 출처는 프로필 링크 news.oiyo.net에서 확인하세요.",
   isHook: false,
 });
 
@@ -145,21 +145,21 @@ for (let i = 0; i < scenes.length; i++) {
   const m4aPath = path.resolve(tmpDir, `scene_${i}.m4a`);
 
   try {
-    execSync(`say -v Yuna -o "${aiffPath}" "${sc.narration}"`);
-    execSync(`ffmpeg -y -i "${aiffPath}" -c:a aac "${m4aPath}" 2>/dev/null`);
-    const durStr = execSync(
-      `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${m4aPath}"`
-    )
+    execFileSync("say", ["-v", "Yuna", "-r", "230", "-o", aiffPath, sc.narration]);
+    execFileSync("ffmpeg", ["-y", "-i", aiffPath, "-c:a", "aac", m4aPath], { stdio: "pipe" });
+    const durStr = execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", m4aPath])
       .toString()
       .trim();
-    const dur = Math.max(3.0, parseFloat(durStr) || 8.0);
+    const rawDuration = Number(durStr);
+    if (!Number.isFinite(rawDuration) || rawDuration <= 0) throw new Error("Invalid narration duration");
+    const dur = Math.max(3.0, rawDuration);
     sc.duration = dur;
     sceneDurations.push(dur);
     audioFiles.push(m4aPath);
   } catch (err) {
-    console.warn(`  ⚠️ Scene ${i} TTS 오류 (기본 시간 적용):`, err.message);
-    sc.duration = i === 0 ? 5.0 : 11.0;
-    sceneDurations.push(sc.duration);
+    // WHY 2026-10-25: a partial narration must never masquerade as a completed video.
+    console.error(`Scene ${i} narration failed: ${err.message}`);
+    process.exit(1);
   }
 }
 
@@ -170,11 +170,22 @@ fs.writeFileSync(concatListPath, concatListContent, "utf8");
 
 const fullAudioPath = path.resolve(outDir, `${dateStr}-narration.m4a`);
 try {
-  execSync(`ffmpeg -y -f concat -safe 0 -i "${concatListPath}" -c:a copy "${fullAudioPath}" 2>/dev/null`);
+  execFileSync("ffmpeg", ["-y", "-f", "concat", "-safe", "0", "-i", concatListPath, "-c:a", "copy", fullAudioPath], { stdio: "pipe" });
   console.log(`  ✅ 통합 오디오 트랙 생성 완료: ${fullAudioPath}`);
 } catch (e) {
-  console.warn(`  ⚠️ 오디오 병합 실패:`, e.message);
+  console.error(`Audio assembly failed: ${e.message}`); process.exit(1);
 }
+
+// WHY 2026-10-25: fit the complete narration to the existing 30–55s preflight contract.
+const audioSeconds = Number(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", fullAudioPath]).toString().trim());
+if (!Number.isFinite(audioSeconds) || audioSeconds <= 0) throw new Error("Invalid narration duration");
+const targetSeconds = Math.min(54, Math.max(31, audioSeconds));
+const totalSceneSeconds = sceneDurations.reduce((a, b) => a + b, 0);
+for (let i = 0; i < scenes.length; i++) { sceneDurations[i] *= targetSeconds / totalSceneSeconds; scenes[i].duration = sceneDurations[i]; }
+const adjustedAudio = path.resolve(tmpDir, "adjusted-narration.m4a");
+const audioFilter = audioSeconds > targetSeconds ? `atempo=${audioSeconds / targetSeconds}` : `apad,atrim=0:${targetSeconds}`;
+execFileSync("ffmpeg", ["-y", "-i", fullAudioPath, "-af", audioFilter, "-c:a", "aac", adjustedAudio], { stdio: "pipe" });
+fs.copyFileSync(adjustedAudio, fullAudioPath);
 
 // 2. 1080x1920 SVG 슬라이드 및 PNG 생성
 console.log(`🎨 [2/4] 1080x1920 세로형 슬라이드 및 고해상도 PNG 렌더링 중...`);
@@ -276,10 +287,11 @@ for (let i = 0; i < scenes.length; i++) {
 
   fs.writeFileSync(svgPath, svgContent, "utf8");
   try {
-    execSync(`sips -s format png "${svgPath}" --out "${pngPath}" 2>/dev/null`);
+    // WHY 2026-10-26: existing librsvg handles SVG that macOS sips cannot rasterize.
+    execFileSync("rsvg-convert", ["-o", pngPath, svgPath], { stdio: "pipe" });
     pngFiles.push(pngPath);
   } catch (err) {
-    console.warn(`  ⚠️ Scene ${i} PNG 변환 실패:`, err.message);
+    console.error(`Scene ${i} rasterization failed: ${err.message}`); process.exit(1);
   }
 }
 
@@ -299,12 +311,10 @@ fs.writeFileSync(videoConcatTxt, videoConcatLines, "utf8");
 
 const mp4OutPath = path.resolve(outDir, `${dateStr}-briefing.mp4`);
 try {
-  execSync(
-    `ffmpeg -y -f concat -safe 0 -i "${videoConcatTxt}" -i "${fullAudioPath}" -c:v libx264 -pix_fmt yuv420p -r 30 -c:a aac -shortest "${mp4OutPath}" 2>/dev/null`
-  );
+  execFileSync("ffmpeg", ["-y", "-f", "concat", "-safe", "0", "-i", videoConcatTxt, "-i", fullAudioPath, "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-r", "30", "-c:a", "aac", "-t", String(targetSeconds), "-shortest", mp4OutPath], { stdio: "pipe" });
   console.log(`  🎉 MP4 렌더링 완료: ${mp4OutPath}`);
 } catch (e) {
-  console.warn(`  ⚠️ MP4 렌더링 실패:`, e.message);
+  console.error(`MP4 rendering failed: ${e.message}`); process.exit(1);
 }
 
 // 4. Hyperframes 매니페스트 & 웹 플레이어 생성
@@ -322,7 +332,7 @@ const hyperframesManifest = {
     badge: sc.badge,
     headline: sc.headline,
     subline: sc.subline,
-    slideAsset: `scenes/scene_${idx}.png`,
+    slideAsset: `${path.basename(tmpDir)}/scene_${idx}.png`,
   })),
 };
 fs.writeFileSync(

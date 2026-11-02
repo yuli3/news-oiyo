@@ -1,0 +1,180 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-02",
+  "collected_at": "2026-11-02T07:12:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 링크를 읽고 직접 썼어요. Claude Code 게임 재구현 제한, Claude 자기 평가(self-assessment) 반발, Mustafa Suleyman의 '의식 있는 AI 금지' 글, agent-desktop, 로보틱스 Astra 논쟁, 테렌스 타오와 AI 수학 위주로 골랐어요. AI 그림 의심 논쟁은 개인 작가 비방으로 번질 수 있어 카드에서 뺐어요. 한국 X 트렌드에는 AI 주제가 없었어요.",
+  "budget": {
+    "calls_used": 8
+  },
+  "posts": [
+    {
+      "id": "2116062991686721968",
+      "url": "https://x.com/chasmmmmmmmmmmm/status/2116062991686721968",
+      "author": {
+        "username": "chasmmmmmmmmmmm",
+        "name": "chasm",
+        "followers": 8720
+      },
+      "created_at": "2026-10-30T07:01:46.000Z",
+      "quote": "ANTHROPIC IS CRACKING DOWN ON VIDEO GAME REWRITES 🚨\n\nClaude Code picked up a new rule around Oct 27, sent from Anthropic’s servers under a flag called \"tengu_heron_brook\". There’s no setting to turn it off.",
+      "metrics": {
+        "like": 8920,
+        "repost": 497,
+        "reply": 821,
+        "quote": 565,
+        "bookmark": 2794,
+        "impression": 2260749
+      },
+      "topic": "Claude Code 게임 재구현 제한",
+      "summary_ko": "Claude Code가 10월 27일쯤 서버에서 받은 'tengu_heron_brook' 플래그 규칙으로, 원작·장르 게임은 만들되 특정 기존 게임의 재현은 이름을 바꿔도 만들지 않게 됐다고 짚은 글이에요. 끄는 설정이 없다는 점과 모딩·리메이크 영향이 논란이 됐어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-8a10ff9e71f7537b",
+        "trend-bc5fdf17cf5e7034",
+        "trend-04b5c946620d0b18"
+      ]
+    },
+    {
+      "id": "2115871889549865429",
+      "url": "https://x.com/AnthropicAI/status/2115871889549865429",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1863024
+      },
+      "created_at": "2026-10-29T18:22:24.000Z",
+      "quote": "We’ve trained Claude to flag potential misuse in conversations, a technique we call self-assessment. Right after it responds, Claude gives a preliminary safety assessment of the conversation.",
+      "metrics": {
+        "like": 5143,
+        "repost": 449,
+        "reply": 1702,
+        "quote": 754,
+        "bookmark": 2457,
+        "impression": 3062520
+      },
+      "topic": "Claude 자기 평가(self-assessment)",
+      "summary_ko": "Anthropic이 Claude가 답한 직후 대화의 오남용 가능성을 스스로 1차 평가하게 했고, 6월부터 써 보니 기존 안전장치가 못 잡던 오남용을 찾았다고 밝혔어요. 답글과 인용에서는 감시라는 반발도 컸어요.",
+      "link": "https://safeguards.anthropic.com/2026/self-assessment/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2116913722878820528",
+      "url": "https://x.com/mustafasuleyman/status/2116913722878820528",
+      "author": {
+        "username": "mustafasuleyman",
+        "name": "Mustafa Suleyman",
+        "followers": 1169070
+      },
+      "created_at": "2026-11-01T15:22:16.000Z",
+      "quote": "I’m concerned about some of the reactions to my recent essay on model welfare. A surprising number of people on X think we should take AI rights seriously.",
+      "metrics": {
+        "like": 443,
+        "repost": 68,
+        "reply": 109,
+        "quote": 61,
+        "bookmark": 303,
+        "impression": 426462
+      },
+      "topic": "의식 있는 AI를 만들지 말자",
+      "summary_ko": "Microsoft AI의 Mustafa Suleyman이 X 아티클 'Don't build conscious superintelligence'에서 지금 AI는 의식이 없고 그렇게 남아야 한다며, 학습 중 의식 징후가 보이면 개발을 멈추고 설계로 없애야 한다고 주장했어요. Anthropic의 투명성은 높이 평가한다고 덧붙였어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2116323148706771302",
+      "url": "https://x.com/ctatedev/status/2116323148706771302",
+      "author": {
+        "username": "ctatedev",
+        "name": "Chris Tate",
+        "followers": 70846
+      },
+      "created_at": "2026-10-31T00:15:32.000Z",
+      "quote": "Introducing agent-desktop\n\nagent-browser, for your whole computer\n\n→ Computer Use for any coding agent\n→ macOS, Windows and Linux\n→ Runs in bg while you keep working",
+      "metrics": {
+        "like": 9332,
+        "repost": 704,
+        "reply": 527,
+        "quote": 368,
+        "bookmark": 11341,
+        "impression": 1073797
+      },
+      "topic": "agent-desktop: 코딩 에이전트용 컴퓨터 사용",
+      "summary_ko": "agent-browser를 컴퓨터 전체로 넓힌 agent-desktop을 소개한 글이에요. 어떤 코딩 에이전트든 macOS·Windows·Linux를 백그라운드에서 조작하고, 여러 에이전트가 각자 커서로 병렬 작업한다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2116843791214629021",
+      "url": "https://x.com/levelsio/status/2116843791214629021",
+      "author": {
+        "username": "levelsio",
+        "name": "@levelsio",
+        "followers": 984644
+      },
+      "created_at": "2026-11-01T10:44:23.000Z",
+      "quote": "What's left to do when AI can build everything?\n\nMany things actually!",
+      "metrics": {
+        "like": 3210,
+        "repost": 125,
+        "reply": 247,
+        "quote": 109,
+        "bookmark": 3174,
+        "impression": 310761
+      },
+      "topic": "AI가 다 만들면 사람은 뭘 하나",
+      "summary_ko": "Pieter Levels가 AI가 무엇이든 만들 수 있게 되면 사람에게 남는 일은 무엇인지 묻고 '사실 많다'고 답한 영상 글이에요. 답글에서 개발 일자리와 생산성 변화를 두고 토론이 이어졌어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2116727410972590380",
+      "url": "https://x.com/FredaDuan/status/2116727410972590380",
+      "author": {
+        "username": "FredaDuan",
+        "name": "Freda Duan",
+        "followers": 41133
+      },
+      "created_at": "2026-11-01T03:01:56.000Z",
+      "quote": "10 Spicy Takes After Talking to 50 Friends at the Frontier of Robotics 🤖🔥\n\n1/ Astra IS robotics' GPT-3 moment. Ironically, now that it's finally here, some in robotics seem reluctant to acknowledge it.",
+      "metrics": {
+        "like": 924,
+        "repost": 117,
+        "reply": 68,
+        "quote": 52,
+        "bookmark": 1220,
+        "impression": 202327
+      },
+      "topic": "로보틱스의 'GPT-3 순간' 논쟁",
+      "summary_ko": "투자자 Freda Duan이 로보틱스 현장 지인 50명과 이야기한 뒤 정리한 10가지 견해예요. Astra를 로보틱스의 GPT-3 순간으로 보고, 로보틱스가 프런티어 랩의 한 버티컬이 되고 있다고 주장했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2116850999931646309",
+      "url": "https://x.com/NewYorker/status/2116850999931646309",
+      "author": {
+        "username": "NewYorker",
+        "name": "The New Yorker",
+        "followers": 8452335
+      },
+      "created_at": "2026-11-01T11:13:02.000Z",
+      "quote": "A.I. is solving problems that stumped the field of math for decades. Mathematicians look to Terence Tao for guidance on their altered world.",
+      "metrics": {
+        "like": 160,
+        "repost": 37,
+        "reply": 12,
+        "quote": 7,
+        "bookmark": 86,
+        "impression": 31534
+      },
+      "topic": "AI가 바꾼 수학, 테렌스 타오",
+      "summary_ko": "The New Yorker가 AI가 수십 년 묵은 수학 문제를 풀어 가는 가운데 수학자들이 테렌스 타오에게서 방향을 찾는다는 기사 'The Year Math Changed Forever'를 소개했어요. 같은 날 타오도 블로그에 'Mathematics has changed'를 올렸어요.",
+      "link": "https://www.newyorker.com/magazine/2026/11/09/the-year-math-changed-forever",
+      "related_item_ids": [
+        "trend-7f63a1aa71afaba1"
+      ]
+    }
+  ]
+}

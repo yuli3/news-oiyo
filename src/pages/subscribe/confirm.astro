@@ -5,6 +5,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
 <BaseLayout title="구독 확인" description="OIYO 뉴스 메일 수신을 확인해요." noindex={true} crumbs={[{ label: "뉴스 메일", href: "/subscribe/" }, { label: "구독 확인" }]}>
   <h1>구독 확인</h1>
+  <p lang="en">Confirm your OIYO email request: press the 구독 확인 (Confirm) button below.</p>
   <p id="mail-status" class="mail-status" role="status" aria-live="polite"></p>
   <form id="confirm-form" class="mail-form" method="post" action="/api/mailing-list/confirm" hidden>
     <input type="hidden" name="token" value="" />
@@ -19,7 +20,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 <script is:inline>
   (function () {
     var messages = {
-      active: "구독이 확인됐어요. AI·금융 소식을 일주일에 한 통, 이 주소로 보내요.",
+      active: "신청이 확인됐어요. 신청하신 메일만 이 주소로 보내요. Confirmed: we will only send the email you asked for.",
       invalid_token: "확인 링크가 유효하지 않아요. 신청 화면에서 다시 받아 주세요.",
       expired: "확인 시간이 지났어요. 신청 화면에서 다시 받아 주세요.",
       unsubscribed: "이 주소는 수신 거부 상태예요. 다시 받으려면 신청 화면에서 새로 동의해 주세요.",
@@ -46,7 +47,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
   const form = document.querySelector("#confirm-form");
   const status = document.querySelector("#mail-status");
   const messages: Record<string, string> = {
-    active: "구독이 확인됐어요. AI·금융 소식을 일주일에 한 통, 이 주소로 보내요.",
+    active: "신청이 확인됐어요. 신청하신 메일만 이 주소로 보내요. Confirmed: we will only send the email you asked for.",
     invalid_token: "확인 링크가 유효하지 않아요.",
     expired: "확인 시간이 지났어요. 신청 화면에서 다시 받아 주세요.",
     unsubscribed: "이 주소는 수신 거부 상태예요.",

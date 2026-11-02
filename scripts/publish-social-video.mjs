@@ -20,6 +20,7 @@
  *   npm run video:schedule
  */
 import fs from "node:fs";
+import { socialAttributionUrl } from "./lib/social-attribution.mjs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -158,7 +159,7 @@ const payload = {
   platforms: {
     youtubeShorts: {
       title: `[OIYO] ${dateStr} AI·테크 60초 핵심 브리핑 #Shorts`,
-      description: `[${dateStr}] 오늘의 AI 및 테크 1분 핵심 요약 브리핑입니다.\n\n${topHeadlines.join("\n")}\n\n🔗 상세 원문 및 팩트체크: https://news.oiyo.net/\n✨ AI 창작 쇼케이스: https://show.oiyo.net/\n\n#Shorts #AI뉴스 #테크뉴스 #생성형AI #바이브코딩 #OIYO #OIYONews #IT트렌드`,
+      description: `[${dateStr}] 오늘의 AI 및 테크 1분 핵심 요약 브리핑입니다.\n\n${topHeadlines.join("\n")}\n\n🔗 상세 원문 및 팩트체크: ${socialAttributionUrl("news", "youtube", dateStr)}\n✨ AI 창작 쇼케이스: ${socialAttributionUrl("show", "youtube", dateStr)}\n\n#Shorts #AI뉴스 #테크뉴스 #생성형AI #바이브코딩 #OIYO #OIYONews #IT트렌드`,
       tags: [
         "Shorts",
         "AI뉴스",
@@ -176,12 +177,12 @@ const payload = {
       selfDeclaredMadeForKids: false,
     },
     instagramReels: {
-      caption: `✨ 60초로 몰아보는 오늘의 AI·테크 핵심 브리핑 (${dateStr})\n\n오늘 주목해야 할 기술 뉴스를 1분 영상으로 정리했습니다! 🎬\n\n${topHeadlines.join("\n")}\n\n👉 뉴스 원문과 심층 분석은 프로필 링크 news.oiyo.net에서 확인하세요.\n\n#릴스 #인스타릴스 #AI트렌드 #테크뉴스 #생성형AI #바이브코딩 #개발자 #IT뉴스 #OIYO #쇼츠 #TechNews`,
+      caption: `✨ 60초로 몰아보는 오늘의 AI·테크 핵심 브리핑 (${dateStr})\n\n오늘 주목해야 할 기술 뉴스를 1분 영상으로 정리했습니다! 🎬\n\n${topHeadlines.join("\n")}\n\n👉 뉴스 원문과 심층 분석을 볼 프로필용 링크: ${socialAttributionUrl("news", "instagram", dateStr)}\n\n#릴스 #인스타릴스 #AI트렌드 #테크뉴스 #생성형AI #바이브코딩 #개발자 #IT뉴스 #OIYO #쇼츠 #TechNews`,
       shareToFeed: true,
       audioName: "OIYO News Original Audio",
     },
     xTwitter: {
-      text: `[OIYO 60초 브리핑] ${dateStr} 오늘의 핵심 AI·테크 뉴스입니다. 🎬\n\n${topHeadlines.slice(0, 3).join("\n")}\n\n🔗 전체 뉴스: https://news.oiyo.net/\n#AI #TechNews #OIYO`,
+      text: `[OIYO 60초 브리핑] ${dateStr} 오늘의 핵심 AI·테크 뉴스입니다. 🎬\n\n${topHeadlines.slice(0, 3).join("\n")}\n\n🔗 전체 뉴스: ${socialAttributionUrl("news", "x", dateStr)}\n#AI #TechNews #OIYO`,
       mediaType: "video/mp4",
     },
   },

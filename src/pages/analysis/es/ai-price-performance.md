@@ -9,7 +9,7 @@ date: "2026-10-15"
 
 Poner una tarifa junto a un ranking de rendimiento parece suficiente para elegir una IA. Pero la cuota mensual describe el acceso a una aplicación, el precio API describe la facturación por uso y el benchmark refleja un examen concreto. Mezclarlos en una sola clasificación puede llevarte a elegir un modelo barato y terminar trabajando más tiempo.
 
-Esta guía se basa en documentación oficial y métodos de evaluación. No es un ranking general de los últimos modelos ni un experimento práctico con los productos. Los números siguientes son ejemplos hipotéticos para explicar un cálculo, no precios ni tasas de éxito reales.
+Esta guía se basa en documentación oficial y métodos de evaluación. No es un ranking general de los últimos modelos ni un experimento práctico con los productos. La comparación A/B es hipotética; la [tabla de precios oficiales de API](#official-prices-title) indica por separado su fecha de comprobación y sus condiciones.
 
 ## 1. Separa la suscripción, el modelo y la API
 

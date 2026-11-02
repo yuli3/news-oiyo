@@ -1,0 +1,139 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-26",
+  "collected_at": "2026-10-26T07:20:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 링크를 읽고 직접 썼어요. 한국 트렌드(WOEID 23424868)에는 AI 관련 항목이 없었어요. Apollo 보고서·Grok Imagine '오디세이'는 어제(10-25) 카드에 이미 실려 뺐고, 샘 올트먼의 스탠퍼드 보안 발언은 노출이 큰 원 게시물을 찾지 못해 넣지 않았어요. 홍보·재게시·중복 게시물도 뺐어요.",
+  "budget": {
+    "calls_used": 9
+  },
+  "posts": [
+    {
+      "id": "2114038005795291637",
+      "url": "https://x.com/sairahul1/status/2114038005795291637",
+      "author": {
+        "username": "sairahul1",
+        "name": "Rahul",
+        "followers": 149819
+      },
+      "created_at": "2026-10-24T16:55:12Z",
+      "quote": "Let me get this straight.\n\nA guy keeps getting weirdly targeted ads on his new Samsung TV.\n\nSo he breaks into his own TV to find out why. 1.2M people watch.\n\n42 hours later, OpenAI deactivates his acc…",
+      "metrics": {
+        "like": 21654,
+        "repost": 2848,
+        "reply": 311,
+        "quote": 155,
+        "bookmark": 4076,
+        "impression": 829842
+      },
+      "topic": "삼성 TV 리버스 엔지니어링 후 OpenAI 계정 정지",
+      "summary_ko": "새 삼성 TV에 이상하게 맞춤형인 광고가 뜨자 직접 TV를 열어 본 개발자(@log4j)가 42시간 뒤 OpenAI 계정을 '사이버 악용' 사유로 정지당했다는 글이에요. 본인은 취약점 공격 없이 로컬 리버스 엔지니어링만 했다고 밝혔고, 같은 주 Claude도 리버스 엔지니어링 글을 중간에 끊는다는 사용자 보고가 함께 퍼지며 '내 기기를 열어 볼 권리' 논쟁으로 번졌어요.",
+      "link": "https://x.com/log4j/status/2113647464154857840",
+      "related_item_ids": [
+        "trend-774657f37c8f243e",
+        "trend-e890d831eb094bb0",
+        "trend-bbce7c03a66bc2b5"
+      ]
+    },
+    {
+      "id": "2114153199414157752",
+      "url": "https://x.com/Hesamation/status/2114153199414157752",
+      "author": {
+        "username": "Hesamation",
+        "name": "ℏεsam",
+        "followers": 91652
+      },
+      "created_at": "2026-10-25T00:32:56Z",
+      "quote": "Wow, over 1,000 mathematicians have now joined the Association for Human Mathematics (AHM), committing to:\n> NOT publish AI generated math papers\n> NOT work with frontier labs\n> 654 of them went even…",
+      "metrics": {
+        "like": 609,
+        "repost": 59,
+        "reply": 268,
+        "quote": 129,
+        "bookmark": 191,
+        "impression": 223691
+      },
+      "topic": "수학자 1,000명 '인간 수학 협회' 결성",
+      "summary_ko": "수학자 1,000여 명이 '인간 수학 협회(AHM)'에 가입해 AI가 만든 논문을 내지 않고 프런티어 AI 연구소와 일하지 않겠다고 약속했어요. 그중 654명은 연구에서 AI를 아예 쓰지 않기로 했대요. 페드로 도밍고스가 '타조를 마스코트로 정했다'고 비꼬는 등 찬반이 크게 갈려요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-92d547bb1f450bd9"
+      ]
+    },
+    {
+      "id": "2113782774763000073",
+      "url": "https://x.com/Pirat_Nation/status/2113782774763000073",
+      "author": {
+        "username": "Pirat_Nation",
+        "name": "Pirat_Nation 🔴",
+        "followers": 370204
+      },
+      "created_at": "2026-10-24T00:01:00Z",
+      "quote": "Cloudflare says attackers are rapidly targeting two newly discovered critical vulnerabilities in PHP, the software behind many websites.\n\nThe company detected thousands of exploitation attempts even b…",
+      "metrics": {
+        "like": 1574,
+        "repost": 141,
+        "reply": 17,
+        "quote": 6,
+        "bookmark": 234,
+        "impression": 63557
+      },
+      "topic": "PHP 치명적 취약점, 공개 직후 공격 수백만 건",
+      "summary_ko": "Cloudflare에 따르면 새로 발견된 PHP 치명적 취약점 두 개를 노린 공격이 공개 전부터 수천 건 있었고, 공개 후 45분 만에 수만 건, 2시간 만에 수십만 건, 결국 수백만 건으로 늘었대요. Cloudflare는 방어 규칙을 넣었지만 영향받는 시스템은 직접 업데이트해야 해요. AI가 취약점을 찾는 속도가 빨라진다는 경고와 함께 회자됐어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2114045515876995111",
+      "url": "https://x.com/MOVNTDQ/status/2114045515876995111",
+      "author": {
+        "username": "MOVNTDQ",
+        "name": "Xiangpeng Hao",
+        "followers": 1931
+      },
+      "created_at": "2026-10-24T17:25:02Z",
+      "quote": "I built bbtree, the foundation of databases and filesystems,  and the fastest concurrent btree.",
+      "metrics": {
+        "like": 1462,
+        "repost": 159,
+        "reply": 44,
+        "quote": 41,
+        "bookmark": 1191,
+        "impression": 128795
+      },
+      "topic": "bbtree: 가장 빠른 동시성 B-tree",
+      "summary_ko": "샹펑 하오가 Rust 동시성 B-tree 'bbtree'를 공개했어요. README에 따르면 단일 스레드에서 표준 BTreeMap보다 5배, 96스레드에서 crossbeam-skiplist보다 12배 빠르고 메모리는 30% 적게 써요. 형식 검증, 모델 체킹, 결정론적 시뮬레이션, 퍼징으로 정확성을 지킨다는 점이 함께 주목받았어요.",
+      "link": "https://github.com/XiangpengHao/bbtree",
+      "related_item_ids": []
+    },
+    {
+      "id": "2114315481079296412",
+      "url": "https://x.com/Austen/status/2114315481079296412",
+      "author": {
+        "username": "Austen",
+        "name": "Austen Allred",
+        "followers": 487937
+      },
+      "created_at": "2026-10-25T11:17:47Z",
+      "quote": "What changed in the last 24 hours of AI for builders:\n\n• Harness pushing open models past Fable 5 at ~9% the cost\n• Kimi K3.1 Pro live, open weights Nov 4\n• Kernel module doubles BF16 on RTX 30-series…",
+      "metrics": {
+        "like": 36,
+        "repost": 7,
+        "reply": 36,
+        "quote": 2,
+        "bookmark": 20,
+        "impression": 7702
+      },
+      "topic": "빌더용 AI 24시간 요약",
+      "summary_ko": "오스틴 앨러드가 개발자 관점의 하루 AI 소식을 X 아티클로 정리했어요. 오픈 모델을 Fable 5 수준 코딩으로 끌어올린다는 GVS5H 하네스(저자 자체 측정), Kimi K3.1 Pro 출시와 11월 4일 오픈 웨이트 예고, RTX 30 시리즈 BF16 속도를 두 배로 올리는 커널 모듈, Cerebras의 3조 파라미터 모델 서빙을 다뤘어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-2c7a8a1cad13cff2",
+        "trend-169ec8c0ec6919ea",
+        "trend-b430198e3dd745ec",
+        "trend-a80d05eabb9d8204"
+      ]
+    }
+  ]
+}

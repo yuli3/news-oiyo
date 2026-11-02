@@ -18,9 +18,11 @@ for (const lang of locales) {
     const html = read(`dist/analysis/${lang}/${slug}/index.html`);
     assert.match(html, new RegExp(`<html lang="${lang}"`));
     assert.equal(getTags(html, "h1").length, 1);
-    assert.equal(getTags(html, "h2").length, 7); // six article sections + related-information aside
-    assert.equal(getTags(html, "table").length, 3);
-    assert.equal(getTags(html, "caption").length, 3);
+    // WHY 2026-10-25: the existing sourced-price and review sections were added after this test.
+    // Keep the original six-section prose contract below, and assert both additions explicitly.
+    assert.equal(getTags(html, "h2").length, 9);
+    assert.equal(getTags(html, "table").length, 4);
+    assert.equal(getTags(html, "caption").length, 4);
     assert.equal(getTags(html, "pre").length, 0);
     assert.ok(!html.includes("**"), "no literal Markdown emphasis");
     const canonicalTag = getTags(html, "link").find(tag => attr(tag,"rel") === "canonical");
@@ -30,12 +32,17 @@ for (const lang of locales) {
       assert.equal(attr(alternate,"href"), canonical(other));
     }
     assert.ok(sitemaps.includes(`<loc>${canonical(lang)}</loc>`));
-    const articleHtml = html.match(/<article>([\s\S]*?)<\/article>/)?.[1];
+    const completeArticle = html.match(/<article>([\s\S]*?)<\/article>/)?.[1];
+    assert.ok(completeArticle?.includes('data-official-prices="2026-10-23"'));
+    assert.ok(completeArticle?.includes('data-review-cost'));
+    assert.ok(completeArticle?.includes('data-review-rate="0"'));
+    assert.ok(completeArticle?.includes('data-review-rate="0.30"'));
+    const articleHtml = completeArticle?.split('<section data-official-prices=')[0];
     // Equal character floors penalize CJK translations without testing completeness.
     // Freeze this article's full structure; independent prose review checks meaning.
     assert.ok(articleHtml);
     assert.equal(getTags(articleHtml, "h2").length, 6);
-    assert.equal(getTags(articleHtml, "p").length, 23);
+    assert.equal(getTags(articleHtml, "p").length, 24); // includes the existing official-price scope paragraph
     assert.equal(getTags(articleHtml, "tr").length, 16);
     for (const source of requiredSources) assert.ok(links(articleHtml).includes(source), source);
     for (const table of [...html.matchAll(/<table>([\s\S]*?)<\/table>/g)]) {
@@ -44,7 +51,7 @@ for (const lang of locales) {
     const schemas = [...html.matchAll(/<script type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map(m => JSON.parse(m[1]));
     const article = schemas.find(s => s["@type"] === "Article");
     assert.equal(article.inLanguage, lang); assert.equal(article.mainEntityOfPage, canonical(lang));
-    assert.equal(article.datePublished, "2026-10-15"); assert.equal(article.dateModified, "2026-10-15");
+    assert.equal(article.datePublished, "2026-10-15"); assert.equal(article.dateModified, "2026-10-23");
     assert.ok(schemas.some(s => s["@type"] === "BreadcrumbList"));
     for (const href of links(html).filter(h => h.startsWith("/"))) {
       const path = href.split(/[?#]/)[0];

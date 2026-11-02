@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "title": "Readable cards",
+  "language": "en",
+  "checkedOn": "2026-10-29",
+  "landingUrl": "https://news.oiyo.net/analysis/en/cardnews-production/",
+  "cards": [
+    {
+      "heading": "Keep the text",
+      "body": "Do not make the image the only way to read essential information.",
+      "sourceLabel": "W3C WAI: Complex Images",
+      "sourceUrl": "https://www.w3.org/WAI/tutorials/images/complex/"
+    },
+    {
+      "heading": "Name the SVG",
+      "body": "Use a short accessible name. A title is not a full explanation of a complex chart.",
+      "sourceLabel": "MDN: SVG title",
+      "sourceUrl": "https://developer.mozilla.org/en-US/docs/Web/SVG/Reference/Element/title"
+    },
+    {
+      "heading": "Review before publishing",
+      "body": "Open the source and the generated files. Rendering does not prove factual correctness.",
+      "sourceLabel": "OIYO editorial walkthrough",
+      "sourceUrl": "https://news.oiyo.net/analysis/en/cardnews-production/"
+    }
+  ]
+}

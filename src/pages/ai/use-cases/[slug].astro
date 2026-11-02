@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import TopicNav from "../../../components/TopicNav.astro";
+import GuideView from "../../../components/ai/GuideView.astro";
+import Hreflang from "../../../components/ai/Hreflang.astro";
+import LangLinks from "../../../components/ai/LangLinks.astro";
+import { GUIDES, type Guide } from "../../../data/ai-use-cases";
+import { GUIDES_BY_LOCALE } from "../../../data/ai-guides-by-locale";
+import { LOCALES, guidePath, hubPath, type Locale } from "../../../data/ai-i18n";
+import { guideJsonLd } from "../../../data/ai-guide-jsonld";
+
+export function getStaticPaths() {
+  return GUIDES.map((guide) => ({ params: { slug: guide.slug }, props: { guide } }));
+}
+const { guide } = Astro.props as { guide: Guide };
+// A language links here only when it has the same slug; otherwise its hub.
+const paths = Object.fromEntries(LOCALES.map((l) => [l, GUIDES_BY_LOCALE[l].guides.some((g) => g.slug === guide.slug) ? guidePath(l, guide.slug) : hubPath(l)])) as Record<Locale, string>;
+---
+<BaseLayout title={guide.title} description={guide.description} canonical={`https://news.oiyo.net${guidePath("ko", guide.slug)}`} type="article" publishedTime={guide.checked} crumbs={[{ label: "AI", href: "/ai/" }, { label: "분야별 활용", href: "/ai/use-cases/" }, { label: guide.title.replace(/ \(.*\)$/, "") }]}>
+  <Hreflang slot="head" paths={paths} />
+  {guideJsonLd("ko", guide).map((d) => <script type="application/ld+json" is:inline set:html={JSON.stringify(d)} />)}
+  <GuideView lang="ko" guide={guide} others={GUIDES.filter((g) => g.slug !== guide.slug)}><TopicNav /><LangLinks lang="ko" paths={paths} /></GuideView>
+</BaseLayout>

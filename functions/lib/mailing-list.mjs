@@ -20,6 +20,24 @@ export const TOPICS = {
   },
 };
 
+// 다른 언어 사용자를 위한 영어 확인 메일. 지금은 신년운세 출시 알림에만 있다 (2026-10-19).
+// oiyo.net 미리보기는 ko 외 5개 언어(en/ja/zh/fr/es)라 공통으로 영어를 쓴다.
+export const TOPICS_EN = {
+  "new-year-2027": {
+    subject: "[OIYO] Confirm your 2027 New Year report alert",
+    intro: ["You asked OIYO to tell you when the full 2027 New Year fortune report is out.", "We will send one alert email when it launches. You will not get the weekly news digest."],
+    action: "Open the link below to confirm. If you do not confirm within 48 hours, this request ends.",
+    ignore: "If you did not ask for this, ignore this email.",
+    unsub: "Unsubscribe:",
+    from: "From: OIYO News (https://news.oiyo.net/)",
+    footer: "This is a confirmation email, not an ad.",
+  },
+};
+
+export function normalizeLang(value, topic) {
+  return value === "en" && Object.hasOwn(TOPICS_EN, topic) ? "en" : "ko";
+}
+
 export function normalizeTopic(value) {
   if (value === undefined || value === null || value === "") return "weekly";
   return typeof value === "string" && Object.hasOwn(TOPICS, value) ? value : null;
@@ -82,10 +100,15 @@ function checkInbox(extra = {}) {
   return { status: 202, body: { ok: true, state: "check_inbox", ...extra } };
 }
 
-export function buildConfirmMail({ origin, confirmToken, unsubToken, topic = "weekly" }) {
+export function buildConfirmMail({ origin, confirmToken, unsubToken, topic = "weekly", lang = "ko" }) {
   const copy = TOPICS[topic] || TOPICS.weekly;
   const confirmUrl = `${origin}/subscribe/confirm/?token=${encodeURIComponent(confirmToken)}`;
   const unsubUrl = `${origin}/subscribe/unsubscribe/?token=${encodeURIComponent(unsubToken)}`;
+  const en = lang === "en" ? TOPICS_EN[topic] : null;
+  if (en) {
+    const text = [...en.intro, en.action, confirmUrl, "", en.ignore, en.unsub, unsubUrl, "", en.from, en.footer].join("\n");
+    return { subject: en.subject, text, confirmUrl };
+  }
   const text = [
     ...copy.intro,
     "아래 주소로 확인해야 구독이 시작됩니다. 48시간 안에 확인하지 않으면 이 신청은 끝납니다.",
@@ -112,6 +135,7 @@ export async function subscribe(deps) {
   if (!email) return { status: 400, body: { ok: false, error: "invalid_email" } };
   const topic = normalizeTopic(deps.topic);
   if (!topic) return { status: 400, body: { ok: false, error: "invalid_topic" } };
+  const lang = normalizeLang(deps.lang, topic);
   // 빈 함정 칸은 봇이다. 저장하지 않고 신청된 것처럼 답한다.
   if (deps.trap) return checkInbox();
   if ((deps.requireTestRecipient && !/^[a-f0-9]{64}$/.test(deps.allowedEmailHash || ""))
@@ -135,7 +159,7 @@ export async function subscribe(deps) {
   // During the user-approved 90-day suppression period, public requests cannot silently re-enroll an address.
   if (await store.isSuppressed?.(email)) return checkInbox();
   if (existing?.status === "active") return checkInbox();
-  if (deps.requireDurableConfirmation) return durableConfirmation({ ...deps, email, topic }, existing);
+  if (deps.requireDurableConfirmation) return durableConfirmation({ ...deps, email, topic, lang }, existing);
 
   const confirmToken = newToken();
   const unsubToken = newToken();
@@ -144,6 +168,7 @@ export async function subscribe(deps) {
     status: "pending",
     policyVersion: POLICY_VERSION,
     topics: [topic],
+    ...(lang === "en" ? { lang } : {}),
     consentedAt: new Date(now).toISOString(),
     confirmTokenHash: await sha256Hex(confirmToken),
     confirmExpiresAt: now + CONFIRM_TTL_MS,
@@ -153,7 +178,7 @@ export async function subscribe(deps) {
     confirmedAt: null,
     unsubscribedAt: existing?.status === "unsubscribed" ? existing.unsubscribedAt : null,
   };
-  const mail = buildConfirmMail({ origin, confirmToken, unsubToken, topic });
+  const mail = buildConfirmMail({ origin, confirmToken, unsubToken, topic, lang });
   const sent = await mailer.send({ to: email, subject: mail.subject, text: mail.text });
   if (!sent?.ok) return { status: 503, body: { ok: false, error: "send_failed" } };
   if (await store.save(next, existing) === false) {
@@ -165,7 +190,7 @@ export async function subscribe(deps) {
 }
 
 async function durableConfirmation(deps, existing) {
-  const { store, mailer, email, now, origin, confirmSecret, topic = "weekly" } = deps;
+  const { store, mailer, email, now, origin, confirmSecret, topic = "weekly", lang = "ko" } = deps;
   const needsReview = () => ({ status: 503, body: { ok: false, error: "confirmation_review_required" } });
   const scope = typeof mailer.scope === "function" ? await mailer.scope() : mailer.scope;
   if (!scope) return needsReview();
@@ -182,7 +207,7 @@ async function durableConfirmation(deps, existing) {
     const nonce = newToken();
     const unsubToken = newToken();
     record = {
-      email, status: "pending", policyVersion: POLICY_VERSION, topics: [topic],
+      email, status: "pending", policyVersion: POLICY_VERSION, topics: [topic], ...(lang === "en" ? { lang } : {}),
       consentedAt: new Date(now).toISOString(), confirmExpiresAt: now + CONFIRM_TTL_MS,
       unsubscribeToken: unsubToken, unsubscribeTokenHash: await sha256Hex(unsubToken),
       createdAt: existing?.createdAt || new Date(now).toISOString(), confirmedAt: null,
@@ -199,7 +224,7 @@ async function durableConfirmation(deps, existing) {
   if (record.confirmTokenHash && record.confirmTokenHash !== hash) return needsReview();
   record.confirmTokenHash = hash;
   if (!record.confirmation.template) {
-    const mail = buildConfirmMail({ origin, confirmToken: token, unsubToken: record.unsubscribeToken, topic: recordTopics(record)[0] });
+    const mail = buildConfirmMail({ origin, confirmToken: token, unsubToken: record.unsubscribeToken, topic: recordTopics(record)[0], lang: record.lang });
     record.confirmation = { ...record.confirmation, subject: mail.subject,
       template: mail.text.replace(token, "{{CONFIRM_TOKEN}}") };
   }

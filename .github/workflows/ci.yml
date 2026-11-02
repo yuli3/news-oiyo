@@ -48,6 +48,8 @@ jobs:
 
       - name: Type Check
         run: npm run type-check
+      - name: Remote showcase sync contract
+        run: node --test scripts/test/showcase-sync.test.mjs
 
       # 2026-10-13: 커뮤니티 입력·스팸 규칙(server/rules.ts) 단위 테스트.
       - name: Unit tests
@@ -55,6 +57,14 @@ jobs:
 
       - name: Build
         run: npm run build
+      - name: Authored output regression
+        run: node --test scripts/test/cardnews-guide-html.test.mjs scripts/test/cardnews.test.mjs
+
+      - name: Authored AI analysis regression checks
+        run: node --test scripts/test/official-price-html.test.mjs scripts/test/review-cost.test.mjs scripts/test/api-pricing-locales-html.test.mjs
+
+      - name: Video renderer and read-only preflight regressions
+        run: node --test scripts/test/video-renderer.test.mjs scripts/test/social-video-preflight.test.mjs
 
       # 2026-10-15: financial results must not match Korean adjectives such as 비현실적.
       - name: Story scope regression checks

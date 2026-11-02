@@ -1,0 +1,20 @@
+---
+import AiLocaleLayout from "../../../../layouts/AiLocaleLayout.astro";
+import GuideView from "../../../../components/ai/GuideView.astro";
+import type { Guide } from "../../../../data/ai-use-cases";
+import { GUIDES_BY_LOCALE } from "../../../../data/ai-guides-by-locale";
+import { guideJsonLd } from "../../../../data/ai-guide-jsonld";
+import { LOCALES, UI, guidePath, hubPath, type Locale } from "../../../../data/ai-i18n";
+
+export function getStaticPaths() {
+  return LOCALES.filter((l) => l !== "ko").flatMap((lang) => GUIDES_BY_LOCALE[lang].guides.map((guide) => ({ params: { lang, slug: guide.slug }, props: { guide } })));
+}
+const lang = Astro.params.lang as Exclude<Locale, "ko">;
+const { guide } = Astro.props as { guide: Guide };
+const t = UI[lang];
+const guides = GUIDES_BY_LOCALE[lang].guides;
+const paths = Object.fromEntries(LOCALES.map((l) => [l, GUIDES_BY_LOCALE[l].guides.some((g) => g.slug === guide.slug) ? guidePath(l, guide.slug) : hubPath(l)])) as Record<Locale, string>;
+---
+<AiLocaleLayout lang={lang} title={guide.title} description={guide.description} paths={paths} crumbs={[{ label: t.useCasesShort, href: hubPath(lang) }, { label: guide.title.replace(/\s*[(（].*[)）]$/, "") }]} jsonLd={guideJsonLd(lang, guide)} published={guide.checked}>
+  <GuideView lang={lang} guide={guide} others={guides.filter((g) => g.slug !== guide.slug)} />
+</AiLocaleLayout>

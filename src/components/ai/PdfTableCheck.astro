@@ -1,0 +1,23 @@
+---
+import {pdfExamples} from '../../data/pdf-table-guide';
+import type {Locale} from '../../data/ai-i18n';
+const {lang}=Astro.props as {lang:Locale};
+const t=pdfExamples[lang];
+const source=['120 (× 1000 KRW)','(20)','— ≠ 0','100 + 50 | 150 → 30'];
+const result=['120000 KRW','−20','null ≠ 0','180 ≠ 330'];
+---
+<section class="pdf-check" data-pdf-check>
+<label>{t.choose}<select data-pdf-select>{t.tabs.map((x,i)=><option value={i}>{x}</option>)}</select></label>
+{t.steps.map((title,i)=><article data-pdf-example={i}><h2>{title}</h2><dl><div><dt>{t.original}</dt><dd>{source[i]}</dd></div><div><dt>{t.result}</dt><dd>{result[i]}</dd></div></dl><p><strong>{t.reason}:</strong> {t.details[i]}</p></article>)}
+</section>
+<script>
+// All explanations remain available without JavaScript; the selector filters them only after hydration.
+for(const root of document.querySelectorAll<HTMLElement>('[data-pdf-check]')){
+ const select=root.querySelector<HTMLSelectElement>('[data-pdf-select]');
+ const update=()=>{for(const panel of root.querySelectorAll<HTMLElement>('[data-pdf-example]')) panel.hidden=panel.dataset.pdfExample!==select?.value;};
+ select?.addEventListener('change',update);update();
+}
+</script>
+<style>
+.pdf-check{border:1px solid var(--border);border-radius:8px;padding:12px;margin-block:16px}.pdf-check label{display:grid;gap:6px}.pdf-check select{min-height:44px;max-width:100%;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:8px}.pdf-check dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px}.pdf-check dl div{background:var(--accent-soft);border-radius:6px;padding:10px}.pdf-check dt{font-size:13px}.pdf-check dd{margin:4px 0 0;font-weight:700;overflow-wrap:anywhere}.pdf-check h2{font-size:20px}.pdf-check [hidden]{display:none}
+</style>

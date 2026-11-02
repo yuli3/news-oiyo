@@ -1,0 +1,167 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-31",
+  "collected_at": "2026-10-31T07:18:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 링크된 글을 읽고 직접 썼어요. 오늘 뉴스와 이어지는 Claude Code 확장 사고, 바이낸스 해킹, 요금제·한도 변화 위주로 골랐어요. 한국 X 트렌드에는 AI 주제가 없었어요. 크립토 관련 카드는 투자 권유가 아니에요.",
+  "budget": {
+    "calls_used": 7
+  },
+  "posts": [
+    {
+      "id": "2116074289053175808",
+      "url": "https://x.com/cursor_ai/status/2116074289053175808",
+      "author": {
+        "username": "cursor_ai",
+        "name": "Cursor",
+        "followers": 496150
+      },
+      "created_at": "2026-10-30T07:46:39.000Z",
+      "quote": "We identified a security incident affecting a modified Claude Code VS Code extension accessed through our Cursor IDE extension marketplace, impacting at most 5,000 users. This malicious version of the",
+      "metrics": {
+        "like": 6345,
+        "repost": 984,
+        "reply": 462,
+        "quote": 612,
+        "bookmark": 1627,
+        "impression": 1033686
+      },
+      "topic": "Cursor 마켓플레이스 Claude Code 확장 악성 버전",
+      "summary_ko": "Cursor가 자사 확장 마켓플레이스에서 받은 변조된 Claude Code VS Code 확장으로 최대 5,000명이 영향을 받았다고 밝혔어요. 앤트로픽이 만든 버전이 아니며, 마켓플레이스를 내렸다가 위험이 없음을 확인하고 복구했고 2.1.314로 업데이트하라고 안내했어요.",
+      "link": "https://cursor.com/blog/claude-code-extension-security-notice",
+      "related_item_ids": [
+        "trend-15478e7e9607a5de",
+        "trend-1829c04e84fd3c75",
+        "trend-8d6f650b239dde73"
+      ]
+    },
+    {
+      "id": "2116220869479428500",
+      "url": "https://x.com/claudeai/status/2116220869479428500",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 1978986
+      },
+      "created_at": "2026-10-30T17:29:07.000Z",
+      "quote": "We’re renaming our Max plans: \n\nMax 5x → Max\nMax 20x → Ultra\n\nMax is still $100/month, and Ultra is still $200. If you’re a subscriber, there’s nothing you need to do.\n\nWe’re also removing the 5-hour ",
+      "metrics": {
+        "like": 21256,
+        "repost": 1103,
+        "reply": 1779,
+        "quote": 1317,
+        "bookmark": 2500,
+        "impression": 2525032
+      },
+      "topic": "Claude Max 요금제 이름 변경과 Ultra 5시간 한도 폐지",
+      "summary_ko": "앤트로픽이 Max 5x를 Max, Max 20x를 Ultra로 이름을 바꿨어요. 가격은 월 100달러·200달러 그대로이고, 인증된 Ultra 계정은 5시간 한도를 없앴어요. 새 계정은 사기 방지를 위해 인증 전까지 임시 한도가 남고, 주간 한도는 그대로예요.",
+      "link": "http://claude.com/pricing",
+      "related_item_ids": [
+        "trend-0b8f13cae3f7be49"
+      ]
+    },
+    {
+      "id": "2115838856524120128",
+      "url": "https://x.com/morqon/status/2115838856524120128",
+      "author": {
+        "username": "morqon",
+        "name": "morgan —",
+        "followers": 10114
+      },
+      "created_at": "2026-10-29T16:11:08.000Z",
+      "quote": "sam: local inference is a terrible allocation of scarce resources\n\n“a lot of people want local inference, and somehow they assume that the problem is solved now because we have open-source models, we'",
+      "metrics": {
+        "like": 2647,
+        "repost": 154,
+        "reply": 1316,
+        "quote": 1784,
+        "bookmark": 1684,
+        "impression": 2729991
+      },
+      "topic": "샘 올트먼 \"로컬 추론은 희소 자원의 낭비\" 발언",
+      "summary_ko": "샘 올트먼이 팟캐스트에서 로컬 추론은 희소한 자원을 잘못 배분하는 것이라고 말한 영상 클립이에요. 세계의 한정된 DRAM이 개인 컴퓨터에서 5% 정도만 쓰이는 건 비효율적이고 클라우드에서 활용률을 높여야 한다는 주장인데, 인용이 1,700건 넘게 달리며 반론이 이어졌어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-71884f2ab16db47e"
+      ]
+    },
+    {
+      "id": "2116186509384815084",
+      "url": "https://x.com/OpenAI/status/2116186509384815084",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5491104
+      },
+      "created_at": "2026-10-30T15:12:35.000Z",
+      "quote": "Privacy should advance as fast as intelligence. OpenAI Private Intelligence gives businesses stronger controls over their data while using our most capable models.\n\nWe’re building these protections in",
+      "metrics": {
+        "like": 2191,
+        "repost": 149,
+        "reply": 400,
+        "quote": 125,
+        "bookmark": 391,
+        "impression": 251385
+      },
+      "topic": "OpenAI Private Intelligence 공개",
+      "summary_ko": "OpenAI가 기업이 가장 강력한 모델을 쓰면서도 자기 데이터를 더 강하게 통제할 수 있게 하는 'OpenAI Private Intelligence'를 소개했어요. 대형 고객사들과 함께 만들고 있으며, 민감한 업무에도 프런티어 AI를 쓰게 돕는 게 목표라고 해요.",
+      "link": "https://openai.com/business/private-intelligence/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2116258356109496479",
+      "url": "https://x.com/binance/status/2116258356109496479",
+      "author": {
+        "username": "binance",
+        "name": "Binance",
+        "followers": 16134441
+      },
+      "created_at": "2026-10-30T19:58:04.000Z",
+      "quote": "Fellow Binancians,\nOver the past 24 hours, our teams have been working around the clock to respond to a serious security incident involving unauthorized withdrawals of funds. At around 2026-10-29",
+      "metrics": {
+        "like": 2772,
+        "repost": 396,
+        "reply": 372,
+        "quote": 155,
+        "bookmark": 337,
+        "impression": 484430
+      },
+      "topic": "바이낸스 보안 사고 2차 업데이트",
+      "summary_ko": "바이낸스 공동 CEO들이 10월 29일 핫월렛 침해로 약 63억 달러어치 토큰이 빠져나갔다고 밝혔어요. 63억 4천만 달러 이상을 따로 마련해 약 80%를 같은 토큰으로 확보했고, 약 30억 달러를 동결했으며, 개인키 유출 증거는 없다고 해요. 출금은 단계적으로 재개하고 11월 2일까지 준비금 증명을 낼 계획이에요. 투자 권유가 아니에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-13cb2436887c3d9d",
+        "trend-a1e527b26b20b6c1",
+        "trend-aab6ff8a74bf55af",
+        "trend-4efdc51fd9094005"
+      ]
+    },
+    {
+      "id": "2116198836729520420",
+      "url": "https://x.com/cz_binance/status/2116198836729520420",
+      "author": {
+        "username": "cz_binance",
+        "name": "CZ 🔶 BNB",
+        "followers": 12971500
+      },
+      "created_at": "2026-10-30T16:01:34.000Z",
+      "quote": "Saw a few discussions about size of hack, why impact to bitcoin price is small, etc. 👇 \n\n$6.3 billion is the biggest in USD terms, but not in BTC terms. MtGox was 650,000 BTC!\n\nOther important number",
+      "metrics": {
+        "like": 7319,
+        "repost": 746,
+        "reply": 1230,
+        "quote": 158,
+        "bookmark": 678,
+        "impression": 1023758
+      },
+      "topic": "CZ, 바이낸스 해킹 규모를 마운트곡스와 비교",
+      "summary_ko": "창펑 자오(CZ)가 63억 달러는 달러 기준으로 최대 해킹이지만 비트코인 기준으로는 아니라며, 65만 BTC가 빠져나간 마운트곡스와 비교했어요. 비트코인 가격 영향이 작은 이유를 비트코인 총공급 대비 비율 등 다른 숫자로 봐야 한다고 했어요. 투자 권유가 아니에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-13cb2436887c3d9d",
+        "trend-1e5093932cface56"
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import { recordTopics, sha256Hex } from "./mailing-list.mjs";
 import { readMailingBody } from "./http.mjs";
-import { buildDigest, selectWeeklyItems, withUnsubscribe } from "./digest.mjs";
+import { buildDigest, buildReviewedDraftMail, selectWeeklyItems, withUnsubscribe } from "./digest.mjs";
 import { createWeeklyStore } from "./weekly-store.mjs";
 import { itemInScope } from "../../scripts/lib/story-scope.mjs";
 
@@ -17,7 +17,7 @@ export async function handleWeeklyRequest(request, deps) {
 
 // 관리 요청 공통 관문: POST, 32자 이상 관리 키, 같은 출처, JSON 본문. 출시 알림 발송도 같은 관문을 쓴다.
 // 통과하면 { data }, 막히면 { response }를 돌려준다.
-export async function readAdminRequest(request, deps) {
+export async function readAdminRequest(request, deps, { limit } = {}) {
   if (request.method !== "POST") return { response: reply(405, { ok: false, error: "method" }) };
   const supplied = request.headers.get("authorization") || "";
   const secret = deps.adminKey || "";
@@ -36,7 +36,7 @@ export async function readAdminRequest(request, deps) {
   if (!(request.headers.get("content-type") || "").includes("application/json")) {
     return { response: reply(415, { ok: false, error: "json_required" }) };
   }
-  const parsed = await readMailingBody(request);
+  const parsed = await readMailingBody(request, limit ? { limit } : undefined);
   if (parsed.error) return { response: reply(parsed.error === "too_large" ? 413 : 400, { ok: false, error: parsed.error }) };
   const data = parsed.data;
   if (!data || typeof data !== "object" || Array.isArray(data)) return { response: reply(400, { ok: false, error: "bad_json" }) };
@@ -44,7 +44,8 @@ export async function readAdminRequest(request, deps) {
 }
 
 async function processWeeklyRequest(request, deps) {
-  const admin = await readAdminRequest(request, deps);
+  // 검토한 초안 본문이 들어오므로 관리 요청 본문 한도를 넓힌다.
+  const admin = await readAdminRequest(request, deps, { limit: 65536 });
   if (admin.response) return admin.response;
   const data = admin.data;
   // Use the product's Korean day, not the deployment host's timezone (2026-10-15).
@@ -57,9 +58,17 @@ async function processWeeklyRequest(request, deps) {
   if (!deps.news?.days) return reply(503, { ok: false, error: "news_unconfigured" });
   const days = deps.news.days.map(day => ({ ...day, items: (day.items || []).filter(itemInScope) }));
   const week = selectWeeklyItems(days, { end: through });
-  const digest = buildDigest({ date: week.start, through: week.through, items: week.items, pageUrl: "https://news.oiyo.net/archive/" });
-  if (data.send !== true) return reply(200, { ok: true, mode: "preview", from: week.start, through: week.through, digest });
+  const preview = buildDigest({ date: week.start, through: week.through, items: week.items, pageUrl: "https://news.oiyo.net/archive/", contact: deps.contact });
+  if (data.send !== true) return reply(200, { ok: true, mode: "preview", from: week.start, through: week.through, digest: preview });
+  // 2026-10-30 세운 승인: 자동 요약은 보내지 않는다. 검토한 초안 + 같은 초안 id의 수동 확인이 있어야 발송한다.
   if (!deps.db || !deps.mailer?.canSend || !deps.mailer.scope) return reply(503, { ok: false, error: "weekly_sender_unconfigured" });
+  const draft = data.draft;
+  if (!draft || typeof draft !== "object" || Array.isArray(draft)) return reply(400, { ok: false, error: "reviewed_draft_required" });
+  if (draft.reviewed !== true) return reply(400, { ok: false, error: "draft_not_reviewed" });
+  if (typeof data.confirm !== "string" || data.confirm !== draft.id) return reply(400, { ok: false, error: "confirm_required" });
+  let digest;
+  try { digest = buildReviewedDraftMail({ ...draft, contact: deps.contact }); }
+  catch { return reply(400, { ok: false, error: "invalid_draft" }); }
   const after = data.cursor ?? "";
   if (after !== "" && (typeof after !== "string" || !/^[a-f0-9]{64}$/.test(after))) return reply(400, { ok: false, error: "invalid_cursor" });
   // A changed rolling seven-day window must not create another issue in the same calendar week.
@@ -74,6 +83,7 @@ async function processWeeklyRequest(request, deps) {
   if (!existingIssue && !digest.itemCount) return reply(200, { ok: true, mode: "send", empty: true });
   const issue = existingIssue || await store.issue(id, { digest, scope, origin });
   if (issue.scope !== scope || issue.origin !== origin) return reply(409, { ok: false, error: "sender_changed" });
+  if (issue.digest?.draftId !== digest.draftId) return reply(409, { ok: false, error: "issue_draft_mismatch" });
   const recipients = await store.recipients(after);
   const counts = { sent: 0, skipped: 0, pending: 0, review: 0 };
   const deadline = Date.now() + 30000;

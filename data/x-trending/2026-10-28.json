@@ -1,0 +1,165 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-28",
+  "collected_at": "2026-10-28T07:22:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 링크를 읽고 직접 썼어요. 같은 날 X에서는 Gemini 4 Argon의 Antigravity 배포, 앤트로픽 S-1 후속 논의도 보였지만 오늘 뉴스 항목과 직접 연결되는 게시물 위주로 골랐어요. 스팸·코인 홍보·저노출 복붙 글은 뺐어요.",
+  "budget": {
+    "calls_used": 7
+  },
+  "posts": [
+    {
+      "id": "2115114028338962672",
+      "url": "https://x.com/GoogleDeepMind/status/2115114028338962672",
+      "author": {
+        "username": "GoogleDeepMind",
+        "name": "Google DeepMind",
+        "followers": 1584812
+      },
+      "created_at": "2026-10-27T16:10:55.000Z",
+      "quote": "This is Genie 4, our most realistic and interactive world model yet. 🌐\n\nExplore dynamic environments in real time to see how the scene responds, sounds, and how the people in it move, react, and speak.",
+      "metrics": {
+        "like": 12466,
+        "repost": 1330,
+        "reply": 561,
+        "quote": 993,
+        "bookmark": 4958,
+        "impression": 1228531
+      },
+      "topic": "구글 딥마인드 Genie 4 월드 모델",
+      "summary_ko": "구글 딥마인드가 가장 사실적이고 상호작용이 많은 월드 모델이라며 Genie 4를 공개했어요. 이어진 글에 따르면 Gemini Omni 기반 사실감, 물리, 실시간 조작, 네이티브 오디오, Gemini 추론이 들어갔고, 신뢰 테스터부터 시작해 Google AI Ultra와 API로 넓힐 계획이에요.",
+      "link": "https://deepmind.google/blog/genie-4-a-new-generation-of-world-simulation",
+      "related_item_ids": [
+        "trend-74064c529b10768b"
+      ]
+    },
+    {
+      "id": "2115128329003303107",
+      "url": "https://x.com/liquidai/status/2115128329003303107",
+      "author": {
+        "username": "liquidai",
+        "name": "Liquid AI",
+        "followers": 41488
+      },
+      "created_at": "2026-10-27T17:07:45.000Z",
+      "quote": "Introducing 𝙻𝙵𝙼𝟹: our new generation of Liquid Foundation Models. With a new tri-hybrid architecture and new multimodal encoders, the LFM3 family is the ideal model suite for specialized intelligence.",
+      "metrics": {
+        "like": 3374,
+        "repost": 996,
+        "reply": 277,
+        "quote": 307,
+        "bookmark": 2602,
+        "impression": 697265
+      },
+      "topic": "Liquid AI LFM3 온디바이스 모델군",
+      "summary_ko": "Liquid AI가 트라이하이브리드 구조의 LFM3 모델군을 내놨어요. 텍스트 1.7B(256k 컨텍스트), 비전 2B, 오디오 2B, 옴니 2B와 결정용 d1 모델 등 6종이고, GPU 1장으로 파인튜닝해 기기에서 돌리는 걸 겨냥해요.",
+      "link": "https://www.liquid.ai/blog/lfm3",
+      "related_item_ids": [
+        "trend-773a82d5ad97c5cf",
+        "trend-f7e436da3ee6135a",
+        "trend-39519716af73198a"
+      ]
+    },
+    {
+      "id": "2115075381703450651",
+      "url": "https://x.com/srchvrs/status/2115075381703450651",
+      "author": {
+        "username": "srchvrs",
+        "name": "Leo Boytsov",
+        "followers": 9776
+      },
+      "created_at": "2026-10-27T13:37:21.000Z",
+      "quote": "It looks like Amazon AGI division is being shut down and their foundational models Nova are being sunset. Along the same lines they are shutting down Q IDE (autocomplete and chat in IDE), also abandoning efforts to train code-generation models.",
+      "metrics": {
+        "like": 1837,
+        "repost": 206,
+        "reply": 49,
+        "quote": 48,
+        "bookmark": 439,
+        "impression": 172356
+      },
+      "topic": "아마존 AGI 조직·Nova 축소",
+      "summary_ko": "아마존 AGI 조직과 Nova 파운데이션 모델이 정리되고, IDE용 Q와 코드 생성 모델 학습도 접는 것 같다는 관측 글이에요. 링크된 Futurism 기사와 함께 퍼졌고, 아마존의 공식 확인은 글에 없어요.",
+      "link": "https://futurism.com/artificial-intelligence/amazon-ai-division-failure-nova",
+      "related_item_ids": [
+        "trend-784cb74471669b27"
+      ]
+    },
+    {
+      "id": "2115082511457939494",
+      "url": "https://x.com/minchoi/status/2115082511457939494",
+      "author": {
+        "username": "minchoi",
+        "name": "Min Choi",
+        "followers": 392172
+      },
+      "created_at": "2026-10-27T14:05:41.000Z",
+      "quote": "Anthropic just flipped the AI agent playbook.\n\nONE agent + skills can beat a team of subagents.\n\nBetter quality. Lower cost. Less latency.\n\nOne customer's loop ran ~2x faster.",
+      "metrics": {
+        "like": 87,
+        "repost": 11,
+        "reply": 82,
+        "quote": 14,
+        "bookmark": 97,
+        "impression": 14195
+      },
+      "topic": "에이전트 하나 + 스킬 vs 서브에이전트",
+      "summary_ko": "앤트로픽의 '서브에이전트를 메인 루프로 접을 때' 글을 7가지 규칙으로 정리한 스레드예요. 에이전트 하나로 시작하고, 도구 정의가 30–50개를 넘으면 선택이 나빠지며, 접을 땐 평가를 전후로 돌리라는 내용이에요.",
+      "link": "https://claude.com/resources/articles/building-agents-when-to-fold-subagents-into-your-main-agent-loop",
+      "related_item_ids": [
+        "trend-2ea7be4bef8e6be7"
+      ]
+    },
+    {
+      "id": "2115124818165334230",
+      "url": "https://x.com/kimmonismus/status/2115124818165334230",
+      "author": {
+        "username": "kimmonismus",
+        "name": "Chubby♨️",
+        "followers": 154154
+      },
+      "created_at": "2026-10-27T16:53:48.000Z",
+      "quote": "The long awaited Genie 4 is here!\n\nGemini 3.8 Flash watches the generated scene, breaks a task into steps and checks whether each step worked. As the scene changes, it updates its plan.",
+      "metrics": {
+        "like": 357,
+        "repost": 20,
+        "reply": 39,
+        "quote": 2,
+        "bookmark": 64,
+        "impression": 20422
+      },
+      "topic": "Genie 4 + Gemini 계획 루프",
+      "summary_ko": "Genie 4 데모에서 Gemini 3.8 Flash가 생성된 장면을 보고 작업을 단계로 나눠 확인·재계획한다는 점을 짚은 글이에요. 작성자는 월드 모델이 필요한 로보틱스에 특히 큰 도약이라고 봤어요.",
+      "link": "https://x.com/GoogleDeepMind/status/2115114030503166385",
+      "related_item_ids": [
+        "trend-74064c529b10768b"
+      ]
+    },
+    {
+      "id": "2115176309735489740",
+      "url": "https://x.com/pikuma/status/2115176309735489740",
+      "author": {
+        "username": "pikuma",
+        "name": "pikuma.com",
+        "followers": 26882
+      },
+      "created_at": "2026-10-27T20:18:24.000Z",
+      "quote": "Anthropic Trained Claude on Illegally Obtained Stanford Professors' Books:",
+      "metrics": {
+        "like": 27,
+        "repost": 3,
+        "reply": 2,
+        "quote": 0,
+        "bookmark": 5,
+        "impression": 793
+      },
+      "topic": "스탠퍼드 교수 저서 무단 학습 논란",
+      "summary_ko": "스탠퍼드 데일리 기사를 공유하며 앤트로픽이 불법 입수된 스탠퍼드 교수들의 책으로 Claude를 학습시켰다는 의혹을 알린 글이에요. 노출은 적지만 같은 날 뉴스 항목과 이어져 넣었어요.",
+      "link": "https://stanforddaily.com/2026/10/27/professors-books-pirated-to-train-claude/",
+      "related_item_ids": [
+        "trend-ef1e2758b703a64f"
+      ]
+    }
+  ]
+}

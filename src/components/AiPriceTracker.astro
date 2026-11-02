@@ -6,7 +6,7 @@ const changes = AI_PRICE_SOURCES.filter((s) => s.lastChange);
 ---
 <section class="price-tracker" aria-labelledby="ai-price-title">
   <h2 id="ai-price-title">AI API 비용 아끼기 — 공식 가격표 바로가기</h2>
-  <p class="sub">가격은 자주 바뀌어서 숫자는 옮겨 적지 않았어요. 아래 항목을 공식 페이지에서 비교하면 같은 작업을 더 싸게 돌릴 수 있어요. 목록 기준일 {AI_PRICE_SOURCES_UPDATED}.</p>
+  <p class="sub">가격은 자주 바뀌어서 숫자는 옮겨 적지 않았어요. 아래 항목을 공식 페이지에서 비교하면 같은 작업을 더 싸게 돌릴 수 있어요. 목록 기준일 {AI_PRICE_SOURCES_UPDATED}. 확인일을 붙인 숫자 비교는 <a href="/ai/pricing/">구독료·API 비용 비교</a>에 있어요.</p>
   {changes.length > 0 && (
     <ul class="changes">
       {changes.map((s) => (

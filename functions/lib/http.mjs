@@ -17,8 +17,7 @@ function json(status, body) {
   });
 }
 
-export async function readMailingBody(request) {
-  const limit = 4096;
+export async function readMailingBody(request, { limit = 4096 } = {}) {
   if (Number(request.headers.get("content-length")) > limit) return { error: "too_large" };
   const reader = request.body?.getReader();
   const decoder = new TextDecoder();
@@ -87,6 +86,7 @@ async function processMailingRequest(request, deps) {
       email: data.email,
       consent: data.consent === true,
       topic: data.topic,
+      lang: data.lang,
       trap: String(data.company || "").trim() !== "",
       ip: clientIp(request),
     });
@@ -99,7 +99,7 @@ async function processMailingRequest(request, deps) {
   const accept = request.headers.get("accept") || "";
   const postedForm = !(request.headers.get("content-type") || "").includes("json");
   if (postedForm && accept.includes("text/html")) {
-    const dest = new URL(pageFor(action, data.topic), deps.origin);
+    const dest = new URL(pageFor(action, data.topic, data.lang), deps.origin);
     dest.searchParams.set("status", result.body.state || result.body.error || "error");
     return new Response(null, {
       status: 303,
@@ -109,8 +109,8 @@ async function processMailingRequest(request, deps) {
   return json(result.status, result.body);
 }
 
-function pageFor(action, topic) {
-  if (action === "subscribe" && topic === "new-year-2027") return "/subscribe/new-year-2027/";
+function pageFor(action, topic, lang) {
+  if (action === "subscribe" && topic === "new-year-2027") return lang === "en" ? "/subscribe/new-year-2027/en/" : "/subscribe/new-year-2027/";
   if (action === "confirm") return "/subscribe/confirm/";
   if (action === "unsubscribe") return "/subscribe/unsubscribe/";
   return "/subscribe/";

@@ -9,7 +9,7 @@ date: "2026-10-15"
 
 Placer un tarif à côté d'un classement de performances semble suffire pour choisir une IA. Pourtant, l'abonnement mensuel décrit l'accès à une application, les prix API décrivent une facturation à l'usage, et un score de benchmark correspond à un test précis. En mélangeant ces trois éléments, vous pouvez choisir un modèle moins cher et passer plus de temps à travailler.
 
-Ce guide s'appuie sur les documents officiels et les méthodes d'évaluation. Ce n'est ni un classement général des derniers modèles ni un essai pratique des produits. Les chiffres ci-dessous sont des exemples fictifs destinés à expliquer un calcul, pas des tarifs ni des taux de réussite réels.
+Ce guide s'appuie sur les documents officiels et les méthodes d'évaluation. Ce n'est ni un classement général des derniers modèles ni un essai pratique des produits. La comparaison A/B est fictive ; le [tableau des tarifs API officiels](#official-prices-title) indique séparément sa date de vérification et ses conditions.
 
 ## 1. Distinguez abonnement, modèle et API
 

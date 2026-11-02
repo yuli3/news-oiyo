@@ -29,6 +29,7 @@ export function onMailingList(context) {
       mailer: createProductionMailer(env.MAILING_LIST_MODE === "test" || !retentionReady
         ? { ...env, MAILING_LIST_SEND: "0" } : env),
       origin: env.MAILING_LIST_ORIGIN || "https://news.oiyo.net",
+      contact: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(env.MAILING_LIST_CONTACT || "") ? env.MAILING_LIST_CONTACT : undefined,
     });
   }
   return handleMailingRequest(context.request, {

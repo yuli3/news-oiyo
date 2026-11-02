@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+// 2027 신년운세 출시 알림의 영어 신청. oiyo.net 미리보기의 en/ja/zh/fr/es 화면이 여기로 온다 (2026-10-19).
+// 저장·보관 약속은 한국어 페이지와 같다. 다른 것은 확인 메일 언어(lang=en)뿐이다.
+---
+
+<BaseLayout
+  title="2027 New Year report alert"
+  description="Get one email when the full OIYO 2027 New Year fortune report is out. You finish signing up by opening the link in the confirmation email."
+  noindex={true}
+  lang="en"
+  crumbs={[{ label: "New Year report alert" }]}
+>
+  <h1>2027 New Year report alert</h1>
+  <p class="lede">When the full report behind the <a href="https://oiyo.net/en/saju/new-year-2027/">OIYO 2027 New Year preview</a> is out, we send you one email. No weekly news digest. We only email addresses that confirm. If we decide not to make the report, we delete the list without emailing you.</p>
+  <form class="mail-form" method="post" action="/api/mailing-list/subscribe">
+    <label class="mail-field" for="email">Email
+      <input id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" />
+    </label>
+    <input name="topic" type="hidden" value="new-year-2027" />
+    <input name="lang" type="hidden" value="en" />
+    <label class="mail-check">
+      <input name="consent" type="checkbox" value="on" required />
+      <span>I agree to receive one launch alert email for the 2027 New Year report (promotional). Every email has an unsubscribe link.</span>
+    </label>
+    <div class="mail-trap" aria-hidden="true">
+      <label>Company<input name="company" type="text" tabindex="-1" autocomplete="off" /></label>
+    </div>
+    <button class="mail-submit" type="submit">Notify me</button>
+    <p id="mail-status" class="mail-status" role="status" aria-live="polite"></p>
+  </form>
+  <section class="card">
+    <h2>What we store</h2>
+    <p>Policy version 2026-10-15. We store your email address, the alert you chose, when you agreed, delivery records and hashes used to stop abuse. Unconfirmed requests are deleted 7 days after signup. The confirmation link works for 48 hours. We delete this alert list after the alert goes out, or by 2027-02-28 at the latest. You can unsubscribe before then.</p>
+    <p>When you unsubscribe we delete your address, tokens and delivery records. A keyed hash and the unsubscribe time are kept for 90 days so we do not email you again, then deleted. During that time a new signup does not get a confirmation email.</p>
+    <p>Delivery records are kept up to 7 days. Emails are sent with Resend and stored on Cloudflare. We never sell addresses. The confirmation and unsubscribe pages are in Korean with a short English line; the button is the same. Contact: <a href="mailto:support@oiyo.net">support@oiyo.net</a></p>
+    <p>From: OIYO News · <a href="https://news.oiyo.net/">news.oiyo.net</a></p>
+    <p><a href="https://blog.oiyo.net/en/privacy/">Privacy policy</a></p>
+  </section>
+</BaseLayout>
+
+<script is:inline>
+  (function () {
+    var messages = {
+      check_inbox: "Check your inbox. Open the link in the confirmation email to finish. If this address already gets OIYO email, we do not send a new one.",
+      consent_required: "Tick the consent box to sign up.",
+      invalid_email: "Please check your email address.",
+      rate_limited: "Please try again in a little while.",
+      mailer_unconfigured: "Email sending is not set up yet. Your address was not saved.",
+      store_unconfigured: "Storage is not connected yet. Your address was not saved.",
+      send_failed: "We could not confirm the email was sent. Check your inbox in a few minutes.",
+      confirmation_unconfigured: "Confirmation email is not set up yet. Your address was not saved.",
+      confirmation_review_required: "The confirmation email needs a check. Please do not retry; contact support@oiyo.net.",
+      service_unavailable: "Something went wrong. Check your inbox, then try again later.",
+      state_changed: "Your request changed. Please check your inbox."
+    };
+    window.__mailMessages = messages;
+    var status = new URLSearchParams(location.search).get("status") || "";
+    var el = document.getElementById("mail-status");
+    if (el && messages[status]) el.textContent = messages[status];
+  })();
+</script>
+
+<script>
+  const form = document.querySelector(".mail-form");
+  const status = document.querySelector("#mail-status");
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!(form instanceof HTMLFormElement) || !(status instanceof HTMLElement)) return;
+    const messages: Record<string, string> = (window as unknown as { __mailMessages?: Record<string, string> }).__mailMessages || {};
+    const data = new FormData(form);
+    const button = form.querySelector('button[type="submit"]');
+    if (button instanceof HTMLButtonElement && button.disabled) return;
+    if (button instanceof HTMLButtonElement) button.disabled = true;
+    form.setAttribute("aria-busy", "true");
+    status.textContent = "Preparing your confirmation email.";
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: { "content-type": "application/json", accept: "application/json" },
+        body: JSON.stringify({
+          email: data.get("email"),
+          consent: data.get("consent") === "on",
+          topic: "new-year-2027",
+          lang: "en",
+          company: data.get("company") || "",
+        }),
+      });
+      const body = await response.json();
+      const key = typeof body.state === "string" ? body.state : typeof body.error === "string" ? body.error : "";
+      status.textContent = messages[key] || "We could not process your request.";
+      if (typeof body.devConfirmUrl === "string") {
+        const link = document.createElement("a");
+        link.href = body.devConfirmUrl;
+        link.textContent = "Confirmation link (visible in this browser only)";
+        status.append(document.createElement("br"), link);
+      }
+    } catch {
+      status.textContent = "We could not process your request.";
+    } finally {
+      if (button instanceof HTMLButtonElement) button.disabled = false;
+      form.removeAttribute("aria-busy");
+    }
+  });
+</script>
+
+<style>
+  .mail-form { max-width: 560px; margin-top: 18px; }
+  .mail-field { display: flex; flex-direction: column; gap: 6px; font-weight: 700; }
+  .mail-field input { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--ink); font: inherit; }
+  .mail-check { display: flex; align-items: center; gap: 10px; min-height: 44px; margin: 12px 0; }
+  .mail-check input { width: 20px; height: 20px; }
+  .mail-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; }
+  .mail-submit { min-height: 44px; padding: 0 18px; border: 0; border-radius: 10px; background: var(--accent); color: var(--card); font: inherit; font-weight: 700; cursor: pointer; }
+  .mail-status { min-height: 44px; color: var(--muted); }
+</style>

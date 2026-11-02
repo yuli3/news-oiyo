@@ -1,0 +1,283 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-22",
+  "collected_at": "2026-10-22T17:55:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문을 읽고 직접 썼어요. 일부는 24시간보다 조금 앞서 올라왔지만 이날 news 항목과 같은 이야기라 넣었어요. 한국 트렌드에는 AI 관련 항목이 없었고, 홍보·중복 게시물은 뺐어요.",
+  "budget": {
+    "calls_used": 4
+  },
+  "posts": [
+    {
+      "id": "2112984664256241837",
+      "url": "https://x.com/claudeai/status/2112984664256241837",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 1936756
+      },
+      "created_at": "2026-10-21T19:09:35Z",
+      "quote": "We’re opening a research preview of Claude Duet, a new app where Claude works as a proactive agent.\n\nIt comes to you with what needs your attention, completes tasks you ask of it, keeps working when y…",
+      "metrics": {
+        "like": 46614,
+        "repost": 3535,
+        "reply": 1875,
+        "quote": 4000,
+        "bookmark": 14661,
+        "impression": 6433048
+      },
+      "topic": "Anthropic Claude Duet 리서치 프리뷰",
+      "summary_ko": "Claude 공식 계정이 Claude Duet 리서치 프리뷰를 알렸어요. 필요한 일을 먼저 알려 주고, 맡긴 일을 처리하고, 자리를 비워도 계속 일하되 대신 행동하기 전에는 확인을 받는 능동형 에이전트 앱이라고 해요. 오늘 좋아요 4만 6천 개로 AI 게시물 중 반응이 가장 컸어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-1dfad47156db52fb"
+      ]
+    },
+    {
+      "id": "2112907856018309586",
+      "url": "https://x.com/OpenAI/status/2112907856018309586",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5462424
+      },
+      "created_at": "2026-10-21T14:04:23Z",
+      "quote": "OpenAI models helped researchers—operating as part of our Patch the Planet initiative—discover critical security flaws in PHP, an open-source programming language used to run an estimated 70% of websi…",
+      "metrics": {
+        "like": 13962,
+        "repost": 2790,
+        "reply": 567,
+        "quote": 1439,
+        "bookmark": 3499,
+        "impression": 5243233
+      },
+      "topic": "OpenAI Patch the Planet과 PHP 치명 취약점",
+      "summary_ko": "OpenAI가 Patch the Planet 활동의 일환으로 자사 모델이 PHP의 치명적 보안 결함 발견을 도왔다고 밝혔어요. PHP는 웹사이트 약 70%를 돌리는 언어라고 하고, 두 달 동안 메인테이너·연구자 연합을 이끌었다고 해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-e1501de05106b060",
+        "trend-d7440aae013df927"
+      ]
+    },
+    {
+      "id": "2112899813264277528",
+      "url": "https://x.com/wiz_io/status/2112899813264277528",
+      "author": {
+        "username": "wiz_io",
+        "name": "Wiz",
+        "followers": 26003
+      },
+      "created_at": "2026-10-21T13:32:25Z",
+      "quote": "🚨 BREAKING: @Wiz_io Research uncovers #PHP2SHELL, a decade-old PHP Core vulnerability reaching CVSS 9.2 severity impacting 70% of the Internet. https://t.co/B7yEQuhnoS",
+      "metrics": {
+        "like": 405,
+        "repost": 116,
+        "reply": 27,
+        "quote": 25,
+        "bookmark": 94,
+        "impression": 64428
+      },
+      "topic": "Wiz Research PHP2Shell 공개",
+      "summary_ko": "Wiz Research가 10년 묵은 PHP 코어 취약점 PHP2Shell을 공개했어요. CVSS 9.2로 인터넷의 70%에 영향을 준다고 해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-d7440aae013df927",
+        "trend-c976a4e98e7ad015"
+      ]
+    },
+    {
+      "id": "2112945805686604033",
+      "url": "https://x.com/OpenAI/status/2112945805686604033",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5462424
+      },
+      "created_at": "2026-10-21T16:35:11Z",
+      "quote": "If you are wondering whether your website is affected, we have packaged a Codex skill to help check.\n\nPoint your Codex at this repo to guide you through it: https://t.co/XUEbOwXuQC https://t.co/BDaIIa…",
+      "metrics": {
+        "like": 8541,
+        "repost": 1107,
+        "reply": 302,
+        "quote": 207,
+        "bookmark": 5485,
+        "impression": 1150397
+      },
+      "topic": "PHP2Shell 점검용 Codex 스킬",
+      "summary_ko": "OpenAI가 내 웹사이트가 PHP2Shell 영향을 받는지 확인하도록 Codex 스킬을 묶어 공개했어요. Codex에 해당 저장소를 가리키면 점검 과정을 안내해 준다고 해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-e1501de05106b060",
+        "trend-d7440aae013df927"
+      ]
+    },
+    {
+      "id": "2112988118471295323",
+      "url": "https://x.com/OpenAI/status/2112988118471295323",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5462424
+      },
+      "created_at": "2026-10-21T19:23:19Z",
+      "quote": "OpenAI models are coming to Google Cloud.\n\nWe're bringing our frontier models and Codex agentic workflows to Google Cloud's Model Garden, so enterprises can use our technology where they already build…",
+      "metrics": {
+        "like": 3974,
+        "repost": 311,
+        "reply": 340,
+        "quote": 148,
+        "bookmark": 362,
+        "impression": 340319
+      },
+      "topic": "OpenAI 모델, Google Cloud 진출",
+      "summary_ko": "OpenAI가 프런티어 모델과 Codex 에이전트 워크플로를 Google Cloud Model Garden에 제공한다고 알렸어요. 기업이 이미 쓰는 곳에서 OpenAI 기술을 쓰게 하겠다는 취지예요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-4729d7094ccfae8d"
+      ]
+    },
+    {
+      "id": "2112962248218148878",
+      "url": "https://x.com/claudeai/status/2112962248218148878",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 1936756
+      },
+      "created_at": "2026-10-21T17:40:31Z",
+      "quote": "Claude Security now keeps up with your code as it changes.\n\nConnect your repositories once. Claude runs a deep first scan, then re-scans as changes land, so findings stay close to the current state of…",
+      "metrics": {
+        "like": 8611,
+        "repost": 439,
+        "reply": 318,
+        "quote": 182,
+        "bookmark": 2698,
+        "impression": 544827
+      },
+      "topic": "Claude Security 지속 스캔",
+      "summary_ko": "Claude Security가 저장소를 한 번 연결하면 처음에 깊게 스캔하고 이후 변경이 들어올 때마다 다시 스캔해 결과를 최신 코드에 맞춘다고 해요. Claude Enterprise에서 공개 베타예요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2112772568776339709",
+      "url": "https://x.com/Krafton_AI/status/2112772568776339709",
+      "author": {
+        "username": "Krafton_AI",
+        "name": "KRAFTON AI",
+        "followers": 593
+      },
+      "created_at": "2026-10-21T05:06:48Z",
+      "quote": "Today, we’re releasing a preview of Raon-1 mini, a 30B MoE LLM with 4B active parameters, trained from scratch by KRAFTON AI.\n\nWith our efficient architecture, it matches Muse Glimmer on coding/agenti…",
+      "metrics": {
+        "like": 514,
+        "repost": 70,
+        "reply": 48,
+        "quote": 34,
+        "bookmark": 297,
+        "impression": 42556
+      },
+      "topic": "크래프톤 Raon-1 mini 프리뷰",
+      "summary_ko": "KRAFTON AI가 처음부터 직접 학습한 30B MoE(활성 4B) LLM Raon-1 mini 프리뷰를 공개했어요. 코딩·에이전트 작업에서 Muse Glimmer와 비슷하면서 더 빠르고 메모리 효율적이라고 주장해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-3db2cb55ccfc8363"
+      ]
+    },
+    {
+      "id": "2112899854569762936",
+      "url": "https://x.com/OpenAI/status/2112899854569762936",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5462424
+      },
+      "created_at": "2026-10-21T13:32:35Z",
+      "quote": "GPT-Rosalind surfaced a new lead for drug discovery: could restoring cholesterol transport protect neurons from degeneration?\n\nDCTN1 is a gene linked to Perry syndrome, a rare neurodegenerative disord…",
+      "metrics": {
+        "like": 6358,
+        "repost": 657,
+        "reply": 372,
+        "quote": 273,
+        "bookmark": 1503,
+        "impression": 1206655
+      },
+      "topic": "GPT-Rosalind 신약 단서",
+      "summary_ko": "OpenAI가 GPT-Rosalind가 신경 퇴행을 막는 새 신약 단서(콜레스테롤 수송 회복)를 찾았다고 소개했어요. 페리 증후군과 연관된 DCTN1 유전자를 쥐 뇌 데이터에서 분석한 사례예요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-61b39ba966cbc32d"
+      ]
+    },
+    {
+      "id": "2112974723659247896",
+      "url": "https://x.com/GoogleDeepMind/status/2112974723659247896",
+      "author": {
+        "username": "GoogleDeepMind",
+        "name": "Google DeepMind",
+        "followers": 1577948
+      },
+      "created_at": "2026-10-21T18:30:05Z",
+      "quote": "Gemini 4 Argon combined three open-source datasets to build an interactive 3D visualization of human anatomy.\n\nToggle different layers in motion, isolate muscles, or zoom inside a beating heart. https…",
+      "metrics": {
+        "like": 2137,
+        "repost": 200,
+        "reply": 187,
+        "quote": 45,
+        "bookmark": 745,
+        "impression": 106169
+      },
+      "topic": "Gemini 4 Argon 3D 해부도",
+      "summary_ko": "Google DeepMind가 Gemini 4 Argon이 오픈소스 데이터셋 세 개를 합쳐 인체 해부 인터랙티브 3D 시각화를 만든 사례를 보여 줬어요. 층을 켜고 끄거나 근육만 떼어 보고 뛰는 심장 안을 확대할 수 있다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2112966949273801086",
+      "url": "https://x.com/AnthropicAI/status/2112966949273801086",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1829757
+      },
+      "created_at": "2026-10-21T17:59:12Z",
+      "quote": "Anthropic is a Public Benefit Corporation. Today, we’re publishing our annual Public Benefit Report. This report shares our five pillars and takes stock of the actions we’re taking to advance them.…",
+      "metrics": {
+        "like": 2235,
+        "repost": 190,
+        "reply": 210,
+        "quote": 69,
+        "bookmark": 417,
+        "impression": 241012
+      },
+      "topic": "Anthropic 연례 공익 보고서",
+      "summary_ko": "공익법인(PBC)인 Anthropic이 다섯 가지 축과 이를 위한 실행 내용을 정리한 연례 Public Benefit Report를 공개했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2113084406227489112",
+      "url": "https://x.com/dudrms606/status/2113084406227489112",
+      "author": {
+        "username": "dudrms606",
+        "name": "청춘",
+        "followers": 25037
+      },
+      "created_at": "2026-10-22T01:45:56Z",
+      "quote": "왕초보를 위한 코덱스 네이버 블로그 자동화 꿀팁\n\n챗GPT(코덱스 에이전트)와 클로드, 어사이드(Aside)를 결합해 내 컴퓨터가 스스로 캡처하고 글을 작성해 네이버 블로그에 ‘임시저장’까지 끝마치는 초보자용 반자동화 세팅법\n\n이제는 단순히 AI한테 글써줘 하고 긁어다 붙여 넣는 초보적인 텍스트 https://t.co/29yDdeJwOl",
+      "metrics": {
+        "like": 92,
+        "repost": 23,
+        "reply": 7,
+        "quote": 0,
+        "bookmark": 165,
+        "impression": 4015
+      },
+      "topic": "코덱스로 네이버 블로그 반자동화(국내)",
+      "summary_ko": "국내 사용자가 Codex 에이전트, Claude, Aside를 묶어 캡처부터 글 작성, 네이버 블로그 임시저장까지 반자동으로 처리하는 초보자용 설정법을 공유했어요. 국내 AI 게시물 중 반응이 큰 편이었어요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}

@@ -12,6 +12,7 @@
  *   매일 쇼츠·릴스·영상 뉴스 대본과 9:16 렌더 템플릿을 결정론적으로 생성한다.
  */
 import fs from "node:fs";
+import { socialAttributionUrl } from "./lib/social-attribution.mjs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { storySections } from "./lib/story-scope.mjs";
@@ -125,7 +126,7 @@ const spec = {
     youtubeShortsTitle: `[${targetDay.date}] 오늘의 AI·금융 1분 핵심 브리핑 | OIYO News #Shorts`,
     instagramReelsCaption: `📌 ${targetDay.date} AI·금융 60초 핵심 브리핑\n\n${picked
       .map((p, i) => `${i + 1}. [${p.desk}] ${cleanText(p.item.title)}`)
-      .join("\n")}\n\n🔗 원문 출처·상세 요약: news.oiyo.net\n✨ AI 창작 쇼케이스: show.oiyo.net\n#AI뉴스 #금융브리핑 #생성형AI #재테크 #OIYO`,
+      .join("\n")}\n\n🔗 원문 출처·상세 요약: ${socialAttributionUrl("news", "instagram", targetDay.date)}\n✨ AI 창작 쇼케이스: ${socialAttributionUrl("show", "instagram", targetDay.date)}\n#AI뉴스 #금융브리핑 #생성형AI #재테크 #OIYO`,
   },
   scenes,
 };

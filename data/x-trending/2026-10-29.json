@@ -1,0 +1,169 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-29",
+  "collected_at": "2026-10-29T07:30:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 링크를 읽고 직접 썼어요. 오늘 뉴스 항목과 직접 연결되는 공식 계정 게시물 위주로 골랐어요.",
+  "budget": {
+    "calls_used": 6
+  },
+  "posts": [
+    {
+      "id": "2115489219804352921",
+      "url": "https://x.com/sundarpichai/status/2115489219804352921",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11927893
+      },
+      "created_at": "2026-10-28T17:01:48.000Z",
+      "quote": "I did say we'd be releasing our models periodically...introducing Gemini 4 Carbon, our next frontier model.\n\nFollowing Argon's release just two weeks ago, Carbon shows the pace at which we’re pushing the frontier",
+      "metrics": {
+        "like": 21813,
+        "repost": 1629,
+        "reply": 1416,
+        "quote": 1220,
+        "bookmark": 2460,
+        "impression": 2591877
+      },
+      "topic": "구글 Gemini 4 Carbon 공개",
+      "summary_ko": "순다르 피차이가 Argon 공개 2주 만에 새 프런티어 모델 Gemini 4 Carbon을 내놨어요. Artificial Analysis Intelligence Index v5.0에서 59점으로 1위였고, SEC-bench Pro 88.2% 등 보안 평가에서도 앞섰다고 해요. 신뢰할 수 있는 사이버 방어자부터 단계적으로 풀어요.",
+      "link": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-carbon",
+      "related_item_ids": [
+        "trend-b08f6ed8e7a02fb5",
+        "trend-bc9223bdc3e6b778",
+        "trend-6980d0c2608b5488"
+      ]
+    },
+    {
+      "id": "2115494289488953462",
+      "url": "https://x.com/tim_cook/status/2115494289488953462",
+      "author": {
+        "username": "tim_cook",
+        "name": "Tim Cook",
+        "followers": 20474954
+      },
+      "created_at": "2026-10-28T17:21:57.000Z",
+      "quote": "We brought Touch to the Mac!\n\nFrom the all-new iPad mini to the 14-inch MacBook Pro and iMac... and now MacBook Pro with PROLED XDR Display and Touch, creators have new tools to do their best work yet.",
+      "metrics": {
+        "like": 47787,
+        "repost": 3071,
+        "reply": 2085,
+        "quote": 2283,
+        "bookmark": 5111,
+        "impression": 3878759
+      },
+      "topic": "맥에 터치 도입한 MacBook Pro",
+      "summary_ko": "팀 쿡이 PROLED XDR 디스플레이와 터치를 넣은 MacBook Pro를 소개하며 맥에 터치를 들였다고 알렸어요. 새 iPad mini, 14인치 MacBook Pro, iMac과 함께 크리에이터용 라인업으로 묶었어요.",
+      "link": "https://www.apple.com/macbook-pro/proled-xdr-display",
+      "related_item_ids": [
+        "trend-c5fab39804e83189",
+        "trend-a6a1db9272a03954"
+      ]
+    },
+    {
+      "id": "2115535455156642066",
+      "url": "https://x.com/sundarpichai/status/2115535455156642066",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11927893
+      },
+      "created_at": "2026-10-28T20:05:31.000Z",
+      "quote": "Q3 is in the books! We’re now on a half-trillion annual revenue run rate, with Alphabet revenues growing at 25%.",
+      "metrics": {
+        "like": 4895,
+        "repost": 304,
+        "reply": 315,
+        "quote": 99,
+        "bookmark": 414,
+        "impression": 314360
+      },
+      "topic": "알파벳 3분기 실적과 AI 수요",
+      "summary_ko": "순다르 피차이가 알파벳 매출이 25% 늘어 연 5,000억 달러 규모 런레이트에 올랐다고 밝혔어요. Google Cloud 매출은 103% 늘었고, 자체 모델 API가 분당 약 320억 토큰을 처리한다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2115500308873052465",
+      "url": "https://x.com/github/status/2115500308873052465",
+      "author": {
+        "username": "github",
+        "name": "GitHub",
+        "followers": 2728503
+      },
+      "created_at": "2026-10-28T17:45:52.000Z",
+      "quote": "What it means to be a developer has changed, but the goal of completing meaningful software work remains the same.\n\nToday we shipped some updates to help you create while staying in control of what actually ships.",
+      "metrics": {
+        "like": 91,
+        "repost": 14,
+        "reply": 18,
+        "quote": 6,
+        "bookmark": 34,
+        "impression": 18808
+      },
+      "topic": "GitHub Universe 2026 발표",
+      "summary_ko": "GitHub가 Universe 2026에서 개발 흐름 전반을 바꾸는 업데이트를 내놨어요. 개발자가 실제로 배포되는 결과를 직접 통제하도록 돕는 데 초점을 뒀다고 해요.",
+      "link": "https://github.blog/news-insights/company-news/github-universe-2026-evolving-every-layer-of-the-stack/",
+      "related_item_ids": [
+        "trend-d4196329a6d02e37",
+        "trend-1cabb2c564e070a0",
+        "trend-6d79def88b09c344"
+      ]
+    },
+    {
+      "id": "2115480207469560109",
+      "url": "https://x.com/github/status/2115480207469560109",
+      "author": {
+        "username": "github",
+        "name": "GitHub",
+        "followers": 2728503
+      },
+      "created_at": "2026-10-28T16:25:59.000Z",
+      "quote": "Frontier performance at a fraction of the cost. \n\nIn the @ArtificialAnlys Coding Agent Index, Copilot Fusion Max scored within two points of Claude Code with Opus 5.5 Max at about half the API cost per task.",
+      "metrics": {
+        "like": 302,
+        "repost": 30,
+        "reply": 46,
+        "quote": 28,
+        "bookmark": 95,
+        "impression": 38007
+      },
+      "topic": "Copilot Fusion 모델 자동 선택",
+      "summary_ko": "GitHub가 작업마다 모델과 실행 방식을 골라 주는 Copilot Fusion을 알렸어요. Artificial Analysis Coding Agent Index에서 Fusion Max가 Claude Code(Opus 5.5 Max)와 2점 안쪽 차이였고, 작업당 API 비용은 절반쯤이라고 해요.",
+      "link": "https://docs.github.com/en/copilot/concepts/models/copilot-fusion",
+      "related_item_ids": [
+        "trend-1cabb2c564e070a0"
+      ]
+    },
+    {
+      "id": "2115504207977435556",
+      "url": "https://x.com/federalreserve/status/2115504207977435556",
+      "author": {
+        "username": "federalreserve",
+        "name": "Federal Reserve",
+        "followers": 1601216
+      },
+      "created_at": "2026-10-28T18:01:22.000Z",
+      "quote": "Federal Reserve issues #FOMC statement:",
+      "metrics": {
+        "like": 685,
+        "repost": 169,
+        "reply": 61,
+        "quote": 48,
+        "bookmark": 116,
+        "impression": 200098
+      },
+      "topic": "연준 FOMC 금리 동결",
+      "summary_ko": "연준이 FOMC 성명을 내고 기준금리 목표 범위를 유지했어요. 링크된 성명에 따르면 10대 2 표결로 결정됐어요.",
+      "link": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "related_item_ids": [
+        "trend-7200241085dcb4f5",
+        "trend-c2a1999fee77eac5",
+        "trend-61debee2c493a880",
+        "trend-cfe0b360ec2eb060"
+      ]
+    }
+  ]
+}

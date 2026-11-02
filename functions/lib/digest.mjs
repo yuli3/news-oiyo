@@ -64,14 +64,62 @@ export function selectWeeklyItems(days, { end, perDay = WEEKLY_PER_DAY, span = W
   return { start, through, items };
 }
 
-export function buildDigest({ date, through, summary, items, pageUrl }) {
+// 2026-10-30 세운 승인: 발송 메일 법정 표기·UTM·연락처 (NOT READY 4건 해소).
+// 연락처는 /subscribe/ 페이지에 이미 공개된 주소다. 바꿀 때는 MAILING_LIST_CONTACT로 넘긴다.
+export const MAILING_CONTACT = "support@oiyo.net";
+export const SENDER_LINE = "보내는 이: OIYO News · https://news.oiyo.net/";
+export const UNSUBSCRIBE_PLACEHOLDER = "수신 거부 링크는 받는 사람마다 따로 붙습니다.";
+const CAMPAIGN_PATTERN = /^[a-z0-9][a-z0-9-]{2,63}$/;
+
+export function isCampaignId(value) {
+  return typeof value === "string" && CAMPAIGN_PATTERN.test(value);
+}
+
+// 정보통신망법 제50조 표기: 광고성 정보면 제목 맨 앞에 "(광고)". 예전 "[광고]"는 고친다.
+export function adSubject(subject, promotional = true) {
+  const bare = String(subject || "").replace(/^\s*(\(광고\)|\[광고\])\s*/, "").trim();
+  return promotional ? `(광고) ${bare}` : bare;
+}
+
+// 본문 링크 전부에 UTM을 붙인다. 이미 있는 utm_* 값은 이번 호 값으로 바꾼다. 수신 거부 링크는 건드리지 않는다.
+export function withUtm(url, campaign) {
+  let parsed;
+  try { parsed = new URL(url); } catch { return url; }
+  if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return url;
+  if (parsed.pathname.startsWith("/subscribe/unsubscribe")) return url;
+  parsed.searchParams.set("utm_source", "newsletter");
+  parsed.searchParams.set("utm_medium", "email");
+  parsed.searchParams.set("utm_campaign", campaign);
+  return parsed.toString();
+}
+
+export function tagLinks(text, campaign) {
+  return String(text).replace(/https?:\/\/[^\s<>()"'{}]+[^\s<>()"'{}.,;:!?·]/g, (url) => withUtm(url, campaign));
+}
+
+export function mailFooter({ promotional = true, contact = MAILING_CONTACT } = {}) {
+  return [
+    "---",
+    SENDER_LINE,
+    `문의: ${contact}`,
+    promotional ? "이 메일은 AI·금융 소식(광고성 정보 포함) 수신에 동의한 주소로 보냅니다." : "이 메일은 AI·금융 소식 수신에 동의한 주소로 보냅니다.",
+    "개인화된 투자 권유는 아닙니다.",
+    "수신을 원하지 않으면 아래 링크로 바로 해지할 수 있어요(무료).",
+    UNSUBSCRIBE_PLACEHOLDER,
+  ];
+}
+
+function finish({ subject, bodyLines, campaign, promotional, contact }) {
+  const fullSubject = adSubject(subject, promotional);
+  const body = [fullSubject, SENDER_LINE, "", tagLinks(bodyLines.join("\n"), campaign)].join("\n");
+  return { subject: fullSubject, text: [body, ...mailFooter({ promotional, contact })].join("\n"), campaign, promotional };
+}
+
+// 미리보기용 자동 요약. 발송 경로는 이 결과를 쓰지 않는다(검토한 초안만 보낸다).
+export function buildDigest({ date, through, summary, items, pageUrl, campaign, promotional = true, contact }) {
   const label = through && through !== date ? `${date} ~ ${through}` : date;
   const lead = publicDaySummary(summary);
-  const lines = [
-    `[광고] OIYO AI·금융 소식 ${label}`,
-    "보내는 이: OIYO News · https://news.oiyo.net/",
-    "",
-  ];
+  const lines = [];
   if (through && through !== date) lines.push(`${date}부터 ${through}까지 고른 제목입니다.`, "");
   else if (lead) lines.push(lead, "");
   const picked = [];
@@ -94,13 +142,23 @@ export function buildDigest({ date, through, summary, items, pageUrl }) {
     lines.push(`나머지는 날짜별 모아보기에 있습니다. ${pageUrl}`, "");
   }
   lines.push("이 메일은 일주일에 한 통입니다.");
-  lines.push("이 메일은 AI·금융 소식 수신에 동의한 주소로 보냅니다.");
-  lines.push("개인화된 투자 권유는 아닙니다.");
-  lines.push("수신 거부 링크는 받는 사람마다 따로 붙습니다.");
-  return { subject: `[광고] OIYO AI·금융 소식 ${label}`, text: lines.join("\n"), itemCount: picked.length };
+  const mail = finish({ subject: `OIYO AI·금융 소식 ${label}`, bodyLines: lines,
+    campaign: isCampaignId(campaign) ? campaign : `weekly-${(through || date || "").replaceAll("-", "")}`, promotional, contact });
+  return { ...mail, itemCount: picked.length, source: "auto-preview" };
+}
+
+// 검토를 마친 초안(company-brain drafts/mailing/*.md 본문)으로 실제 발송 메일을 만든다.
+export function buildReviewedDraftMail({ id, subject, body, promotional = true, contact } = {}) {
+  if (!isCampaignId(id)) throw new Error("invalid_draft_id");
+  if (typeof subject !== "string" || !subject.trim() || subject.length > 200) throw new Error("invalid_draft_subject");
+  if (typeof body !== "string" || !body.trim()) throw new Error("invalid_draft_body");
+  const lines = body.replace(/\r\n/g, "\n").trim().split("\n");
+  const mail = finish({ subject, bodyLines: lines, campaign: id, promotional: promotional !== false, contact });
+  const links = (mail.text.match(/https?:\/\/\S+/g) || []).length;
+  return { ...mail, itemCount: links ? 1 : 0, source: "reviewed-draft", draftId: id };
 }
 
 export function withUnsubscribe(text, origin, token) {
   const link = `${origin}/subscribe/unsubscribe/?token=${encodeURIComponent(token)}`;
-  return text.replace("수신 거부 링크는 받는 사람마다 따로 붙습니다.", `수신 거부: ${link}`);
+  return text.replace(UNSUBSCRIBE_PLACEHOLDER, `수신 거부: ${link}`);
 }

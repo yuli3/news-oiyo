@@ -9,7 +9,7 @@ date: "2026-10-15"
 
 Putting a price list beside a performance ranking can make choosing an AI seem straightforward. But a monthly subscription describes access to an app, API prices describe usage-based billing, and benchmark scores describe results on a particular test. Combining all three into one ranking may leave you with a cheaper model and more work.
 
-This guide draws on official documentation and evaluation methodologies. It is neither a ranking of the latest models nor a hands-on product performance test. The numbers below are hypothetical examples explaining a calculation, not actual service prices or success rates.
+This guide draws on official documentation and evaluation methodologies. It is neither a ranking of the latest models nor a hands-on product performance test. The A/B cost comparison is hypothetical; the [official API price table](#official-prices-title) states its own verification date and conditions.
 
 ## 1. Separate the subscription, model and API
 

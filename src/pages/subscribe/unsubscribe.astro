@@ -5,6 +5,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
 <BaseLayout title="수신 거부" description="OIYO 뉴스 메일 수신을 거부해요." noindex={true} crumbs={[{ label: "뉴스 메일", href: "/subscribe/" }, { label: "수신 거부" }]}>
   <h1>수신 거부</h1>
+  <p lang="en">To stop OIYO email to this address, press the 수신 거부 (Unsubscribe) button below.</p>
   <p id="mail-status" class="mail-status" role="status" aria-live="polite"></p>
   <form id="unsub-form" class="mail-form" method="post" action="/api/mailing-list/unsubscribe" hidden>
     <input type="hidden" name="token" value="" />
@@ -18,7 +19,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 <script is:inline>
   (function () {
     var messages = {
-      unsubscribed: "수신 거부했어요. 다시 동의하기 전에는 메일을 보내지 않아요.",
+      unsubscribed: "수신 거부했어요. 다시 동의하기 전에는 메일을 보내지 않아요. Unsubscribed.",
       invalid_token: "수신 거부 링크가 유효하지 않아요. 메일의 주소가 잘리지 않았는지 봐 주세요.",
       store_unconfigured: "구독 저장소가 아직 연결되지 않았어요. 해지 기록을 남기지 못했어요."
     };
@@ -43,7 +44,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
   const form = document.querySelector("#unsub-form");
   const status = document.querySelector("#mail-status");
   const messages: Record<string, string> = {
-    unsubscribed: "수신 거부했어요. 다시 동의하기 전에는 메일을 보내지 않아요.",
+    unsubscribed: "수신 거부했어요. 다시 동의하기 전에는 메일을 보내지 않아요. Unsubscribed.",
     invalid_token: "수신 거부 링크가 유효하지 않아요.",
     store_unconfigured: "구독 저장소가 아직 연결되지 않았어요.",
   };

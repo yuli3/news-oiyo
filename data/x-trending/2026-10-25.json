@@ -1,0 +1,153 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-10-25",
+  "collected_at": "2026-10-25T07:13:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 링크를 읽고 직접 썼어요. 한국 트렌드(WOEID 23424868)에는 AI 관련 항목이 없었어요. Kimi K3.1 Pro·Mythos 5·OpenAI 학습 환경 격리 등은 어제(10-24) 카드에 이미 실려 뺐고, 'SpaceX의 Cursor 인수'와 팔란티어 CEO 발언 정리 글은 1차 출처 확인이 안 돼 넣지 않았어요. 홍보·재게시·중복 게시물도 뺐어요.",
+  "budget": {
+    "calls_used": 13
+  },
+  "posts": [
+    {
+      "id": "2114041475604332851",
+      "url": "https://x.com/GaryMarcus/status/2114041475604332851",
+      "author": {
+        "username": "GaryMarcus",
+        "name": "Gary Marcus",
+        "followers": 254033
+      },
+      "created_at": "2026-10-24T17:08:59Z",
+      "quote": "the negative case against AI gets stronger every day; even Altman admits the problems are very serious with no obvious solution. the positive case, meanwhile, looks weaker every day. a quote from…",
+      "metrics": {
+        "like": 416,
+        "repost": 90,
+        "reply": 53,
+        "quote": 17,
+        "bookmark": 158,
+        "impression": 21083
+      },
+      "topic": "Apollo: 기술 밖에선 AI 성과 없음",
+      "summary_ko": "AI 비판론자 게리 마커스가 아폴로 수석 이코노미스트 토르스텐 슬록의 보고서를 인용했어요. 매그니피센트 7을 뺀 S&P 493 기업은 직원당 매출과 이익률이 제자리이고 생산성 효과도 안 보이며, 주류 기업은 토큰 지출을 비용으로 보기 시작했다는 내용이에요. 반론으로 효과가 늦게 나타날 뿐이라는 시각도 함께 오가요.",
+      "link": "https://www.apollo.com/wealth/insights-news/insights/daily-spark/no-signs-of-ai-payoff-outside-the-tech-sector",
+      "related_item_ids": [
+        "trend-c5c9fe77d5e6639f"
+      ]
+    },
+    {
+      "id": "2113766354386084338",
+      "url": "https://x.com/OpenAI/status/2113766354386084338",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5472883
+      },
+      "created_at": "2026-10-23T22:55:45Z",
+      "quote": "During this red-teaming exercise, we also found a vulnerability that allows for unauthenticated remote code execution in Brotli, a widely-deployed compression library included in many pieces of…",
+      "metrics": {
+        "like": 6148,
+        "repost": 866,
+        "reply": 436,
+        "quote": 422,
+        "bookmark": 2065,
+        "impression": 1745447
+      },
+      "topic": "OpenAI 레드팀, Brotli 원격 코드 실행 취약점 발견",
+      "summary_ko": "OpenAI가 학습 환경 보안 점검 중 압축 라이브러리 Brotli에서 인증 없이 원격 코드를 실행할 수 있는 취약점을 찾았다고 밝혔어요. 악성 압축 데이터만으로 서버나 클라이언트(curl --compressed 등)가 장악될 수 있고, Node.js 등 하위 프로젝트가 보안 업데이트를 내고 있으며 Brotli도 새 버전과 CVE를 공개했대요.",
+      "link": "https://patchtheplanet.org/brotli",
+      "related_item_ids": []
+    },
+    {
+      "id": "2113703509548040295",
+      "url": "https://x.com/dair_ai/status/2113703509548040295",
+      "author": {
+        "username": "dair_ai",
+        "name": "DAIR.AI",
+        "followers": 135624
+      },
+      "created_at": "2026-10-23T18:46:02Z",
+      "quote": "Banger paper from Google Cloud AI Research on agents doing professional engineering work. (bookmark it) For professional engineering deliverables, the best agent configuration averages 50.6%, using…",
+      "metrics": {
+        "like": 117,
+        "repost": 22,
+        "reply": 12,
+        "quote": 1,
+        "bookmark": 84,
+        "impression": 6860
+      },
+      "topic": "구글 PLE: 에이전트의 실제 엔지니어링 업무 능력",
+      "summary_ko": "DAIR.AI가 구글 클라우드 AI 리서치의 PLE 벤치마크 논문을 소개했어요. 전기·토목·구조·기계 분야 85개 과제에서 검토자가 서명할 수준의 실무 산출물을 만들어야 하는데, 가장 좋은 에이전트 구성도 평균 50.6%에 그쳤고 과제당 2,700만 토큰과 63분을 썼대요.",
+      "link": "https://arxiv.org/abs/2610.30537",
+      "related_item_ids": []
+    },
+    {
+      "id": "2113869401930039702",
+      "url": "https://x.com/elonmusk/status/2113869401930039702",
+      "author": {
+        "username": "elonmusk",
+        "name": "Elon Musk",
+        "followers": 241526979
+      },
+      "created_at": "2026-10-24T05:45:13Z",
+      "quote": "Odyssey with Grok Imagine",
+      "metrics": {
+        "like": 13327,
+        "repost": 1236,
+        "reply": 1099,
+        "quote": 153,
+        "bookmark": 2097,
+        "impression": 1762176
+      },
+      "topic": "Grok Imagine으로 만든 '오디세이'",
+      "summary_ko": "일론 머스크가 Grok Imagine 공식 계정의 게시물을 인용하며 AI로 만든 호메로스 '오디세이' 영상을 공유했어요. 게시물 자체에는 짧은 한 줄만 있고, 노출이 170만 회를 넘을 만큼 관심을 모았어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2113704957325066735",
+      "url": "https://x.com/ClementDelangue/status/2113704957325066735",
+      "author": {
+        "username": "ClementDelangue",
+        "name": "clem 🤗",
+        "followers": 730263
+      },
+      "created_at": "2026-10-23T18:51:47Z",
+      "quote": "With the explosion of Microduck and Reachy Mini, we'll need more people to join the @pollenrobotics @huggingface teams in all functions. If you're excited about democratizing robotics AI with…",
+      "metrics": {
+        "like": 780,
+        "repost": 52,
+        "reply": 65,
+        "quote": 8,
+        "bookmark": 200,
+        "impression": 39138
+      },
+      "topic": "허깅페이스 Microduck 인기에 채용 확대",
+      "summary_ko": "허깅페이스 CEO 클렘 들랑그가 Microduck과 Reachy Mini 수요가 폭발해 Pollen Robotics·허깅페이스 전 직군에서 사람을 더 뽑는다고 했어요. 그는 앞서 젠슨 황 GTC 베를린 기조연설 뒤 Microduck 사전 주문이 2만 대를 넘을 것 같다고 쓰기도 했어요.",
+      "link": "https://pollen-robotics.com/microduck",
+      "related_item_ids": []
+    },
+    {
+      "id": "2114105704089100458",
+      "url": "https://x.com/nvidia/status/2114105704089100458",
+      "author": {
+        "username": "nvidia",
+        "name": "NVIDIA",
+        "followers": 2692153
+      },
+      "created_at": "2026-10-24T21:24:12Z",
+      "quote": "Europe has spent generations mastering science, engineering, and manufacturing. That knowledge and expertise can now power AI of its own. “Let’s work together to build Europe’s AI economy and put AI…",
+      "metrics": {
+        "like": 125,
+        "repost": 18,
+        "reply": 26,
+        "quote": 2,
+        "bookmark": 6,
+        "impression": 12374
+      },
+      "topic": "젠슨 황, GTC 베를린에서 '유럽의 AI 경제'",
+      "summary_ko": "엔비디아가 GTC 베를린에서 젠슨 황이 한 말을 올렸어요. 유럽이 오랜 세월 쌓은 과학·공학·제조 역량으로 자체 AI를 키울 수 있다며, 함께 유럽의 AI 경제를 만들고 AI를 실제 일에 쓰자고 했대요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}

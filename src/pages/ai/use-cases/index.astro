@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import TopicNav from "../../../components/TopicNav.astro";
+import HubView from "../../../components/ai/HubView.astro";
+import Hreflang from "../../../components/ai/Hreflang.astro";
+import LangLinks from "../../../components/ai/LangLinks.astro";
+import { KEYWORD_MAP, GUIDES } from "../../../data/ai-use-cases";
+import { UI, allPaths, hubPath } from "../../../data/ai-i18n";
+
+const list = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: UI.ko.hubH1,
+  itemListElement: GUIDES.map((g, i) => ({ "@type": "ListItem", position: i + 1, url: `https://news.oiyo.net/ai/use-cases/${g.slug}/`, name: g.title })),
+};
+---
+<BaseLayout title={UI.ko.hubTitle} description="노무·법무·세무·회계·행정부터 포스터·팜플렛·프레젠테이션·광고 이미지·광고 영상까지, 일마다 어떤 AI를 어떻게 조합해 쓰는지 최신 서비스와 워크플로우로 정리해요." canonical="https://news.oiyo.net/ai/use-cases/" crumbs={[{ label: "AI", href: "/ai/" }, { label: "분야별 활용" }]}>
+  <Hreflang slot="head" paths={allPaths(hubPath)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(list)} />
+  <HubView lang="ko" guides={GUIDES} keywordMap={KEYWORD_MAP}><TopicNav /><LangLinks lang="ko" paths={allPaths(hubPath)} /></HubView>
+</BaseLayout>
