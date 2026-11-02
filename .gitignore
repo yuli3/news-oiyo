@@ -23,3 +23,7 @@ reports/video-briefings/*.m4a
 reports/video-briefings/*.aiff
 reports/video-briefings/*.png
 reports/video-briefings/.tmp-*
+
+# 2026-10-13 로컬 wrangler pages dev 상태(D1 로컬 DB 등)
+.wrangler/
+wrangler.toml

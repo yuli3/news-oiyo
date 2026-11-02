@@ -1,0 +1,54 @@
+---
+// 2026-10-13 신고 관리(관리자만). 권한은 서버(functions/api/admin/*)가 판단한다.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/community.css";
+---
+<BaseLayout title="신고 관리" description="OIYO News 신고 관리" noindex crumbs={[{ label: "커뮤니티", href: "/community/" }, { label: "신고 관리" }]}>
+  <h1 class="ad-h1">신고 관리</h1>
+  <p class="cm-note">신고 3건이 쌓이면 자동으로 가려져요. 복구하면 신고 기록도 지워요. 권리침해 삭제 요청은 여기서 바로 숨긴 뒤 처리해 주세요.</p>
+  <div id="ad"></div>
+  <script>
+    import { ApiError, api, el, timeAgo } from "../../lib/community";
+    interface Row { id: string; thread?: string; title?: string; body: string; report_count: number; hidden: number; created_at: number; user_id: string | null; nickname: string | null; banned: number | null; reasons: string | null }
+    const root = document.getElementById("ad")!;
+    async function act(targetType: string, targetId: string, action: string) {
+      try { await api("POST", "/api/admin/action", { targetType, targetId, action }); await load(); }
+      catch (e) { alert(e instanceof ApiError ? e.message : "처리하지 못했어요."); }
+    }
+    function row(type: "comment" | "post", r: Row) {
+      const where = type === "post" ? `/community/post/?id=${r.id}` : r.thread?.startsWith("day:") ? `/${r.thread.slice(4)}/#c-${r.id}` : r.thread?.startsWith("item:") ? `/item/${r.thread.slice(5)}/#c-${r.id}` : `/community/post/?id=${r.thread?.slice(5)}#c-${r.id}`;
+      const btn = (label: string, action: string, t: string = type, id: string = r.id) => {
+        const b = el("button", { type: "button", class: "cm-btn", text: label });
+        b.addEventListener("click", () => { if (action !== "delete" || confirm("완전히 지울까요?")) act(t, id, action); });
+        return b;
+      };
+      return el("li", { class: "cm-item" },
+        el("p", { class: "cm-meta" },
+          el("strong", { class: "cm-author", text: r.nickname ?? "탈퇴한 사용자" }),
+          el("span", { text: `${timeAgo(r.created_at)} · 신고 ${r.report_count} (${r.reasons ?? "-"})${r.hidden ? " · 숨김" : ""}${r.banned ? " · 정지됨" : ""}` }),
+          el("a", { href: where, text: "보기" }),
+        ),
+        r.title ? el("p", { class: "cm-author", text: r.title }) : null,
+        el("p", { class: "cm-body", text: r.body }),
+        el("div", { class: "cm-actions" },
+          r.hidden ? btn("복구", "restore") : btn("숨기기", "hide"),
+          btn("삭제", "delete"),
+          r.user_id ? (r.banned ? btn("정지 풀기", "unban", "user", r.user_id) : btn("작성자 정지", "ban", "user", r.user_id)) : null,
+        ),
+      );
+    }
+    async function load() {
+      try {
+        const d = await api<{ comments: Row[]; posts: Row[] }>("GET", "/api/admin/reports");
+        root.replaceChildren(
+          el("h2", { text: `글 ${d.posts.length}` }), el("ol", { class: "cm-list" }, ...(d.posts.length ? d.posts.map((r) => row("post", r)) : [el("li", { class: "cm-empty", text: "없어요." })])),
+          el("h2", { text: `댓글 ${d.comments.length}` }), el("ol", { class: "cm-list" }, ...(d.comments.length ? d.comments.map((r) => row("comment", r)) : [el("li", { class: "cm-empty", text: "없어요." })])),
+        );
+      } catch (e) {
+        root.replaceChildren(el("p", { class: "cm-note", text: e instanceof ApiError ? e.message : "불러오지 못했어요." }));
+      }
+    }
+    load();
+  </script>
+  <style>.ad-h1 { font-size:22px; margin:0 0 8px }</style>
+</BaseLayout>

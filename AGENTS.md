@@ -18,6 +18,10 @@ git add src/data/news.json && git commit -m "sync $(date +%F)" && git push
 
 푸시하면 Cloudflare Pages가 자동 배포한다. **즉 푸시가 곧 공개 발행이다** — 배치별 명시 승인 없이는 하지 않는다.
 
+## 회원·댓글·커뮤니티 (2026-10-13)
+
+`functions/`(Cloudflare Pages Functions) + D1. 켜는 법·개인정보·운영은 **[docs/community-setup.md](docs/community-setup.md)**. 꺼져 있으면 날짜 페이지는 giscus로 돌아간다. 입력·스팸 규칙은 `server/rules.ts`(`npm test`). 사용자 글은 화면에 `textContent`로만 넣는다.
+
 ## 왜 이 능력이 repo 안에 있나
 
 앞 세대 수집기는 Hermes 스킬 `oiyo-news-feed`였다. 2026-08-29 Hermes가 퇴장하자 **능력이 런타임과 함께 사라졌고 피드는 그날 멈췄다.** 09-01에야 발견됐다. 교훈은 하나다 — 능력은 런타임이 아니라 repo가 소유한다. 스킬·플러그인·크론에 능력을 두면 그 런타임이 사라질 때 같이 죽는다.

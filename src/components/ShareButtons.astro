@@ -1,0 +1,54 @@
+---
+// 2026-10-13 공유: 로그인·서버 없이 동작한다. 휴대폰은 기기 공유 시트(카카오톡 포함),
+// 데스크톱은 링크 복사·X·페이스북. 공유 링크에는 utm 을 붙여 유입을 GA 에서 센다.
+interface Props { url: string; title: string }
+const { url, title } = Astro.props;
+const tagged = (medium: string) => `${url}?utm_source=share&utm_medium=${medium}&utm_campaign=news_share`;
+const x = `https://x.com/intent/post?text=${encodeURIComponent(title)}&url=${encodeURIComponent(tagged("x"))}`;
+const fb = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(tagged("facebook"))}`;
+---
+<div class="share" data-share-url={tagged("native")} data-copy-url={tagged("copy")} data-share-title={title}>
+  <span class="share-label">공유</span>
+  <button type="button" class="share-btn" data-share-native hidden>공유하기</button>
+  <button type="button" class="share-btn" data-share-copy>링크 복사</button>
+  <a class="share-btn" href={x} target="_blank" rel="noopener noreferrer" data-share-medium="x">X</a>
+  <a class="share-btn" href={fb} target="_blank" rel="noopener noreferrer" data-share-medium="facebook">페이스북</a>
+  <span class="share-status" role="status"></span>
+</div>
+<script>
+  type Gtag = (...args: unknown[]) => void;
+  const track = (method: string) => (window as unknown as { gtag?: Gtag }).gtag?.("event", "share", { method, content_type: "news" });
+  for (const box of document.querySelectorAll<HTMLElement>(".share[data-share-url]")) {
+    if (box.dataset.bound) continue;
+    box.dataset.bound = "1";
+    const status = box.querySelector<HTMLElement>(".share-status")!;
+    const native = box.querySelector<HTMLButtonElement>("[data-share-native]")!;
+    if (typeof navigator.share === "function") native.hidden = false;
+    native.addEventListener("click", async () => {
+      try {
+        await navigator.share({ title: box.dataset.shareTitle, url: box.dataset.shareUrl });
+        track("native");
+      } catch { /* 사용자가 닫음 */ }
+    });
+    box.querySelector<HTMLButtonElement>("[data-share-copy]")!.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(box.dataset.copyUrl!);
+        status.textContent = "링크를 복사했어요";
+        track("copy");
+      } catch {
+        status.textContent = "복사하지 못했어요. 주소창의 링크를 써 주세요.";
+      }
+      setTimeout(() => (status.textContent = ""), 2500);
+    });
+    for (const a of box.querySelectorAll<HTMLAnchorElement>("a[data-share-medium]")) a.addEventListener("click", () => track(a.dataset.shareMedium!));
+  }
+</script>
+<style>
+  .share { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:16px 0 4px }
+  .share-label { font-size:12px; font-weight:750; color:var(--muted); margin-right:2px }
+  .share-btn { font:inherit; font-size:12.5px; font-weight:650; color:var(--ink); background:var(--card); border:1px solid var(--border); border-radius:999px; padding:0 12px; min-height:36px; min-width:44px; display:inline-flex; align-items:center; text-decoration:none; cursor:pointer }
+  .share-btn:hover { color:var(--accent); border-color:var(--accent) }
+  .share-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px }
+  .share-btn[hidden] { display:none }
+  .share-status { font-size:12px; color:var(--accent) }
+</style>

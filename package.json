@@ -37,7 +37,8 @@
     "video:schedule": "node scripts/publish-social-video.mjs --queue",
     "video:upload": "node scripts/upload-social-video.mjs",
     "cards:render": "node scripts/render-cardnews.mjs",
-    "test:cardnews": "node --test scripts/test/cardnews.test.mjs"
+    "test:cardnews": "node --test scripts/test/cardnews.test.mjs",
+    "test": "node --test tests/*.test.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
