@@ -1,0 +1,179 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-04",
+  "collected_at": "2026-11-04T07:00:00+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "지표는 수집 시점 스냅샷이에요. 인용은 원문 그대로(앞부분만), 요약은 Grok Bot이 게시물 본문과 링크를 읽고 직접 썼어요. Hume Audio Decision API, 골드만삭스 AI 코딩 도구 제한, 컴퓨트 해자, Anthropic Claude 칩 설계, OpenAI 물리공학, Coinbase 에이전트 거래, Revolut 자체 호스팅 GLM 위주로 골랐어요. 한국 X 트렌드에는 AI 주제가 없었어요.",
+  "budget": {
+    "calls_used": 14
+  },
+  "posts": [
+    {
+      "id": "2117285608745820372",
+      "url": "https://x.com/hume_ai/status/2117285608745820372",
+      "author": {
+        "username": "hume_ai",
+        "name": "Hume AI",
+        "followers": 23635
+      },
+      "created_at": "2026-11-02T16:00:01.000Z",
+      "quote": "Introducing the Hume Audio Decision API.\n\nAsk anything: How many speakers? Is anyone laughing? Is the caller frustrated?\n\nWhat used to take 10+ models is now one call.\n\nTrained on 10M+ human judgments, so it answers the way human listeners would.",
+      "metrics": {
+        "like": 1936,
+        "repost": 4638,
+        "reply": 198,
+        "quote": 219,
+        "bookmark": 1397,
+        "impression": 3859966
+      },
+      "topic": "Hume Audio Decision API",
+      "summary_ko": "Hume AI가 원본 오디오에 자연어로 질문하면 확률 답을 주는 Audio Decision API를 공개했어요. 화자 수·웃음·불만 톤 같은 판단을 한 번의 호출로 처리한다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2117289992015720553",
+      "url": "https://x.com/shortsqueeznews/status/2117289992015720553",
+      "author": {
+        "username": "shortsqueeznews",
+        "name": "Short Squeez",
+        "followers": 15523
+      },
+      "created_at": "2026-11-02T16:17:26.000Z",
+      "quote": "BREAKING: Goldman Sachs banned most staff from using advanced AI tools designed for coding.\n\nWhile the firm had allowed bankers and traders to use tools like Claude Code and GitHub, Goldman will limit those tools to engineers effective immediately.",
+      "metrics": {
+        "like": 1254,
+        "repost": 96,
+        "reply": 44,
+        "quote": 22,
+        "bookmark": 161,
+        "impression": 92500
+      },
+      "topic": "골드만삭스 AI 코딩 도구 제한",
+      "summary_ko": "골드만삭스가 Claude Code·GitHub 등 고급 AI 코딩 도구를 대부분 직원에게 막고, 엔지니어·스트랫 중심으로 제한했다는 소식이 퍼졌어요. 규제 업권에서 실험 범위를 줄인 사례로 읽혀요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2117363634959695985",
+      "url": "https://x.com/KyleReidhead/status/2117363634959695985",
+      "author": {
+        "username": "KyleReidhead",
+        "name": "Kyle Reidhead | Milk Road",
+        "followers": 25416
+      },
+      "created_at": "2026-11-02T21:10:03.000Z",
+      "quote": "In an AI-dominated era, the biggest moat is how much COMPUTE you own (or can access)\n\nRight now Google and Microsoft sit at the top, but SpaceX is gunning towards the #1 spot within the next 5 quarters!",
+      "metrics": {
+        "like": 345,
+        "repost": 73,
+        "reply": 14,
+        "quote": 10,
+        "bookmark": 224,
+        "impression": 35918
+      },
+      "topic": "컴퓨트 해자·SpaceX",
+      "summary_ko": "Kyle Reidhead가 AI 시대의 핵심 해자는 사람이 아니라 컴퓨트 접근성이라며, Google·Microsoft에 이어 SpaceX의 빠른 증설을 강조했어요. Anthropic의 컴퓨트 비용 부담도 예시로 들었어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2117626474903826552",
+      "url": "https://x.com/MilkRoadAI/status/2117626474903826552",
+      "author": {
+        "username": "MilkRoadAI",
+        "name": "Milk Road AI",
+        "followers": 50927
+      },
+      "created_at": "2026-11-03T14:34:29.000Z",
+      "quote": "Anthropic is now using Claude to help design its OWN AI chips.\n\nAccording to a report from The Information, Anthropic is pitching this to IPO investors as a new strength of its models.\n\nThe company has a chip team of just 15 people, and that team says Claude is already speeding",
+      "metrics": {
+        "like": 14,
+        "repost": 2,
+        "reply": 5,
+        "quote": 0,
+        "bookmark": 5,
+        "impression": 2457
+      },
+      "topic": "Anthropic Claude 칩 설계",
+      "summary_ko": "The Information 보도를 인용해 Anthropic이 15명 칩 팀에서 Claude로 자체 AI 칩 설계를 가속한다고 IPO 투자자에게 설명했다는 내용이에요. 컴퓨트 비용 통제 신호로 해석됐어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2117697950864519583",
+      "url": "https://x.com/Sam_Badawi/status/2117697950864519583",
+      "author": {
+        "username": "Sam_Badawi",
+        "name": "Sam Badawi",
+        "followers": 56486
+      },
+      "created_at": "2026-11-03T19:18:31.000Z",
+      "quote": "OpenAI is pushing into AI-powered CAD, chip design and engineering simulations, while expanding its Chip Ganassi Racing partnership and unveiling a collaboration with Mazda.\n\nAnthropic $ANT is also reportedly telling IPO investors that a new 15-person team uses Claude to speed up",
+      "metrics": {
+        "like": 11,
+        "repost": 3,
+        "reply": 9,
+        "quote": 1,
+        "bookmark": 0,
+        "impression": 4715
+      },
+      "topic": "OpenAI 물리공학·Anthropic 칩",
+      "summary_ko": "OpenAI가 CAD·칩·엔지니어링 시뮬레이션으로 물리 세계 응용을 넓히고, Anthropic도 Claude로 자체 칩 설계를 가속한다는 IPO 관련 보도를 함께 정리했어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-72d7ec61ac22aa18"
+      ]
+    },
+    {
+      "id": "2117702630193365434",
+      "url": "https://x.com/LexSokolin/status/2117702630193365434",
+      "author": {
+        "username": "LexSokolin",
+        "name": "Lex Sokolin | Generative Ventures",
+        "followers": 24203
+      },
+      "created_at": "2026-11-03T19:37:06.000Z",
+      "quote": "Coinbase now has a sign up page so your AI agent can trade your account\n\nAnd a trading contest starts tomorrow that they're pitching to agent users\n\nI'm bullish on agentic trading... but I'd give my agent its own small portfolio and a lot of rules \n\nFor now",
+      "metrics": {
+        "like": 8,
+        "repost": 0,
+        "reply": 8,
+        "quote": 0,
+        "bookmark": 2,
+        "impression": 485
+      },
+      "topic": "Coinbase AI 에이전트 거래",
+      "summary_ko": "Lex Sokolin이 Coinbase에 AI 에이전트용 가입 페이지와 에이전트 거래 대회가 열렸다고 전했어요. 에이전트 거래는 낙관하되 소액·규칙 제한을 두겠다고 했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2117254471600550244",
+      "url": "https://x.com/macroguru9/status/2117254471600550244",
+      "author": {
+        "username": "macroguru9",
+        "name": "MacroGuru",
+        "followers": 7769
+      },
+      "created_at": "2026-11-02T13:56:17.000Z",
+      "quote": "Revolut Says Self-Hosted GLM Cut Its AI Coding Costs 90%\n\nRevolut moved 2,000 engineers off metered AI APIs onto self-hosted open models running on 56 Nvidia B200 GPUs, and says that cut its AI coding costs 90%. David Abitbol of Revolut gave the figures in a talk posted on the AI",
+      "metrics": {
+        "like": 0,
+        "repost": 0,
+        "reply": 3,
+        "quote": 0,
+        "bookmark": 1,
+        "impression": 384
+      },
+      "topic": "Revolut 자체 호스팅 GLM",
+      "summary_ko": "Revolut이 엔지니어 약 2,000명을 자체 호스팅 GLM으로 옮겨 AI 코딩 비용을 약 90% 줄였다는 수치를 정리한 글이에요. 오늘 뉴스 항목의 Revolut 전환 이야기와 맞물려요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-ff5b2ee9c73b7890",
+        "trend-aa4afd9ac07df94e"
+      ]
+    }
+  ]
+}
