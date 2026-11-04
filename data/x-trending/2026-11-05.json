@@ -1,0 +1,225 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-05",
+  "collected_at": "2026-11-05T07:03:41+09:00",
+  "collected_by": "Grok Bot",
+  "window_hours": 24,
+  "note": "Korea WOEID(23424868) trends had no AI topics (entertainment/dating-heavy). Cards from search_news + search_posts_all.",
+  "budget": {
+    "calls_used": 7
+  },
+  "posts": [
+    {
+      "id": "2118076646515147093",
+      "url": "https://x.com/thetect0nic/status/2118076646515147093",
+      "author": {
+        "username": "thetect0nic",
+        "name": "The Tectonic",
+        "followers": 14028
+      },
+      "created_at": "2026-11-04T20:23:19.000Z",
+      "quote": "🇺🇲 America votes against the data center boom. Local bans pass almost everywhere, Texas elects a governor who ran on a moratorium, and AI infrastructure stocks slip\n\nOn Tuesday night the AI build-out lost its first big election. Voters in at least 29 jurisdictions passed bans or",
+      "metrics": {
+        "like": 4,
+        "repost": 1,
+        "reply": 1,
+        "quote": 0,
+        "bookmark": 1,
+        "impression": 483
+      },
+      "topic": "데이터센터 주민투표 반발",
+      "summary_ko": "미국 지방 투표에서 데이터센터 금지·유예안이 잇따라 통과하며 AI 인프라 구축이 선거에서 처음으로 크게 흔들렸다는 요약이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-1d29c3ee3b32819d",
+        "trend-ee781cce59affe3c",
+        "trend-b379237c35304075"
+      ]
+    },
+    {
+      "id": "2117980196251062494",
+      "url": "https://x.com/infra_marginal/status/2117980196251062494",
+      "author": {
+        "username": "infra_marginal",
+        "name": "InfraMarginal",
+        "followers": 4459
+      },
+      "created_at": "2026-11-04T14:00:03.000Z",
+      "quote": "Analysis: Where the Data Center Buildout stands after Nov 3 Midterm Elections\n\nDemocrats won the Senate and the House. Anti-Data center policy won ballot at every level, from governor down to village charters.\n\n50% OF ALL 2028 CAPACITY IS AT THREAT.",
+      "metrics": {
+        "like": 5,
+        "repost": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 2,
+        "impression": 1031
+      },
+      "topic": "2028 용량 리스크",
+      "summary_ko": "중간선거 이후 반-데이터센터 정책이 전방위로 이겼고, 2028년 계획 용량의 상당 부분이 위험에 처했다는 분석 카드예요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-1d29c3ee3b32819d",
+        "trend-ee781cce59affe3c",
+        "trend-b379237c35304075"
+      ]
+    },
+    {
+      "id": "2118022592636354838",
+      "url": "https://x.com/jakkse/status/2118022592636354838",
+      "author": {
+        "username": "jakkse",
+        "name": "Jakob Steinschaden ⚡️",
+        "followers": 3932
+      },
+      "created_at": "2026-11-04T16:48:31.000Z",
+      "quote": "Careful what you wish for: Anthropic, OpenAI & Co. have long asked Washington for AI rules. After the Democrats' midterm sweep, they might finally get the brakes they wanted, from data center moratoriums to mandatory testing for frontier models.",
+      "metrics": {
+        "like": 1,
+        "repost": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 47
+      },
+      "topic": "AI 규제 역설",
+      "summary_ko": "AI 기업이 원했던 규칙이 민주당 압승 이후 데이터센터 유예·프론티어 모델 의무 테스트 형태로 돌아올 수 있다는 경고예요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-f33d5c8f98f3255d",
+        "trend-cb925af9b319bc14",
+        "trend-ee781cce59affe3c",
+        "trend-b541647c5290e1f7",
+        "trend-c46c2cf244c88f8c"
+      ]
+    },
+    {
+      "id": "2118000519977517405",
+      "url": "https://x.com/George_Babis/status/2118000519977517405",
+      "author": {
+        "username": "George_Babis",
+        "name": "George Babis",
+        "followers": 378
+      },
+      "created_at": "2026-11-04T15:20:49.000Z",
+      "quote": "In August I called AMD the credible AI challenger and said watch for hyperscalers deploying at scale.\n\nQ3 data center +97% to $8.5B. Anthropic, Meta, Microsoft, OpenAI, Oracle run its Helios racks. Q4 guide ~$17B vs $16.2B est.\n\n$AMD up 2.8% today.",
+      "metrics": {
+        "like": 1,
+        "repost": 0,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 83
+      },
+      "topic": "AMD 데이터센터 실적",
+      "summary_ko": "AMD 데이터센터 매출이 85억 달러로 거의 두 배가 됐고 Helios 랙이 주요 AI 랩에서 돌아간다는 실적 요약이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-b56155812fcd05cc"
+      ]
+    },
+    {
+      "id": "2118070941624442993",
+      "url": "https://x.com/kirillk_web3/status/2118070941624442993",
+      "author": {
+        "username": "kirillk_web3",
+        "name": "Kirill",
+        "followers": 43948
+      },
+      "created_at": "2026-11-04T20:00:38.000Z",
+      "quote": "🚨this is f*cking dangerous. Anthropic CEO Dario Amodei:\n\n\"If my revenue is not $1 trillion by 2027, Anthropic will go bankrupt.\"\n\nthe CEO of Anthropic explained why one wrong bet on compute could kill his company.",
+      "metrics": {
+        "like": 2,
+        "repost": 1,
+        "reply": 0,
+        "quote": 0,
+        "bookmark": 7,
+        "impression": 1041
+      },
+      "topic": "Anthropic 컴퓨트 베팅",
+      "summary_ko": "Amodei CEO가 컴퓨트 투자 실패 시 회사 위험이 크다는 취지로 말한 클립이 공유되며 원가 구조 논쟁으로 이어졌어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-f33d5c8f98f3255d",
+        "trend-4918bb3cc3260cd4",
+        "trend-ea9d3031a2aff826",
+        "trend-a3299050d7d2bf06"
+      ]
+    },
+    {
+      "id": "2118004000356184542",
+      "url": "https://x.com/Kiiiiira777/status/2118004000356184542",
+      "author": {
+        "username": "Kiiiiira777",
+        "name": "Kira",
+        "followers": 502
+      },
+      "created_at": "2026-11-04T15:34:38.000Z",
+      "quote": "This is f*cking insane. OpenAI co-founder Andrej Karpathy, the man who created \"vibe coding\" and ran AI at Tesla:\n\n\"I don't think I've typed like a line of code probably since December, basically\"",
+      "metrics": {
+        "like": 40,
+        "repost": 2,
+        "reply": 5,
+        "quote": 0,
+        "bookmark": 38,
+        "impression": 1157
+      },
+      "topic": "vibe coding·Karpathy",
+      "summary_ko": "Karpathy가 손코딩을 거의 안 한다는 발언 클립이 다시 퍼지며 vibe coding과 개발자 역할 논쟁을 재점화했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2118019797577326752",
+      "url": "https://x.com/AIStockSavvy/status/2118019797577326752",
+      "author": {
+        "username": "AIStockSavvy",
+        "name": "Hardik Shah",
+        "followers": 0
+      },
+      "created_at": "2026-11-04T16:37:25.000Z",
+      "quote": "📢 JUST IN: OpenAI to Acquire Pierre Computer, Expanding Codex AI Coding Infrastructure\n\nOpenAI announces agreement to acquire Pierre Computer Company. Acquisition aims to strengthen Codex's",
+      "metrics": {
+        "like": 2,
+        "repost": 0,
+        "reply": 4,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 3366
+      },
+      "topic": "OpenAI×Pierre",
+      "summary_ko": "OpenAI의 Pierre Computer 인수 소식이 Codex 코딩 인프라 확장으로 해석되며 빠르게 퍼졌어요.",
+      "link": "https://openai.com/index/openai-to-acquire-pierre",
+      "related_item_ids": [
+        "trend-e37bffe6a599943d"
+      ]
+    },
+    {
+      "id": "2118073680907338096",
+      "url": "https://x.com/markfenner/status/2118073680907338096",
+      "author": {
+        "username": "markfenner",
+        "name": "Hybrid",
+        "followers": 7723
+      },
+      "created_at": "2026-11-04T20:11:32.000Z",
+      "quote": "Another day of what’s happening in AI/tech.\n\nNew models, weights dropping, companies coming out of stealth, funding rounds and an acquisition announcement.\n\nHere are 16 things from November 4 that caught my attention 👇",
+      "metrics": {
+        "like": 18,
+        "repost": 4,
+        "reply": 8,
+        "quote": 1,
+        "bookmark": 0,
+        "impression": 598
+      },
+      "topic": "11/4 AI 라운드업",
+      "summary_ko": "11월 4일 신규 모델·가중치 공개·인수 발표를 한데 모은 데이리 라운드업이 개발자 타임라인에서 공유됐어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-798c892fe036a4df",
+        "trend-4918bb3cc3260cd4",
+        "trend-e37bffe6a599943d",
+        "trend-ea9d3031a2aff826"
+      ]
+    }
+  ]
+}
