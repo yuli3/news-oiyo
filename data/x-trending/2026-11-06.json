@@ -1,0 +1,233 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-06",
+  "collected_at": "2026-11-06T07:21:25+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 7
+  },
+  "posts": [
+    {
+      "id": "2118124944928432327",
+      "url": "https://x.com/OpenAI/status/2118124944928432327",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5510397
+      },
+      "created_at": "2026-11-04T23:35:14.000Z",
+      "quote": "Images, upgraded—introducing ChatGPT Images 2.6.\n\nNow with GIFs and reference images.\n\nPlus, two new models are coming to the API with 50% faster image generation.",
+      "metrics": {
+        "like": 20593,
+        "repost": 1779,
+        "reply": 1096,
+        "quote": 1774,
+        "bookmark": 4104,
+        "impression": 2256118
+      },
+      "topic": "ChatGPT Images 2.6",
+      "summary_ko": "OpenAI가 ChatGPT Images 2.6을 내놓으며 GIF와 참조 이미지 기능을 더했어요. 이미지 생성이 50% 빨라진 새 모델 두 개도 API에 들어온대요.",
+      "link": "https://openai.com/index/introducing-images-2-6",
+      "related_item_ids": [
+        "trend-7881922816f3974f"
+      ]
+    },
+    {
+      "id": "2118119451401048497",
+      "url": "https://x.com/OpenAI/status/2118119451401048497",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5510397
+      },
+      "created_at": "2026-11-04T23:13:24.000Z",
+      "quote": "Our security researchers built an autonomous cyber vulnerability discovery, exploitation, and patching pipeline.\n\nIn a single run with an upcoming cyber model, it validated and generated patches for 948 local privilege escalation vulnerabilities in the Linux kernel at a total API",
+      "metrics": {
+        "like": 11941,
+        "repost": 1210,
+        "reply": 628,
+        "quote": 822,
+        "bookmark": 4189,
+        "impression": 1997450
+      },
+      "topic": "리눅스 커널 취약점 948건",
+      "summary_ko": "OpenAI 보안 연구팀이 취약점 발견·검증·패치를 자동으로 하는 파이프라인을 만들어, 한 번의 실행으로 리눅스 커널 로컬 권한 상승 취약점 948건을 검증하고 패치를 만들었다고 밝혔어요.",
+      "link": "https://openai.com/index/a-thousand-fewer-paths-to-root",
+      "related_item_ids": [
+        "trend-56c86969bbda1105"
+      ]
+    },
+    {
+      "id": "2118390190246879554",
+      "url": "https://x.com/OpenAI/status/2118390190246879554",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5510397
+      },
+      "created_at": "2026-11-05T17:09:13.000Z",
+      "quote": "Introducing GPT‑6 Cyber: a major advance in security research that pairs stronger capabilities with better model alignment.\n\nThe model powered the Linux kernel research we announced yesterday, and security teams at companies like Mozilla, Palo Alto Networks, Calif, and",
+      "metrics": {
+        "like": 11722,
+        "repost": 1011,
+        "reply": 768,
+        "quote": 701,
+        "bookmark": 1768,
+        "impression": 1139465
+      },
+      "topic": "GPT-6 Cyber 공개",
+      "summary_ko": "OpenAI가 보안 연구용 모델 GPT-6 Cyber를 공개했어요. 성능과 정렬을 함께 높였다고 하고, 전날 발표한 리눅스 커널 연구에도 이 모델이 쓰였으며 Mozilla·Palo Alto Networks 등 보안팀이 쓰고 있대요.",
+      "link": "https://openai.com/index/introducing-gpt-6-cyber",
+      "related_item_ids": [
+        "trend-78d9c2a243fd42c8",
+        "trend-f9995583eecfd3a9"
+      ]
+    },
+    {
+      "id": "2118010528123773297",
+      "url": "https://x.com/Kimi_Moonshot/status/2118010528123773297",
+      "author": {
+        "username": "Kimi_Moonshot",
+        "name": "Kimi.ai",
+        "followers": 392023
+      },
+      "created_at": "2026-11-04T16:00:35.000Z",
+      "quote": "Releasing the model weights of Kimi K3.1 Pro:\nWe'll keep advancing open intelligence.",
+      "metrics": {
+        "like": 8333,
+        "repost": 822,
+        "reply": 366,
+        "quote": 452,
+        "bookmark": 1489,
+        "impression": 931731
+      },
+      "topic": "Kimi K3.1 Pro 가중치 공개",
+      "summary_ko": "문샷 AI가 Kimi K3.1 Pro 모델 가중치를 공개하며 열린 AI를 계속 밀고 나가겠다고 했어요.",
+      "link": "https://www.aitimes.com/news/articleView.html?idxno=217051",
+      "related_item_ids": [
+        "trend-7b2d8cf9ca5f1a18"
+      ]
+    },
+    {
+      "id": "2117870250838630539",
+      "url": "https://x.com/TencentHunyuan/status/2117870250838630539",
+      "author": {
+        "username": "TencentHunyuan",
+        "name": "Tencent Hy",
+        "followers": 57206
+      },
+      "created_at": "2026-11-04T06:43:10.000Z",
+      "quote": "👋Hy4 is here, new with vision.\nFirmly among the leading open models.\nMore productive everywhere: finance, frontend, game, officework, research…\nBuilt responsibly, with cyber/biosecurity in mind.\nTry it out and let us know!\n🔗：",
+      "metrics": {
+        "like": 2944,
+        "repost": 335,
+        "reply": 264,
+        "quote": 300,
+        "bookmark": 571,
+        "impression": 624016
+      },
+      "topic": "텐센트 Hy4 출시",
+      "summary_ko": "텐센트가 비전 기능을 더한 오픈 모델 Hy4를 내놨어요. 금융·프론트엔드·게임·사무·연구 등에서 생산성을 높였고, 사이버·생물보안을 고려해 만들었다고 소개했어요.",
+      "link": "https://www.tencent.com/tencent-launches-hy4-joining-the-ranks-of-the-worlds-leading-open-source-ai-models",
+      "related_item_ids": [
+        "trend-ec042896b986565f"
+      ]
+    },
+    {
+      "id": "2118390838434693281",
+      "url": "https://x.com/OfficialLoganK/status/2118390838434693281",
+      "author": {
+        "username": "OfficialLoganK",
+        "name": "Logan Kilpatrick",
+        "followers": 385502
+      },
+      "created_at": "2026-11-05T17:11:48.000Z",
+      "quote": "Today we are rolling out Gemini Omni Flash 1.2, with: \n\n- longer video generation (15 seconds)\n- deeper cinematic controls for camera pov\n- support for multi-turn conversation editing\n- less visual drift \n- 30% lower price than Omni Flash 1.1\n\nRead more:",
+      "metrics": {
+        "like": 1732,
+        "repost": 101,
+        "reply": 176,
+        "quote": 44,
+        "bookmark": 216,
+        "impression": 78015
+      },
+      "topic": "Gemini Omni 1.2 Flash",
+      "summary_ko": "구글 로건 킬패트릭이 Gemini Omni Flash 1.2 출시를 알렸어요. 15초 영상 생성, 카메라 시점 제어, 대화형 다중 편집, 화면 흔들림 감소, 1.1보다 30% 낮은 가격이 핵심이에요.",
+      "link": "https://deepmind.google/blog/gemini-omni-12-flash-fast-and-cost-effective-with-longer-clips",
+      "related_item_ids": [
+        "trend-399a00061880a347"
+      ]
+    },
+    {
+      "id": "2118131101562454038",
+      "url": "https://x.com/SenSanders/status/2118131101562454038",
+      "author": {
+        "username": "SenSanders",
+        "name": "Sen. Bernie Sanders",
+        "followers": 11548864
+      },
+      "created_at": "2026-11-04T23:59:42.000Z",
+      "quote": "7 months ago, AOC and I introduced an AI data center moratorium.\n\nLast night, 43 of 44 communities voted for one locally.\n\nAmericans don’t want Big Tech oligarchs wrecking the environment, gutting jobs and threatening humanity’s future.\n\nNATIONAL DATA CENTER MORATORIUM NOW",
+      "metrics": {
+        "like": 18676,
+        "repost": 2845,
+        "reply": 2268,
+        "quote": 453,
+        "bookmark": 769,
+        "impression": 1136170
+      },
+      "topic": "데이터센터 모라토리엄 요구",
+      "summary_ko": "버니 샌더스 의원이 중간선거 날 지역 투표에서 44곳 중 43곳이 데이터센터 유예에 찬성했다며 전국 단위 데이터센터 모라토리엄을 요구했어요. 숫자는 의원 본인 주장이에요.",
+      "link": "https://www.cnbc.com/2026/11/05/democrats-data-center-restrictions-midterms.html",
+      "related_item_ids": [
+        "trend-b38f2dfdad39e75c"
+      ]
+    },
+    {
+      "id": "2118381163136123019",
+      "url": "https://x.com/mustafasuleyman/status/2118381163136123019",
+      "author": {
+        "username": "mustafasuleyman",
+        "name": "Mustafa Suleyman",
+        "followers": 1168079
+      },
+      "created_at": "2026-11-05T16:33:21.000Z",
+      "quote": "Deeply concerning to me... Delaware proposal to let agents run businesees... we should be very cautious here\n\n\"A Delaware AIC will be a separate legal entity whose day-to-day aﬀairs are managed by an AI agent rather than a person. At the agent’s direction, the AIC can sue and be",
+      "metrics": {
+        "like": 221,
+        "repost": 47,
+        "reply": 54,
+        "quote": 17,
+        "bookmark": 67,
+        "impression": 26385
+      },
+      "topic": "델라웨어 'AI 회사' 법인안",
+      "summary_ko": "마이크로소프트 AI의 무스타파 술레이만이 AI 에이전트가 일상 업무를 운영하는 별도 법인(AIC)을 허용하자는 델라웨어 제안에 깊은 우려를 나타내며 신중해야 한다고 했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2118375749497598038",
+      "url": "https://x.com/Charles_Y_Wu/status/2118375749497598038",
+      "author": {
+        "username": "Charles_Y_Wu",
+        "name": "Yingcheng Charles Wu",
+        "followers": 6155
+      },
+      "created_at": "2026-11-05T16:11:50.000Z",
+      "quote": "So incredibly proud to finally share Science’s Last Exam (SLE). 🧪✨\n\nWe wanted to know: Can AI actually do science? So we gave them real lab tools and hidden expert checks.\n\nThe results are a massive reality check. Science is hard, and true end-to-end research is still at 0.",
+      "metrics": {
+        "like": 449,
+        "repost": 65,
+        "reply": 32,
+        "quote": 1,
+        "bookmark": 106,
+        "impression": 238029
+      },
+      "topic": "과학 연구 벤치마크 SLE",
+      "summary_ko": "새 벤치마크 Science’s Last Exam 공동 제작자가 AI에 실제 연구 도구와 숨은 전문가 검증을 줘 봤더니, 처음부터 끝까지 해내는 연구는 아직 0이었다며 현실 점검이라고 했어요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
