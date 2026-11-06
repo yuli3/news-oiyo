@@ -1,0 +1,230 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-07",
+  "collected_at": "2026-11-07T07:16:15+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 5
+  },
+  "posts": [
+    {
+      "id": "2118390190246879554",
+      "url": "https://x.com/OpenAI/status/2118390190246879554",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5515544
+      },
+      "created_at": "2026-11-05T17:09:13.000Z",
+      "quote": "Introducing GPT-6 Cyber: a major advance in security research that pairs stronger capabilities with better model alignment. The model powered the Linux kernel research we announced yesterday…",
+      "metrics": {
+        "like": 20219,
+        "repost": 1899,
+        "reply": 1213,
+        "quote": 1328,
+        "bookmark": 4009,
+        "impression": 3623612
+      },
+      "topic": "GPT-6 Cyber",
+      "summary_ko": "OpenAI가 보안 연구용 GPT-6 Cyber를 소개했어요. 전날 발표한 리눅스 커널 연구에도 쓰였고 Daybreak로 방어 팀을 넓힌다고 해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-da9cb487e07acb42"
+      ]
+    },
+    {
+      "id": "2118390406316728555",
+      "url": "https://x.com/Google/status/2118390406316728555",
+      "author": {
+        "username": "Google",
+        "name": "Google",
+        "followers": 31901667
+      },
+      "created_at": "2026-11-05T17:10:05.000Z",
+      "quote": "Meet Gemini Omni 1.2 Flash, our updated video generation model from @GoogleDeepMind. Get stronger consistency, more creative control, and faster, more cost-effective video creation at scale.",
+      "metrics": {
+        "like": 3228,
+        "repost": 324,
+        "reply": 251,
+        "quote": 254,
+        "bookmark": 1033,
+        "impression": 696402
+      },
+      "topic": "Gemini Omni 1.2 Flash",
+      "summary_ko": "구글이 Gemini Omni 1.2 Flash를 알렸어요. 일관성·편집 제어를 강화하고 720p 초당 0.07달러로 비용을 낮췄다고 해요.",
+      "link": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-gemini-omni-1-2-flash",
+      "related_item_ids": [
+        "trend-839ac4b68d910bef",
+        "trend-7463e746afa10c7f"
+      ]
+    },
+    {
+      "id": "2118412183860351084",
+      "url": "https://x.com/METR_Evals/status/2118412183860351084",
+      "author": {
+        "username": "METR_Evals",
+        "name": "METR",
+        "followers": 63657
+      },
+      "created_at": "2026-11-05T18:36:37.000Z",
+      "quote": "Since August, a team within METR has worked with internal Anthropic information to assess whether AI itself is accelerating AI development. We are now publishing a report summarizing the results of this risk assessment.",
+      "metrics": {
+        "like": 4704,
+        "repost": 585,
+        "reply": 205,
+        "quote": 342,
+        "bookmark": 2872,
+        "impression": 1382253
+      },
+      "topic": "METR Anthropic R&D",
+      "summary_ko": "METR이 앤트로픽 내부 자료를 바탕으로 AI가 AI 개발을 가속하는지 평가한 보고서를 공개했다고 알렸어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-5f5db7dda71a219a",
+        "trend-f0a8d4bbacecc43f"
+      ]
+    },
+    {
+      "id": "2118782708767965238",
+      "url": "https://x.com/OpenAI/status/2118782708767965238",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5515544
+      },
+      "created_at": "2026-11-06T19:08:57.000Z",
+      "quote": "A new way to measure how AI agents handle the routine analyses of wet-lab science—BioBasicsBench. Developed with Ligo, the benchmark draws on 100 tasks from real experiments.",
+      "metrics": {
+        "like": 2051,
+        "repost": 133,
+        "reply": 522,
+        "quote": 169,
+        "bookmark": 300,
+        "impression": 290624
+      },
+      "topic": "BioBasicsBench",
+      "summary_ko": "OpenAI가 Ligo와 만든 BioBasicsBench로, 습식 실험실 일상 과제 100개에서 에이전트가 원본 랩 데이터를 다루는지 잰다고 했어요.",
+      "link": "https://openai.com/index/measuring-how-ai-agents-handle-wet-lab-science",
+      "related_item_ids": [
+        "trend-7572e14287e1e6f4"
+      ]
+    },
+    {
+      "id": "2118814753154064501",
+      "url": "https://x.com/AnthropicAI/status/2118814753154064501",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1883295
+      },
+      "created_at": "2026-11-06T21:16:17.000Z",
+      "quote": "Memory is what allows Claude to learn from experience. In a new Engineering Blog post, we share how dreaming helps Claude organize what it has learned, correct its mistakes, and find what it needs more easily the next time.",
+      "metrics": {
+        "like": 1960,
+        "repost": 134,
+        "reply": 187,
+        "quote": 81,
+        "bookmark": 1115,
+        "impression": 94330
+      },
+      "topic": "Claude memory dreaming",
+      "summary_ko": "앤트로픽이 Claude 메모리와 dreaming으로 경험을 정리·수정한다는 엔지니어링 블로그를 공유했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2118755418675765656",
+      "url": "https://x.com/GoogleDeepMind/status/2118755418675765656",
+      "author": {
+        "username": "GoogleDeepMind",
+        "name": "Google DeepMind",
+        "followers": 1600009
+      },
+      "created_at": "2026-11-06T17:20:31.000Z",
+      "quote": "We are sharing new research demonstrating how AI agents can accelerate the science of stress-testing encryption. Guided by humans, our models uncovered two major weaknesses in legacy 1024-bit RSA cryptosystems.",
+      "metrics": {
+        "like": 885,
+        "repost": 115,
+        "reply": 179,
+        "quote": 55,
+        "bookmark": 236,
+        "impression": 64991
+      },
+      "topic": "AI crypto stress-test",
+      "summary_ko": "DeepMind가 사람 지도 아래 AI 에이전트로 레거시 1024비트 RSA의 약점 두 가지를 찾았다는 연구를 공유했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2118792930211107115",
+      "url": "https://x.com/AnthropicAI/status/2118792930211107115",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1883295
+      },
+      "created_at": "2026-11-06T19:49:34.000Z",
+      "quote": "New on our Science Blog: How AI is beginning to change scientific modeling. Scientific models help researchers explain and predict real-world systems.",
+      "metrics": {
+        "like": 1398,
+        "repost": 108,
+        "reply": 192,
+        "quote": 56,
+        "bookmark": 363,
+        "impression": 111198
+      },
+      "topic": "AI scientific modeling",
+      "summary_ko": "앤트로픽 사이언스 블로그가 AI가 과학적 모델링을 바꾸기 시작했다는 글을 올렸어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2118664066269102542",
+      "url": "https://x.com/vipinxtwt/status/2118664066269102542",
+      "author": {
+        "username": "vipinxtwt",
+        "name": "Vipin",
+        "followers": 1073
+      },
+      "created_at": "2026-11-06T11:17:30.000Z",
+      "quote": "Google announced that Gemini Omni 1.2 flash is 30% cheaper than Gemini Omni 1.1 flash, but the math is not adding up: 1.1 Flash 10s=15 credits; 1.2 Flash 15s=60 credits.",
+      "metrics": {
+        "like": 91,
+        "repost": 1,
+        "reply": 14,
+        "quote": 0,
+        "bookmark": 11,
+        "impression": 7565
+      },
+      "topic": "Omni pricing debate",
+      "summary_ko": "크레딧 단가로 보면 Omni 1.2가 초당 더 비싸 보일 수 있다는 지적이에요. 공식 달러 가격 인하와 플랫폼 크레딧 표기 차이를 논의해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-839ac4b68d910bef"
+      ]
+    },
+    {
+      "id": "2118595230966452283",
+      "url": "https://x.com/Tajudeen/status/2118595230966452283",
+      "author": {
+        "username": "Tajudeen",
+        "name": "Tajudeen",
+        "followers": 10766
+      },
+      "created_at": "2026-11-06T06:43:59.000Z",
+      "quote": "day 23–24 of 365 days of sharing more updates about ai. the AI space is moving fast. we are seeing AI models discover security vulnerabilities, new open-weight models, major infrastructure debates.",
+      "metrics": {
+        "like": 49,
+        "repost": 17,
+        "reply": 23,
+        "quote": 0,
+        "bookmark": 1,
+        "impression": 1186
+      },
+      "topic": "Weekly AI roundup",
+      "summary_ko": "보안 취약점 발견·오픈웨이트 출시·인프라 논쟁 등 한 주 AI 업데이트를 짧게 묶어 공유한 게시물이에요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
