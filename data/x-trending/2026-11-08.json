@@ -1,0 +1,180 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-08",
+  "collected_at": "2026-11-08T07:13:00+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 6
+  },
+  "posts": [
+    {
+      "id": "2118814753154064501",
+      "url": "https://x.com/AnthropicAI/status/2118814753154064501",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1886911
+      },
+      "created_at": "2026-11-06T21:16:17.000Z",
+      "quote": "Memory is what allows Claude to learn from experience. In a new Engineering Blog post, we share how “dreaming” helps Claude organize what it’s learned, correct its mistakes, and find what it needs more easily the next time.",
+      "metrics": {
+        "like": 11951,
+        "repost": 1056,
+        "reply": 857,
+        "quote": 678,
+        "bookmark": 10629,
+        "impression": 1493353
+      },
+      "topic": "Claude 에이전트 메모리·드리밍",
+      "summary_ko": "Anthropic이 Claude가 경험에서 배우는 메모리 설계를 소개했어요. 쉬는 시간에 기록을 되짚는 '드리밍'으로 실수를 고치고 배운 걸 정리한다고 해요.",
+      "link": "https://www.anthropic.com/research/components-of-agent-memory",
+      "related_item_ids": [
+        "trend-262deb3960cb90ba"
+      ]
+    },
+    {
+      "id": "2118706269506949152",
+      "url": "https://x.com/psipbc/status/2118706269506949152",
+      "author": {
+        "username": "psipbc",
+        "name": "Physical Superintelligence",
+        "followers": 7329
+      },
+      "created_at": "2026-11-06T14:05:12.000Z",
+      "quote": "Today Physical Superintelligence PBC is announcing a proof of the Aaronson-Ambainis conjecture, one of the central open problems in quantum complexity, with major implications for quantum computing speedup.",
+      "metrics": {
+        "like": 3747,
+        "repost": 614,
+        "reply": 138,
+        "quote": 279,
+        "bookmark": 2082,
+        "impression": 957925
+      },
+      "topic": "AI가 찾은 양자 복잡도 증명",
+      "summary_ko": "Physical Superintelligence가 2008년부터 열려 있던 Aaronson-Ambainis 추측의 증명과 Lean 형식화를 공개했어요. 비공개 Anthropic 모델을 쓴 자체 연구 시스템의 결과라고 밝혔고, 동료 검토 전이에요.",
+      "link": "https://psi.inc/research/aaronson-ambainis/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2118489527362912566",
+      "url": "https://x.com/thinkymachines/status/2118489527362912566",
+      "author": {
+        "username": "thinkymachines",
+        "name": "Thinking Machines",
+        "followers": 187750
+      },
+      "created_at": "2026-11-05T23:43:57.000Z",
+      "quote": "Introducing Inkling 2 Small. Scoring 31 on the AA Intelligence Index, it's a big jump over its predecessor.\n\nInkling 2 Small is available for fine-tuning and inference on Tinker today, with full weight release planned soon.",
+      "metrics": {
+        "like": 5659,
+        "repost": 534,
+        "reply": 268,
+        "quote": 468,
+        "bookmark": 3158,
+        "impression": 1678978
+      },
+      "topic": "Inkling 2 Small",
+      "summary_ko": "씽킹 머신스가 AA 지능 지수 31점의 Inkling 2 Small을 공개했어요. Tinker에서 바로 파인튜닝·추론할 수 있고 전체 가중치도 곧 공개할 계획이에요.",
+      "link": "https://thinkingmachines.ai/news/inkling-2-small/",
+      "related_item_ids": [
+        "trend-5286bb7052511e15"
+      ]
+    },
+    {
+      "id": "2118137612577968402",
+      "url": "https://x.com/_catwu/status/2118137612577968402",
+      "author": {
+        "username": "_catwu",
+        "name": "cat",
+        "followers": 192490
+      },
+      "created_at": "2026-11-05T00:25:34.000Z",
+      "quote": "Some news: I’m joining OpenAI to lead product management for Core Products!\n\nI have a lot of respect for OpenAI for showing the world that scaling works, for bringing AI to over a billion people, and for believing great products are core to the mission.",
+      "metrics": {
+        "like": 17382,
+        "repost": 746,
+        "reply": 2079,
+        "quote": 1438,
+        "bookmark": 1953,
+        "impression": 4097766
+      },
+      "topic": "캣 우, OpenAI 합류",
+      "summary_ko": "클로드 코드 제품을 이끌던 캣 우가 OpenAI 핵심 제품 조직의 제품 관리를 맡는다고 직접 알렸어요. 스케일링을 증명하고 AI를 10억 명 넘는 사람에게 전한 점을 존중한다고 했어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-dd9623991319bf80"
+      ]
+    },
+    {
+      "id": "2118265920665587935",
+      "url": "https://x.com/Baidu_Inc/status/2118265920665587935",
+      "author": {
+        "username": "Baidu_Inc",
+        "name": "Baidu Inc.",
+        "followers": 150300
+      },
+      "created_at": "2026-11-05T08:55:25.000Z",
+      "quote": "ERNIE 5.5 Flash Base just dropped! Time to open that project folder. 🚀\n\nOur efficient sparse MoE language model draws on data spanning multiple domains and languages, achieving SOTA on multiple benchmarks among similarly sized base models.",
+      "metrics": {
+        "like": 338,
+        "repost": 47,
+        "reply": 48,
+        "quote": 35,
+        "bookmark": 77,
+        "impression": 242245
+      },
+      "topic": "ERNIE 5.5 Flash Base",
+      "summary_ko": "바이두가 희소 MoE 베이스 모델 ERNIE 5.5 Flash Base를 공개했어요. 비슷한 크기의 베이스 모델 중 여러 벤치마크에서 최고 성능이라고 주장해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-a3c74f15c7ce3ff7"
+      ]
+    },
+    {
+      "id": "2118851088111865983",
+      "url": "https://x.com/ArtificialAnlys/status/2118851088111865983",
+      "author": {
+        "username": "ArtificialAnlys",
+        "name": "Artificial Analysis",
+        "followers": 176101
+      },
+      "created_at": "2026-11-06T23:40:40.000Z",
+      "quote": "OpenAI's GPT Image 2.6 takes #1 and #2 on both AA-Image-T2I v2.1 and AA-Image-Editing v2.1. GPT Image 2.6 Flare is almost twice as fast as GPT Image 2.5 Flare with slightly better quality, and GPT Image 2.6 Sunburst takes the top spot",
+      "metrics": {
+        "like": 291,
+        "repost": 22,
+        "reply": 31,
+        "quote": 20,
+        "bookmark": 50,
+        "impression": 30210
+      },
+      "topic": "GPT Image 2.6 순위",
+      "summary_ko": "Artificial Analysis 이미지 생성·편집 리더보드에서 OpenAI GPT Image 2.6이 1·2위를 차지했대요. Flare는 2.5보다 거의 두 배 빠르고, Sunburst는 시간이 더 걸리지만 1위예요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2118804058672869629",
+      "url": "https://x.com/ArtificialAnlys/status/2118804058672869629",
+      "author": {
+        "username": "ArtificialAnlys",
+        "name": "Artificial Analysis",
+        "followers": 176101
+      },
+      "created_at": "2026-11-06T20:33:47.000Z",
+      "quote": "DeepSeek V4.1 Flash speeds on GB300 NVL72 have increased by up to 1.5x tok/s per agent over the past month on AA-AgentPerf, our benchmark of datacenter systems running realistic agentic coding workloads",
+      "metrics": {
+        "like": 357,
+        "repost": 19,
+        "reply": 41,
+        "quote": 13,
+        "bookmark": 44,
+        "impression": 38248
+      },
+      "topic": "DeepSeek V4.1 Flash 추론 속도",
+      "summary_ko": "AA-AgentPerf에서 GB300 NVL72로 돌린 DeepSeek V4.1 Flash의 에이전트당 속도가 한 달 새 최대 1.5배 빨라졌대요. 새 vLLM 버전과 커널 덕분이라고 해요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
