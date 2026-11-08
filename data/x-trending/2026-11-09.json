@@ -1,0 +1,151 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-09",
+  "collected_at": "2026-11-09T07:08:00+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 6
+  },
+  "posts": [
+    {
+      "id": "2119112609223827547",
+      "url": "https://x.com/brian_armstrong/status/2119112609223827547",
+      "author": {
+        "username": "brian_armstrong",
+        "name": "Brian Armstrong",
+        "followers": 3959660
+      },
+      "created_at": "2026-11-07T16:59:51.000Z",
+      "quote": "I've changed how I work over the last few weeks.\n\nI now have one lead agent for each area of focus, running all the time, and a chief of staff agent that oversees them. Each lead manages its own sub-agents",
+      "metrics": {
+        "like": 8962,
+        "repost": 411,
+        "reply": 753,
+        "quote": 332,
+        "bookmark": 12757,
+        "impression": 1262513
+      },
+      "topic": "Coinbase CEO의 에이전트 업무 방식",
+      "summary_ko": "Coinbase CEO가 분야별 리드 에이전트와 이를 총괄하는 '비서실장' 에이전트를 두고, 결정할 일은 하나의 우선순위 큐로 받아 처리한다고 밝혔어요. 모든 변경은 여전히 사람 리뷰와 보안 점검을 거친다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2119332146485891501",
+      "url": "https://x.com/addyosmani/status/2119332146485891501",
+      "author": {
+        "username": "addyosmani",
+        "name": "Addy Osmani",
+        "followers": 493049
+      },
+      "created_at": "2026-11-08T07:32:13.000Z",
+      "quote": "The skills for managing agents are pretty much the skills for managing a team, and you don't need to be a manager to learn them.\nIf you're spending all day with a coding agent, you are managing.",
+      "metrics": {
+        "like": 2970,
+        "repost": 307,
+        "reply": 217,
+        "quote": 122,
+        "bookmark": 5457,
+        "impression": 276640
+      },
+      "topic": "코딩 에이전트와 관리 역량",
+      "summary_ko": "Addy Osmani가 코딩 에이전트를 잘 쓰는 법은 팀 관리 기술과 같다는 글을 올렸어요. 스스로 검증할 수단 주기, 저장소에 없는 맥락 전달, 판단은 위임하지 않기 등을 Claude Code 사례와 함께 정리했어요.",
+      "link": "https://addyosmani.com/blog/coding-agents-manager/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2119114537442189652",
+      "url": "https://x.com/karpathy/status/2119114537442189652",
+      "author": {
+        "username": "karpathy",
+        "name": "Andrej Karpathy",
+        "followers": 4437344
+      },
+      "created_at": "2026-11-07T17:07:31.000Z",
+      "quote": "Earlier this week Tristan published his top YouTube channels:\nhttps://t.co/NZ3UCNo6cT\nWhich looked excellent so clearly I had to turn it into TristanTube:",
+      "metrics": {
+        "like": 8451,
+        "repost": 701,
+        "reply": 575,
+        "quote": 200,
+        "bookmark": 9517,
+        "impression": 817488
+      },
+      "topic": "Claude Code로 3분 만에 만든 사이트",
+      "summary_ko": "Karpathy가 Tristan Hume의 유튜브 채널 티어 리스트를 4.7만 개 영상과 TV 모드를 갖춘 'TristanTube' 사이트로 만들었다고 해요. Claude Code로 3분 만에 한 번에 만들었다고 밝혔어요.",
+      "link": "https://karpathy.ai/tristan-tube/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2119111328099168409",
+      "url": "https://x.com/levie/status/2119111328099168409",
+      "author": {
+        "username": "levie",
+        "name": "Aaron Levie",
+        "followers": 3524543
+      },
+      "created_at": "2026-11-07T16:54:46.000Z",
+      "quote": "This sounds extreme and I wouldn’t have believed it even a year ago, but we’re starting to see plenty of examples of productivity gains that are an order of magnitude or two above output levels pre-AI.",
+      "metrics": {
+        "like": 737,
+        "repost": 72,
+        "reply": 126,
+        "quote": 23,
+        "bookmark": 562,
+        "impression": 83961
+      },
+      "topic": "AI 시대 생산성 격차",
+      "summary_ko": "Box CEO Aaron Levie는 좋은 하네스와 깊은 도메인 이해, 여러 에이전트를 다루는 능력이 있으면 AI 이전보다 10~100배 산출이 나오는 사례가 보인다고 했어요. 이 격차가 줄지 않고 커진다고 봐요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2119211310424654034",
+      "url": "https://x.com/AravSrinivas/status/2119211310424654034",
+      "author": {
+        "username": "AravSrinivas",
+        "name": "Aravind Srinivas",
+        "followers": 1166211
+      },
+      "created_at": "2026-11-07T23:32:04.000Z",
+      "quote": "Teammate automation runs grew 3.7x from launch day to day two. This is despite day two being a Friday. We’re going to see a lot more time dilation for high-agency professionals.",
+      "metrics": {
+        "like": 242,
+        "repost": 10,
+        "reply": 56,
+        "quote": 9,
+        "bookmark": 44,
+        "impression": 196535
+      },
+      "topic": "Perplexity Teammates 초기 사용량",
+      "summary_ko": "Perplexity CEO가 업무용 개인 에이전트 'Teammates'의 자동화 실행 수가 출시 첫날 대비 이튿날 3.7배로 늘었다고 밝혔어요. Teammates는 프롬프트 대신 상위 목표를 주는 방식이라고 소개했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2119465207940387031",
+      "url": "https://x.com/GaryMarcus/status/2119465207940387031",
+      "author": {
+        "username": "GaryMarcus",
+        "name": "Gary Marcus",
+        "followers": 256736
+      },
+      "created_at": "2026-11-08T16:20:57.000Z",
+      "quote": "The other reason AI is going to lead to unemployment, today from @paulkrugman: “a burst AI bubble will almost surely cause a recession.",
+      "metrics": {
+        "like": 366,
+        "repost": 63,
+        "reply": 41,
+        "quote": 5,
+        "bookmark": 51,
+        "impression": 17277
+      },
+      "topic": "AI 버블과 경기침체 우려",
+      "summary_ko": "Gary Marcus가 AI 버블이 터지면 거의 확실히 경기침체가 오고 회복이 더뎌 실업이 여러 해 높게 유지될 수 있다는 Paul Krugman의 글을 인용했어요. AI가 실업을 부르는 또 다른 경로라는 주장이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-ab9703e1a85f350f"
+      ]
+    }
+  ]
+}
