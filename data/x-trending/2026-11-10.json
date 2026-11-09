@@ -1,0 +1,192 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-10",
+  "collected_at": "2026-11-10T07:16:00+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 12
+  },
+  "posts": [
+    {
+      "id": "2119867114450268322",
+      "url": "https://x.com/claudeai/status/2119867114450268322",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 2018514
+      },
+      "created_at": "2026-11-09T18:57:59.000Z",
+      "quote": "Introducing Claude Fable 5.2 and Claude Mythos 5.2, designed to tackle the most daunting technical challenges.\n\nThey’re capable collaborators on ambitious projects in many fields, and show improvements in areas like coding, reasoning, and vision.",
+      "metrics": {
+        "like": 61175,
+        "repost": 5474,
+        "reply": 2151,
+        "quote": 4350,
+        "bookmark": 9201,
+        "impression": 5398650
+      },
+      "topic": "Claude Fable 5.2·Mythos 5.2 공개",
+      "summary_ko": "Claude 공식 계정이 Fable 5.2와 Mythos 5.2를 함께 공개했어요. 어려운 기술 과제를 위한 모델이라고 소개하면서 코딩, 추론, 비전 성능이 좋아졌다고 밝혔어요. 오늘 X에서 반응이 가장 컸던 AI 글이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-129e9309870cb696",
+        "trend-cb26527cd7b74d6b"
+      ]
+    },
+    {
+      "id": "2119878995386982508",
+      "url": "https://x.com/ArtificialAnlys/status/2119878995386982508",
+      "author": {
+        "username": "ArtificialAnlys",
+        "name": "Artificial Analysis",
+        "followers": 176642
+      },
+      "created_at": "2026-11-09T19:45:12.000Z",
+      "quote": "Anthropic has released Claude Fable 5.2, taking the #1 spot on the Artificial Analysis Intelligence Index v5 at 65, led by gains in science, knowledge, and coding",
+      "metrics": {
+        "like": 1591,
+        "repost": 106,
+        "reply": 62,
+        "quote": 57,
+        "bookmark": 197,
+        "impression": 94675
+      },
+      "topic": "Fable 5.2, AA 지능 지수 1위",
+      "summary_ko": "Artificial Analysis는 Claude Fable 5.2가 자사 Intelligence Index v5에서 65점으로 1위에 올랐다고 밝혔어요. 최대 effort 기준으로 Gemini 4 Carbon(60)보다 5점, Claude Opus 5.5(59)보다 6점 높았고, 과학·지식·코딩 영역이 상승을 이끌었다고 해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-cb26527cd7b74d6b",
+        "trend-129e9309870cb696"
+      ]
+    },
+    {
+      "id": "2119857909098283406",
+      "url": "https://x.com/alexandr_wang/status/2119857909098283406",
+      "author": {
+        "username": "alexandr_wang",
+        "name": "Alexandr Wang",
+        "followers": 845607
+      },
+      "created_at": "2026-11-09T18:21:25.000Z",
+      "quote": "today we released our smallest model yet: Muse Ember 🔥\n\nMuse Ember offers nearly Muse Spark 1.3 (max) intelligence at a 17x cheaper price point (per AA)",
+      "metrics": {
+        "like": 1596,
+        "repost": 108,
+        "reply": 122,
+        "quote": 33,
+        "bookmark": 156,
+        "impression": 113309
+      },
+      "topic": "Meta Muse Ember 출시",
+      "summary_ko": "Alexandr Wang이 Meta의 가장 작은 모델 Muse Ember를 공개했어요. Artificial Analysis 기준으로 Muse Spark 1.3(max)에 가까운 지능을 17분의 1 가격에 낸다고 했고, Muse Wonder Full로 학습한 첫 모델이라고 밝혔어요. API와 Muse Code에서 쓸 수 있어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-1ca7e5d6dedc47c0"
+      ]
+    },
+    {
+      "id": "2119854348587123007",
+      "url": "https://x.com/ArtificialAnlys/status/2119854348587123007",
+      "author": {
+        "username": "ArtificialAnlys",
+        "name": "Artificial Analysis",
+        "followers": 176642
+      },
+      "created_at": "2026-11-09T18:07:16.000Z",
+      "quote": "Meta's newest model Muse Ember scores 36 on the Artificial Analysis Intelligence Index, matching Claude Haiku 5.5 (max) at a third of the Cost per Task",
+      "metrics": {
+        "like": 701,
+        "repost": 36,
+        "reply": 67,
+        "quote": 23,
+        "bookmark": 98,
+        "impression": 84817
+      },
+      "topic": "Muse Ember, Haiku 5.5급 점수에 비용 3분의 1",
+      "summary_ko": "Artificial Analysis는 Muse Ember가 지능 지수 36점으로 Claude Haiku 5.5(max)와 같은 점수를 냈고, 작업당 비용은 3분의 1 수준이라고 평가했어요. 토큰 단가는 Haiku 5.5와 같다고 덧붙였어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-1ca7e5d6dedc47c0"
+      ]
+    },
+    {
+      "id": "2119578471559213411",
+      "url": "https://x.com/ArtificialAnlys/status/2119578471559213411",
+      "author": {
+        "username": "ArtificialAnlys",
+        "name": "Artificial Analysis",
+        "followers": 176642
+      },
+      "created_at": "2026-11-08T23:51:02.000Z",
+      "quote": "Introducing the Artificial Analysis Decision Index v2: a new proprietary evaluation, updated benchmarks, and a headline metric that rewards model calibration",
+      "metrics": {
+        "like": 703,
+        "repost": 44,
+        "reply": 84,
+        "quote": 70,
+        "bookmark": 236,
+        "impression": 96184
+      },
+      "topic": "AA Decision Index v2 발표",
+      "summary_ko": "Artificial Analysis가 Decision Index 2판을 내놨어요. 자체 비공개 평가를 새로 넣고 벤치마크를 갱신했으며, 대표 지표가 모델의 보정(calibration), 즉 자기 확신이 실제 정답률과 얼마나 맞는지를 반영하도록 바뀌었다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2119706491779186998",
+      "url": "https://x.com/DecryptMedia/status/2119706491779186998",
+      "author": {
+        "username": "DecryptMedia",
+        "name": "Decrypt",
+        "followers": 229736
+      },
+      "created_at": "2026-11-09T08:19:44.000Z",
+      "quote": "Nvidia Board Opens Probe Into Reports CEO Jensen Huang Was Targeted by Foreign Intelligence.\n\nNvidia's board said Sunday it launched an independent investigation into reports that CEO Jensen Huang was targeted by a foreign intelligence effort",
+      "metrics": {
+        "like": 26,
+        "repost": 0,
+        "reply": 3,
+        "quote": 0,
+        "bookmark": 0,
+        "impression": 3681
+      },
+      "topic": "엔비디아 이사회, 젠슨 황 관련 독립 조사",
+      "summary_ko": "Decrypt는 엔비디아 이사회가 젠슨 황 CEO가 외국 정보활동의 표적이 됐다는 보도와 관련해 독립 조사를 시작했다고 전했어요. 한국 X 트렌드에도 '엔비디아', '중국 스파이', '불륜 인정'이 함께 올라 있었어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-d8f191924c299dcc",
+        "trend-777685bf55a98af1",
+        "trend-adcd86ae0c79994a",
+        "trend-f9170955aeb4c471",
+        "trend-d9d049c1dcbe447b"
+      ]
+    },
+    {
+      "id": "2119670477446909993",
+      "url": "https://x.com/hankyungmedia/status/2119670477446909993",
+      "author": {
+        "username": "hankyungmedia",
+        "name": "한국경제신문",
+        "followers": 154117
+      },
+      "created_at": "2026-11-09T05:56:38.000Z",
+      "quote": "🚨 \"중국 스파이 연루설\" 젠슨 황… 트럼프, 공개 지지 나서\n\n미국 정보당국이 엔비디아 젠슨 황 CEO와 중국 스파이 의혹을 받는 여성 간의 관계를 조사 중인 가운데\n도널드 트럼프 대통령이 그를 향한 변함없는 신뢰를 표현해 주목받고 있습니다.",
+      "metrics": {
+        "like": 2,
+        "repost": 1,
+        "reply": 0,
+        "quote": 1,
+        "bookmark": 0,
+        "impression": 1278
+      },
+      "topic": "트럼프, 젠슨 황 공개 지지",
+      "summary_ko": "한국경제는 미국 정보당국이 젠슨 황과 중국 스파이 의혹을 받는 여성의 관계를 들여다보는 가운데, 트럼프 대통령이 황 CEO에 대한 신뢰를 공개적으로 밝혔다고 전했어요. 국내에서 이 사건을 다룬 글 가운데 노출이 많은 편이었어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-37774b2447f432a0",
+        "trend-b8ae3d86a1c6d05e",
+        "trend-adcd86ae0c79994a"
+      ]
+    }
+  ]
+}
