@@ -34,7 +34,10 @@ export default defineConfig({
       // 페이지네이션은 90일 노출 0 이라 빼도 잃을 것이 없다(blog 와 같은 정책).
       // 2026-10-30: 모집 공개로 /subscribe/ 만 사이트맵에 넣고 confirm·unsubscribe·new-year 하위는 계속 뺀다.
       // 2026-10-12: /saved/ 는 브라우저 저장 목록(noindex)이라 사이트맵에서 뺀다.
+      // 2026-11-09 세운 결정: 개별 기사(/item/)는 noindex + 사이트맵 제외. 색인은 날짜별 일일판·허브만.
+      // 150개 표본에서 색인 1건(홈)뿐이고 /item/ 은 전부 발견됨–미색인이었다.
       filter: (page) => !/\/page\/\d+\/?$/.test(page) && !/\/saved\/?$/.test(page)
+        && !/^\/item\//.test(new URL(page).pathname)
         && !/^\/subscribe\/.+/.test(new URL(page).pathname),
       serialize: (item) => {
         const path = new URL(item.url).pathname;
