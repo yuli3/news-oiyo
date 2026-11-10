@@ -1,0 +1,209 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-11",
+  "collected_at": "2026-11-11T07:14:00+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 3
+  },
+  "posts": [
+    {
+      "id": "2120206365759094857",
+      "url": "https://x.com/claudeai/status/2120206365759094857",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 2042161
+      },
+      "created_at": "2026-11-10T17:26:03.000Z",
+      "quote": "Starting to roll out today: Claude Whiteboards, Claude Sheets and Claude Data.\n\nThink a plan through on a board, build a tracker in a sheet, and tell a story with your data.",
+      "metrics": {
+        "like": 32467,
+        "repost": 2007,
+        "reply": 826,
+        "quote": 1741,
+        "bookmark": 13792,
+        "impression": 4082056
+      },
+      "topic": "Claude Whiteboards·Sheets·Data 출시",
+      "summary_ko": "Claude 공식 계정이 Whiteboards, Sheets, Data 세 기능을 오늘부터 배포한다고 알렸어요. 보드에서 계획을 정리하고, 시트로 트래커를 만들고, 데이터로 이야기를 풀어내는 용도예요. 오늘 X에서 반응이 가장 컸던 AI 글이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-0bf94eb0416a3d57"
+      ]
+    },
+    {
+      "id": "2120185896469496180",
+      "url": "https://x.com/sundarpichai/status/2120185896469496180",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11880785
+      },
+      "created_at": "2026-11-10T16:04:43.000Z",
+      "quote": "Gemini 4 Carbon is rolling out today. It’s built for sustained, long-horizon tasks, reasoning deeply through complex software engineering, cybersecurity, and scientific discovery.",
+      "metrics": {
+        "like": 5868,
+        "repost": 445,
+        "reply": 433,
+        "quote": 212,
+        "bookmark": 347,
+        "impression": 431973
+      },
+      "topic": "Gemini 4 Carbon 배포 시작",
+      "summary_ko": "순다르 피차이 구글 CEO가 Gemini 4 Carbon 배포를 알렸어요. 오래 이어지는 장기 작업용으로 소프트웨어 엔지니어링, 사이버보안, 과학적 발견을 깊게 추론한다고 해요. Gemini API(AI Studio)와 기업용 Gemini로 전 세계에 풀리고, Ultra 구독자는 Antigravity, Gemini 앱, 검색 AI 모드에서 쓸 수 있어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-44305fecd7340d00",
+        "trend-08e12b5efd291bed"
+      ]
+    },
+    {
+      "id": "2120207062655549933",
+      "url": "https://x.com/sundarpichai/status/2120207062655549933",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11880785
+      },
+      "created_at": "2026-11-10T17:28:49.000Z",
+      "quote": "Our teams put Gemini 4 Carbon to work on a major security challenge: mathematically proving the code underlying the Signal protocol.",
+      "metrics": {
+        "like": 1997,
+        "repost": 154,
+        "reply": 139,
+        "quote": 34,
+        "bookmark": 253,
+        "impression": 130278
+      },
+      "topic": "AlphaProof Code로 Signal 프로토콜 검증",
+      "summary_ko": "피차이 CEO는 DeepMind 연구진이 AlphaProof Code로 에이전트를 이끌어 Signal 프로토콜을 컴파일된 기기 코드 수준까지 수학적으로 검증했다고 밝혔어요. Gemini 4 Carbon이 기계 검증된 Lean 증명을 600만 줄 넘게 만들었고, 사람이 검토한 건 코드베이스의 약 1%였어요. 결과는 오픈소스로 공개한대요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-490a65534123e805"
+      ]
+    },
+    {
+      "id": "2120169787896525104",
+      "url": "https://x.com/GoogleDeepMind/status/2120169787896525104",
+      "author": {
+        "username": "GoogleDeepMind",
+        "name": "Google DeepMind",
+        "followers": 1604084
+      },
+      "created_at": "2026-11-10T15:00:42.000Z",
+      "quote": "Gemini Robotics 2.5 is here. 🤖\n\nOur latest physical AI is able to learn hundreds of everyday skills - from folding laundry and serving pastries to autonomously sorting car parts on the factory floor.",
+      "metrics": {
+        "like": 3224,
+        "repost": 375,
+        "reply": 267,
+        "quote": 228,
+        "bookmark": 765,
+        "impression": 256401
+      },
+      "topic": "Gemini Robotics 2.5 공개",
+      "summary_ko": "Google DeepMind가 피지컬 AI 모델 Gemini Robotics 2.5를 공개했어요. 빨래 개기, 페이스트리 서빙부터 공장에서 자동차 부품을 스스로 분류하는 일까지 수백 가지 일상 기술을 배울 수 있다고 소개했어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-a4d068d180f187a4"
+      ]
+    },
+    {
+      "id": "2120216592395174382",
+      "url": "https://x.com/OpenAI/status/2120216592395174382",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5526037
+      },
+      "created_at": "2026-11-10T18:06:42.000Z",
+      "quote": "Now in beta: Businesses in ChatGPT.\n\nClaim your business, manage your information, and get insights on how people engage with you.",
+      "metrics": {
+        "like": 8747,
+        "repost": 593,
+        "reply": 620,
+        "quote": 557,
+        "bookmark": 8164,
+        "impression": 1458562
+      },
+      "topic": "ChatGPT 비즈니스 페이지 베타",
+      "summary_ko": "OpenAI가 'Businesses in ChatGPT' 베타를 열었어요. 사업자가 자기 비즈니스를 등록해 정보를 관리하고 사람들이 어떻게 반응하는지 인사이트를 볼 수 있어요. 자격이 되는 곳은 고객 질문에 답하는 Business Agent도 만들 수 있어요.",
+      "link": "https://openai.com/index/introducing-businesses-chatgpt/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2120117722230968385",
+      "url": "https://x.com/AnthropicAI/status/2120117722230968385",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1896028
+      },
+      "created_at": "2026-11-10T11:33:49.000Z",
+      "quote": "Anthropic has launched the roadshow for its proposed initial public offering",
+      "metrics": {
+        "like": 4216,
+        "repost": 442,
+        "reply": 421,
+        "quote": 395,
+        "bookmark": 679,
+        "impression": 757629
+      },
+      "topic": "Anthropic IPO 로드쇼 시작",
+      "summary_ko": "Anthropic이 공식 계정에서 기업공개(IPO) 로드쇼를 시작했다고 알렸어요. SEC에 증권신고서를 냈지만 아직 효력이 생기지 않았다는 법적 고지도 함께 붙였어요. 정보 제공용이며 투자 권유가 아니에요.",
+      "link": "https://www.anthropic.com/news/roadshow-launch",
+      "related_item_ids": [
+        "trend-5401abe433a52dd0"
+      ]
+    },
+    {
+      "id": "2120174844822298730",
+      "url": "https://x.com/claudeai/status/2120174844822298730",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 2042161
+      },
+      "created_at": "2026-11-10T15:20:48.000Z",
+      "quote": "A thread of early experiments with Claude Fable 5.2:\n\nA 3D model of a cell, built entirely from code one organelle at a time.",
+      "metrics": {
+        "like": 10783,
+        "repost": 724,
+        "reply": 340,
+        "quote": 187,
+        "bookmark": 3445,
+        "impression": 588402
+      },
+      "topic": "Fable 5.2 초기 실험 모음",
+      "summary_ko": "Claude 공식 계정이 Claude Fable 5.2로 해 본 초기 실험을 스레드로 모았어요. 첫 사례는 세포 소기관을 하나씩 코드로만 쌓아 만든 3D 세포 모델이에요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2120210297948696997",
+      "url": "https://x.com/demishassabis/status/2120210297948696997",
+      "author": {
+        "username": "demishassabis",
+        "name": "Demis Hassabis",
+        "followers": 1957401
+      },
+      "created_at": "2026-11-10T17:41:41.000Z",
+      "quote": "Our latest frontier model Gemini 4 Carbon is rolling out today! Amazing progress from Gemini 3 → Gemini 4 in less than a year…",
+      "metrics": {
+        "like": 1665,
+        "repost": 146,
+        "reply": 162,
+        "quote": 30,
+        "bookmark": 192,
+        "impression": 84065
+      },
+      "topic": "허사비스, Carbon으로 '테마 파크' 이식",
+      "summary_ko": "데미스 허사비스 DeepMind CEO는 Gemini 4 Carbon이 자신이 90년대에 만든 게임 '테마 파크'의 원본 바이너리를 리버스 엔지니어링하고, DeepMind 테마 놀이기구를 더해 웹으로 한 번에 옮겼다고 소개했어요. Gemini 3에서 4까지 1년도 안 걸린 진전이라고 했어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-44305fecd7340d00",
+        "trend-08e12b5efd291bed"
+      ]
+    }
+  ]
+}
