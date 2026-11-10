@@ -1,0 +1,134 @@
+---
+// 2026-11-10 세운 결정(클리앙 실버블렛스톡 차용): Cmd/Ctrl+K 검색 팔레트 + 헤더 돋보기 버튼.
+// 색인(/search-index.json)은 팔레트를 처음 열 때만 받는다. 초성(ㅅㅅㅈㅈ)도 찾는다.
+---
+<button type="button" class="search-btn" id="search-open" aria-label="뉴스 검색 (Ctrl+K)" aria-haspopup="dialog" aria-controls="search-dialog">
+  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="m20 20-3.5-3.5"/></svg>
+  <span class="search-btn-label">검색</span>
+  <kbd class="search-kbd" aria-hidden="true">⌘K</kbd>
+</button>
+<dialog class="search-dialog" id="search-dialog" aria-label="뉴스 검색">
+  <form method="dialog" class="search-form" role="search">
+    <input id="search-input" class="search-input" type="search" autocomplete="off" spellcheck="false"
+      placeholder="제목·설명 검색 (초성도 돼요: ㅂㄷㅊ)" aria-label="검색어"
+      role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list" />
+    <button type="submit" class="search-close" aria-label="검색 닫기">Esc</button>
+  </form>
+  <p id="search-status" class="search-status" role="status" aria-live="polite"></p>
+  <ul id="search-results" class="search-results" role="listbox" aria-label="검색 결과"></ul>
+</dialog>
+<script>
+  import { hitHref, searchEntries, type SearchEntry, type SearchHit } from "../lib/search";
+
+  const dialog = document.getElementById("search-dialog") as HTMLDialogElement | null;
+  const openBtn = document.getElementById("search-open");
+  const input = document.getElementById("search-input") as HTMLInputElement | null;
+  const list = document.getElementById("search-results");
+  const status = document.getElementById("search-status");
+  const track = (name: string, params: Record<string, unknown> = {}) => {
+    const g = (window as unknown as { gtag?: (...a: unknown[]) => void }).gtag;
+    if (g) g("event", name, params);
+  };
+
+  if (dialog && openBtn && input && list && status) {
+    const isMac = /Mac|iPhone|iPad/.test(navigator.platform);
+    const kbd = openBtn.querySelector(".search-kbd");
+    if (kbd && !isMac) kbd.textContent = "Ctrl K";
+
+    let entries: SearchEntry[] | null = null;
+    let loading: Promise<void> | null = null;
+    let hits: SearchHit[] = [];
+    let active = -1;
+    let timer = 0;
+
+    const load = () => loading ??= fetch("/search-index.json")
+      .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then((j: { entries: SearchEntry[] }) => { entries = j.entries; })
+      .catch(() => { loading = null; status.textContent = "검색 목록을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요."; });
+
+    const setActive = (i: number) => {
+      active = i;
+      list.querySelectorAll<HTMLElement>("[role=option]").forEach((el, n) => el.setAttribute("aria-selected", String(n === i)));
+      const el = i >= 0 ? document.getElementById(`search-opt-${i}`) : null;
+      if (el) { input.setAttribute("aria-activedescendant", el.id); el.scrollIntoView({ block: "nearest" }); }
+      else input.removeAttribute("aria-activedescendant");
+    };
+
+    const render = () => {
+      const q = input.value;
+      list.replaceChildren();
+      hits = entries && q.trim() ? searchEntries(entries, q, 30) : [];
+      input.setAttribute("aria-expanded", String(hits.length > 0));
+      if (!q.trim()) status.textContent = entries ? `최근 ${entries.length.toLocaleString("ko-KR")}건에서 찾아요.` : "불러오는 중…";
+      else if (!entries) status.textContent = "불러오는 중…";
+      else status.textContent = hits.length ? `${hits.length}건${hits.length === 30 ? " 이상" : ""}` : "찾는 뉴스가 없어요. 다른 낱말로 찾아 보세요.";
+      hits.forEach((h, i) => {
+        const li = document.createElement("li");
+        li.id = `search-opt-${i}`;
+        li.setAttribute("role", "option");
+        li.setAttribute("aria-selected", "false");
+        const a = document.createElement("a");
+        a.href = hitHref(h);
+        a.tabIndex = -1;
+        const t = document.createElement("strong");
+        t.textContent = h.title;
+        const m = document.createElement("span");
+        m.textContent = [h.date, h.source, h.summary].filter(Boolean).join(" · ");
+        a.append(t, m);
+        a.addEventListener("click", () => track("search_select", { search_term: q, position: i + 1 }));
+        li.append(a);
+        list.append(li);
+      });
+      setActive(hits.length ? 0 : -1);
+    };
+
+    const open = () => {
+      if (dialog.open) return;
+      dialog.showModal();
+      input.select();
+      track("search_open");
+      render();
+      load()?.then(render);
+    };
+
+    openBtn.addEventListener("click", open);
+    document.addEventListener("keydown", (e) => {
+      if ((e.metaKey || e.ctrlKey) && !e.altKey && e.key.toLowerCase() === "k") { e.preventDefault(); open(); }
+    });
+    input.addEventListener("input", () => { clearTimeout(timer); timer = window.setTimeout(render, 80); });
+    input.addEventListener("keydown", (e) => {
+      if (e.isComposing) return; // 한글 조합 중 Enter·화살표는 IME 몫
+      if (e.key === "ArrowDown" && hits.length) { e.preventDefault(); setActive((active + 1) % hits.length); }
+      else if (e.key === "ArrowUp" && hits.length) { e.preventDefault(); setActive((active - 1 + hits.length) % hits.length); }
+      else if (e.key === "Enter") {
+        e.preventDefault(); // 결과 없이 Enter 가 form(method=dialog)을 제출해 창을 닫지 않게
+        if (active < 0) return;
+        track("search_select", { search_term: input.value, position: active + 1 });
+        location.href = hitHref(hits[active]);
+      }
+    });
+    dialog.addEventListener("click", (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener("close", () => openBtn.focus());
+  }
+</script>
+<style>
+  .search-btn { display:inline-flex; align-items:center; gap:6px; min-height:44px; min-width:44px; justify-content:center; padding:0 10px; border:1px solid var(--border); border-radius:999px; background:var(--card); color:var(--muted); font:inherit; font-size:13px; font-weight:700; cursor:pointer }
+  .search-btn:hover { color:var(--accent); border-color:var(--accent) }
+  .search-btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px }
+  .search-kbd { font:inherit; font-size:11px; border:1px solid var(--border); border-radius:6px; padding:0 5px; color:var(--muted) }
+  @media (max-width:900px) { .search-btn-label, .search-kbd { display:none } .search-btn { padding:0; border:none; background:none; color:var(--ink) } }
+  .search-dialog { width:min(640px, calc(100vw - 24px)); max-height:min(80vh, 640px); margin:10vh auto auto; padding:0; border:1px solid var(--border); border-radius:14px; background:var(--card); color:var(--ink); box-shadow:0 20px 60px rgba(0,0,0,.25); overflow:hidden }
+  .search-dialog[open] { display:flex; flex-direction:column }
+  .search-dialog::backdrop { background:rgba(0,0,0,.45) }
+  .search-form { display:flex; gap:8px; padding:12px; border-bottom:1px solid var(--border) }
+  .search-input { flex:1; min-width:0; font:inherit; font-size:16px; padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:var(--bg); color:var(--ink) }
+  .search-input:focus { outline:2px solid var(--accent); outline-offset:0 }
+  .search-close { font:inherit; font-size:12px; font-weight:700; color:var(--muted); background:none; border:1px solid var(--border); border-radius:8px; min-width:44px; min-height:44px; cursor:pointer }
+  .search-status { margin:0; padding:8px 14px; font-size:12px; color:var(--muted) }
+  .search-results { list-style:none; margin:0; padding:0 6px 8px; overflow-y:auto }
+  .search-results :global(li a) { display:grid; gap:2px; padding:10px; border-radius:10px; color:var(--ink); text-decoration:none }
+  .search-results :global(li a:hover) { background:color-mix(in oklch, var(--accent-soft) 50%, transparent) }
+  .search-results :global(li[aria-selected="true"] a) { background:var(--accent-soft) }
+  .search-results :global(strong) { font-size:14px; line-height:1.4; overflow-wrap:anywhere }
+  .search-results :global(span) { font-size:12px; color:var(--muted); line-height:1.45; overflow-wrap:anywhere }
+</style>

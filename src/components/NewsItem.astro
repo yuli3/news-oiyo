@@ -19,6 +19,8 @@ interface Props {
   fetchedAt?: string;
   date?: string;
   discussionUrl?: string;
+  /** 일일판에서 검색 결과가 가리킬 앵커(trend-<hash>). 2026-11-10 */
+  anchorId?: string;
 }
 
 const SOURCE_LABEL: Record<string, string> = {
@@ -61,6 +63,7 @@ const {
   fetchedAt,
   date,
   discussionUrl,
+  anchorId,
 } = Astro.props;
 const detailHref = itemId ? `/item/${itemId}/` : undefined;
 const translation = newsTranslations[href];
@@ -71,7 +74,7 @@ const curator = isCuratorSource(source);
 const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` : undefined));
 ---
 
-<li data-slot="item" class="news-item" data-source={source}>
+<li data-slot="item" class="news-item" data-source={source} id={anchorId} data-url={href} data-fetched={fetchedAt ?? publishedAt}>
   <div class="item-head">
     <a data-slot="item-title" href={href} target="_blank" rel="noopener noreferrer">{title}</a>
     {domain && <span class="item-domain">({domain})</span>}
