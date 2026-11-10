@@ -4,6 +4,7 @@ import SearchPalette from "../components/SearchPalette.astro";
 import VisitMarks from "../components/VisitMarks.astro";
 import newsData from "../data/news.json";
 import { isRepoItem, type Day } from "../lib/feed";
+import { sectionOg } from "../lib/topic-art";
 interface Crumb { label: string; href?: string }
 interface Props {
   title: string;
@@ -17,6 +18,8 @@ interface Props {
   noindex?: boolean;
   // 본문 언어. 신년운세 영어 알림 신청 페이지만 en을 쓴다 (2026-10-19).
   lang?: string;
+  /** 2026-11-11: 페이지별 OG 이미지(절대 URL). 없으면 섹션 OG. */
+  ogImage?: string;
 }
 
 const {
@@ -28,6 +31,7 @@ const {
   publishedTime,
   noindex = false,
   lang = "ko",
+  ogImage = sectionOg(Astro.url.pathname),
 } = Astro.props;
 const fullTitle = title.includes("OIYO News") ? title : `${title} | OIYO News`;
 // Confirmation/unsubscribe links contain bearer tokens; exclude the whole analytics bootstrap (2026-10-15).
@@ -68,7 +72,7 @@ const family = [
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:type" content={type} />
-    <meta property="og:image" content="https://news.oiyo.net/og-image.png" />
+    <meta property="og:image" content={ogImage} />
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     <meta name="twitter:card" content="summary_large_image" />
     {subscriptionPage && <meta name="referrer" content="no-referrer" />}
