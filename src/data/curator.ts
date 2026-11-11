@@ -3,10 +3,6 @@
 // 각 원본 데이터 파일은 그대로 SSOT로 남기고, 여기서 섹션 순서만 정규화한다.
 import { REFERENCE_SHELVES, type ShelfItem } from "./reference-shelves";
 import {
-  AI_CATEGORIES,
-  type AIService,
-} from "./ai-services";
-import {
   MODEL_GROUPS,
   LEADERBOARDS,
   MODELS_UPDATED,
@@ -36,9 +32,6 @@ export interface CuratorSection {
   items: CuratorItem[];
 }
 
-function fromService(s: AIService): CuratorItem {
-  return { name: s.name, url: s.url, by: s.by, note: s.note, free: s.free, kind: "outbound" };
-}
 function fromModel(m: ModelEntry): CuratorItem {
   return { name: m.name, url: m.url, by: m.by, note: m.note, strengths: m.strengths, kind: "outbound" };
 }
@@ -58,10 +51,20 @@ function fromShelf(i: ShelfItem): CuratorItem {
 const DESIGN_SHELF_IDS = new Set(["galleries", "design-eng"]);
 
 export const CURATOR_SECTIONS: CuratorSection[] = [
-  ...AI_CATEGORIES.map((c) => ({
-    id: c.id, label: c.label, desc: c.desc,
-    group: "service" as const, items: c.items.map(fromService),
-  })),
+  // 2026-11-11: AI 서비스 목록(대화·코딩·이미지·영상 등)은 show.oiyo.net/ai/ 로 옮겼다.
+  // 같은 목록을 두 곳에 두지 않도록 여기서는 안내 한 줄만 남긴다.
+  {
+    id: "services",
+    label: "AI 서비스 디렉터리",
+    desc: "대화형 AI·코딩·이미지·영상·음성 등 서비스 목록은 OIYO 쇼케이스로 옮겼어요.",
+    group: "service" as const,
+    items: [{
+      name: "AI 서비스 디렉터리 (OIYO 쇼케이스)",
+      url: "https://show.oiyo.net/ai/",
+      note: "분야별 AI 서비스를 검색하고, 무료로 써 볼 수 있는 곳과 한국 서비스만 골라 볼 수 있어요.",
+      kind: "outbound" as const,
+    }],
+  },
   ...MODEL_GROUPS.map((g) => ({
     id: g.id, label: g.label, desc: g.desc,
     group: "model" as const, items: g.items.map(fromModel),
