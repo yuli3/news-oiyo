@@ -29,7 +29,7 @@ const datasetJsonLd = {
   name: "OIYO AI Curator Catalog",
   alternateName: "AI 큐레이터 통합 카탈로그",
   description:
-    "AI 서비스(대화·코딩·이미지·영상 등), 모델 카탈로그(프론티어·오픈웨이트·로컬 런타임), 실무 편입 도구, AI 소식 소스, 디자인 엔지니어링 선반을 한 곳에 통합한 큐레이션 카탈로그.",
+    "모델 카탈로그(프론티어·오픈웨이트·로컬 런타임), 실무 편입 도구, AI 소식 소스, 디자인 엔지니어링 선반을 한 곳에 통합한 큐레이션 카탈로그.",
   url: "https://news.oiyo.net/ai/curator/",
   dateModified: MODELS_UPDATED,
   inLanguage: "ko",
@@ -44,13 +44,13 @@ const groupLabel: Record<string, string> = {
 };
 ---
 
-<BaseLayout title="AI 큐레이터 — 서비스·모델·도구·소식 소스 통합 목록" description="ChatGPT·Claude·Gemini 등 대화형 AI부터 모델 카탈로그, 코딩 에이전트, 실무 편입 도구, AI 소식 소스, 디자인 레퍼런스까지 — OIYO의 AI 큐레이션을 한 곳에서 카테고리별로 정리했습니다." canonical="https://news.oiyo.net/ai/curator/" crumbs={[{label:"AI",href:"/ai/"},{label:"AI 큐레이터"}]}>
+<BaseLayout title="AI 큐레이터 — 서비스·모델·도구·소식 소스 통합 목록" description="모델 카탈로그, 실무 편입 도구, AI 소식 소스, 디자인 레퍼런스를 한 곳에서 카테고리별로 정리했습니다. AI 서비스 목록은 OIYO 쇼케이스의 AI 서비스 디렉터리로 옮겼습니다." canonical="https://news.oiyo.net/ai/curator/" crumbs={[{label:"AI",href:"/ai/"},{label:"AI 큐레이터"}]}>
   <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd)} />
   <script type="application/ld+json" is:inline set:html={JSON.stringify(datasetJsonLd)} />
   <span class="tag">AI Curator</span>
   <h1>AI 큐레이터</h1>
   <p class="sub">
-    쏟아지는 AI 정보를 <b>한 곳에</b> 모았습니다: 기존 AI 서비스 큐레이션, 모델 카탈로그, 실무 편입 도구,
+    쏟아지는 AI 정보를 <b>한 곳에</b> 모았습니다: 모델 카탈로그, 실무 편입 도구,
     디자인·엔지니어링 레퍼런스, 그리고 <b>AI 소식을 어디서 볼지</b> 정리한 소식 소스까지.
     각 항목은 사용·검토 맥락을 정리한 한 줄 평입니다. 이 목록의 바깥 링크는 제휴가 아닙니다. 사이트에는 Google 광고가 실릴 수 있습니다. {total}개 수록.
     <br /><span style="font-size:12.5px">모델 카탈로그 확인일자 {MODELS_UPDATED} · 세부 버전은 노후화를 늦추기 위해 계열 수준으로 표기</span>
