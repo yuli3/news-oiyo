@@ -1,0 +1,243 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-12",
+  "collected_at": "2026-11-12T07:23:00+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 6
+  },
+  "posts": [
+    {
+      "id": "2120216592395174382",
+      "url": "https://x.com/OpenAI/status/2120216592395174382",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5530565
+      },
+      "created_at": "2026-11-10T18:06:42.000Z",
+      "quote": "Now in beta: Businesses in ChatGPT.\n\nClaim your business, manage your information, and get insights on how people engage with you.\n\nEligible businesses can also build a Business Agent to answer custom…",
+      "metrics": {
+        "like": 17029,
+        "repost": 1354,
+        "reply": 1251,
+        "quote": 1418,
+        "bookmark": 18887,
+        "impression": 5240868
+      },
+      "topic": "ChatGPT에 비즈니스 프로필 베타",
+      "summary_ko": "OpenAI가 ChatGPT 안에서 사업자가 자기 비즈니스를 등록하고 정보를 관리하며 이용자 반응을 볼 수 있는 기능을 베타로 열었어요. 조건이 맞는 사업자는 고객 질문에 답하는 Business Agent도 만들 수 있다고 해요.",
+      "link": "https://openai.com/index/introducing-businesses-chatgpt/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2120335993643684315",
+      "url": "https://x.com/Alibaba_Qwen/status/2120335993643684315",
+      "author": {
+        "username": "Alibaba_Qwen",
+        "name": "Qwen",
+        "followers": 315093
+      },
+      "created_at": "2026-11-11T02:01:09.000Z",
+      "quote": "Qwen4 is coming.\n\nDeeper knowledge. Richer world understanding. Stronger coding and agentic capabilities.\n\nBuilt for real-world tasks — from complex coding and knowledge work to front-end builds and p…",
+      "metrics": {
+        "like": 11635,
+        "repost": 1442,
+        "reply": 857,
+        "quote": 993,
+        "bookmark": 1464,
+        "impression": 1087160
+      },
+      "topic": "Qwen4-Max 프리뷰 공개",
+      "summary_ko": "알리바바 Qwen 팀이 Qwen4 출시를 예고하며 Qwen4-Max를 Token Plan에서 프리뷰로 열었어요. 더 깊은 지식과 코딩·에이전트 능력을 내세우고, QwenWork·Qoder·Qwen 앱·QwenStudio에서도 먼저 써 볼 수 있다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2120169787896525104",
+      "url": "https://x.com/GoogleDeepMind/status/2120169787896525104",
+      "author": {
+        "username": "GoogleDeepMind",
+        "name": "Google DeepMind",
+        "followers": 1606097
+      },
+      "created_at": "2026-11-10T15:00:42.000Z",
+      "quote": "Gemini Robotics 2.5 is here. 🤖\n\nOur latest physical AI is able to learn hundreds of everyday skills - from folding laundry and serving pastries to autonomously sorting car parts on the factory floor.…",
+      "metrics": {
+        "like": 4494,
+        "repost": 553,
+        "reply": 346,
+        "quote": 376,
+        "bookmark": 1118,
+        "impression": 453535
+      },
+      "topic": "Gemini Robotics 2.5 공개",
+      "summary_ko": "Google DeepMind가 빨래 개기, 페이스트리 서빙, 공장에서 자동차 부품 분류까지 수백 가지 일상 작업을 배우는 피지컬 AI 'Gemini Robotics 2.5'를 공개했어요. 오늘 뉴스 목록의 제미나이 로보틱스 2.5 기사와 같은 이야기예요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-008a8f171821eb62"
+      ]
+    },
+    {
+      "id": "2120581630196879460",
+      "url": "https://x.com/jeffreygwang/status/2120581630196879460",
+      "author": {
+        "username": "jeffreygwang",
+        "name": "Jeffrey Wang",
+        "followers": 6519
+      },
+      "created_at": "2026-11-11T18:17:13.000Z",
+      "quote": "(1/10) Today, we’re sharing new research from @OpenAI: How does CoT monitorability (no-CoT capability and CoT controllability) evolve over the model training lifecycle? \n\nWe emerged with unsurprising…",
+      "metrics": {
+        "like": 783,
+        "repost": 112,
+        "reply": 69,
+        "quote": 30,
+        "bookmark": 423,
+        "impression": 83443
+      },
+      "topic": "OpenAI, CoT 모니터링이 점점 어려워진다는 연구",
+      "summary_ko": "OpenAI 연구자가 학습 과정 전반에서 사고 사슬(CoT) 없이 푸는 능력과 CoT를 스스로 조절하는 능력이 함께 늘어, 모델이 똑똑해질수록 CoT로 감시하기 어려워진다는 연구를 소개했어요. 연구진은 '예상했지만 냉정한 결과'라고 표현했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2120502530652430402",
+      "url": "https://x.com/jukan05/status/2120502530652430402",
+      "author": {
+        "username": "jukan05",
+        "name": "Jukan",
+        "followers": 225240
+      },
+      "created_at": "2026-11-11T13:02:54.000Z",
+      "quote": "During a Q&A with Samsung executives, Sam Altman addressed concerns about a bubble in the neocloud sector, saying, “There has been some double counting of demand.”\n\nAsked whether demand for AI, memory…",
+      "metrics": {
+        "like": 663,
+        "repost": 58,
+        "reply": 62,
+        "quote": 39,
+        "bookmark": 258,
+        "impression": 204739
+      },
+      "topic": "올트먼, 삼성 임원 Q&A서 'AI 수요 중복 집계' 언급",
+      "summary_ko": "삼성 임원들과의 질의응답에서 샘 올트먼이 네오클라우드 버블 우려에 '수요가 일부 중복 집계됐다'고 답했다는 전언이에요. 단기적으로는 오르내림이 있고, 수요를 크게 끌어올리는 건 OpenAI와 Anthropic 두 곳뿐이라 공급 충격과 혼란기가 올 수 있다고 말했다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2120233187112636745",
+      "url": "https://x.com/ns123abc/status/2120233187112636745",
+      "author": {
+        "username": "ns123abc",
+        "name": "NIK",
+        "followers": 91889
+      },
+      "created_at": "2026-11-10T19:12:38.000Z",
+      "quote": "Anthropic CEO predicts cancer, Alzheimer's, heart disease, mental illness will be cured in less than 10 years \n\nACCELERATE",
+      "metrics": {
+        "like": 13149,
+        "repost": 1045,
+        "reply": 1248,
+        "quote": 1036,
+        "bookmark": 2631,
+        "impression": 2325001
+      },
+      "topic": "아모데이 '10년 안에 주요 질병 사라질 것'",
+      "summary_ko": "Anthropic CEO 다리오 아모데이가 암, 알츠하이머, 심장병, 정신질환이 10년 안에 치료될 것이라고 말한 영상이 크게 퍼졌어요. X에서는 기대와 함께 생물학·규제를 고려하면 지나치게 낙관적이라는 반응도 많았어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2120204075803500595",
+      "url": "https://x.com/DKokotajlo/status/2120204075803500595",
+      "author": {
+        "username": "DKokotajlo",
+        "name": "Daniel Kokotajlo",
+        "followers": 59748
+      },
+      "created_at": "2026-11-10T17:16:57.000Z",
+      "quote": "Unfortunately, it seems like the intelligence explosion will be happening in 2027 after all. Most of this post analyzes the new METR report (though other sources of evidence are also important). If th…",
+      "metrics": {
+        "like": 4620,
+        "repost": 690,
+        "reply": 310,
+        "quote": 285,
+        "bookmark": 3272,
+        "impression": 1130892
+      },
+      "topic": "코코타일로 '지능 폭발은 2027년'",
+      "summary_ko": "AI 2027 시나리오 저자 대니얼 코코타일로가 새 METR 보고서를 분석하며, 이 분석이 맞다면 AI 주도 가속이 자신의 시나리오보다 5개월 앞서 있다고 썼어요. 그는 두렵고 슬프고 화가 난다고 덧붙였어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2120564069010931746",
+      "url": "https://x.com/a16z/status/2120564069010931746",
+      "author": {
+        "username": "a16z",
+        "name": "a16z",
+        "followers": 1105496
+      },
+      "created_at": "2026-11-11T17:07:26.000Z",
+      "quote": "Agents now make up the majority of web traffic, write more than half of new articles published online, and generate most of the code pushed to production.\n\nThis is what the early stage of a platform s…",
+      "metrics": {
+        "like": 801,
+        "repost": 113,
+        "reply": 55,
+        "quote": 48,
+        "bookmark": 567,
+        "impression": 60424
+      },
+      "topic": "a16z '에이전트 경제' 진단",
+      "summary_ko": "a16z가 에이전트가 이미 웹 트래픽의 과반, 새 온라인 글의 절반 이상, 프로덕션 코드 대부분을 만든다고 주장했어요. 도입은 측정되지만 이를 바탕으로 한 사업 모델은 아직 잘 보이지 않는 플랫폼 전환 초기라고 봤어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2120465601873252590",
+      "url": "https://x.com/HelsingAI/status/2120465601873252590",
+      "author": {
+        "username": "HelsingAI",
+        "name": "Helsing",
+        "followers": 13026
+      },
+      "created_at": "2026-11-11T10:36:10.000Z",
+      "quote": "Introducing Clarity – an AI-native agentic intelligence platform for armed forces.\n\nDeveloped in Europe, under European control.",
+      "metrics": {
+        "like": 1763,
+        "repost": 173,
+        "reply": 53,
+        "quote": 66,
+        "bookmark": 723,
+        "impression": 154056
+      },
+      "topic": "Helsing, 군용 AI 플랫폼 Clarity 공개",
+      "summary_ko": "독일 방산 AI 기업 Helsing이 유럽에서 개발하고 유럽이 통제하는 군용 에이전트 정보 플랫폼 'Clarity'를 공개했어요. 위성·드론·센서 데이터를 여러 AI 에이전트가 병렬로 분석하는 구조라 Palantir 시스템의 유럽 대항마로 소개되기도 했어요.",
+      "link": "https://helsing.ai/clarity/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2120049961920295069",
+      "url": "https://x.com/MoritzSchauer/status/2120049961920295069",
+      "author": {
+        "username": "MoritzSchauer",
+        "name": "Moritz Schauer",
+        "followers": 1395
+      },
+      "created_at": "2026-11-10T07:04:34.000Z",
+      "quote": "The most complete list of LLM writing tics I've seen.",
+      "metrics": {
+        "like": 29277,
+        "repost": 1900,
+        "reply": 178,
+        "quote": 227,
+        "bookmark": 23267,
+        "impression": 1842487
+      },
+      "topic": "LLM 글버릇 총정리 표",
+      "summary_ko": "LLM이 자주 쓰는 표현과 문장 습관을 정리한 표 이미지가 좋아요 2만 9천 개, 북마크 2만 3천 개를 넘기며 크게 퍼졌어요. AI가 쓴 글을 알아보는 기준과 글쓰기 품질을 두고 이야기가 이어졌어요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
