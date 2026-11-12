@@ -1,0 +1,304 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-13",
+  "collected_at": "2026-11-13T07:20:00+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 10
+  },
+  "posts": [
+    {
+      "id": "2120841731302154708",
+      "url": "https://x.com/AnthropicAI/status/2120841731302154708",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1902757
+      },
+      "created_at": "2026-11-12T11:30:46.000Z",
+      "quote": "Our initial public offering: https://t.co/wPZ1LteuQv\n\nLegal disclaimer: Anthropic has filed a registration statement (including a prospectus) with the SEC for the offering to which this communication …",
+      "metrics": {
+        "like": 8843,
+        "repost": 870,
+        "reply": 826,
+        "quote": 739,
+        "bookmark": 2226,
+        "impression": 2101563
+      },
+      "topic": "Anthropic 상장(IPO) 공식 안내",
+      "summary_ko": "Anthropic이 공식 계정에서 기업공개(IPO) 안내 페이지를 공유했어요. 미국 SEC에 증권신고서(투자설명서 포함)를 냈고, 투자 전에는 투자설명서를 읽으라는 법적 고지를 함께 달았어요.",
+      "link": "https://ipo.anthropic.com/us/",
+      "related_item_ids": [
+        "trend-ce0b747cb609dd19"
+      ]
+    },
+    {
+      "id": "2120973994191094179",
+      "url": "https://x.com/claudeai/status/2120973994191094179",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 2067533
+      },
+      "created_at": "2026-11-12T20:16:20.000Z",
+      "quote": "Introducing Claude Meetings: add Claude to your team’s video call and it builds docs, whiteboards, and other artifacts with you while you’re still talking.\n\nStarting to roll out in beta on Team and En…",
+      "metrics": {
+        "like": 25332,
+        "repost": 1341,
+        "reply": 780,
+        "quote": 1545,
+        "bookmark": 5655,
+        "impression": 987484
+      },
+      "topic": "Claude Meetings 베타",
+      "summary_ko": "Claude를 팀 화상회의에 참여시키면 대화가 이어지는 동안 문서나 화이트보드 같은 결과물을 함께 만들어 준다는 기능이에요. Team·Enterprise 요금제부터 베타로 순차 제공된다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2120940236805169182",
+      "url": "https://x.com/sundarpichai/status/2120940236805169182",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11874637
+      },
+      "created_at": "2026-11-12T18:02:12.000Z",
+      "quote": "Following Carbon + Argon, Gemini 4 Hydrogen brings cutting-edge intelligence to everyone. Built for speed and efficiency for everyday tasks, coding and agentic workflows.\n\nCompared to 3.8 Flash, it fi…",
+      "metrics": {
+        "like": 5644,
+        "repost": 308,
+        "reply": 413,
+        "quote": 148,
+        "bookmark": 365,
+        "impression": 295518
+      },
+      "topic": "Gemini 4 Hydrogen 출시",
+      "summary_ko": "순다르 피차이 구글 CEO가 Carbon·Argon에 이어 Gemini 4 Hydrogen을 소개했어요. 일상 작업·코딩·에이전트 작업용으로, 3.8 Flash보다 작업을 2.5배 빨리 끝내고 생각 수준을 네 단계로 고를 수 있다고 해요.",
+      "link": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/",
+      "related_item_ids": [
+        "trend-757a656806951e4a",
+        "trend-c0bb082496338b93",
+        "trend-e42ce0be85c2653e"
+      ]
+    },
+    {
+      "id": "2120940951292268640",
+      "url": "https://x.com/OfficialLoganK/status/2120940951292268640",
+      "author": {
+        "username": "OfficialLoganK",
+        "name": "Logan Kilpatrick",
+        "followers": 390444
+      },
+      "created_at": "2026-11-12T18:05:02.000Z",
+      "quote": "Introducing Gemini 4 Hydrogen, an extremely capable and fast model built to bring Gemini 4 to everyone!\n\nAvailable to all tiers of Google AI Studio, Gemini API, Gemini for business, the Gemini app, Go…",
+      "metrics": {
+        "like": 7427,
+        "repost": 512,
+        "reply": 545,
+        "quote": 295,
+        "bookmark": 695,
+        "impression": 417340
+      },
+      "topic": "Gemini 4 Hydrogen 제공 범위",
+      "summary_ko": "로건 킬패트릭이 Gemini 4 Hydrogen을 Google AI Studio 전 등급, Gemini API, 비즈니스용 Gemini, Gemini 앱, Google 검색에서 쓸 수 있다고 알렸어요. Antigravity에서는 유료 Google AI Pro·Ultra 구독자에게 열려요.",
+      "link": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/introducing-gemini-4-hydrogen/",
+      "related_item_ids": [
+        "trend-757a656806951e4a",
+        "trend-c0bb082496338b93",
+        "trend-e42ce0be85c2653e"
+      ]
+    },
+    {
+      "id": "2120940338869055788",
+      "url": "https://x.com/GoogleDeepMind/status/2120940338869055788",
+      "author": {
+        "username": "GoogleDeepMind",
+        "name": "Google DeepMind",
+        "followers": 1607594
+      },
+      "created_at": "2026-11-12T18:02:36.000Z",
+      "quote": "Meet Gemini 4 Hydrogen: built for rapid coding, multimodal synthesis, and everyday workflows.\n\nIt finishes tasks 2.5x faster than 3.8 Flash and surpasses Argon on the @ArtificialAnlys Intelligence Ind…",
+      "metrics": {
+        "like": 4969,
+        "repost": 406,
+        "reply": 243,
+        "quote": 286,
+        "bookmark": 518,
+        "impression": 530258
+      },
+      "topic": "DeepMind: Hydrogen 성능 주장",
+      "summary_ko": "Google DeepMind는 Gemini 4 Hydrogen이 빠른 코딩·멀티모달 종합·일상 작업용이며, 3.8 Flash보다 2.5배 빠르고 Artificial Analysis Intelligence Index에서 Argon을 앞선다고 밝혔어요. 수치는 구글 발표 기준이에요.",
+      "link": "https://deepmind.google/blog/introducing-gemini-4-hydrogen/",
+      "related_item_ids": [
+        "trend-757a656806951e4a",
+        "trend-c0bb082496338b93",
+        "trend-e42ce0be85c2653e"
+      ]
+    },
+    {
+      "id": "2120877439815475687",
+      "url": "https://x.com/Reuters/status/2120877439815475687",
+      "author": {
+        "username": "Reuters",
+        "name": "Reuters",
+        "followers": 26448632
+      },
+      "created_at": "2026-11-12T13:52:40.000Z",
+      "quote": "BREAKING: Jensen Huang has resigned as president, CEO and board member of Nvidia effective immediately https://t.co/Wmn3bqXqVq https://t.co/ciBE9Wm5Gg",
+      "metrics": {
+        "like": 1815,
+        "repost": 1011,
+        "reply": 249,
+        "quote": 554,
+        "bookmark": 133,
+        "impression": 503707
+      },
+      "topic": "젠슨 황 엔비디아 CEO 사임",
+      "summary_ko": "로이터가 젠슨 황이 엔비디아 사장·CEO·이사회 구성원에서 즉시 물러났다고 속보로 전했어요. 관련 라이브 페이지는 로이터가 막혀 있어 본문을 읽지 못했어요.",
+      "link": "https://www.reuters.com/live/nvidia-live-board-meets-fate-ceo-jensen-huang-after-affair-reports-2026-11-12/",
+      "related_item_ids": [
+        "trend-fdb10a048add1158",
+        "trend-07d10cf7b9ace0ad",
+        "trend-9163de3044cb0d5d",
+        "trend-b457071abd941b46",
+        "trend-9d6a396a66d6a53e",
+        "trend-2046ba1e33a5d156",
+        "trend-1128e3c987ce3ae2",
+        "trend-d8e76a93f9f51393",
+        "trend-9bc1d3b715f7954c"
+      ]
+    },
+    {
+      "id": "2120882703645995245",
+      "url": "https://x.com/AP/status/2120882703645995245",
+      "author": {
+        "username": "AP",
+        "name": "The Associated Press",
+        "followers": 16527198
+      },
+      "created_at": "2026-11-12T14:13:35.000Z",
+      "quote": "Nvidia CEO Jensen Huang resigns after his affair raised national security concerns. The company named Colette Kress as interim CEO. \n\nShares of Nvidia, one of the largest companies in the world, plung…",
+      "metrics": {
+        "like": 1308,
+        "repost": 570,
+        "reply": 229,
+        "quote": 308,
+        "bookmark": 116,
+        "impression": 344107
+      },
+      "topic": "AP: 임시 CEO 콜렛 크레스",
+      "summary_ko": "AP는 황의 사임 배경으로 사생활 문제가 국가안보 우려로 번진 점을 들었고, 엔비디아가 콜렛 크레스를 임시 CEO로 지명했다고 전했어요. 목요일 프리마켓에서 주가가 10% 떨어졌다고 해요.",
+      "link": "https://apnews.com/article/nvidia-megaspeed-china-singapore-huang-5403f152a601cf82ce939f1d24fffa0f",
+      "related_item_ids": [
+        "trend-fdb10a048add1158",
+        "trend-07d10cf7b9ace0ad",
+        "trend-9163de3044cb0d5d",
+        "trend-b457071abd941b46",
+        "trend-9d6a396a66d6a53e",
+        "trend-2046ba1e33a5d156",
+        "trend-1128e3c987ce3ae2",
+        "trend-d8e76a93f9f51393",
+        "trend-9bc1d3b715f7954c"
+      ]
+    },
+    {
+      "id": "2120901953505177996",
+      "url": "https://x.com/GeminiApp/status/2120901953505177996",
+      "author": {
+        "username": "GeminiApp",
+        "name": "Google Gemini",
+        "followers": 613250
+      },
+      "created_at": "2026-11-12T15:30:04.000Z",
+      "quote": "Keep your eyes up and your day moving with Gemini on intelligent eyewear.\n\nJust say \"Hey Gemini\" to explore street art, get book recs from the shelf ahead, translate in real time, or check your calend…",
+      "metrics": {
+        "like": 1187,
+        "repost": 76,
+        "reply": 83,
+        "quote": 47,
+        "bookmark": 196,
+        "impression": 92742
+      },
+      "topic": "Gemini 스마트 안경 예약 판매",
+      "summary_ko": "Gemini 앱 계정이 Gemini가 들어간 스마트 안경을 소개했어요. \"Hey Gemini\"로 눈앞의 거리 예술이나 책장 속 책을 묻고, 실시간 번역과 일정 확인을 할 수 있다며 사전 주문을 안내했어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-b5e930255bd8e0b6",
+        "trend-194aa5784ad63ee7",
+        "trend-7392dd58fce15a7e"
+      ]
+    },
+    {
+      "id": "2120581630196879460",
+      "url": "https://x.com/jeffreygwang/status/2120581630196879460",
+      "author": {
+        "username": "jeffreygwang",
+        "name": "Jeffrey Wang",
+        "followers": 6999
+      },
+      "created_at": "2026-11-11T18:17:13.000Z",
+      "quote": "(1/10) Today, we’re sharing new research from @OpenAI: How does CoT monitorability (no-CoT capability and CoT controllability) evolve over the model training lifecycle? \n\nWe emerged with unsurprising …",
+      "metrics": {
+        "like": 1309,
+        "repost": 177,
+        "reply": 114,
+        "quote": 65,
+        "bookmark": 777,
+        "impression": 204954
+      },
+      "topic": "OpenAI: CoT 감시가 어려워진다",
+      "summary_ko": "OpenAI 연구진이 사전학습·구조·강화학습·모델 생성 데이터가 사고 사슬(CoT) 감시 가능성에 주는 영향을 공개했어요. 모델이 똑똑해질수록 CoT로 감시하기 어려워질 것이라는 결론이에요.",
+      "link": "https://alignment.openai.com/cot-monitorability-model-lifecycle/",
+      "related_item_ids": []
+    },
+    {
+      "id": "2120841923237683462",
+      "url": "https://x.com/GoogleDeepMind/status/2120841923237683462",
+      "author": {
+        "username": "GoogleDeepMind",
+        "name": "Google DeepMind",
+        "followers": 1607594
+      },
+      "created_at": "2026-11-12T11:31:32.000Z",
+      "quote": "Finding the exact genetic cause of a rare disease is like looking for a needle in a haystack. 🪡\n\nOn our podcast, @fryrsquared explores with @Avsecz and  @adamgayoso how AlphaGenome 2 helps scientists …",
+      "metrics": {
+        "like": 557,
+        "repost": 64,
+        "reply": 112,
+        "quote": 15,
+        "bookmark": 128,
+        "impression": 91169
+      },
+      "topic": "AlphaGenome 2 팟캐스트",
+      "summary_ko": "Google DeepMind가 팟캐스트에서 AlphaGenome 2가 수백만 개 DNA 변이를 시험해 희귀질환의 유전적 원인을 찾는 데 어떻게 쓰이는지 다뤘어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-3450caf902e07078"
+      ]
+    },
+    {
+      "id": "2120669165316915259",
+      "url": "https://x.com/claudeai/status/2120669165316915259",
+      "author": {
+        "username": "claudeai",
+        "name": "Claude",
+        "followers": 2067533
+      },
+      "created_at": "2026-11-12T00:05:03.000Z",
+      "quote": "Mariko Mori has pushed the boundaries of art for three decades. For her retrospective \"All That Shines,\" she used Claude to write code for a computer-generated animation, presented as a new video inst…",
+      "metrics": {
+        "like": 5512,
+        "repost": 339,
+        "reply": 289,
+        "quote": 144,
+        "bookmark": 1258,
+        "impression": 382111
+      },
+      "topic": "모리 마리코 회고전과 Claude",
+      "summary_ko": "작가 모리 마리코가 회고전 'All That Shines'의 새 영상 설치 작품에 쓰인 컴퓨터 생성 애니메이션 코드를 Claude로 작성했다고 Claude 공식 계정이 소개했어요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
