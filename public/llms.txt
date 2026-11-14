@@ -18,6 +18,7 @@ oiyo.net (tests & tools) · blog.oiyo.net (guides) · wiki.oiyo.net (dictionary)
 · game.oiyo.net (games) · news.oiyo.net (news, AI, and systems)
 
 ## Machine-readable identity
+- [RSS feed](https://news.oiyo.net/rss.xml): latest 50 stories, RSS 2.0, Korean summaries.
 - [AI model catalog JSON](https://news.oiyo.net/ai/data/ai-models.json): model groups, notes, strengths, and live leaderboard references.
 
 ## Publisher
