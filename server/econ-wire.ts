@@ -47,20 +47,23 @@ export const TAG_LABELS: Record<WireTag, string> = {
 
 // 한국어는 단어 경계가 없으니 부분 문자열, 영어는 \b 경계로 잡는다.
 const RULES: [WireTag, RegExp][] = [
-  ["rates", /기준금리|금리|국채|채권|국고채|회사채|\b(?:rates?|yields?|treasur(?:y|ies)|bonds?|fomc|rate (?:cut|hike)s?)\b/i],
+  ["rates", /기준금리|금리|federal open market committee|국채|채권|국고채|회사채|\b(?:rates?|yields?|treasur(?:y|ies)|bonds?|fomc|rate (?:cut|hike)s?)\b/i],
   ["fx", /환율|원[·.\s-]?달러|달러[화값]|엔화|엔저|위안화|외환|\b(?:dollar|yen|euro|yuan|currenc(?:y|ies)|forex|fx)\b/i],
   ["stocks", /코스피|코스닥|증시|주가|상장|공모주|나스닥|다우|\b(?:s&p|nasdaq|dow|stocks?|shares|equit(?:y|ies)|ipo|etfs?)\b/i],
   ["crypto", /비트코인|이더리움|가상자산|암호화폐|코인|스테이블코인|\b(?:bitcoin|ether(?:eum)?|crypto\w*|stablecoins?|btc|eth|xrp|solana)\b/i],
-  ["realestate", /부동산|아파트|전세|월세|주택|분양|집값|재건축|재개발|청약|\b(?:housing|mortgages?|real estate|home sales)\b/i],
-  ["commodities", /유가|원유|금값|금 ?가격|구리|원자재|\b(?:oil|crude|brent|wti|gold|copper|opec)\b/i],
-  ["macro", /물가|소비자물가|생산자물가|성장률|GDP|고용|실업률|수출|수입|무역수지|경상수지|\b(?:cpi|pce|ppi|gdp|inflation|payrolls?|jobs report|unemployment|retail sales|pmi)\b/i],
+  ["realestate", /부동산|주담대|주택담보|아파트|전세|월세|주택|분양|집값|재건축|재개발|청약|\b(?:housing|mortgages?|real estate|home sales)\b/i],
+  ["commodities", /유가(?!증권)|원유|휘발유|경유|기름값|석유|금값|금 ?가격|구리|원자재|\b(?:oil|crude|brent|wti|gold|copper|opec)\b/i],
+  ["macro", /가계부채|가계대출|물가|소비자물가|생산자물가|성장률|GDP|고용|실업률|수출|수입|무역수지|경상수지|\b(?:cpi|pce|ppi|gdp|inflation|payrolls?|jobs report|unemployment|retail sales|pmi)\b/i],
   ["policy", /정부|재정경제부|기재부|금융위|금감원|한국은행|한은|세제|세법|규제|정책|법안|관세|추경|예산|\b(?:sec|fed|federal reserve|regulat\w*|tariffs?|sanctions?|policy|treasury secretary)\b/i],
   ["earnings", /실적|영업이익|순이익|매출|어닝|분기|배당|\b(?:earnings|revenue|profits?|quarterly results|dividends?)\b/i],
 ];
 
 // 시장을 움직일 만한 신호. 너무 넓으면 전부 빨간색이 되므로 '사건'만 잡는다.
 const HIGH_IMPACT =
-  /속보|긴급|\[단독\]|기준금리|금리 ?(?:인하|인상|동결)|빅컷|FOMC|금통위|서킷브레이커|사이드카|폭락|폭등|급락|급등|디폴트|파산|관세 ?(?:부과|인상)|비상|\b(?:breaking|rate decision|cuts? rates|raises? rates|holds? rates|fomc|cpi|payrolls|plunges?|soars?|crash\w*|halt(?:s|ed)?|default|bankrupt\w*|tariffs?)\b/i;
+  /속보|긴급|\[단독\]|기준금리|금리 ?(?:인하|인상|동결)|빅컷|FOMC|federal open market committee|금통위|서킷브레이커|사이드카|폭락|폭등|급락|급등|디폴트|파산|관세 ?(?:부과|인상)|비상|\b(?:breaking|rate decision|cuts? rates|raises? rates|holds? rates|fomc|cpi|payrolls|plunges?|soars?|crash\w*|halt(?:s|ed)?|default|bankrupt\w*|tariffs?)\b/i;
+
+// 경제 피드에 섞여 오는 생활·인사·표·시각 목록 꼭지. 시장 신호가 아니라 와이어에서 뺀다.
+export const NOISE = /^\s*\[(?:신상잇슈|금주핫템|이번주뭘살까|반려동물|게시판|인사|부고|동정|동포의 창|포토|표|해수분해|테크톡노트|연합뉴스 이 시각 헤드라인|알림|사진)\]/;
 
 export interface WireItem {
   id: string;
@@ -136,7 +139,7 @@ export function classify(title: string, source?: Pick<WireSource, "primary">): {
 
 /** 제목 정규화: 언론사 접두어([속보] 등)·문장부호·공백을 뺀 소문자. 같은 사건의 중복 송고를 묶는다. */
 export function normTitle(title: string): string {
-  return title.toLowerCase().replace(/\[[^\]]{1,8}\]/g, "").replace(/[^\p{L}\p{N}]+/gu, "");
+  return title.toLowerCase().replace(/\[[^\]]{1,8}\]/g, "").replace(/\((?:종합|[1-9]보|상보|속보|일문일답)\d*\)/g, "").replace(/[^\p{L}\p{N}]+/gu, "");
 }
 
 function hashId(s: string): string {
@@ -161,6 +164,7 @@ export function buildWire(results: readonly FeedResult[], now = new Date(), limi
         const age = now.getTime() - Date.parse(h.publishedAt);
         if (age > source.maxAgeHours * 3_600_000) continue;
       }
+      if (NOISE.test(h.title)) continue;
       const nt = normTitle(h.title);
       if (seenUrl.has(h.url) || (nt && seenTitle.has(nt))) continue;
       seenUrl.add(h.url);

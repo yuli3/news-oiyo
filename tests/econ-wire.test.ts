@@ -32,6 +32,8 @@ test("classify: 주제·주목", () => {
   assert.equal(classify("소비자물가 동향", { primary: true }).impact, "high");
   // 영어 경계: 'shares' 는 증시, 'oilfield' 같은 낱말 안 부분은 원자재가 아니다
   assert.deepEqual(classify("Oilfield services firm").tags, []);
+  assert.equal(classify("구다이글로벌, 유가증권시장 상장 추진").tags.includes("commodities"), false);
+  assert.equal(classify("Federal Reserve announces schedule of Federal Open Market Committee meetings").impact, "high");
 });
 
 test("buildWire: 최신순, 중복 제거, 나이 제한, 출처 상태", () => {
@@ -48,6 +50,9 @@ test("buildWire: 최신순, 중복 제거, 나이 제한, 출처 상태", () => 
   assert.equal(wire.items[0].region, "US");
   assert.deepEqual(wire.sources.map((s) => [s.id, s.ok, s.count]), [["a", true, 1], ["b", true, 1], ["c", false, 0]]);
   assert.equal(normTitle("[속보] 코스피, 급락!"), normTitle("코스피 급락"));
+  assert.equal(normTitle("정보 유출 가능성(종합)"), normTitle("정보 유출 가능성"));
+  const noisy = buildWire([{ source: a, xml: rss([["[게시판] 은행 경품 행사", "https://a.example/n", "2026-11-14T06:00:00Z"], ["[표] 외국인 순매수 상위", "https://a.example/t", "2026-11-14T06:00:00Z"]]) }], NOW);
+  assert.equal(noisy.items.length, 0);
 });
 
 test("collectWire: 피드 하나가 던져도 나머지는 나간다, filterWire", async () => {
