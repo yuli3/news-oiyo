@@ -115,3 +115,7 @@ npm run audit:details  # 상세 페이지 = 한국어 요약 있는 항목
 ## 카드뉴스 제작 초안 (2026-10-29)
 
 `npm run cards:render -- --input <검토된-deck.json> --out <새-폴더> --dry-run`으로 먼저 확인한 뒤 `--dry-run`을 빼면 SVG3~8장·출처 링크가 있는 HTML·draft manifest를 만들어요. `npm run test:cardnews`로 공개 CLI를 검사해요. 입력 스키마는 `scripts/render-cardnews.mjs`의 validateDeck이 정본이며 schemaVersion1·language·checkedOn·title·OIYO landingUrl·cards(heading/body/sourceLabel/sourceUrl)가 필요해요. 네트워크·게시·발송·기존폴더 덮어쓰기는 하지 않아요. 실제 게시·법률 설명·권리는 기존 담당과 검수 흐름을 따르세요.
+
+## RSS·MCP (2026-11-14)
+- `/rss.xml`(최신 50건)과 `/mcp`(Pages Function `functions/mcp.ts`, 로직 `server/news-mcp.ts`)는 빌드 산출물 `/search-index.json`만 읽는다. 제목·한 줄 설명·출처 도메인·일일판 링크만 내보내고 원문 본문은 내보내지 않는다.
+- `server.json`이 공식 MCP Registry 등록 정보(`io.github.yuli3/oiyo-news`)다. 바꾸면 `version`을 `SERVER_INFO.version`과 같이 올린다(테스트가 확인). main에서 바뀌면 `.github/workflows/publish-mcp-registry.yml`이 OIDC로 게시한다.
