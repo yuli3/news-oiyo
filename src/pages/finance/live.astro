@@ -1,0 +1,237 @@
+---
+// 2026-11-14 CHOSEUN: FinancialJuice·오선식 실시간 경제 헤드라인. 데이터는 /api/wire(엣지 60초 캐시).
+// 빌드 때는 최근 금융 데스크 항목으로 첫 화면을 채워 두고(자바스크립트가 없어도 읽힌다), 브라우저가 1분마다 갱신한다.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TopicNav from "../../components/TopicNav.astro";
+import data from "../../data/news.json";
+import { flattenFeed, type Day } from "../../lib/feed";
+import { storySections } from "../../../scripts/lib/story-scope.mjs";
+import { classify, TAG_LABELS, WIRE_SOURCES, type WireItem } from "../../../server/econ-wire";
+
+const names = new Map(WIRE_SOURCES.map((s) => [s.id, s]));
+const seed: WireItem[] = flattenFeed(data.days as Day[])
+  .filter((item) => storySections(item).includes("finance"))
+  .slice(0, 40)
+  .map((item) => {
+    const s = names.get(item.src);
+    const { tags, impact } = classify(item.title, s);
+    return {
+      id: item.id ?? item.url, title: item.title, url: item.url, source: item.src,
+      sourceName: s?.name ?? item.domain, publishedAt: item.publishedAt ?? item.fetchedAt ?? null,
+      region: s?.region ?? (/[가-힣]/.test(item.title) ? "KR" : "GLOBAL"), tags, impact,
+    };
+  });
+const kst = (iso: string | null) => {
+  if (!iso) return "";
+  const d = new Date(Date.parse(iso) + 9 * 3_600_000);
+  return `${String(d.getUTCMonth() + 1).padStart(2, "0")}.${String(d.getUTCDate()).padStart(2, "0")} ${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")}`;
+};
+const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...Object.entries(TAG_LABELS)];
+---
+<BaseLayout title="실시간 경제 뉴스 헤드라인" description="금리·환율·증시·부동산·크립토 경제 헤드라인을 1분마다 모아 보여 줘요. 한국은행·Fed·재정경제부 발표와 국내외 경제지 속보를 주제별로 걸러 볼 수 있어요." canonical="https://news.oiyo.net/finance/live/" crumbs={[{ label: "금융", href: "/finance/" }, { label: "실시간 헤드라인" }]}>
+  <div class="wire-page">
+  <h1>실시간 경제 헤드라인</h1>
+  <p class="lede">국내외 경제지와 중앙은행·정부 발표의 헤드라인을 1분마다 모아요. 제목을 누르면 발행처 원문으로 가요.</p>
+  <TopicNav />
+
+  <div class="wire-bar" role="status" aria-live="polite">
+    <span class="dot" id="wire-dot" aria-hidden="true"></span>
+    <span id="wire-status">수집된 금융 기사를 보여 주고 있어요. 곧 최신 헤드라인으로 바꿔요.</span>
+    <button type="button" id="wire-toggle" class="wire-btn" aria-pressed="false">일시정지</button>
+  </div>
+
+  <div class="chips" role="group" aria-label="주제 거르기">
+    {filters.map(([key, label]) => <button type="button" class="chip" data-filter={key} aria-pressed={key === "all" ? "true" : "false"}>{label}</button>)}
+  </div>
+  <div class="chips" role="group" aria-label="지역 거르기">
+    {[["all", "국내외"], ["KR", "국내"], ["US", "미국"], ["GLOBAL", "글로벌"]].map(([key, label]) => <button type="button" class="chip small" data-region={key} aria-pressed={key === "all" ? "true" : "false"}>{label}</button>)}
+  </div>
+
+  <ol class="wire" id="wire-list">
+    {seed.map((i) => (
+      <li class:list={["row", { hot: i.impact === "high" }]} data-tags={i.tags.join(" ")} data-impact={i.impact} data-region={i.region}>
+        <time datetime={i.publishedAt ?? undefined}>{kst(i.publishedAt)}</time>
+        <div class="body">
+          <a href={i.url} target="_blank" rel="noopener">{i.impact === "high" && <b class="flag">주목</b>}{i.title}</a>
+          <span class="meta">{i.sourceName}{i.tags.map((t) => <em>{TAG_LABELS[t]}</em>)}</span>
+        </div>
+      </li>
+    ))}
+  </ol>
+  <p class="empty" id="wire-empty" hidden>이 조건에 맞는 헤드라인이 아직 없어요.</p>
+
+  <details class="sources">
+    <summary>어디서 모으나요</summary>
+    <p>발행처가 공개한 RSS의 <b>제목·링크·시각만</b> 가져와요. 본문은 옮기지 않고, 유료 기사나 접근 제한은 우회하지 않아요. 주제와 '주목' 표시는 제목의 낱말로 자동 분류한 것이라 틀릴 수 있어요. 투자 권유가 아니에요.</p>
+    <ul id="wire-sources">{WIRE_SOURCES.map((s) => <li data-src={s.id}>{s.name}</li>)}</ul>
+    <p>하루치를 정리해 읽고 싶다면 <a href="/finance/">금융 뉴스와 시장 브리핑</a>을 보세요. AI 도구에서는 <a href="/mcp">MCP</a>의 <code>get_econ_wire</code>로 같은 헤드라인을 받을 수 있어요.</p>
+  </details>
+  </div>
+</BaseLayout>
+
+<script>
+  import { TAG_LABELS, type Wire, type WireItem, type WireTag } from "../../../server/econ-wire";
+
+  const list = document.getElementById("wire-list");
+  const status = document.getElementById("wire-status");
+  const dot = document.getElementById("wire-dot");
+  const toggle = document.getElementById("wire-toggle");
+  const empty = document.getElementById("wire-empty");
+  const sourceList = document.getElementById("wire-sources");
+  const baseTitle = document.title;
+  const INTERVAL = 60_000;
+  const store = {
+    get: (k: string) => { try { return localStorage.getItem(k); } catch { return null; } },
+    set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* 저장 못 해도 동작은 같다 */ } },
+  };
+  let filter = store.get("wire-filter") ?? "all";
+  let region = store.get("wire-region") ?? "all";
+  let paused = false;
+  let seen: Set<string> | null = null;
+  let unread = 0;
+  let timer: number | undefined;
+
+  const kst = (iso: string | null) => {
+    if (!iso) return "";
+    const d = new Date(Date.parse(iso) + 9 * 3_600_000);
+    const today = new Date(Date.now() + 9 * 3_600_000).toISOString().slice(0, 10);
+    const hm = `${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")}`;
+    return d.toISOString().slice(0, 10) === today ? hm : `${String(d.getUTCMonth() + 1).padStart(2, "0")}.${String(d.getUTCDate()).padStart(2, "0")} ${hm}`;
+  };
+
+  function row(i: WireItem, fresh: boolean): HTMLLIElement {
+    const li = document.createElement("li");
+    li.className = `row${i.impact === "high" ? " hot" : ""}${fresh ? " fresh" : ""}`;
+    li.dataset.tags = i.tags.join(" ");
+    li.dataset.impact = i.impact;
+    li.dataset.region = i.region;
+    const time = document.createElement("time");
+    if (i.publishedAt) time.dateTime = i.publishedAt;
+    time.textContent = kst(i.publishedAt);
+    const body = document.createElement("div");
+    body.className = "body";
+    const a = document.createElement("a");
+    a.href = i.url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    if (i.impact === "high") {
+      const b = document.createElement("b");
+      b.className = "flag";
+      b.textContent = "주목";
+      a.append(b);
+    }
+    a.append(i.title);
+    const meta = document.createElement("span");
+    meta.className = "meta";
+    meta.append(i.sourceName);
+    for (const t of i.tags) {
+      const em = document.createElement("em");
+      em.textContent = TAG_LABELS[t as WireTag] ?? t;
+      meta.append(em);
+    }
+    body.append(a, meta);
+    li.append(time, body);
+    return li;
+  }
+
+  function applyFilter() {
+    if (!list) return;
+    let shown = 0;
+    for (const li of Array.from(list.children) as HTMLElement[]) {
+      const tagOk = filter === "all" || (filter === "high" ? li.dataset.impact === "high" : (li.dataset.tags ?? "").split(" ").includes(filter));
+      const regionOk = region === "all" || li.dataset.region === region;
+      li.hidden = !(tagOk && regionOk);
+      if (!li.hidden) shown++;
+    }
+    if (empty) empty.hidden = shown > 0;
+    document.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
+    document.querySelectorAll<HTMLButtonElement>("[data-region]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.region === region)));
+  }
+
+  async function refresh() {
+    if (!list || !status) return;
+    try {
+      const res = await fetch("/api/wire", { headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error(String(res.status));
+      const wire = (await res.json()) as Wire;
+      if (!wire.items?.length) throw new Error("empty");
+      const first = seen === null;
+      const fresh = wire.items.filter((i) => !first && !seen!.has(i.id));
+      seen = new Set(wire.items.map((i) => i.id));
+      list.replaceChildren(...wire.items.map((i) => row(i, fresh.some((f) => f.id === i.id))));
+      applyFilter();
+      if (document.hidden) unread += fresh.length;
+      document.title = unread ? `(${unread}) ${baseTitle}` : baseTitle;
+      const at = new Date(Date.parse(wire.generatedAt) + 9 * 3_600_000).toISOString().slice(11, 19);
+      const down = wire.sources.filter((s) => !s.ok).length;
+      status.textContent = `${at} 기준 헤드라인 ${wire.items.length}건${fresh.length ? ` · 새 소식 ${fresh.length}건` : ""}${down ? ` · 응답 없는 출처 ${down}곳` : ""} · 1분마다 갱신`;
+      dot?.classList.add("live");
+      sourceList?.querySelectorAll<HTMLElement>("li").forEach((li) => {
+        const s = wire.sources.find((x) => x.id === li.dataset.src);
+        if (s) li.dataset.state = s.ok ? "ok" : "down";
+      });
+    } catch {
+      dot?.classList.remove("live");
+      status.textContent = "지금은 최신 헤드라인을 받지 못했어요. 수집된 금융 기사를 보여 주고 있고, 1분 뒤에 다시 시도해요.";
+    }
+  }
+
+  function schedule() {
+    window.clearInterval(timer);
+    if (!paused) timer = window.setInterval(() => { if (!document.hidden) void refresh(); }, INTERVAL);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => b.addEventListener("click", () => {
+    filter = b.dataset.filter ?? "all"; store.set("wire-filter", filter); applyFilter();
+  }));
+  document.querySelectorAll<HTMLButtonElement>("[data-region]").forEach((b) => b.addEventListener("click", () => {
+    region = b.dataset.region ?? "all"; store.set("wire-region", region); applyFilter();
+  }));
+  toggle?.addEventListener("click", () => {
+    paused = !paused;
+    toggle.setAttribute("aria-pressed", String(paused));
+    toggle.textContent = paused ? "다시 받기" : "일시정지";
+    if (!paused) void refresh();
+    schedule();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) { unread = 0; document.title = baseTitle; if (!paused) void refresh(); }
+  });
+
+  applyFilter();
+  void refresh();
+  schedule();
+</script>
+
+<style is:global>
+  /* 행은 스크립트가 다시 그리므로 범위 스타일(data-astro-cid)이 붙지 않는다. 페이지 래퍼로 범위를 대신 건다. */
+  .wire-page .wire-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 12px;padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--card);font-size:14px;color:var(--muted)}
+  .wire-page .wire-bar #wire-status{flex:1 1 220px}
+  .wire-page .dot{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
+  .wire-page .dot.live{background:var(--accent);animation:wire-pulse 2s ease-in-out infinite}
+  @keyframes wire-pulse{50%{opacity:.35}}
+  @media (prefers-reduced-motion:reduce){.wire-page .dot.live{animation:none}}
+  .wire-page .wire-btn,.wire-page .chip{min-height:44px;padding:0 14px;border:1px solid var(--border);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
+  .wire-page .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+  .wire-page .chip.small{min-height:36px;font-size:13px}
+  .wire-page .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--card)}
+  .wire-page .chip:focus-visible,.wire-page .wire-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .wire-page .wire{list-style:none;margin:16px 0;padding:0;border-top:1px solid var(--border)}
+  .wire-page .row{display:grid;grid-template-columns:5.6em 1fr;gap:12px;padding:12px 4px;border-bottom:1px solid var(--border)}
+  .wire-page .row time{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px;padding-top:2px}
+  .wire-page .row a{color:var(--ink);text-decoration:none;font-size:16px;line-height:1.5}
+  .wire-page .row a:hover{color:var(--accent);text-decoration:underline}
+  .wire-page .row.hot{box-shadow:inset 3px 0 var(--accent)}
+  .wire-page .row.hot a{font-weight:700}
+  .wire-page .row.fresh{animation:wire-flash 3s ease-out}
+  @keyframes wire-flash{from{background:var(--accent-soft)}to{background:transparent}}
+  @media (prefers-reduced-motion:reduce){.wire-page .row.fresh{animation:none;background:var(--accent-soft)}}
+  .wire-page .flag{display:inline-block;margin-right:6px;padding:0 6px;border-radius:4px;background:var(--accent);color:var(--card);font-size:12px;vertical-align:2px}
+  .wire-page .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;color:var(--muted);font-size:13px}
+  .wire-page .meta em{font-style:normal;padding:0 6px;border:1px solid var(--border);border-radius:4px}
+  .wire-page .empty{color:var(--muted)}
+  .wire-page .sources{margin-top:24px;font-size:14px;color:var(--muted)}
+  .wire-page .sources summary{cursor:pointer;min-height:44px;display:flex;align-items:center}
+  .wire-page .sources li[data-state="down"]{text-decoration:line-through}
+  @media(max-width:480px){.wire-page .row{grid-template-columns:1fr;gap:2px}}
+</style>

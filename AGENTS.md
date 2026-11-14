@@ -119,3 +119,4 @@ npm run audit:details  # 상세 페이지 = 한국어 요약 있는 항목
 ## RSS·MCP (2026-11-14)
 - `/rss.xml`(최신 50건)과 `/mcp`(Pages Function `functions/mcp.ts`, 로직 `server/news-mcp.ts`)는 빌드 산출물 `/search-index.json`만 읽는다. 제목·한 줄 설명·출처 도메인·일일판 링크만 내보내고 원문 본문은 내보내지 않는다.
 - `server.json`이 공식 MCP Registry 등록 정보(`io.github.yuli3/oiyo-news`)다. 바꾸면 `version`을 `SERVER_INFO.version`과 같이 올린다(테스트가 확인). main에서 바뀌면 `.github/workflows/publish-mcp-registry.yml`이 OIDC로 게시한다.
+- `/finance/live/`·`/api/wire`·MCP `get_econ_wire`(2026-11-14): 경제 헤드라인 와이어. 공개 RSS 제목·링크만, 엣지 60초 캐시, 규칙 분류. 정본 `server/econ-wire.ts`, 설명은 [docs/finance-desk.md](docs/finance-desk.md).

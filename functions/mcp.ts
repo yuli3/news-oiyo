@@ -1,8 +1,9 @@
 // news.oiyo.net/mcp — 상태 없는 MCP 엔드포인트(Streamable HTTP, JSON 응답). 로직은 server/news-mcp.ts.
 import { handleRpc } from "../server/news-mcp";
 import { searchEntries, type SearchEntry } from "../src/lib/search";
+import { loadWire } from "../server/wire-edge";
 
-interface Ctx { request: Request; env: { ASSETS?: { fetch: (r: Request | string) => Promise<Response> } } }
+interface Ctx { request: Request; waitUntil?: (p: Promise<unknown>) => void; env: { ASSETS?: { fetch: (r: Request | string) => Promise<Response> } } }
 
 const HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
@@ -17,9 +18,9 @@ export const onRequestOptions = () => new Response(null, { status: 204, headers:
 
 // GET 은 SSE 스트림을 열지 않는다(상태 없음). 사람이 열면 안내만.
 export const onRequestGet = () =>
-  new Response(JSON.stringify({ name: "oiyo-news", transport: "streamable-http", post: "/mcp", tools: ["get_daily_brief", "search_news"] }), { status: 405, headers: { ...HEADERS, Allow: "POST, OPTIONS" } });
+  new Response(JSON.stringify({ name: "oiyo-news", transport: "streamable-http", post: "/mcp", tools: ["get_daily_brief", "search_news", "get_econ_wire"] }), { status: 405, headers: { ...HEADERS, Allow: "POST, OPTIONS" } });
 
-export const onRequestPost = async ({ request, env }: Ctx) => {
+export const onRequestPost = async ({ request, env, waitUntil }: Ctx) => {
   let body: unknown;
   try { body = await request.json(); } catch {
     return new Response(JSON.stringify({ jsonrpc: "2.0", id: null, error: { code: -32700, message: "Parse error" } }), { status: 400, headers: HEADERS });
@@ -27,6 +28,7 @@ export const onRequestPost = async ({ request, env }: Ctx) => {
   let cache: SearchEntry[] | null = null;
   const deps = {
     search: searchEntries,
+    loadWire: () => loadWire(new URL(request.url).origin, waitUntil),
     loadEntries: async () => {
       if (cache) return cache;
       const url = new URL("/search-index.json", request.url);
