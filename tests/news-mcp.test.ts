@@ -41,3 +41,11 @@ test("search_news 와 잘못된 입력", async () => {
   assert.equal(((await call("nope", {})) as any).error.code, -32602);
   assert.equal(((await handleRpc({ jsonrpc: "2.0", id: 3, method: "x" }, deps)) as any).error.code, -32601);
 });
+
+test("server.json 버전은 SERVER_INFO 와 같다", async () => {
+  const { readFileSync } = await import("node:fs");
+  const { SERVER_INFO } = await import("../server/news-mcp.ts");
+  const s = JSON.parse(readFileSync(new URL("../server.json", import.meta.url), "utf8"));
+  assert.equal(s.version, SERVER_INFO.version);
+  assert.ok(s.description.length <= 100);
+});

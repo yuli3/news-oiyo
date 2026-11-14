@@ -1,0 +1,23 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.yuli3/oiyo-news",
+  "title": "OIYO News (Korea tech & market briefs)",
+  "description": "Daily Korean briefs on AI, dev and markets: latest edition and keyword search, with links.",
+  "websiteUrl": "https://news.oiyo.net/",
+  "repository": {
+    "url": "https://github.com/yuli3/news-oiyo",
+    "source": "github"
+  },
+  "icons": [
+    {
+      "src": "https://news.oiyo.net/icon-512.png",
+      "mimeType": "image/png",
+      "sizes": ["512x512"]
+    }
+  ],
+  "version": "1.0.0",
+  "remotes": [
+    { "type": "streamable-http", "url": "https://news-oiyo.pages.dev/mcp" },
+    { "type": "streamable-http", "url": "https://news.oiyo.net/mcp" }
+  ]
+}
