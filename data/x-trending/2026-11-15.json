@@ -1,0 +1,209 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-15",
+  "collected_at": "2026-11-15T07:20:43+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 12
+  },
+  "posts": [
+    {
+      "id": "2121311524409225611",
+      "url": "https://x.com/dwarkesh_sp/status/2121311524409225611",
+      "author": {
+        "username": "dwarkesh_sp",
+        "name": "Dwarkesh Patel",
+        "followers": 287838
+      },
+      "created_at": "2026-11-13T18:37:34.000Z",
+      "quote": "The avalanche that hit math is coming for AI development.\n\nhttps://t.co/z5RsJgcWWc https://t.co/Ud6MDxiADh",
+      "metrics": {
+        "like": 4204,
+        "repost": 355,
+        "reply": 139,
+        "quote": 168,
+        "bookmark": 3351,
+        "impression": 859379
+      },
+      "topic": "드와케시 파텔의 '재귀적 자기개선' 에세이",
+      "summary_ko": "팟캐스터 드와케시 파텔이 수학을 휩쓴 AI의 '눈사태'가 이제 AI 개발 자체로 향한다는 새 에세이를 공개했어요. 잘 정의된 문제를 푸는 AI 능력이 수학보다 머신러닝 연구에서 더 큰 변화를 부를 수 있다는 주장이에요.",
+      "link": "https://www.dwarkesh.com/p/rsi",
+      "related_item_ids": [
+        "trend-4a71feaeb2061088",
+        "trend-0b5c17ccb3fbd93c"
+      ]
+    },
+    {
+      "id": "2121317227618340990",
+      "url": "https://x.com/AnthropicAI/status/2121317227618340990",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1909113
+      },
+      "created_at": "2026-11-13T19:00:13.000Z",
+      "quote": "Safety evaluations are critical for understanding whether a model is ready to deploy, which safeguards to build for it, and where to focus training and research.\n\nOn our Engineering Blog, we offer 10 …",
+      "metrics": {
+        "like": 2090,
+        "repost": 190,
+        "reply": 431,
+        "quote": 119,
+        "bookmark": 781,
+        "impression": 218557
+      },
+      "topic": "Anthropic, 안전성 평가 설계 권고 10가지",
+      "summary_ko": "Anthropic이 엔지니어링 블로그에 모델 안전성 평가를 설계·실행·보고하는 10가지 권고를 올렸어요. 배포 준비 여부, 필요한 안전장치, 연구 우선순위를 판단하는 데 평가가 핵심이라는 설명이에요.",
+      "link": "https://www.anthropic.com/research/building-strong-safety-evaluations",
+      "related_item_ids": []
+    },
+    {
+      "id": "2121393001700151533",
+      "url": "https://x.com/ChrisRMcGuire/status/2121393001700151533",
+      "author": {
+        "username": "ChrisRMcGuire",
+        "name": "Chris McGuire",
+        "followers": 13023
+      },
+      "created_at": "2026-11-14T00:01:19.000Z",
+      "quote": "In @nytopinion, I argue Secretary Lutnick's refusal to enforce key anti-smuggling export controls precipitated the crisis with Nvidia and Jensen Huang, letting Megaspeed and others smuggle tens of …",
+      "metrics": {
+        "like": 1965,
+        "repost": 568,
+        "reply": 100,
+        "quote": 33,
+        "bookmark": 107,
+        "impression": 121698
+      },
+      "topic": "엔비디아 사태와 수출 통제 책임론",
+      "summary_ko": "크리스 맥과이어가 뉴욕타임스 기고에서 러트닉 상무장관이 밀수 방지 수출 통제를 집행하지 않아 메가스피드 등이 수백억 달러어치 AI 칩을 중국으로 빼돌렸고, 이것이 엔비디아·젠슨 황 사태를 불렀다고 주장했어요. 기고자 개인의 의견이에요.",
+      "link": "https://www.nytimes.com/2026/11/13/opinion/jensen-huang-nvidia-howard-lutnick-commerce.html",
+      "related_item_ids": [
+        "trend-cc674ea29027add5",
+        "trend-0fdbfe31a7a922f2",
+        "trend-9a375bef6bbbaae1",
+        "trend-a49b4ec30e3dee6c"
+      ]
+    },
+    {
+      "id": "2121396190910562805",
+      "url": "https://x.com/Kalshi/status/2121396190910562805",
+      "author": {
+        "username": "Kalshi",
+        "name": "Kalshi",
+        "followers": 513767
+      },
+      "created_at": "2026-11-14T00:14:00.000Z",
+      "quote": "JUST IN: Anthropic CEO Dario Amodei says AI could \"solve biology\" within the next few years",
+      "metrics": {
+        "like": 597,
+        "repost": 31,
+        "reply": 74,
+        "quote": 16,
+        "bookmark": 33,
+        "impression": 46416
+      },
+      "topic": "아모데이 \"AI가 생물학을 풀 수 있다\"",
+      "summary_ko": "예측시장 Kalshi가 다리오 아모데이 Anthropic CEO가 몇 년 안에 AI가 '생물학을 풀 수 있다'고 말했다고 전했어요. 상장을 앞둔 발언이라 기대와 함께 \"생물학은 하나의 문제가 아니다\"라는 회의적 반응도 많이 달렸어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-12137a8b7ca5c2a8"
+      ]
+    },
+    {
+      "id": "2121351383236436247",
+      "url": "https://x.com/mirrokni/status/2121351383236436247",
+      "author": {
+        "username": "mirrokni",
+        "name": "Vahab Mirrokni",
+        "followers": 3546
+      },
+      "created_at": "2026-11-13T21:15:57.000Z",
+      "quote": "Check out our recent results solving open challenges across math/science and engineering with /teamwork and Gemini 4 models : https://t.co/in8niq88d4 \n\nDetails: \nFollowing our recent updates on …",
+      "metrics": {
+        "like": 87,
+        "repost": 15,
+        "reply": 10,
+        "quote": 5,
+        "bookmark": 33,
+        "impression": 13612
+      },
+      "topic": "Antigravity /teamwork로 미해결 문제 풀기",
+      "summary_ko": "구글 리서치의 바합 미로크니가 Gemini 4 기반 멀티에이전트 /teamwork와 DeepReview로 수학·과학·공학 미해결 문제를 푼 사례를 소개했어요. Courtade–Kumar 추측의 5천만 줄 Lean 4 증명 등 10개 넘는 문제를 풀었다고 밝혔어요.",
+      "link": "http://goo.gle/3XpyJNG",
+      "related_item_ids": [
+        "trend-0b5c17ccb3fbd93c"
+      ]
+    },
+    {
+      "id": "2121455178570436847",
+      "url": "https://x.com/TekonBurns/status/2121455178570436847",
+      "author": {
+        "username": "TekonBurns",
+        "name": "Tekon Burns",
+        "followers": 3949
+      },
+      "created_at": "2026-11-14T04:08:23.000Z",
+      "quote": "💀Heavy Claude Code users were right all week about maining Opus 5.5 over maxed-out Fable 5.2.\n\nArtificial Analysis Coding Agent Index v2.1 just put hard receipts on why:\n\n→ Claude Opus 5.5 max: 58\n→ …",
+      "metrics": {
+        "like": 165,
+        "repost": 1,
+        "reply": 43,
+        "quote": 4,
+        "bookmark": 37,
+        "impression": 24371
+      },
+      "topic": "Claude Code는 Opus 5.5? Fable 5.2?",
+      "summary_ko": "Artificial Analysis 코딩 에이전트 지수에서 Opus 5.5 max와 Fable 5.2 high가 58점으로 같고, Fable 5.2 max는 시간 초과로 56점에 작업당 44.22달러가 들었다는 글이에요. 그래서 코딩 기본값은 Opus 5.5가 낫다는 작성자 의견이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-4a71feaeb2061088"
+      ]
+    },
+    {
+      "id": "2121625151263670358",
+      "url": "https://x.com/SadCreatorTalks/status/2121625151263670358",
+      "author": {
+        "username": "SadCreatorTalks",
+        "name": "Sad Creator",
+        "followers": 19001
+      },
+      "created_at": "2026-11-14T15:23:48.000Z",
+      "quote": "a simulated fruit fly brain beat 17 of 28 ai models at mafia\n\nit's from sus-bench. 250k humans, 28 models, 500k+ rounds of a social deception game. openai's models were the best liars, grok stayed …",
+      "metrics": {
+        "like": 97,
+        "repost": 20,
+        "reply": 5,
+        "quote": 0,
+        "bookmark": 1,
+        "impression": 2668
+      },
+      "topic": "마피아 게임 벤치마크 SUS-Bench",
+      "summary_ko": "25만 명과 AI 모델 28개가 50만 판 넘게 마피아식 사회적 기만 게임을 한 SUS-Bench에서, 말도 못 하는 초파리 뇌 시뮬레이션이 모델 17개를 이겼다는 소식이에요. OpenAI 모델은 거짓말을 가장 잘했고, Grok은 팀에 충실했고, Claude는 고자질이 가장 많았대요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121515980375363790",
+      "url": "https://x.com/Aurora_5100/status/2121515980375363790",
+      "author": {
+        "username": "Aurora_5100",
+        "name": "오로라",
+        "followers": 12715
+      },
+      "created_at": "2026-11-14T08:10:00.000Z",
+      "quote": "수능 D-5, \n이제 AI 안경 때문에 시험장 입실 전 안경까지 검사받는 시대 ㄷㄷ\n\n• 11/19 2027 수능: AI 안경 단순 소지만 해도 시험 무효, \n착용 적발 시 내년 수능 응시 자격까지 박탈 \n\n• 국가자격시험장: 전파탐지기 7,200대 + 전담 인력 23,559명\n투입 위해 예산 65.7억 증액 추진\n\n심지어 국회에선 “무테·금테 안경만 …",
+      "metrics": {
+        "like": 33,
+        "repost": 8,
+        "reply": 28,
+        "quote": 1,
+        "bookmark": 2,
+        "impression": 3479
+      },
+      "topic": "수능 앞두고 AI 안경 단속",
+      "summary_ko": "11월 19일 수능부터 AI 안경을 소지만 해도 시험이 무효가 되고, 착용이 적발되면 다음 해 응시 자격까지 잃는다는 글이 화제예요. 국가자격시험장 전파탐지기 확충 예산 증액도 추진되는 가운데, 평범한 뿔테 안경을 쓴 수험생이 괜히 의심받을까 걱정하는 반응도 있어요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
