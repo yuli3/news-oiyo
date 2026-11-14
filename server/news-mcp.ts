@@ -1,8 +1,9 @@
 // 2026-11-14: news.oiyo.net/mcp — 상황판 아이디어 news-signal-mcp 2단계. CHOSEUN "전부 진행".
-// 상태 없는 MCP(Streamable HTTP, JSON 응답). 도구 둘: get_daily_brief, search_news.
+// 상태 없는 MCP(Streamable HTTP, JSON 응답). 도구: get_daily_brief, search_news, get_econ_wire(2026-11-14 경제 와이어).
 // 저작권: 제목·짧은 설명·출처 도메인·OIYO 일일판 링크만 낸다. 원문 본문은 내보내지 않는다.
 // 데이터는 같은 배포의 /search-index.json(빌드 산출물) 하나. SDK 없이 JSON-RPC 만 직접 다룬다.
 import type { SearchEntry, SearchHit } from "../src/lib/search";
+import { filterWire, TAG_LABELS, type Wire } from "./econ-wire.ts";
 
 export const SITE = "https://news.oiyo.net";
 export const PROTOCOL_VERSIONS = ["2025-06-18", "2025-03-26", "2024-11-05"] as const;
@@ -11,7 +12,7 @@ const MAX_LIMIT = 50;
 const UTM = "utm_source=mcp&utm_medium=news-mcp&utm_campaign=news-signal";
 
 export type Search = (entries: readonly SearchEntry[], q: string, limit: number) => SearchHit[];
-export interface Deps { loadEntries: () => Promise<SearchEntry[]>; search: Search }
+export interface Deps { loadEntries: () => Promise<SearchEntry[]>; search: Search; loadWire?: () => Promise<Wire> }
 
 type Json = Record<string, unknown>;
 interface Rpc { jsonrpc?: string; id?: string | number | null; method?: string; params?: Json }
@@ -45,6 +46,22 @@ export const TOOLS = [
       additionalProperties: false,
     },
     annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false },
+  },
+  {
+    name: "get_econ_wire",
+    title: "Get economy headline wire",
+    description: "Near-realtime economy/market headlines (refreshed about every minute) from public RSS of Korean and US publishers and central banks (Yonhap, Hankyung, Maeil, Bank of Korea, MOEF, Federal Reserve, SEC, CNBC, CoinDesk). Each item has the headline, publisher link, time, rule-based topic tags and an impact flag. Headlines only: open the link to read the story.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        tag: { type: "string", enum: Object.keys(TAG_LABELS), description: "Topic filter." },
+        impact: { type: "string", enum: ["high"], description: "Only market-moving headlines." },
+        region: { type: "string", enum: ["KR", "US", "GLOBAL"], description: "Publisher region." },
+        limit: { type: "integer", minimum: 1, maximum: MAX_LIMIT, description: "Max headlines (default 20)." },
+      },
+      additionalProperties: false,
+    },
+    annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: false, openWorldHint: true },
   },
 ] as const;
 
@@ -96,6 +113,23 @@ export async function callTool(name: string, args: Json, deps: Deps) {
       return toolResult({ error: "query 1-100 chars and limit 1-50 required" }, true);
     const hits = deps.search(await deps.loadEntries(), q, limit);
     return toolResult({ query: q, count: hits.length, results: hits.map(story) });
+  }
+  if (name === "get_econ_wire") {
+    const allowed = ["tag", "impact", "region", "limit"];
+    if (keys.some((k) => !allowed.includes(k))) return toolResult({ error: "unknown argument" }, true);
+    const limit = clampLimit(args.limit, 20);
+    const bad = (v: unknown, ok: readonly string[]) => v !== undefined && (typeof v !== "string" || !ok.includes(v));
+    if (limit === null || bad(args.tag, Object.keys(TAG_LABELS)) || bad(args.impact, ["high"]) || bad(args.region, ["KR", "US", "GLOBAL"]))
+      return toolResult({ error: "invalid tag/impact/region or limit 1-50" }, true);
+    if (!deps.loadWire) return toolResult({ error: "wire unavailable" }, true);
+    const wire = await deps.loadWire();
+    const items = filterWire(wire.items, { tag: args.tag as string, impact: args.impact as string, region: args.region as string, limit });
+    return toolResult({
+      generatedAt: wire.generatedAt, count: items.length,
+      page: `${SITE}/finance/live/?${UTM}`,
+      headlines: items.map((i) => ({ title: i.title, link: i.url, source: i.sourceName, publishedAt: i.publishedAt, tags: i.tags, impact: i.impact })),
+      note: "Headlines link to the original publisher. Cite the publisher, not OIYO, for the story itself.",
+    });
   }
   return null;
 }
