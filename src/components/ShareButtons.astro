@@ -1,8 +1,10 @@
 ---
 // 2026-10-13 공유: 로그인·서버 없이 동작한다. 휴대폰은 기기 공유 시트(카카오톡 포함),
 // 데스크톱은 링크 복사·X·페이스북. 공유 링크에는 utm 을 붙여 유입을 GA 에서 센다.
-interface Props { url: string; title: string }
-const { url, title } = Astro.props;
+// 2026-11-15 submitUrl 이 있으면 "커뮤니티에 올리기"(원문 주소·제목을 미리 채운 링크 글 쓰기)를 함께 보인다.
+interface Props { url: string; title: string; submitUrl?: string }
+const { url, title, submitUrl } = Astro.props;
+const submitHref = submitUrl ? `/community/?submit=1&url=${encodeURIComponent(submitUrl)}&title=${encodeURIComponent(title.slice(0, 80))}` : null;
 const tagged = (medium: string) => `${url}?utm_source=share&utm_medium=${medium}&utm_campaign=news_share`;
 const x = `https://x.com/intent/post?text=${encodeURIComponent(title)}&url=${encodeURIComponent(tagged("x"))}`;
 const fb = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(tagged("facebook"))}`;
@@ -13,6 +15,7 @@ const fb = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ta
   <button type="button" class="share-btn" data-share-copy>링크 복사</button>
   <a class="share-btn" href={x} target="_blank" rel="noopener noreferrer" data-share-medium="x">X</a>
   <a class="share-btn" href={fb} target="_blank" rel="noopener noreferrer" data-share-medium="facebook">페이스북</a>
+  {submitHref && <a class="share-btn" href={submitHref} rel="nofollow">커뮤니티에 올리기</a>}
   <span class="share-status" role="status"></span>
 </div>
 <script>

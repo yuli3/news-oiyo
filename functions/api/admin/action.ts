@@ -1,5 +1,5 @@
 // POST /api/admin/action {targetType: comment|post|user, targetId, action: hide|restore|delete|ban|unban}
-import { gate } from "../../../server/community";
+import { gate, hasLinkColumns } from "../../../server/community";
 import { fail, json, readJson } from "../../../server/http";
 import { isId } from "../../../server/rules";
 import type { Handler } from "../../../server/types";
@@ -33,7 +33,10 @@ export const onRequestPost: Handler = async ({ request, env }) => {
       if (c && !c.deleted && c.thread.startsWith("post:"))
         stmts.push(d.prepare("UPDATE posts SET comment_count = MAX(comment_count - 1, 0) WHERE id = ?").bind(c.thread.slice(5)));
       await d.batch(stmts);
-    } else await d.prepare("UPDATE posts SET deleted = 1, title = '', body = '' WHERE id = ?").bind(id).run();
+    } else {
+      const links = (await hasLinkColumns(d)) ? ", url = NULL, domain = NULL" : "";
+      await d.prepare(`UPDATE posts SET deleted = 1, title = '', body = ''${links} WHERE id = ?`).bind(id).run();
+    }
   } else return fail(400, "잘못된 요청이에요.");
   if (action === "restore") await d.prepare("DELETE FROM reports WHERE target_type = ? AND target_id = ?").bind(type, id).run();
   return json({ ok: true });

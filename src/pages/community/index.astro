@@ -1,33 +1,80 @@
 ---
 // 2026-10-13 커뮤니티 게시판. 글은 사용자 생성 콘텐츠라 noindex(광고도 붙지 않음).
+// 2026-11-15 GeekNews(news.hada.io) 정도의 가벼운 링크 커뮤니티로 확장:
+// 링크 글(주소+제목, 본문 선택) · 인기순(시간 감쇠) · 목록에서 바로 ▲ 추천 · 도메인 표시 · ?submit=1&url=&title= 미리 채우기.
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import "../../styles/community.css";
 ---
-<BaseLayout title="커뮤니티" description="OIYO News 독자 커뮤니티" noindex crumbs={[{ label: "커뮤니티" }]}>
+<BaseLayout title="커뮤니티" description="OIYO News 독자 커뮤니티 — 읽을 만한 링크를 올리고 추천·토론하는 곳" noindex crumbs={[{ label: "커뮤니티" }]}>
   <div class="bd-head">
     <h1 class="bd-h1">커뮤니티</h1>
-    <button type="button" class="cm-submit" id="bd-write" hidden>글쓰기</button>
+    <button type="button" class="cm-submit" id="bd-write" hidden>링크·글 올리기</button>
   </div>
-  <p class="cm-note">기술·경제 뉴스 이야기를 나누는 곳이에요. 광고·욕설·개인정보 노출은 신고되면 가려져요.</p>
+  <p class="cm-note">읽을 만한 기술·경제 링크를 올리고, 추천과 댓글로 함께 고르는 곳이에요. 광고·욕설·개인정보 노출은 신고되면 가려져요.</p>
   <div id="bd-compose"></div>
-  <nav class="bd-tabs" aria-label="글 분류">
-    <button type="button" class="cm-btn" data-cat="" aria-pressed="true">전체</button>
-    <button type="button" class="cm-btn" data-cat="free" aria-pressed="false">자유</button>
-    <button type="button" class="cm-btn" data-cat="question" aria-pressed="false">질문</button>
-    <button type="button" class="cm-btn" data-cat="share" aria-pressed="false">정보 공유</button>
-    <span class="bd-sep"></span>
-    <button type="button" class="cm-btn" data-sort="new" aria-pressed="true">최신</button>
+  <nav class="bd-tabs" aria-label="정렬">
+    <button type="button" class="cm-btn" data-sort="hot" aria-pressed="true">인기</button>
+    <button type="button" class="cm-btn" data-sort="new" aria-pressed="false">최신</button>
     <button type="button" class="cm-btn" data-sort="top" aria-pressed="false">추천순</button>
+  </nav>
+  <nav class="bd-tabs bd-cats" aria-label="글 분류">
+    <button type="button" class="cm-btn" data-cat="" aria-pressed="true">전체</button>
+    <button type="button" class="cm-btn" data-cat="share" aria-pressed="false">링크·정보</button>
+    <button type="button" class="cm-btn" data-cat="question" aria-pressed="false">질문</button>
+    <button type="button" class="cm-btn" data-cat="show" aria-pressed="false">Show</button>
+    <button type="button" class="cm-btn" data-cat="free" aria-pressed="false">자유</button>
   </nav>
   <ol id="bd-list" class="bd-list" aria-live="polite"><li class="cm-empty">불러오고 있어요…</li></ol>
   <div class="bd-more"><button type="button" class="cm-btn" id="bd-more" hidden>더 보기</button></div>
   <script>
-    import { ApiError, CATEGORY_LABEL, api, attachTurnstile, el, getConfig, getMe, loginHref, timeAgo, type PostSummary } from "../../lib/community";
+    import { ApiError, CATEGORY_LABEL, api, attachTurnstile, el, getConfig, getMe, loginHref, timeAgo, type Me, type PostSummary } from "../../lib/community";
+    import { flash, msg, needLogin } from "../../lib/comments-ui";
     const list = document.getElementById("bd-list")!;
     const more = document.getElementById("bd-more") as HTMLButtonElement;
     const write = document.getElementById("bd-write") as HTMLButtonElement;
     const compose = document.getElementById("bd-compose")!;
-    let cat = "", sort = "new", page = 1;
+    const params = new URLSearchParams(location.search);
+    let cat = "", sort = "hot", page = 1, me: Me | null = null;
+    const postHref = (id: string) => `/community/post/?id=${encodeURIComponent(id)}`;
+
+    function voteButton(p: PostSummary): HTMLButtonElement {
+      const b = el("button", { type: "button", class: "bd-vote", "aria-pressed": String(!!p.voted), "aria-label": `추천 (${p.score}점)`, title: "추천" }, "▲");
+      b.addEventListener("click", async () => {
+        if (!me) return needLogin(b);
+        try {
+          const r = await api<{ voted: boolean; score: number }>("POST", `/api/posts/${p.id}/vote`);
+          p.score = r.score;
+          b.setAttribute("aria-pressed", String(r.voted));
+          b.setAttribute("aria-label", `추천 (${r.score}점)`);
+          const pts = b.closest(".bd-row")?.querySelector(".bd-pts");
+          if (pts) pts.textContent = `${r.score}점`;
+        } catch (e) { flash(b, msg(e)); }
+      });
+      return b;
+    }
+
+    function row(p: PostSummary, rank: number): HTMLLIElement {
+      const external = !!p.url;
+      const title = external
+        ? el("a", { class: "bd-title", href: p.url!, target: "_blank", rel: "noopener noreferrer nofollow ugc", text: p.title })
+        : el("a", { class: "bd-title", href: postHref(p.id), text: p.title });
+      return el("li", { class: "bd-row" },
+        el("span", { class: "bd-rank", text: `${rank}.` }),
+        voteButton(p),
+        el("div", { class: "bd-main" },
+          el("div", { class: "bd-line" },
+            p.category !== "share" ? el("span", { class: "bd-cat", text: CATEGORY_LABEL[p.category] ?? p.category }) : null,
+            title,
+            p.domain ? el("span", { class: "bd-domain", text: `(${p.domain})` }) : null,
+          ),
+          el("p", { class: "bd-meta" },
+            el("span", { class: "bd-pts", text: `${p.score}점` }),
+            ` · ${p.author} · ${timeAgo(p.createdAt)} · `,
+            el("a", { href: postHref(p.id), text: p.comments ? `댓글 ${p.comments}` : "토론하기" }),
+          ),
+        ),
+      );
+    }
 
     async function load(reset: boolean) {
       if (reset) page = 1;
@@ -35,18 +82,12 @@ import "../../styles/community.css";
         const q = new URLSearchParams({ sort, page: String(page) });
         if (cat) q.set("category", cat);
         const d = await api<{ posts: PostSummary[]; hasMore: boolean }>("GET", `/api/posts?${q}`);
-        const rows = d.posts.map((p) =>
-          el("li", { class: "bd-row" },
-            el("a", { class: "bd-link", href: `/community/post/?id=${encodeURIComponent(p.id)}` },
-              el("span", { class: "bd-cat", text: CATEGORY_LABEL[p.category] ?? p.category }),
-              el("span", { class: "bd-title", text: p.title }),
-              p.comments ? el("span", { class: "bd-cmt", text: `[${p.comments}]` }) : null,
-            ),
-            el("span", { class: "bd-meta", text: `${p.author} · ${timeAgo(p.createdAt)} · 👍 ${p.score}` }),
-          ));
+        const offset = (page - 1) * 30;
+        const rows = d.posts.map((p, i) => row(p, offset + i + 1));
         if (reset) list.replaceChildren(...rows);
         else list.append(...rows);
-        if (reset && rows.length === 0) list.replaceChildren(el("li", { class: "cm-empty", text: "아직 글이 없어요. 첫 글을 남겨 보세요." }));
+        if (reset && rows.length === 0)
+          list.replaceChildren(el("li", { class: "cm-empty", text: sort === "hot" ? "최근 2주 사이 글이 없어요. 읽을 만한 링크를 처음으로 올려 보세요." : "아직 글이 없어요. 첫 글을 남겨 보세요." }));
         more.hidden = !d.hasMore;
       } catch (e) {
         list.replaceChildren(el("li", { class: "cm-empty", text: e instanceof ApiError && e.status === 503 ? "커뮤니티를 준비하고 있어요. 곧 글을 쓸 수 있어요." : "글을 불러오지 못했어요." }));
@@ -60,60 +101,84 @@ import "../../styles/community.css";
     for (const b of document.querySelectorAll<HTMLButtonElement>("[data-sort]")) b.addEventListener("click", () => { sort = b.dataset.sort!; press("[data-sort]", b); load(true); });
     more.addEventListener("click", () => { page++; load(false); });
 
-    async function setupWrite() {
-      const [config, me] = await Promise.all([getConfig(), getMe()]);
+    async function openCompose(config: Awaited<ReturnType<typeof getConfig>>) {
+      if (!config.enabled) {
+        compose.replaceChildren(el("p", { class: "cm-note", role: "status", text: "커뮤니티를 준비하고 있어요. 곧 글을 쓸 수 있어요." }));
+        return;
+      }
+      if (!me) {
+        compose.replaceChildren(el("div", { class: "cm-form cm-login" },
+          el("p", { text: "링크나 글을 올리려면 로그인해 주세요." }),
+          el("div", { class: "cm-providers" }, ...(config.providers ?? []).map((p) => el("a", { class: `cm-provider cm-provider-${p.id}`, href: loginHref(p.id), text: `${p.label}로 로그인` })))));
+        return;
+      }
+      const url = el("input", { class: "cm-field", type: "url", inputmode: "url", maxlength: "500", placeholder: "링크 주소 (https://…) — 글만 쓰려면 비워 두세요", "aria-label": "링크 주소" });
+      const title = el("input", { class: "cm-field", maxlength: "80", placeholder: "제목 (원문 제목 그대로, 낚시성 제목은 고쳐 주세요)", "aria-label": "제목" });
+      const category = el("select", { class: "cm-field", "aria-label": "분류" }, ...Object.entries(CATEGORY_LABEL).map(([v, t]) => el("option", { value: v, text: t })));
+      const body = el("textarea", { class: "cm-input", rows: "6", maxlength: "5000", placeholder: "내용 (링크를 올리면 선택) — 왜 읽을 만한지 한두 줄 덧붙이면 좋아요.", "aria-label": "내용" });
+      const ts = el("div", { class: "cm-turnstile" });
+      const status = el("span", { class: "cm-status", role: "status" });
+      const submit = el("button", { type: "submit", class: "cm-submit", text: "올리기" });
+      const form = el("form", { class: "cm-form bd-form" }, url, title, category, body, ts, el("div", { class: "cm-row" }, status, submit));
+      const turnstile = attachTurnstile(ts);
+      // 뉴스 상세의 "커뮤니티에 올리기"나 북마클릿이 넘긴 값을 미리 채운다.
+      url.value = params.get("url") ?? "";
+      title.value = (params.get("title") ?? "").slice(0, 80);
+      const syncCat = () => { if (category.value === "share" || category.value === "free") category.value = url.value.trim() ? "share" : "free"; };
+      syncCat();
+      url.addEventListener("input", syncCat);
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        submit.disabled = true;
+        try {
+          const r = await api<{ id: string }>("POST", "/api/posts", { url: url.value, category: category.value, title: title.value, body: body.value, turnstileToken: turnstile.token() });
+          location.href = postHref(r.id);
+        } catch (err) {
+          if (err instanceof ApiError && err.status === 409 && typeof err.data.id === "string") {
+            status.replaceChildren(err.message + " ", el("a", { href: postHref(err.data.id), text: "그 글로 가기" }));
+          } else status.textContent = err instanceof ApiError ? err.message : "올리지 못했어요.";
+          submit.disabled = false;
+          turnstile.reset();
+        }
+      });
+      compose.replaceChildren(form);
+      (url.value ? title : url).focus();
+    }
+
+    async function setup() {
+      const config = await getConfig();
+      me = await getMe();
       write.hidden = false;
       write.addEventListener("click", () => {
         if (compose.firstChild) { compose.replaceChildren(); return; }
-        if (!config.enabled) {
-          compose.replaceChildren(el("p", { class: "cm-note", role: "status", text: "커뮤니티를 준비하고 있어요. 곧 글을 쓸 수 있어요." }));
-          return;
-        }
-        if (!me) {
-          compose.replaceChildren(el("div", { class: "cm-form cm-login" },
-            el("p", { text: "글을 쓰려면 로그인해 주세요." }),
-            el("div", { class: "cm-providers" }, ...(config.providers ?? []).map((p) => el("a", { class: `cm-provider cm-provider-${p.id}`, href: loginHref(p.id), text: `${p.label}로 로그인` })))));
-          return;
-        }
-        const category = el("select", { class: "cm-field", "aria-label": "분류" }, ...Object.entries(CATEGORY_LABEL).map(([v, t]) => el("option", { value: v, text: t })));
-        const title = el("input", { class: "cm-field", maxlength: "80", placeholder: "제목", "aria-label": "제목" });
-        const body = el("textarea", { class: "cm-input", rows: "8", maxlength: "5000", placeholder: "내용을 써 주세요. 가입하고 하루가 지나면 링크를 2개까지 달 수 있어요.", "aria-label": "내용" });
-        const ts = el("div", { class: "cm-turnstile" });
-        const status = el("span", { class: "cm-status", role: "status" });
-        const submit = el("button", { type: "submit", class: "cm-submit", text: "올리기" });
-        const form = el("form", { class: "cm-form bd-form" }, category, title, body, ts, el("div", { class: "cm-row" }, status, submit));
-        const turnstile = attachTurnstile(ts);
-        form.addEventListener("submit", async (e) => {
-          e.preventDefault();
-          submit.disabled = true;
-          try {
-            const r = await api<{ id: string }>("POST", "/api/posts", { category: category.value, title: title.value, body: body.value, turnstileToken: turnstile.token() });
-            location.href = `/community/post/?id=${encodeURIComponent(r.id)}`;
-          } catch (err) {
-            status.textContent = err instanceof ApiError ? err.message : "올리지 못했어요.";
-            submit.disabled = false;
-            turnstile.reset();
-          }
-        });
-        compose.replaceChildren(form);
-        title.focus();
+        openCompose(config);
       });
+      if (params.has("submit") || params.has("url")) openCompose(config);
+      load(true);
     }
-    setupWrite();
-    load(true);
+    setup();
   </script>
   <style>
     .bd-head { display:flex; align-items:center; justify-content:space-between; gap:12px }
     .bd-h1 { font-size:22px; margin:0 }
-    .bd-tabs { display:flex; flex-wrap:wrap; gap:6px; margin:14px 0 8px; align-items:center }
-    .bd-sep { flex:1 }
+    .bd-tabs { display:flex; flex-wrap:wrap; gap:6px; margin:14px 0 0; align-items:center }
+    .bd-cats { margin:8px 0 10px }
     .bd-list { list-style:none; margin:0; padding:0; border-top:1px solid var(--border) }
-    .bd-list :global(.bd-row) { padding:12px 2px; border-bottom:1px solid var(--border); display:flex; flex-direction:column; gap:3px }
-    .bd-list :global(.bd-link) { color:var(--ink); text-decoration:none; font-weight:700; display:flex; gap:8px; align-items:baseline; overflow-wrap:anywhere }
-    .bd-list :global(.bd-link:hover) { color:var(--accent) }
+    .bd-list :global(.bd-row) { padding:10px 2px; border-bottom:1px solid var(--border); display:flex; gap:6px; align-items:flex-start }
+    .bd-list :global(.bd-rank) { flex:none; width:2.2em; text-align:right; color:var(--muted); font-size:13px; padding-top:10px; font-variant-numeric:tabular-nums }
+    .bd-list :global(.bd-vote) { flex:none; width:44px; height:44px; border:0; background:none; color:var(--muted); font-size:15px; cursor:pointer; border-radius:10px; margin-top:-4px }
+    .bd-list :global(.bd-vote:hover), .bd-list :global(.bd-vote[aria-pressed="true"]) { color:var(--accent) }
+    .bd-list :global(.bd-vote:focus-visible) { outline:2px solid var(--accent); outline-offset:-2px }
+    .bd-list :global(.bd-main) { min-width:0; flex:1; padding-top:6px }
+    .bd-list :global(.bd-line) { display:flex; flex-wrap:wrap; gap:4px 8px; align-items:baseline }
+    .bd-list :global(.bd-title) { color:var(--ink); text-decoration:none; font-weight:700; font-size:15.5px; overflow-wrap:anywhere }
+    .bd-list :global(.bd-title:hover) { color:var(--accent) }
+    .bd-list :global(.bd-title:visited) { color:var(--muted) }
+    .bd-list :global(.bd-domain) { color:var(--muted); font-size:12.5px; overflow-wrap:anywhere }
     .bd-list :global(.bd-cat) { flex:none; font-size:11.5px; font-weight:800; color:var(--accent); background:var(--accent-soft); border-radius:999px; padding:1px 8px }
-    .bd-list :global(.bd-cmt) { color:var(--accent); font-size:13px }
-    .bd-list :global(.bd-meta) { font-size:12px; color:var(--muted) }
+    .bd-list :global(.bd-meta) { margin:3px 0 0; font-size:12.5px; color:var(--muted) }
+    .bd-list :global(.bd-meta a) { color:var(--muted) }
+    .bd-list :global(.bd-meta a:hover) { color:var(--accent) }
     .bd-more { text-align:center; margin-top:14px }
   </style>
 </BaseLayout>

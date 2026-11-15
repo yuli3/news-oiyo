@@ -47,9 +47,11 @@ import "../../styles/community.css";
       if (me && !post.mine) actions.append(reportButton("post", post.id));
       root.replaceChildren(
         el("p", { class: "pt-cat", text: CATEGORY_LABEL[post.category] ?? post.category }),
-        el("h1", { class: "pt-title", text: post.title }),
-        el("p", { class: "cm-meta", text: `${post.author} · ${timeAgo(post.createdAt)}${post.hidden ? " · 신고로 숨김(관리자에게만 보임)" : ""}` }),
-        el("div", { class: "pt-body", text: post.body }),
+        el("h1", { class: "pt-title" },
+          post.url ? el("a", { href: post.url, target: "_blank", rel: "noopener noreferrer nofollow ugc", text: post.title }) : post.title),
+        ...(post.url ? [el("p", { class: "pt-link" }, el("a", { href: post.url, target: "_blank", rel: "noopener noreferrer nofollow ugc", text: `${post.domain ?? "원문"} 에서 읽기 ↗` }))] : []),
+        el("p", { class: "cm-meta", text: `${post.score}점 · ${post.author} · ${timeAgo(post.createdAt)}${post.hidden ? " · 신고로 숨김(관리자에게만 보임)" : ""}` }),
+        ...(post.body ? [el("div", { class: "pt-body", text: post.body })] : []),
         actions,
       );
       comments.hidden = false;
@@ -61,6 +63,10 @@ import "../../styles/community.css";
     .pt { max-width:72ch }
     .pt :global(.pt-cat) { margin:0; font-size:12px; font-weight:800; color:var(--accent) }
     .pt :global(.pt-title) { font-size:24px; margin:4px 0 6px; overflow-wrap:anywhere }
+    .pt :global(.pt-title a) { color:inherit; text-decoration:none }
+    .pt :global(.pt-title a:hover) { color:var(--accent) }
+    .pt :global(.pt-link) { margin:0 0 6px; font-size:13.5px }
+    .pt :global(.pt-link a) { color:var(--accent) }
     .pt :global(.pt-body) { white-space:pre-wrap; overflow-wrap:anywhere; font-size:15.5px; line-height:1.75; margin:16px 0 }
   </style>
 </BaseLayout>

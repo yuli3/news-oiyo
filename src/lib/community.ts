@@ -8,10 +8,11 @@ export interface Comment {
   id: string; parentId: string | null; body: string | null; state: "visible" | "hidden" | "deleted";
   score: number; createdAt: number; author: string | null; mine: boolean; voted: boolean;
 }
-export interface PostSummary { id: string; category: string; title: string; score: number; comments: number; createdAt: number; author: string }
+export interface PostSummary { id: string; category: string; title: string; url: string | null; domain: string | null; score: number; comments: number; createdAt: number; author: string; voted?: boolean }
 export interface Post extends PostSummary { body: string; hidden: boolean; mine: boolean; voted: boolean }
 
-export const CATEGORY_LABEL: Record<string, string> = { free: "자유", question: "질문", share: "정보 공유" };
+// 2026-11-15 GeekNews 식 분류: 링크·정보(뉴스) / Ask(질문) / Show(내가 만든 것) / 자유.
+export const CATEGORY_LABEL: Record<string, string> = { share: "링크·정보", question: "질문", show: "Show", free: "자유" };
 export const REPORT_LABEL: [string, string][] = [
   ["spam", "광고·스팸"], ["abuse", "욕설·괴롭힘"], ["illegal", "불법 정보"], ["privacy", "개인정보 노출"], ["other", "기타"],
 ];

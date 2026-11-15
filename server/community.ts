@@ -89,3 +89,21 @@ export async function myVotes(d: D1Database, u: User | null, type: Target, ids: 
   }
   return out;
 }
+
+/**
+ * 2026-11-15 링크 글 칸(posts.url·domain, migrations/community/0002)이 운영 D1 에 있는지.
+ * 마이그레이션 전에 배포돼도 커뮤니티가 깨지지 않게 한다: 없으면 링크 없이 예전처럼 동작한다.
+ * 있다고 확인되면 isolate 안에서 기억한다(없으면 다음 요청에서 다시 본다).
+ */
+let linkColumns = false;
+export async function hasLinkColumns(d: D1Database): Promise<boolean> {
+  if (linkColumns) return true;
+  try {
+    await d.prepare("SELECT url, domain FROM posts LIMIT 0").all();
+    linkColumns = true;
+  } catch {
+    linkColumns = false;
+  }
+  return linkColumns;
+}
+export const LINK_COLS = (on: boolean, alias = "p") => (on ? `${alias}.url, ${alias}.domain` : "NULL AS url, NULL AS domain");

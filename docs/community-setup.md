@@ -12,11 +12,22 @@
 | 댓글·답글(한 단계) | 날짜 페이지, 상세 페이지, 커뮤니티 글 | `functions/api/comments/*` |
 | 댓글·글 추천 | 👍 버튼 | `.../vote.ts`, `server/community.ts` |
 | 신고 → 3건이면 자동 숨김 | 신고 버튼 | `functions/api/reports.ts` |
-| 커뮤니티 게시판(자유·질문·정보 공유) | `/community/`, `/community/post/?id=` | `functions/api/posts/*` |
+| 커뮤니티 게시판(링크·정보·질문·Show·자유) | `/community/`, `/community/post/?id=` | `functions/api/posts/*` |
+| 링크 글·인기순·목록 ▲추천 (2026-11-15, GeekNews 정도) | `/community/` 기본 "인기" | `server/rules.ts` `checkSubmitUrl`·`hotScore` |
+| 뉴스 상세에서 "커뮤니티에 올리기" | `/item/<id>/` 공유 줄 | `/community/?submit=1&url=&title=` 미리 채우기 |
 | 신고 관리(숨김·복구·삭제·정지) | `/community/admin/` | `functions/api/admin/*` |
 | 공유(기기 공유 시트·링크 복사·X·페이스북) | 날짜·상세 페이지 | 없음(정적) |
 
 입력·스팸 규칙은 `server/rules.ts` 한 곳에 있다(`npm test`).
+
+### 링크 글·인기순 (2026-11-15)
+
+- 글은 링크 글(주소+제목, 본문 선택) 또는 글(제목+본문). 주소는 http(s)만, 계정정보·내부 주소 금지, `utm_*`·`fbclid` 등 추적 파라미터와 `#`는 지운다.
+- 같은 주소가 30일 안에 이미 있으면 새 글 대신 409 + 그 글 id(화면은 "그 글로 가기").
+- 가입 24시간이 안 된 계정은 링크 글을 못 올린다(본문 링크 규칙과 같다). 링크는 `nofollow ugc`.
+- 인기순 = `(추천+1+댓글×0.2) / (경과시간h+2)^1.8`(Hacker News 꼴), 최근 14일·최대 500개 후보를 함수에서 정렬한다.
+- 마이그레이션 전에 배포돼도 안전하다: 칸이 없으면 목록·글은 예전처럼 보이고 링크 글만 "곧 열려요"(503)로 막힌다(`server/community.ts` `hasLinkColumns`).
+- D1 칸 `posts.url`, `posts.domain`은 `migrations/community/0002_post_links.sql`. ALTER 라 다시 적용하면 "duplicate column"으로 실패한다 — 이미 칸이 있으면 건너뛴다.
 
 ## 켜기 전에는 꺼져 있다
 

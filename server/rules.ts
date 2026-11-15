@@ -17,9 +17,17 @@ export const LIMITS = {
   postWindowMs: 60 * 60 * 1000,
   postPerWindow: 3,
   sessionMs: 30 * 24 * 60 * 60 * 1000,
+  /** 링크 글 주소 길이 한도. */
+  urlMax: 500,
+  /** 같은 주소가 이 기간 안에 이미 올라왔으면 새 글 대신 그 글로 보낸다. */
+  duplicateUrlMs: 30 * 24 * 60 * 60 * 1000,
+  /** 인기순은 최근 이만큼의 글만 순위를 매긴다. 그보다 오래된 글은 최신·추천순에서 본다. */
+  hotWindowMs: 14 * 24 * 60 * 60 * 1000,
+  hotCandidates: 500,
 } as const;
 
-export const POST_CATEGORIES = ["free", "question", "share"] as const;
+/** share = 링크·정보(GeekNews 의 뉴스), question = Ask, show = 내가 만든 것(Show). 2026-11-15 show 추가. */
+export const POST_CATEGORIES = ["free", "question", "share", "show"] as const;
 export type PostCategory = (typeof POST_CATEGORIES)[number];
 export const REPORT_REASONS = ["spam", "abuse", "illegal", "privacy", "other"] as const;
 
@@ -88,4 +96,47 @@ export function defaultNickname(rand: number): string {
 
 export function parseAdminAccounts(s: string | undefined): Set<string> {
   return new Set((s ?? "").split(",").map((x) => x.trim()).filter(Boolean));
+}
+
+// ── 링크 글(GeekNews·Hacker News 식) 2026-11-15 ─────────────────────
+
+const TRACKING_PARAM = /^(utm_[a-z]+|fbclid|gclid|dclid|mc_[a-z]+|igshid|ref_src|si)$/i;
+
+export type UrlCheck = { ok: true; url: string; domain: string } | { ok: false; error: string };
+
+/** 링크 글 주소를 검사하고 정규화한다: http(s)만, 계정정보·내부 주소 금지, 추적 파라미터와 #조각 제거. */
+export function checkSubmitUrl(raw: unknown): UrlCheck {
+  if (typeof raw !== "string" || !raw.trim()) return { ok: false, error: "링크 주소를 입력해 주세요." };
+  let u: URL;
+  try {
+    u = new URL(raw.trim());
+  } catch {
+    return { ok: false, error: "링크 주소가 올바르지 않아요. https:// 로 시작하는 주소를 넣어 주세요." };
+  }
+  if (u.protocol !== "https:" && u.protocol !== "http:") return { ok: false, error: "http(s) 주소만 올릴 수 있어요." };
+  if (u.username || u.password) return { ok: false, error: "계정 정보가 들어간 주소는 올릴 수 없어요." };
+  const host = u.hostname.toLowerCase();
+  if (!host.includes(".") || /^[\d.]+$/.test(host) || host.startsWith("[") || /(^|\.)(localhost|local|internal)$/.test(host))
+    return { ok: false, error: "공개된 웹 주소만 올릴 수 있어요." };
+  u.hash = "";
+  for (const k of [...u.searchParams.keys()]) if (TRACKING_PARAM.test(k)) u.searchParams.delete(k);
+  const url = u.toString();
+  if (url.length > LIMITS.urlMax) return { ok: false, error: `주소가 너무 길어요(${LIMITS.urlMax}자 이내).` };
+  return { ok: true, url, domain: host.replace(/^www\./, "") };
+}
+
+/**
+ * 인기순 점수. Hacker News 와 같은 꼴: 추천이 많을수록 오르고, 시간이 지나면 내려간다.
+ * 추천 0 인 새 글도 한동안 위에 보이도록 +1 을 준다. 댓글은 약하게만 반영한다.
+ */
+export function hotScore(score: number, comments: number, createdAt: number, now: number): number {
+  const hours = Math.max(0, now - createdAt) / 3_600_000;
+  return (Math.max(score, 0) + 1 + Math.min(comments, 50) * 0.2) / Math.pow(hours + 2, 1.8);
+}
+
+export function rankHot<T extends { score: number; comment_count: number; created_at: number }>(rows: T[], now: number): T[] {
+  return rows
+    .map((r) => ({ r, h: hotScore(r.score, r.comment_count, r.created_at, now) }))
+    .sort((a, b) => b.h - a.h || b.r.created_at - a.r.created_at)
+    .map((x) => x.r);
 }
