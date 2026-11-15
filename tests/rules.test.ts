@@ -1,7 +1,7 @@
 // npm test  (Node 22.18+ 는 .ts 를 그대로 읽는다)
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { LIMITS, checkBody, checkNickname, checkTitle, cleanText, countLinks, isId, isThreadKey } from "../server/rules.ts";
+import { LIMITS, POST_CATEGORIES, checkBody, checkSubmitUrl, hotScore, rankHot, checkNickname, checkTitle, cleanText, countLinks, isId, isThreadKey } from "../server/rules.ts";
 import { safeReturnTo } from "../server/oauth.ts";
 
 const old = { accountAgeMs: LIMITS.newAccountMs + 1 };
@@ -52,4 +52,39 @@ test("titles", () => {
 test("login return path stays on this site", () => {
   assert.equal(safeReturnTo("/2026-10-13/"), "/2026-10-13/");
   for (const bad of ["//evil.com", "https://evil.com", "/\\evil.com", null, ""]) assert.equal(safeReturnTo(bad), "/", String(bad));
+});
+
+// 2026-11-15 링크 글·인기순
+
+test("submit url: normalizes and strips tracking", () => {
+  const r = checkSubmitUrl(" https://www.Example.com/a?utm_source=x&id=3&fbclid=y#top ");
+  assert.ok(r.ok);
+  if (r.ok) {
+    assert.equal(r.url, "https://www.example.com/a?id=3");
+    assert.equal(r.domain, "example.com");
+  }
+});
+
+test("submit url: rejects unsafe or internal addresses", () => {
+  for (const bad of ["javascript:alert(1)", "ftp://a.com/x", "https://user:pw@a.com/", "http://localhost:8787/", "http://127.0.0.1/", "https://[::1]/", "https://intranet/", "not a url", "", 42, `https://a.com/${"x".repeat(600)}`])
+    assert.equal(checkSubmitUrl(bad).ok, false, String(bad).slice(0, 40));
+});
+
+test("categories include show", () => {
+  assert.deepEqual([...POST_CATEGORIES], ["free", "question", "share", "show"]);
+});
+
+test("hot: votes lift, age decays", () => {
+  const now = 1_800_000_000_000;
+  const h = 3_600_000;
+  assert.ok(hotScore(10, 0, now - h, now) > hotScore(2, 0, now - h, now));
+  assert.ok(hotScore(5, 0, now - h, now) > hotScore(5, 0, now - 48 * h, now));
+  // 어제 추천 20개 글보다 방금 올라온 추천 3개 글이 위
+  assert.ok(hotScore(3, 0, now - 0.5 * h, now) > hotScore(20, 0, now - 30 * h, now));
+  const rows = [
+    { id: "old", score: 20, comment_count: 0, created_at: now - 30 * h },
+    { id: "new", score: 3, comment_count: 2, created_at: now - 0.5 * h },
+    { id: "zero", score: 0, comment_count: 0, created_at: now - 10 * h },
+  ];
+  assert.deepEqual(rankHot(rows, now).map((r) => r.id), ["new", "old", "zero"]);
 });
