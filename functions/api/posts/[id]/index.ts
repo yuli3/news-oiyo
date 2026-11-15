@@ -1,5 +1,5 @@
 // GET /api/posts/<id> · DELETE /api/posts/<id>(쓴 사람 또는 관리자)
-import { gate, myVotes } from "../../../../server/community";
+import { LINK_COLS, gate, hasLinkColumns, myVotes } from "../../../../server/community";
 import { db, disabled, fail, json } from "../../../../server/http";
 import { isId } from "../../../../server/rules";
 import { currentUser } from "../../../../server/session";
@@ -12,7 +12,7 @@ export const onRequestGet: Handler<"id"> = async ({ request, env, params }) => {
   const me = await currentUser(request, d);
   const p = await d
     .prepare(
-      `SELECT p.id, p.category, p.title, p.url, p.domain, p.body, p.score, p.comment_count, p.hidden, p.deleted, p.created_at, p.user_id, u.nickname
+      `SELECT p.id, p.category, p.title, ${LINK_COLS(await hasLinkColumns(d))}, p.body, p.score, p.comment_count, p.hidden, p.deleted, p.created_at, p.user_id, u.nickname
          FROM posts p LEFT JOIN users u ON u.id = p.user_id WHERE p.id = ?`,
     )
     .bind(params.id)
@@ -38,6 +38,7 @@ export const onRequestDelete: Handler<"id"> = async ({ request, env, params }) =
   const p = await d.prepare("SELECT user_id, deleted FROM posts WHERE id = ?").bind(params.id).first<{ user_id: string | null; deleted: number }>();
   if (!p || p.deleted) return fail(404, "글을 찾을 수 없어요.");
   if (p.user_id !== u.id && u.role !== "admin") return fail(403, "내가 쓴 글만 지울 수 있어요.");
-  await d.prepare("UPDATE posts SET deleted = 1, title = '', body = '', url = NULL, domain = NULL WHERE id = ?").bind(params.id).run();
+  const links = (await hasLinkColumns(d)) ? ", url = NULL, domain = NULL" : "";
+  await d.prepare(`UPDATE posts SET deleted = 1, title = '', body = ''${links} WHERE id = ?`).bind(params.id).run();
   return json({ ok: true });
 };

@@ -1,7 +1,7 @@
 // GET /api/posts?sort=hot|new|top&category=free|question|share|show&page=1 — 커뮤니티 글 목록(30개씩)
 // POST /api/posts {category, title, url?, body?, turnstileToken?}
 // 2026-11-15 GeekNews 식: 링크 글(url, 본문 선택)·인기순(시간 감쇠)·목록에서 바로 추천.
-import { gate, myVotes, writeGate } from "../../../server/community";
+import { LINK_COLS, gate, hasLinkColumns, myVotes, writeGate } from "../../../server/community";
 import { db, disabled, fail, json, newId, readJson } from "../../../server/http";
 import { LIMITS, POST_CATEGORIES, checkBody, checkSubmitUrl, checkTitle, rankHot } from "../../../server/rules";
 import { currentUser } from "../../../server/session";
@@ -9,7 +9,6 @@ import type { Handler } from "../../../server/types";
 
 const PAGE = 30;
 type Row = { id: string; category: string; title: string; url: string | null; domain: string | null; score: number; comment_count: number; created_at: number; nickname: string | null };
-const COLS = "p.id, p.category, p.title, p.url, p.domain, p.score, p.comment_count, p.created_at, u.nickname";
 
 export const onRequestGet: Handler = async ({ request, env }) => {
   const d = db(env);
@@ -22,6 +21,7 @@ export const onRequestGet: Handler = async ({ request, env }) => {
   const byCat = !!category && (POST_CATEGORIES as readonly string[]).includes(category);
   const where = `p.deleted = 0 AND p.hidden = 0 ${byCat ? "AND p.category = ?" : ""}`;
   const now = Date.now();
+  const COLS = `p.id, p.category, p.title, ${LINK_COLS(await hasLinkColumns(d))}, p.score, p.comment_count, p.created_at, u.nickname`;
   let rows: Row[];
   let hasMore: boolean;
   if (sort === "hot") {
@@ -71,6 +71,7 @@ export const onRequestPost: Handler = async ({ request, env }) => {
   let url: string | null = null;
   let domain: string | null = null;
   if (typeof body.url === "string" && body.url.trim()) {
+    if (!(await hasLinkColumns(d))) return fail(503, "링크 글은 곧 열려요. 지금은 본문에 링크를 넣어 주세요.");
     const c = checkSubmitUrl(body.url);
     if (!c.ok) return fail(400, c.error);
     if (accountAgeMs < LIMITS.newAccountMs) return fail(400, "가입하고 하루가 지나면 링크를 올릴 수 있어요. 그 전에는 글로 먼저 이야기해 주세요.");
@@ -95,9 +96,15 @@ export const onRequestPost: Handler = async ({ request, env }) => {
   const blocked = await writeGate(request, env, d, u, "post", body.turnstileToken);
   if (blocked) return blocked;
   const id = newId();
-  await d
-    .prepare("INSERT INTO posts (id, user_id, category, title, body, url, domain, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
-    .bind(id, u.id, category, title.value, text, url, domain, Date.now())
-    .run();
+  if (url)
+    await d
+      .prepare("INSERT INTO posts (id, user_id, category, title, body, url, domain, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+      .bind(id, u.id, category, title.value, text, url, domain, Date.now())
+      .run();
+  else
+    await d
+      .prepare("INSERT INTO posts (id, user_id, category, title, body, created_at) VALUES (?, ?, ?, ?, ?, ?)")
+      .bind(id, u.id, category, title.value, text, Date.now())
+      .run();
   return json({ id }, 201);
 };

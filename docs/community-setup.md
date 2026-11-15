@@ -26,6 +26,7 @@
 - 같은 주소가 30일 안에 이미 있으면 새 글 대신 409 + 그 글 id(화면은 "그 글로 가기").
 - 가입 24시간이 안 된 계정은 링크 글을 못 올린다(본문 링크 규칙과 같다). 링크는 `nofollow ugc`.
 - 인기순 = `(추천+1+댓글×0.2) / (경과시간h+2)^1.8`(Hacker News 꼴), 최근 14일·최대 500개 후보를 함수에서 정렬한다.
+- 마이그레이션 전에 배포돼도 안전하다: 칸이 없으면 목록·글은 예전처럼 보이고 링크 글만 "곧 열려요"(503)로 막힌다(`server/community.ts` `hasLinkColumns`).
 - D1 칸 `posts.url`, `posts.domain`은 `migrations/community/0002_post_links.sql`. ALTER 라 다시 적용하면 "duplicate column"으로 실패한다 — 이미 칸이 있으면 건너뛴다.
 
 ## 켜기 전에는 꺼져 있다
