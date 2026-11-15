@@ -1,0 +1,241 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-16",
+  "collected_at": "2026-11-16T07:05:00+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 2
+  },
+  "posts": [
+    {
+      "id": "2121751642005721122",
+      "url": "https://x.com/alonamit/status/2121751642005721122",
+      "author": {
+        "username": "alonamit",
+        "name": "Alon Amit",
+        "followers": 2317
+      },
+      "created_at": "2026-11-14T23:46:26.000Z",
+      "quote": "I asked Carbon a math question and unintentionally left the Thinking level on Low. It started responding immediately, and after six screenfuls of math... this came up. I'm not kidding. It went on like…",
+      "metrics": {
+        "like": 4603,
+        "repost": 147,
+        "reply": 207,
+        "quote": 99,
+        "bookmark": 1200,
+        "impression": 366382
+      },
+      "topic": "제미나이 4 카본의 '생각 흘림' 화면",
+      "summary_ko": "알론 아미트가 제미나이 4 카본에 수학 질문을 하면서 사고 수준을 실수로 '낮음'에 둔 채 물었더니, 여러 화면 분량의 풀이 뒤에 엉뚱한 출력이 몇 페이지나 이어졌다며 캡처를 올렸어요. 좋아요 4,600개, 노출 36만 회를 넘겼어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121646643124809848",
+      "url": "https://x.com/poteto/status/2121646643124809848",
+      "author": {
+        "username": "poteto",
+        "name": "lauren",
+        "followers": 292562
+      },
+      "created_at": "2026-11-14T16:49:12.000Z",
+      "quote": "quick fixes considered harmful: you might be making your agents write worse code when you ask for the smallest or quickest possible change\n\nwhat seems like a harmless bandaid may lead to that pattern…",
+      "metrics": {
+        "like": 4426,
+        "repost": 210,
+        "reply": 309,
+        "quote": 119,
+        "bookmark": 1540,
+        "impression": 250091
+      },
+      "topic": "에이전트에게 '최소 수정'을 시키면 생기는 일",
+      "summary_ko": "개발자 lauren이 에이전트에게 가장 작고 빠른 수정만 요구하면 땜질 패턴이 다음 에이전트에게 복제돼 코드 전체로 퍼질 수 있다고 경고했어요. 손으로 짤 땐 시간이 없어 땜질했지만, 에이전트 시대엔 더 침습적이어도 근본 원인을 고치게 하는 편이 나을 때가 있다는 주장이에요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121636808840888591",
+      "url": "https://x.com/SahilExec/status/2121636808840888591",
+      "author": {
+        "username": "SahilExec",
+        "name": "Edgex",
+        "followers": 5493
+      },
+      "created_at": "2026-11-14T16:10:07.000Z",
+      "quote": "a senior engineer just explained why the Microsoft outage took 15 hours and why AI won't replace programmers anytime soon. https://t.co/65sCPRMqZP",
+      "metrics": {
+        "like": 11370,
+        "repost": 1275,
+        "reply": 295,
+        "quote": 105,
+        "bookmark": 3638,
+        "impression": 1161761
+      },
+      "topic": "MS 15시간 장애와 'AI가 개발자를 대체하지 못하는 이유'",
+      "summary_ko": "마이크로소프트 장애가 왜 15시간이나 걸렸는지, 그리고 왜 AI가 당분간 프로그래머를 대체하지 못하는지를 한 시니어 엔지니어가 설명했다는 캡처 글이 100만 회 넘게 노출됐어요. 캡처 속 주장은 개인 의견이라 공식 원인 분석과는 구분해서 봐야 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121858786742738984",
+      "url": "https://x.com/PaulYoungX/status/2121858786742738984",
+      "author": {
+        "username": "PaulYoungX",
+        "name": "Paul Young",
+        "followers": 22723
+      },
+      "created_at": "2026-11-15T06:52:11.000Z",
+      "quote": "Putain, c'est vraiment dingue. On a demandé à Dario Amodei, le CEO d'Anthropic, ce que devrait faire un jeune qui sort du lycée aujourd'hui. Sa réponse :\n\n« L'IA sait faire le boulot d'un juriste débu…",
+      "metrics": {
+        "like": 3533,
+        "repost": 744,
+        "reply": 98,
+        "quote": 31,
+        "bookmark": 8360,
+        "impression": 528757
+      },
+      "topic": "아모데이 \"초급 화이트칼라 일, AI가 이미 한다\"",
+      "summary_ko": "프랑스어권에서 다리오 아모데이 앤트로픽 CEO의 인터뷰 영상이 퍼졌어요. 그는 AI가 초급 법무·금융 분석·컨설팅 업무를 할 수 있고 일자리도 상당히 없앨 수 있다고 말했고, 초급 화이트칼라 일자리의 50%가 1~5년 안에 흔들릴 수 있다는 기존 전망도 다시 언급됐어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121710173005693034",
+      "url": "https://x.com/sixmisses6/status/2121710173005693034",
+      "author": {
+        "username": "sixmisses6",
+        "name": "Zara",
+        "followers": 198
+      },
+      "created_at": "2026-11-14T21:01:39.000Z",
+      "quote": "the actual worst impact AI has had on our society is that people think proper english grammar is ai slop",
+      "metrics": {
+        "like": 68126,
+        "repost": 7638,
+        "reply": 233,
+        "quote": 308,
+        "bookmark": 1999,
+        "impression": 788161
+      },
+      "topic": "\"바른 문법이 AI 글 취급받는다\"",
+      "summary_ko": "AI가 사회에 끼친 최악의 영향은 사람들이 올바른 영어 문법을 'AI 슬롭'으로 여기게 된 것이라는 짧은 글이 좋아요 6만 8천 개를 넘겼어요. 엠 대시나 옥스퍼드 콤마를 쓰면 AI로 의심받는다는 인용 반응이 줄을 이었어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121286228758708450",
+      "url": "https://x.com/NEJM_AI/status/2121286228758708450",
+      "author": {
+        "username": "NEJM_AI",
+        "name": "NEJM AI",
+        "followers": 14665
+      },
+      "created_at": "2026-11-13T16:57:03.000Z",
+      "quote": "The authors analyze the degree to which clinical specialties are shielded from, or threatened by, AI depending on how much of their work requires in-person physical interaction. Learn more: https://t.…",
+      "metrics": {
+        "like": 1181,
+        "repost": 391,
+        "reply": 159,
+        "quote": 242,
+        "bookmark": 999,
+        "impression": 835808
+      },
+      "topic": "NEJM AI: 몸을 쓰는 진료과일수록 AI 대체가 어렵다",
+      "summary_ko": "NEJM AI가 진료과별로 대면·신체 접촉이 필요한 업무 비중에 따라 AI 대체 위험이 어떻게 다른지 분석한 논문을 소개했어요. AI가 영상 판독과 진단 초안을 쓸 수 있어도 신체 진찰이나 생검 같은 일은 소프트웨어가 대신할 수 없다는 점에 주목했어요.",
+      "link": "https://ai.nejm.org/doi/full/10.1056/AIp2600957",
+      "related_item_ids": []
+    },
+    {
+      "id": "2121458046249665010",
+      "url": "https://x.com/theo/status/2121458046249665010",
+      "author": {
+        "username": "theo",
+        "name": "Theo - t3.gg",
+        "followers": 428890
+      },
+      "created_at": "2026-11-14T04:19:47.000Z",
+      "quote": "Hot take: Software will get more stable overall thanks to AI",
+      "metrics": {
+        "like": 4943,
+        "repost": 118,
+        "reply": 472,
+        "quote": 85,
+        "bookmark": 189,
+        "impression": 184848
+      },
+      "topic": "테오 \"AI 덕에 소프트웨어는 더 안정적이 될 것\"",
+      "summary_ko": "개발자 유튜버 테오가 AI 덕분에 소프트웨어가 전반적으로 더 안정적이 될 거라는 '핫테이크'를 올려 답글 470여 개가 달렸어요. 짧은 한 줄이지만 AI가 코드 품질을 높일지 낮출지를 두고 의견이 갈렸어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121995284196602013",
+      "url": "https://x.com/ylecun/status/2121995284196602013",
+      "author": {
+        "username": "ylecun",
+        "name": "Yann LeCun",
+        "followers": 1368724
+      },
+      "created_at": "2026-11-15T15:54:35.000Z",
+      "quote": "In democratic societies, everyone has *some* responsibility on how the use of  technology maximizes benefits and minimizes bad side effects. \nThe benefits of AI are real today, and will greatly expand…",
+      "metrics": {
+        "like": 329,
+        "repost": 55,
+        "reply": 39,
+        "quote": 7,
+        "bookmark": 66,
+        "impression": 22553
+      },
+      "topic": "얀 르쿤 \"p(doom)은 근거 없는 숫자\"",
+      "summary_ko": "얀 르쿤이 민주 사회에선 모두가 기술의 이익을 키우고 부작용을 줄일 책임이 있다며, AI의 이익은 이미 현실이고 부작용은 지금까지 미미했다고 썼어요. 멸종이나 고용 붕괴 같은 파국 시나리오와 p(doom) 추정치는 근거가 없다고 비판했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121569437962678623",
+      "url": "https://x.com/natolambert/status/2121569437962678623",
+      "author": {
+        "username": "natolambert",
+        "name": "Nathan Lambert",
+        "followers": 110221
+      },
+      "created_at": "2026-11-14T11:42:25.000Z",
+      "quote": "I don't agree with Dwarkesh on everything here, but he does a very good job and I'm glad to get to challenge my ideas studying his work.\n\nE.g. nice to see his update on continual learning mostly being…",
+      "metrics": {
+        "like": 426,
+        "repost": 22,
+        "reply": 4,
+        "quote": 1,
+        "bookmark": 332,
+        "impression": 31420
+      },
+      "topic": "네이선 램버트, 드와케시 에세이에 응답",
+      "summary_ko": "AI 연구자 네이선 램버트가 드와케시 파텔의 AI 개발 관련 에세이에 모두 동의하진 않지만 잘 쓴 글이라며, 지속 학습 문제는 인컨텍스트 학습으로 대체로 충분하다는 드와케시의 입장 변화가 반갑다고 했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121415513276584222",
+      "url": "https://x.com/ZachWeiner/status/2121415513276584222",
+      "author": {
+        "username": "ZachWeiner",
+        "name": "Zach Weinersmith",
+        "followers": 96552
+      },
+      "created_at": "2026-11-14T01:30:47.000Z",
+      "quote": "What's closest to your position?  (some of these are non-sensical, but overall I think this is the best way to sort) https://t.co/cmlNxTdHCY",
+      "metrics": {
+        "like": 2931,
+        "repost": 49,
+        "reply": 1018,
+        "quote": 713,
+        "bookmark": 1412,
+        "impression": 866735
+      },
+      "topic": "AI에 대한 입장, 어디에 서 있나요?",
+      "summary_ko": "작가 잭 와이너스미스가 AI에 대한 여러 입장을 격자로 정리한 그림을 올리고 자신과 가장 가까운 칸을 고르라고 해, 답글 1천 개와 인용 700여 개가 달렸어요. 본인도 일부 칸은 말이 안 되지만 전체 분류로는 가장 낫다고 덧붙였어요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
