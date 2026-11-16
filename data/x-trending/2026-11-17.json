@@ -1,0 +1,269 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-17",
+  "collected_at": "2026-11-17T07:20:00+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 3
+  },
+  "posts": [
+    {
+      "id": "2121955128571814237",
+      "url": "https://x.com/CNN/status/2121955128571814237",
+      "author": {
+        "username": "CNN",
+        "name": "CNN",
+        "followers": 61730004
+      },
+      "created_at": "2026-11-15T13:15:01.000Z",
+      "quote": "The college admissions essay is in a very weird place. It's impossible to say just how many of them are now written by AI, but at this point, experts agree that it's a lot of them. And while colleges…",
+      "metrics": {
+        "like": 6224,
+        "repost": 591,
+        "reply": 244,
+        "quote": 491,
+        "bookmark": 1478,
+        "impression": 2710794
+      },
+      "topic": "AI가 쓰고 AI가 채점하는 대입 에세이",
+      "summary_ko": "CNN이 미국 대입 에세이가 이상한 처지에 놓였다고 짚었어요. AI로 쓴 에세이가 얼마나 되는지 셀 수는 없지만 전문가들은 상당수라고 보고, 대학들도 AI 작성을 꺼리면서 정작 평가에는 AI를 쓰고 있다고 했어요. 노출 271만 회를 넘겼어요.",
+      "link": "https://www.cnn.com/2026/11/15/tech/ai-students-college-admissions",
+      "related_item_ids": []
+    },
+    {
+      "id": "2122236956939898899",
+      "url": "https://x.com/SketchesbyBoze/status/2122236956939898899",
+      "author": {
+        "username": "SketchesbyBoze",
+        "name": "Boze Herrington, Library Owl 😴🧙‍♀️",
+        "followers": 249466
+      },
+      "created_at": "2026-11-16T07:54:54.000Z",
+      "quote": "We have an epidemic of students turning in essays they didn’t write about books they haven’t read, and if teachers are now using AI to grade assignments en masse we may as well shut down the schools b…",
+      "metrics": {
+        "like": 20209,
+        "repost": 2910,
+        "reply": 219,
+        "quote": 119,
+        "bookmark": 985,
+        "impression": 330995
+      },
+      "topic": "\"아무도 가르치지 않고 아무도 배우지 않는다\"",
+      "summary_ko": "CNN 기사를 인용해, 학생은 읽지도 않은 책에 대해 쓰지도 않은 에세이를 내고 교사는 AI로 일괄 채점한다면 학교 문을 닫는 게 낫다는 비판이에요. 좋아요 2만 개를 넘기며 교육 현장의 AI 순환 논쟁에 불을 붙였어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2122401365943058581",
+      "url": "https://x.com/deredleritt3r/status/2122401365943058581",
+      "author": {
+        "username": "deredleritt3r",
+        "name": "prinz",
+        "followers": 23929
+      },
+      "created_at": "2026-11-16T18:48:12.000Z",
+      "quote": "Sam Altman did NOT say today that OpenAI has achieved AGI. The full quote was: \"I think like many other things, including the term 'AGI', it's very hard to have a clean demarcation and say 'now we did…",
+      "metrics": {
+        "like": 202,
+        "repost": 9,
+        "reply": 13,
+        "quote": 5,
+        "bookmark": 22,
+        "impression": 8738
+      },
+      "topic": "올트먼 'AGI 달성' 발언은 오해",
+      "summary_ko": "샘 올트먼이 오늘 AGI 달성을 선언했다는 짧은 영상이 퍼지자, 전체 발언은 'AGI라는 말도 깔끔하게 선을 그어 이제 생겼다고 말하기 어렵다'는 취지였다고 바로잡은 글이에요. 잘린 클립이 AGI 논쟁을 키우는 사례로 회자됐어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2122034320823247091",
+      "url": "https://x.com/Yuchenj_UW/status/2122034320823247091",
+      "author": {
+        "username": "Yuchenj_UW",
+        "name": "Yuchen Jin",
+        "followers": 308745
+      },
+      "created_at": "2026-11-15T18:29:42.000Z",
+      "quote": "Old world: Write code, then test it. New world: Build the verifier, then let agents generate code until it works.",
+      "metrics": {
+        "like": 1219,
+        "repost": 65,
+        "reply": 117,
+        "quote": 24,
+        "bookmark": 297,
+        "impression": 43761
+      },
+      "topic": "\"검증기를 먼저 만들고 에이전트가 코드를 짜게\"",
+      "summary_ko": "예전엔 코드를 쓰고 테스트했다면, 이제는 검증기를 먼저 만들고 에이전트가 통과할 때까지 코드를 생성하게 한다는 한 줄 요약이에요. 바이브 코딩과 에이전트 개발 방식 변화 논의에서 많이 공유됐어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2122035455793188980",
+      "url": "https://x.com/omarsar0/status/2122035455793188980",
+      "author": {
+        "username": "omarsar0",
+        "name": "elvis",
+        "followers": 329515
+      },
+      "created_at": "2026-11-15T18:34:12.000Z",
+      "quote": "This might surprise many new to AI. The best agentic systems I have built and seen other top engineers build involve lots of boring deterministic steps. You can't just throw more LLM agents at every p…",
+      "metrics": {
+        "like": 502,
+        "repost": 37,
+        "reply": 163,
+        "quote": 17,
+        "bookmark": 272,
+        "impression": 31961
+      },
+      "topic": "좋은 에이전트 시스템엔 '지루한 결정적 단계'가 많다",
+      "summary_ko": "omarsar0(elvis)가 잘 만든 에이전트 시스템일수록 지루한 결정적(deterministic) 단계가 많다고 했어요. 모든 문제에 LLM 에이전트를 더 붙인다고 신뢰성이 오르지 않고 오류가 쌓인다는 경고예요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2122367199625290028",
+      "url": "https://x.com/illscience/status/2122367199625290028",
+      "author": {
+        "username": "illscience",
+        "name": "Anish Acharya",
+        "followers": 36218
+      },
+      "created_at": "2026-11-16T16:32:26.000Z",
+      "quote": "Swarms are quickly becoming one of the most important topics in Silicon Valley, sharing a few notes from recent conversations: - The naive view of swarms is that they’re a sum-of-parts method of paral…",
+      "metrics": {
+        "like": 226,
+        "repost": 10,
+        "reply": 37,
+        "quote": 8,
+        "bookmark": 268,
+        "impression": 14654
+      },
+      "topic": "실리콘밸리의 새 화두, 에이전트 '스웜'",
+      "summary_ko": "에이전트 여러 개를 묶는 스웜이 실리콘밸리의 핵심 화두가 되고 있다며 최근 대화에서 얻은 메모를 공유했어요. 스웜을 단순 병렬화나 무차별 대입으로 보는 시각은 순진하다는 관찰로 시작해요. 구글의 에이전트 스웜 예고와 함께 화제가 됐어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2122329498267901963",
+      "url": "https://x.com/DeItaone/status/2122329498267901963",
+      "author": {
+        "username": "DeItaone",
+        "name": "*Walter Bloomberg",
+        "followers": 1977142
+      },
+      "created_at": "2026-11-16T14:02:38.000Z",
+      "quote": "OPENAI EXPLORED ACQUIRING GOODFIRE FOR AT LEAST $5 BILLION - THE INFORMATION",
+      "metrics": {
+        "like": 285,
+        "repost": 15,
+        "reply": 31,
+        "quote": 5,
+        "bookmark": 17,
+        "impression": 131659
+      },
+      "topic": "오픈AI, 굿파이어 50억달러 인수 검토 보도",
+      "summary_ko": "디인포메이션을 인용해 오픈AI가 AI 모델 내부를 들여다보는 해석가능성 스타트업 굿파이어를 최소 50억달러에 인수하는 방안을 검토했다는 속보예요. 굿파이어는 Anthropic이 투자한 회사라는 점도 함께 언급됐어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2122390178748883190",
+      "url": "https://x.com/thatsjonsense/status/2122390178748883190",
+      "author": {
+        "username": "thatsjonsense",
+        "name": "Jon Noronha",
+        "followers": 2717
+      },
+      "created_at": "2026-11-16T18:03:45.000Z",
+      "quote": "Gamma has a unique window into the AI race. Through it, we’re seeing OpenAI pull ahead. We test every new LLM at scale, and now we’re publishing the winners. What we found: Anthropic excels at nuanced…",
+      "metrics": {
+        "like": 72,
+        "repost": 7,
+        "reply": 17,
+        "quote": 0,
+        "bookmark": 25,
+        "impression": 107308
+      },
+      "topic": "감마 실사용 지출에서 오픈AI가 Anthropic 추월",
+      "summary_ko": "프레젠테이션 서비스 감마 측이 새 LLM을 대규모로 시험해 온 결과를 공개하며 오픈AI가 앞서고 있다고 했어요. Anthropic은 미묘한 이해에, 오픈AI는 효율과 비전에 강하다는 평가예요. 공유 글들은 지출 비중 43.7% 대 36%를 함께 전했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2121861019165421667",
+      "url": "https://x.com/python_academia/status/2121861019165421667",
+      "author": {
+        "username": "python_academia",
+        "name": "Pythonアカデミア",
+        "followers": 16562
+      },
+      "created_at": "2026-11-15T07:01:03.000Z",
+      "quote": "AIが雇用を変えた https://t.co/PWiQxv6TeR",
+      "metrics": {
+        "like": 20451,
+        "repost": 1303,
+        "reply": 169,
+        "quote": 166,
+        "bookmark": 2934,
+        "impression": 2187216
+      },
+      "topic": "'AI가 고용을 바꿨다' 피라미드 그림",
+      "summary_ko": "파이썬 아카데미아가 신입이 넓게 받치던 고용 피라미드가 AI 이후 밑변이 좁아진 그림을 올렸어요. 좋아요 2만 개, 노출 218만 회를 넘겼고, 신입 채용이 줄면 미래의 시니어도 사라진다는 답글이 이어졌어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2122079071798435943",
+      "url": "https://x.com/dgt10011/status/2122079071798435943",
+      "author": {
+        "username": "dgt10011",
+        "name": "Jeff Park",
+        "followers": 105661
+      },
+      "created_at": "2026-11-15T21:27:31.000Z",
+      "quote": "I don’t know how this plays out but if Jensen stages a successful comeback, you can bet Anthropic is finished",
+      "metrics": {
+        "like": 9557,
+        "repost": 328,
+        "reply": 236,
+        "quote": 37,
+        "bookmark": 490,
+        "impression": 424397
+      },
+      "topic": "젠슨 황 복귀론과 AI 판도",
+      "summary_ko": "젠슨 황이 복귀에 성공하면 Anthropic이 끝장날 것이라는 짧은 관측글이 좋아요 9천 개를 넘겼어요. 엔비디아 이사회에 복귀를 요구하는 실리콘밸리 인사들의 움직임 속에서 나온 반응이에요. 근거가 제시된 분석은 아니에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-01453d709566901f",
+        "trend-63e542c528ddf692"
+      ]
+    },
+    {
+      "id": "2122179624721657984",
+      "url": "https://x.com/WatcherGuru/status/2122179624721657984",
+      "author": {
+        "username": "WatcherGuru",
+        "name": "Watcher Guru",
+        "followers": 4927001
+      },
+      "created_at": "2026-11-16T04:07:05.000Z",
+      "quote": "JUST IN: 🇺🇸 President Trump to designate Nvidia $NVDA as AI \"National Champions.\"",
+      "metrics": {
+        "like": 3837,
+        "repost": 210,
+        "reply": 266,
+        "quote": 56,
+        "bookmark": 108,
+        "impression": 451772
+      },
+      "topic": "트럼프 정부, 엔비디아 등 'AI 국가 대표기업' 지정",
+      "summary_ko": "트럼프 대통령이 엔비디아를 AI '국가 대표기업'으로 지정할 것이라는 속보예요. 수출 승인 가속과 해외 판매 지원 등을 담은 계획으로, 오늘 소개한 AI타임스 기사와 같은 내용이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-6171cf3c626d9edd"
+      ]
+    }
+  ]
+}
