@@ -1,0 +1,68 @@
+---
+// 언급 출처 배지(2026-11-17). 같은 원문·같은 소식을 다룬 곳을 각주처럼 한 줄에 모은다.
+// 원문(1차 출처) → 이 항목의 출처 → 같은 원문을 다룬 출처 → 같은 소식을 다룬 다른 기사.
+import type { MentionChip } from "../lib/mentions";
+import { mentionCount } from "../lib/mentions";
+
+interface Props {
+  chips: MentionChip[];
+  /** 제목 옆 각주 표시(¹)가 가리킬 id. */
+  id?: string;
+}
+const { chips, id } = Astro.props;
+const count = mentionCount(chips);
+const meta = (chip: MentionChip) => [
+  chip.score != null ? `▲${chip.score}` : "",
+  chip.comments != null ? `+${chip.comments}` : "",
+].filter(Boolean).join(" ");
+---
+{chips.length > 0 && (
+  <div class="mentions" id={id} role="group" aria-label={`언급 출처 ${count}곳`}>
+    <span class="mentions-count"><b>{count}</b>곳에서 언급</span>
+    <ul class="mention-chips">
+      {chips.map((chip) => {
+        const extra = meta(chip);
+        const body = (
+          <>
+            {chip.role === "origin" && <span class="chip-kind">원문</span>}
+            {chip.role === "story" && <span class="chip-kind">같은 소식</span>}
+            <span class="chip-label">{chip.label}</span>
+            {extra && <span class="chip-num">{extra}</span>}
+          </>
+        );
+        return (
+          <li>
+            {chip.href ? (
+              <a class={`chip chip-${chip.role}`} style={`--source-dot:${chip.color}`} href={chip.href} target="_blank" rel="noopener noreferrer" title={chip.title}>{body}</a>
+            ) : (
+              <span class={`chip chip-${chip.role}`} style={`--source-dot:${chip.color}`} title={chip.title}>{body}</span>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+)}
+
+<style>
+  .mentions { display:flex; flex-wrap:wrap; align-items:center; gap:6px 8px; margin:6px 0 0; font-size:12px; color:var(--muted); line-height:1.3 }
+  .mentions-count { font-weight:650; white-space:nowrap }
+  .mentions-count b { color:var(--ink); font-weight:800 }
+  .mention-chips { display:flex; flex-wrap:wrap; gap:6px; list-style:none; margin:0; padding:0 }
+  .chip {
+    display:inline-flex; align-items:center; gap:5px; min-height:28px; padding:3px 10px;
+    border:1px solid var(--border); border-radius:999px; background:var(--card);
+    color:var(--muted); text-decoration:none; font-weight:700; white-space:nowrap; max-width:100%;
+  }
+  .chip::before { content:""; width:.5em; height:.5em; border-radius:50%; background:var(--source-dot, var(--muted)); flex:none }
+  a.chip:hover { color:var(--accent); border-color:var(--accent) }
+  a.chip:focus-visible { outline:2px solid var(--accent); outline-offset:2px }
+  .chip-label { overflow:hidden; text-overflow:ellipsis }
+  .chip-num { font-weight:600; font-variant-numeric:tabular-nums; opacity:.85 }
+  .chip-kind { font-weight:800; color:var(--accent) }
+  /* 원문은 점 대신 테두리 강조로 구분한다. */
+  .chip-origin { border-color:var(--accent); background:var(--accent-soft) }
+  .chip-origin::before { display:none }
+  .chip-story { border-style:dashed }
+  @media (max-width:480px) { .chip { min-height:32px } }
+</style>

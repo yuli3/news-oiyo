@@ -1,3 +1,5 @@
+import type { Mention } from "./mentions";
+
 export const ITEMS_PER_PAGE = 30;
 
 export const SOURCE_COLOR: Record<string, string> = {
@@ -121,6 +123,8 @@ export type NewsItemRecord = {
   publishedAt?: string;
   fetchedAt?: string;
   discussionUrl?: string;
+  /** 같은 원문·같은 소식을 다룬 다른 출처(2026-11-17). scripts/lib/mentions.mjs */
+  mentions?: Mention[];
 };
 
 export type Day = {

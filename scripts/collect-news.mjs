@@ -35,6 +35,7 @@ import {
 import { politeGet, sleep } from "./lib/polite-fetch.mjs";
 import { FINANCE_SCOPE, FINANCE_SOURCES } from "./lib/story-scope.mjs";
 import { createRawArchive } from "./lib/raw-news-archive.mjs";
+import { addMentions, mentionOf } from "./lib/mentions.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const TRENDS = join(process.env.HOME, "coding", "company-brain", "AI-Sessions", "wiki", "sources", "trends");
@@ -351,7 +352,8 @@ async function geekNews() {
     const contentHtml = unwrap(pick(e, /<content\b[^>]*>([\s\S]*?)<\/content>/));
     const listSummary = clean(contentHtml);
     const feedExcerpt = cleanText(contentHtml, 4_000);
-    const topicUrl = pick(e, /<link[^>]*href=['"]([^'"]+)['"]/);
+    // 피드의 href 는 &amp; 가 그대로 들어 있다 — 풀지 않으면 토론 링크가 topic?amp%3B… 로 깨진다.
+    const topicUrl = decodeEntities(pick(e, /<link[^>]*href=['"]([^'"]+)['"]/));
     const item = {
       src: "geeknews",
       title: unwrap(pick(e, /<title>([\s\S]*?)<\/title>/)),
@@ -516,7 +518,8 @@ const AI_TERMS = /\b(ai|llm|gpt|claude|gemini|anthropic|openai|deepmind|mistral|
 const EXCLUDE = /\b(rumou?r|price fixing|allegedly|leak(ed)?s?\b|봇물|의혹|추측|카더라)\b|\b(cancer|suicide|overdose|poison|mercury|adhd|diagnos)/i;
 
 function select(items) {
-  const seen = new Set();
+  // 제목이 같은 두 번째 등장은 버리지 않고 첫 항목의 mentions(언급 출처 배지)로 옮긴다(2026-11-17).
+  const seen = new Map();
   return items.filter((x) => {
     if (x.src === "github") return false;                 // 저장소는 pickRepos() 가 따로 고른다
     if (!x.url.startsWith("https://")) return false;      // 어댑터가 https 만 받는다
@@ -528,8 +531,11 @@ function select(items) {
     // AI 신호 또는 금융 신호(2026-10-16). 금융 전용 피드는 피드 자체가 범위다.
     if (!AI_TERMS.test(haystack) && !FINANCE_SCOPE.test(haystack) && !FINANCE_SOURCES.has(x.src)) return false;
     const key = x.title.trim().toLowerCase();
-    if (seen.has(key)) return false;
-    seen.add(key);
+    if (seen.has(key)) {
+      addMentions(seen.get(key), [mentionOf(x)]);
+      return false;
+    }
+    seen.set(key, x);
     return true;
   });
 }
@@ -808,10 +814,12 @@ async function enrichExisting(sourcePath) {
   const envelope = JSON.parse(readFileSync(sourcePath, "utf8"));
   if (!Array.isArray(envelope.items) || envelope.items.length === 0) return;
   const live = (await Promise.all([hackerNews(), lobsters()])).flat();
-  const byUrl = new Map(live.filter((x) => x.url).map((x) => [liveKey(x), x]));
+  // 출처까지 같아야 같은 글이다. URL만 보면 같은 원문을 가리키는 GeekNews·HN 항목에
+  // Lobsters 스레드·점수가 덮어써졌다(2026-11-17 발견).
+  const byUrl = new Map(live.filter((x) => x.url).map((x) => [`${x.src}|${liveKey(x)}`, x]));
   let patched = 0;
   for (const item of envelope.items) {
-    const hit = byUrl.get(liveKey(item));
+    const hit = byUrl.get(`${item.src}|${liveKey(item)}`);
     if (!hit) continue;
     if (Number.isFinite(hit.score)) item.score = hit.score;
     if (Number.isFinite(hit.comments)) item.comments = hit.comments;
