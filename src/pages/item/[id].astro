@@ -5,6 +5,8 @@ import data from "../../data/news.json";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Comments from "../../components/Comments.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
+import Mentions from "../../components/Mentions.astro";
+import { mentionChips } from "../../lib/mentions";
 import { SOURCE_COLOR, flattenFeed, hasDetailPage, isCuratorSource, isRepoItem, type Day, type FeedItem } from "../../lib/feed";
 import { relativeKo } from "../../lib/relative-time";
 import { renderMarkdown } from "../../lib/markdown";
@@ -131,6 +133,8 @@ const jsonLd = {
         <p class="detail-basis">출처: <a href={item.url} target="_blank" rel="noopener noreferrer">{item.domain || item.url}</a></p>
       </section>
     )}
+
+    <Mentions chips={mentionChips(item)} id="mentions" />
 
     <p class="detail-actions">
       <a class="btn-primary" href={item.url} target="_blank" rel="noopener noreferrer">{repo ? "저장소 보기" : "원문 읽기"}</a>

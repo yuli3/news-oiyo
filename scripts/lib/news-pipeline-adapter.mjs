@@ -11,6 +11,7 @@ import {
   validateItem,
   validateRegistry,
 } from "./news-source-contract.mjs";
+import { addMentions, dropForeignThread, mentionOf, sanitizeMentions } from "./mentions.mjs";
 
 const ALLOWED_CORRECTION_FIELDS = new Set(["title", "effectiveAt", "summary"]);
 
@@ -90,10 +91,14 @@ export function adaptTrendSignals(rawItems, rawRegistry, options = {}) {
       if (Number.isFinite(raw.comments) && raw.comments >= 0) item.comments = Math.trunc(raw.comments);
       if (typeof raw.publishedAt === "string") item.publishedAt = requireIsoInstant(raw.publishedAt, "publishedAt");
       if (typeof raw.discussionUrl === "string" && raw.discussionUrl.startsWith("https://")) {
-        item.discussionUrl = canonicalUrl(raw.discussionUrl);
+        item.discussionUrl = canonicalUrl(raw.discussionUrl.replace(/&amp;/g, "&"));
       }
       if (raw.effectiveAt !== undefined) item.effectiveAt = requireIsoInstant(raw.effectiveAt, "effectiveAt");
       if (raw.stillAccurate === true) item.stillAccurate = true;
+      // 2026-11-17: 수집 단계에서 합친 같은 소식의 다른 출처(언급 배지).
+      const mentions = sanitizeMentions(raw.mentions);
+      if (mentions.length) item.mentions = mentions;
+      dropForeignThread(item);
       validateItem(item, registry);
       normalized.push(item);
     } catch (error) {
@@ -106,6 +111,20 @@ export function adaptTrendSignals(rawItems, rawRegistry, options = {}) {
   }
 
   const deduped = dedupeItems(normalized);
+  // 중복을 조용히 버리지 않는다(2026-11-17): 버려진 항목이 어디서 언급됐는지를
+  // 남은 항목의 mentions로 옮긴다. 남는 항목(=id·상세 페이지)은 예전과 같다.
+  const keptByUrl = new Map();
+  const keptByHash = new Map();
+  for (const item of deduped.kept) {
+    if (!keptByUrl.has(item.canonicalUrl)) keptByUrl.set(item.canonicalUrl, item);
+    if (item.contentHash && !keptByHash.has(item.contentHash)) keptByHash.set(item.contentHash, item);
+  }
+  const keptSet = new Set(deduped.kept);
+  for (const item of normalized) {
+    if (keptSet.has(item)) continue;
+    const target = keptByUrl.get(item.canonicalUrl) ?? keptByHash.get(item.contentHash);
+    if (target) addMentions(target, [mentionOf(item), ...(item.mentions ?? [])]);
+  }
   const corrections = Array.isArray(options.corrections) ? options.corrections : [];
   const correctionsByItem = new Map();
   for (const correction of corrections) {

@@ -120,3 +120,9 @@ npm run audit:details  # 상세 페이지 = 한국어 요약 있는 항목
 - `/rss.xml`(최신 50건)과 `/mcp`(Pages Function `functions/mcp.ts`, 로직 `server/news-mcp.ts`)는 빌드 산출물 `/search-index.json`만 읽는다. 제목·한 줄 설명·출처 도메인·일일판 링크만 내보내고 원문 본문은 내보내지 않는다.
 - `server.json`이 공식 MCP Registry 등록 정보(`io.github.yuli3/oiyo-news`)다. 바꾸면 `version`을 `SERVER_INFO.version`과 같이 올린다(테스트가 확인). main에서 바뀌면 `.github/workflows/publish-mcp-registry.yml`이 OIDC로 게시한다.
 - `/finance/live/`·`/api/wire`·MCP `get_econ_wire`(2026-11-14): 경제 헤드라인 와이어. 공개 RSS 제목·링크만, 엣지 60초 캐시, 규칙 분류. 정본 `server/econ-wire.ts`, 설명은 [docs/finance-desk.md](docs/finance-desk.md).
+
+## 언급 출처 배지 (2026-11-17)
+- 같은 원문 URL·같은 제목은 예전처럼 한 항목만 남기되, 버리던 쪽을 남은 항목의 `mentions`(kind `same-link`)로 옮긴다(`collect-news.mjs` select, `news-pipeline-adapter.mjs`). 남는 항목·id·상세 페이지는 그대로다.
+- 같은 날 다른 기사가 같은 소식이면(제목 단어 3개+·자카드 0.5+) 합치지 않고 서로 `same-story`로 잇는다(`sync-news.mjs` → `linkSameStories`). 기준은 `scripts/lib/mentions.mjs` 하나다.
+- 화면: 제목 끝 각주 숫자 + "N곳에서 언급" 칩 줄(원문 → 자기 출처 → 같은 원문 출처 → 같은 소식). `src/lib/mentions.ts`·`Mentions.astro`, 테스트 `tests/mentions.test.ts`.
+- 큐레이터 항목의 토론 링크가 다른 큐레이터 스레드면(옛 `enrichExisting` 버그: URL만 보고 Lobsters 스레드·점수를 덮어씀) sync가 걷어 낸다. 보강은 이제 출처까지 같아야 한다.
