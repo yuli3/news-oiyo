@@ -1,0 +1,234 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-20",
+  "collected_at": "2026-11-20T07:26:35+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 7
+  },
+  "posts": [
+    {
+      "id": "2123461658890686863",
+      "url": "https://x.com/AnthropicAI/status/2123461658890686863",
+      "author": {
+        "username": "AnthropicAI",
+        "name": "Anthropic",
+        "followers": 1937067
+      },
+      "created_at": "2026-11-19T17:01:26.000Z",
+      "quote": "Remarks from Anthropic CEO @DarioAmodei on our initial public offering:\n\nMy co-founders and I started Anthropic because we believe that the most powerful technology of our time should be built for the …",
+      "metrics": {
+        "like": 7751,
+        "repost": 721,
+        "reply": 685,
+        "quote": 309,
+        "bookmark": 1708,
+        "impression": 806157
+      },
+      "topic": "앤트로픽 상장, 다리오 아모데이 소감",
+      "summary_ko": "앤트로픽이 나스닥 상장일에 다리오 아모데이 CEO의 소감문을 올렸어요. 공동창업자들과 '우리 시대 가장 강력한 기술은 인류에게 이롭게 만들어져야 한다'는 믿음으로 회사를 세웠다고 밝히며 긴 글을 시작해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-fd4e8b45e04be068",
+        "trend-b0f129c2a07d8c2a",
+        "trend-cbf729d6e3f1ce70",
+        "trend-5003e927f7944156",
+        "trend-ea437b6cfcbb1419",
+        "trend-b23bd0bb70f518af"
+      ]
+    },
+    {
+      "id": "2123465830264365470",
+      "url": "https://x.com/RobinhoodCrypto/status/2123465830264365470",
+      "author": {
+        "username": "RobinhoodCrypto",
+        "name": "Robinhood Crypto",
+        "followers": 653241
+      },
+      "created_at": "2026-11-19T17:18:00.000Z",
+      "quote": "Anthropic IPO is here, and with it, the Anthropic Stock Token is live on Robinhood Chain from day 1 of trading. 🟢\n\nANT joins 200+ Stock Tokens on Robinhood Chain, giving you another way to get exposur …",
+      "metrics": {
+        "like": 263,
+        "repost": 31,
+        "reply": 62,
+        "quote": 12,
+        "bookmark": 12,
+        "impression": 23833
+      },
+      "topic": "앤트로픽 주식 토큰, 상장 첫날 온체인 상장",
+      "summary_ko": "로빈후드 크립토가 앤트로픽 상장 첫날부터 Robinhood Chain에서 앤트로픽 주식 토큰(ANT)을 거래할 수 있다고 알렸어요. 200개 넘는 주식 토큰에 합류해 미국 주식을 온체인으로 접하는 또 하나의 방법이라고 해요. 정보 제공용이며 투자 권유가 아니에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-5003e927f7944156",
+        "trend-b23bd0bb70f518af"
+      ]
+    },
+    {
+      "id": "2123351354303300052",
+      "url": "https://x.com/PawelHuryn/status/2123351354303300052",
+      "author": {
+        "username": "PawelHuryn",
+        "name": "Paweł Huryn",
+        "followers": 135920
+      },
+      "created_at": "2026-11-19T09:43:07.000Z",
+      "quote": "Google cooked. I tested Gemini 4 Neon on real work. 2 repos, 105 replanted bugs. Find and fix what you can.\n\nIt's the new #1. The results:\n\n- Gemini 4 Neon (xhigh): 63\n- GPT-6.2 Astra (max): 62.7\n- GP …",
+      "metrics": {
+        "like": 1578,
+        "repost": 115,
+        "reply": 145,
+        "quote": 48,
+        "bookmark": 256,
+        "impression": 98770
+      },
+      "topic": "제미나이 4 네온, 실전 버그 수정 테스트 1위",
+      "summary_ko": "파벨 후린이 저장소 2개에 심어 둔 버그 105개를 찾아 고치는 실전 테스트를 돌렸더니 제미나이 4 네온(xhigh)이 63점으로 GPT-6.2 Astra(max, 62.7점)를 근소하게 앞섰다고 공유했어요. 개인 테스트 결과예요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-08d71f1cd3f77a67"
+      ]
+    },
+    {
+      "id": "2123517320798801949",
+      "url": "https://x.com/Google/status/2123517320798801949",
+      "author": {
+        "username": "Google",
+        "name": "Google",
+        "followers": 31877100
+      },
+      "created_at": "2026-11-19T20:42:36.000Z",
+      "quote": "Seeing what everyone's building with Gemini 4 Neon has been electric.\n\nStarting with a literal neon world: @HarshithLucky3 used Neon on high thinking in @Antigravity to build this glowing 3D Earth.\n\nM …",
+      "metrics": {
+        "like": 495,
+        "repost": 25,
+        "reply": 31,
+        "quote": 6,
+        "bookmark": 81,
+        "impression": 75673
+      },
+      "topic": "제미나이 4 네온으로 만든 작품들",
+      "summary_ko": "구글이 사람들이 제미나이 4 네온으로 만든 작품을 스레드로 모았어요. 첫 사례는 Antigravity에서 네온의 high thinking 모드로 만든 빛나는 3D 지구예요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-08d71f1cd3f77a67"
+      ]
+    },
+    {
+      "id": "2123513203745538423",
+      "url": "https://x.com/GeminiApp/status/2123513203745538423",
+      "author": {
+        "username": "GeminiApp",
+        "name": "Google Gemini",
+        "followers": 623827
+      },
+      "created_at": "2026-11-19T20:26:15.000Z",
+      "quote": "With computer use in the Gemini app for Mac, you can now hand off tasks across your folders, apps, and the web, while your screen and cursor stay yours.\n\nWatch Gemini click, scroll, and type in a live …",
+      "metrics": {
+        "like": 753,
+        "repost": 56,
+        "reply": 79,
+        "quote": 35,
+        "bookmark": 239,
+        "impression": 46332
+      },
+      "topic": "맥용 제미나이 앱에 컴퓨터 사용 기능",
+      "summary_ko": "맥용 제미나이 앱의 컴퓨터 사용 기능으로 폴더·앱·웹을 넘나드는 작업을 맡길 수 있게 됐어요. 화면과 커서는 사용자가 그대로 쓰고, 제미나이는 백그라운드 창에서 클릭·스크롤·입력을 해요. 스케치를 블렌더 3D 모델로 바꾸는 시연을 보여줬어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123471880292299171",
+      "url": "https://x.com/OpenAIDevs/status/2123471880292299171",
+      "author": {
+        "username": "OpenAIDevs",
+        "name": "OpenAI Developers",
+        "followers": 484632
+      },
+      "created_at": "2026-11-19T17:42:03.000Z",
+      "quote": "Codex already helps us build ChatGPT faster. Now it’s helping us keep ChatGPT fast.\n\nWe built the Performance Factory to coordinate agents that investigate regressions, propose fixes for engineers to …",
+      "metrics": {
+        "like": 1445,
+        "repost": 91,
+        "reply": 163,
+        "quote": 40,
+        "bookmark": 422,
+        "impression": 83811
+      },
+      "topic": "OpenAI 퍼포먼스 팩토리",
+      "summary_ko": "OpenAI 개발자 계정이 Codex 에이전트로 ChatGPT 속도 저하를 잡는 '퍼포먼스 팩토리'를 소개했어요. 에이전트들이 성능 회귀를 조사하고, 엔지니어가 검토할 수정안을 내고, 운영 환경에서 효과가 있는지 확인해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-2546dcf24c188138"
+      ]
+    },
+    {
+      "id": "2123506733524136446",
+      "url": "https://x.com/OpenAIDevs/status/2123506733524136446",
+      "author": {
+        "username": "OpenAIDevs",
+        "name": "OpenAI Developers",
+        "followers": 484632
+      },
+      "created_at": "2026-11-19T20:00:32.000Z",
+      "quote": "GPT-Live-1.1 is now available in the API.\n\nIt speaks with more natural and consistent accents across languages, supports lower idle costs with a new standby option, and completes tasks even more relia …",
+      "metrics": {
+        "like": 2110,
+        "repost": 124,
+        "reply": 98,
+        "quote": 74,
+        "bookmark": 595,
+        "impression": 137584
+      },
+      "topic": "GPT-Live-1.1, API 공개",
+      "summary_ko": "OpenAI가 음성 모델 GPT-Live-1.1을 API로 공개했어요. 언어별 억양이 더 자연스럽고 일관되며, 새 대기(standby) 옵션으로 유휴 비용을 낮추고 작업 완수 신뢰도도 높였다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123519772390215780",
+      "url": "https://x.com/GoogleDeepMind/status/2123519772390215780",
+      "author": {
+        "username": "GoogleDeepMind",
+        "name": "Google DeepMind",
+        "followers": 1617138
+      },
+      "created_at": "2026-11-19T20:52:21.000Z",
+      "quote": "Our SVP @koraykv believes there won't be a single test or benchmark that tells us we've reached AGI. Instead, progress looks like models becoming less spiky and more reliable across our daily lives. …",
+      "metrics": {
+        "like": 194,
+        "repost": 17,
+        "reply": 54,
+        "quote": 4,
+        "bookmark": 68,
+        "impression": 23717
+      },
+      "topic": "딥마인드 코레이 \"AGI 판정할 단일 시험은 없다\"",
+      "summary_ko": "구글 딥마인드 코레이 카부크추오글루 SVP가 AGI 도달을 알려줄 단일 시험이나 벤치마크는 없을 거라고 봤어요. 대신 모델이 덜 들쭉날쭉하고 일상 전반에서 더 믿을 만해지는 모습으로 진전이 나타난다는 대담 영상이에요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123529356089946543",
+      "url": "https://x.com/sundarpichai/status/2123529356089946543",
+      "author": {
+        "username": "sundarpichai",
+        "name": "Sundar Pichai",
+        "followers": 11882656
+      },
+      "created_at": "2026-11-19T21:30:26.000Z",
+      "quote": "Entanglement usually gets top billing in quantum computing, but quantum contextuality, the idea that properties don't have fixed values independent of how you measure them, may be the deeper reason qu …",
+      "metrics": {
+        "like": 908,
+        "repost": 100,
+        "reply": 52,
+        "quote": 20,
+        "bookmark": 158,
+        "impression": 61865
+      },
+      "topic": "양자 맥락성 연구, 사이언스 표지",
+      "summary_ko": "순다르 피차이가 양자컴퓨터가 고전 컴퓨터를 앞서는 더 깊은 이유가 얽힘보다 '양자 맥락성', 즉 측정 방식과 무관하게 정해진 값이 없다는 성질일 수 있다는 연구를 소개했어요. 해당 연구가 사이언스 표지에 실렸다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
