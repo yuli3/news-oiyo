@@ -1,0 +1,197 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-19",
+  "collected_at": "2026-11-19T21:00:00+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 5
+  },
+  "posts": [
+    {
+      "id": "2123117819948638448",
+      "url": "https://x.com/Google/status/2123117819948638448",
+      "author": {
+        "username": "Google",
+        "name": "Google",
+        "followers": 31877714
+      },
+      "created_at": "2026-11-18T18:15:08.000Z",
+      "quote": "Genie 4, our most realistic and interactive world model from @GoogleDeepMind, is now available in Project Genie 🌐\n\nHere’s what’s new:\n\nGenie 4: Edit environments mid-session with text prompts, paired …",
+      "metrics": {
+        "like": 2090,
+        "repost": 154,
+        "reply": 114,
+        "quote": 58,
+        "bookmark": 438,
+        "impression": 256905
+      },
+      "topic": "지니 4, 프로젝트 지니에 공개",
+      "summary_ko": "구글이 딥마인드의 세계 모델 지니 4를 프로젝트 지니에서 쓸 수 있다고 알렸어요. 세션 중간에 텍스트로 환경을 고치고 실시간 오디오·대화를 붙이며, 지니 3는 세션을 최대 3분까지 늘리고 월드 체이닝과 360도 파노라마 그라운딩을 더했다고 해요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-877a05f31951002a"
+      ]
+    },
+    {
+      "id": "2123048889783828947",
+      "url": "https://x.com/ikeIolita/status/2123048889783828947",
+      "author": {
+        "username": "ikeIolita",
+        "name": "ciel ⏳🍵",
+        "followers": 609
+      },
+      "created_at": "2026-11-18T13:41:14.000Z",
+      "quote": "you genuinely cannot be anti ai if you’re studying anything that has to do with programming 😭 like actually impossible",
+      "metrics": {
+        "like": 15715,
+        "repost": 657,
+        "reply": 129,
+        "quote": 360,
+        "bookmark": 1049,
+        "impression": 422675
+      },
+      "topic": "프로그래밍을 공부하며 AI를 반대하기 어렵다",
+      "summary_ko": "프로그래밍과 관련된 공부를 하면서 AI를 반대하기는 진짜로 불가능하다는 짧은 글이 좋아요 1만 5천 개를 넘기며 퍼졌어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123035118474609101",
+      "url": "https://x.com/kimmonismus/status/2123035118474609101",
+      "author": {
+        "username": "kimmonismus",
+        "name": "Chubby♨️",
+        "followers": 159941
+      },
+      "created_at": "2026-11-18T12:46:30.000Z",
+      "quote": "This is a super interesting paper and Recursive self-improvement keeps coming closer. New Google preprint:\n\nGoogle had  AI rewrite an agents harness and keep a log of every change, why it made it and …",
+      "metrics": {
+        "like": 1565,
+        "repost": 119,
+        "reply": 145,
+        "quote": 31,
+        "bookmark": 805,
+        "impression": 80571
+      },
+      "topic": "구글 사전 공개, 하네스 변경 기록과 RSI",
+      "summary_ko": "김모니스무스가 구글 사전 공개 논문을 소개하며, AI가 에이전트 하네스를 다시 짜고 변경 이유와 성과를 기록한 뒤 오퍼스 5.5를 제미나이 3.8 플래시로 바꿔 이어 가게 했다고 전해요. 기록이 있으면 직장 과제가 84.75, 없으면 73.42였고 코딩은 10번 중 9번 앞섰다고 해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123095780172972432",
+      "url": "https://x.com/DanaGoldstein/status/2123095780172972432",
+      "author": {
+        "username": "DanaGoldstein",
+        "name": "Dana Goldstein",
+        "followers": 37861
+      },
+      "created_at": "2026-11-18T16:47:33.000Z",
+      "quote": "The A.I. conscientious objector movement is growing, especially on campuses. \n\nMy new story on how colleges are responding, and what this means for students/faculty who are refusing to use an ever-mor…",
+      "metrics": {
+        "like": 840,
+        "repost": 212,
+        "reply": 23,
+        "quote": 34,
+        "bookmark": 293,
+        "impression": 99820
+      },
+      "topic": "캠퍼스에서 커지는 AI 양심적 거부",
+      "summary_ko": "뉴욕타임스 다나 골드스타인이, 캠퍼스에서 AI 사용을 거부하는 양심적 거부 움직임이 커지고 있으며 대학이 어떻게 대응하고 학생·교수에게 무엇을 뜻하는지 다룬 새 기사를 올렸어요.",
+      "link": "https://www.nytimes.com/2026/11/18/us/anti-ai-protests-petitions-colleges.html",
+      "related_item_ids": []
+    },
+    {
+      "id": "2122678893127573770",
+      "url": "https://x.com/Polymarket/status/2122678893127573770",
+      "author": {
+        "username": "Polymarket",
+        "name": "Polymarket",
+        "followers": 2072465
+      },
+      "created_at": "2026-11-17T13:11:00.000Z",
+      "quote": "JUST IN: OpenAI Foundation board member Paul Christiano puts the odds of AI becoming powerful enough to overthrow the government within a year at 1 in 3.",
+      "metrics": {
+        "like": 2385,
+        "repost": 239,
+        "reply": 232,
+        "quote": 168,
+        "bookmark": 316,
+        "impression": 239065
+      },
+      "topic": "크리스티아노, 1년 안 정부 전복 확률 3분의 1",
+      "summary_ko": "폴리마켓이 오픈AI 재단 이사 폴 크리스티아노가, AI가 1년 안에 정부를 전복할 만큼 강력해질 확률을 3분의 1로 봤다고 전했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123018212929568919",
+      "url": "https://x.com/ndtv/status/2123018212929568919",
+      "author": {
+        "username": "ndtv",
+        "name": "NDTV",
+        "followers": 17341744
+      },
+      "created_at": "2026-11-18T11:39:20.000Z",
+      "quote": "\"All Humans Will Become Unemployable\": Anthropic Researcher's Warning\n\nTao Lin, who works on AI safeguards at Anthropic, believes broadly superhuman AI could arrive in around 15 months, potentially le…",
+      "metrics": {
+        "like": 254,
+        "repost": 41,
+        "reply": 72,
+        "quote": 89,
+        "bookmark": 95,
+        "impression": 192655
+      },
+      "topic": "앤트로픽 연구원, 인간 실업 경고",
+      "summary_ko": "NDTV가 앤트로픽에서 AI 안전장치를 다루는 타오 린의 경고를 전했어요. 광범위하게 초인간적인 AI가 약 15개월 안에 올 수 있고, 인간이 영구히 일자리를 잃고 정부 복지에 의존할 수 있다고 봤다고 해요.",
+      "link": "https://www.ndtv.com/artificial-intelligence/all-humans-will-become-unemployable-anthropic-researchers-warning-12344104",
+      "related_item_ids": []
+    },
+    {
+      "id": "2122353364306374986",
+      "url": "https://x.com/vikktorrrre/status/2122353364306374986",
+      "author": {
+        "username": "vikktorrrre",
+        "name": "Veee",
+        "followers": 13005
+      },
+      "created_at": "2026-11-16T15:37:28.000Z",
+      "quote": "Dario Amodei on open source models:\n\n“If the path continues, I think we could get to a very dangerous place.”\n\n“When you control a model and you're deploying it, you have the ability to monitor its us…",
+      "metrics": {
+        "like": 4754,
+        "repost": 669,
+        "reply": 938,
+        "quote": 561,
+        "bookmark": 1281,
+        "impression": 1563808
+      },
+      "topic": "아모데이, 오픈소스 모델의 위험",
+      "summary_ko": "비이(Veee)가 다리오 아모데이의 말을 담은 영상을 올렸어요. 아모데이는 오픈소스 모델의 길이 이어지면 매우 위험한 곳에 도달할 수 있고, 통제된 배포에서는 사용을 모니터링하고 접근을 거둘 수 있지만 통제 없이 내놓으면 손이 닿지 않는다고 했다고 해요. 인용된 원 게시물은 이번 조회에 없어 그 내용은 적지 않았어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123106370161705127",
+      "url": "https://x.com/trq212/status/2123106370161705127",
+      "author": {
+        "username": "trq212",
+        "name": "Thariq",
+        "followers": 405205
+      },
+      "created_at": "2026-11-18T17:29:38.000Z",
+      "quote": "this is one of those reasons why I don't think most people will really generate their own software\n\ngood software is a set of strong opinions and I'd rather have something that's been really thought t…",
+      "metrics": {
+        "like": 3307,
+        "repost": 271,
+        "reply": 149,
+        "quote": 89,
+        "bookmark": 717,
+        "impression": 147019
+      },
+      "topic": "대부분 사람은 자기 소프트웨어를 만들지 않는다",
+      "summary_ko": "타리크는 대부분의 사람이 자기 소프트웨어를 직접 만들 것 같지 않은 이유로, 좋은 소프트웨어는 강한 의견의 묶음이라 다른 사람이 잘 고민해 만든 쪽을 더 원한다고 적었어요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
