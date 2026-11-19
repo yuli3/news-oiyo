@@ -19,11 +19,11 @@ translatedAt: 2026-11-20
 - **대상**: Rush F. Harding III (러시 F. 하딩 3세), First Security Bancorp 전 직원
 - **사유**: 신인의무(fiduciary duty) 위반, Regulation W 위반
 
-Regulation W는 은행과 그 계열사 간 거래를 제한하는 연준 규정이에요. 보도자료는 구체적인 위반 행위나 금액은 밝히지 않았고, 세부 내용은 첨부 PDF(명령문)에 있다고 안내해요. 이번 정리에는 첨부 PDF 내용은 포함하지 않았어요.
+보도자료는 구체적인 위반 행위나 금액은 밝히지 않았고, 세부 내용은 첨부 PDF(명령문)에 있다고 안내해요. 이번 정리에는 첨부 PDF 내용은 포함하지 않았어요.
 
 ### 정정 사항
 
-보도자료 하단에 따르면 연준은 11월 19일 발표문을 수정해 조치 유형을 "Consent Cease-and-Desist Order"로 바로잡았어요. 처음에는 "Consent Prohibition"(업계 종사 금지 명령)으로 잘못 적었다고 해요. 두 조치는 무게가 다르기 때문에 정정이 의미 있어요.
+보도자료 하단에 따르면 연준은 11월 19일 발표문을 수정해 조치 유형을 "Consent Cease-and-Desist Order"로 바로잡았어요. 처음에는 "Consent Prohibition"으로 잘못 적었다고 해요.
 
 다른 제재 조치는 연준 웹사이트의 제재 검색 페이지에서 찾아볼 수 있어요.
 
