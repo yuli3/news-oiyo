@@ -30,7 +30,7 @@ test("finance desk covers banking, real estate, gold, ETF/dividend, crypto, and 
     "비트코인 과세 2027년 시행", "한일 통화스왑 연장 합의", "금융위 가계대출 규제", "Gold price hits record", "SEC sues crypto exchange"]) {
     assert.deepEqual(storySections({ title, src: "GeekNews" }), ["finance"], title);
   }
-  for (const title of ["은행나무 길 산책", "금요일 회의록", "Memory bank for agents", "10 sec video clip"]) {
+  for (const title of ["은행나무 길 산책", "금요일 회의록", "Memory bank for agents", "10 sec video clip", "세 모델을 서로 검증시키며 역설계"]) {
     assert.equal(storySections({ title, src: "GeekNews" }).includes("finance"), false, title);
   }
 });
