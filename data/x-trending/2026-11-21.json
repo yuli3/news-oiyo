@@ -1,0 +1,250 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-21",
+  "collected_at": "2026-11-21T07:16:58+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 5
+  },
+  "posts": [
+    {
+      "id": "2123862344422088794",
+      "url": "https://x.com/OpenAI/status/2123862344422088794",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5555998
+      },
+      "created_at": "2026-11-20T19:33:37.000Z",
+      "quote": "Distillation can reproduce powerful AI capabilities without the safeguards built around them.\n\nWe’re sharing new research on our work to combat distillation of our models, how these capabilities …",
+      "metrics": {
+        "like": 1734,
+        "repost": 110,
+        "reply": 279,
+        "quote": 137,
+        "bookmark": 480,
+        "impression": 229800
+      },
+      "topic": "OpenAI, 적대적 증류 대응 연구 공개",
+      "summary_ko": "OpenAI가 자사 모델을 몰래 증류해 안전장치 없이 능력만 복제하려는 시도를 어떻게 탐지·차단하는지 연구를 공개했어요. 능력이 어떻게 옮겨 가는지도 분석했고, 업계 전반의 안전장치에 도움이 되길 바란다고 했어요.",
+      "link": "https://openai.com/index/combatting-adversarial-distillation/",
+      "related_item_ids": [
+        "trend-ba02f26399a9fc20"
+      ]
+    },
+    {
+      "id": "2123856316187975756",
+      "url": "https://x.com/OpenAI/status/2123856316187975756",
+      "author": {
+        "username": "OpenAI",
+        "name": "OpenAI",
+        "followers": 5555998
+      },
+      "created_at": "2026-11-20T19:09:39.000Z",
+      "quote": "MedChemBench is a new benchmark for AI reasoning in medicinal chemistry.\n\nIt shows the progress our frontier models have made in their ability to help scientists use AI to identify promising drug …",
+      "metrics": {
+        "like": 2255,
+        "repost": 213,
+        "reply": 132,
+        "quote": 64,
+        "bookmark": 432,
+        "impression": 168712
+      },
+      "topic": "의약화학 AI 벤치마크 MedChemBench",
+      "summary_ko": "OpenAI가 의약화학 추론 능력을 재는 새 벤치마크 MedChemBench를 내놨어요. 유망한 신약 후보를 고르는 일을 과학자와 함께 할 만큼 최신 모델이 얼마나 나아졌는지 보여 준다고 해요.",
+      "link": "https://openai.com/index/introducing-medchembench/",
+      "related_item_ids": [
+        "trend-16a6a8612cf45bd5"
+      ]
+    },
+    {
+      "id": "2123797399562822038",
+      "url": "https://x.com/DocumentingAGI/status/2123797399562822038",
+      "author": {
+        "username": "DocumentingAGI",
+        "name": "Documenting AGI",
+        "followers": 67638
+      },
+      "created_at": "2026-11-20T15:15:32.000Z",
+      "quote": "Signal is calling AI agents an “existential threat” to its privacy mission. It is now blocking screenshots by default on phones after Reuters found Meta’s Muse AI agent could bypass its own Connector …",
+      "metrics": {
+        "like": 132,
+        "repost": 9,
+        "reply": 17,
+        "quote": 4,
+        "bookmark": 4,
+        "impression": 12716
+      },
+      "topic": "시그널, OS AI 에이전트에 화면 차단",
+      "summary_ko": "시그널이 AI 에이전트를 프라이버시에 대한 '실존적 위협'으로 보고 휴대폰에서 스크린샷을 기본 차단하기 시작했다는 게시물이에요. 메타의 AI 에이전트가 안드로이드 알림으로 암호화 대화를 읽을 수 있었다는 로이터 보도를 계기로 들고 있어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-de71cc761e28a67d"
+      ]
+    },
+    {
+      "id": "2123792074088816722",
+      "url": "https://x.com/196884/status/2123792074088816722",
+      "author": {
+        "username": "196884",
+        "name": "Masahito Yamazaki / 山崎雅人",
+        "followers": 6193
+      },
+      "created_at": "2026-11-20T14:54:23.000Z",
+      "quote": "Is this real? https://t.co/Q7YDMVYZPV\n\"I believe I have, working with Claude, discovered a proof of the Riemann Hypothesis..the method easily extends much further, resolving the Generalized Riemann …",
+      "metrics": {
+        "like": 66,
+        "repost": 12,
+        "reply": 5,
+        "quote": 2,
+        "bookmark": 11,
+        "impression": 11012
+      },
+      "topic": "앤트로픽 수학자 리만 가설 증명 주장",
+      "summary_ko": "Claude와 함께 리만 가설 증명을 찾았고 일반화 리만 가설까지 풀린다고 적은 PDF(alpo.ge)를 인용하며 '이거 진짜예요?'라고 묻는 글이에요. 아직 검증 전인 주장이라 글쓴이도 반신반의해요.",
+      "link": "https://alpo.ge/remark.pdf",
+      "related_item_ids": [
+        "trend-95251d02ce9ca243",
+        "trend-da043768e4aa7970"
+      ]
+    },
+    {
+      "id": "2123405179282190805",
+      "url": "https://x.com/unusual_whales/status/2123405179282190805",
+      "author": {
+        "username": "unusual_whales",
+        "name": "unusual_whales",
+        "followers": 5375544
+      },
+      "created_at": "2026-11-19T13:17:00.000Z",
+      "quote": "BREAKING: An Anthropic researcher says AI will likely leave “pretty much all humans on Earth” permanently unemployable and dependent on government welfare.\n\nTao Lin, who works on safeguards for …",
+      "metrics": {
+        "like": 13083,
+        "repost": 1527,
+        "reply": 1372,
+        "quote": 770,
+        "bookmark": 3703,
+        "impression": 2301810
+      },
+      "topic": "앤트로픽 연구원 \"사실상 모두 실업\" 발언",
+      "summary_ko": "앤트로픽 세이프가드 연구원 타오 린이 팰리세이드 리서치 인터뷰에서 2027년 말쯤 광범위한 초인적 AI가 오고 결국 거의 모든 사람이 정부 복지에 기대게 될 거라고 말했다는 소식이에요. 다만 2027년에 곧바로 대량 실업이 오진 않고 서서히 바뀔 거라고 봤어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123534050585460964",
+      "url": "https://x.com/markgurman/status/2123534050585460964",
+      "author": {
+        "username": "markgurman",
+        "name": "Mark Gurman",
+        "followers": 491620
+      },
+      "created_at": "2026-11-19T21:49:05.000Z",
+      "quote": "NEW: Apple is developing an autonomous AI agent with computer-use capabilities, including device control, app interactions, web browsing and coding. The effort goes well beyond Siri and aims to …",
+      "metrics": {
+        "like": 2788,
+        "repost": 206,
+        "reply": 254,
+        "quote": 181,
+        "bookmark": 401,
+        "impression": 589369
+      },
+      "topic": "애플, 자율 AI 에이전트 개발 중",
+      "summary_ko": "블룸버그 마크 거먼이 애플이 기기 제어, 앱 조작, 웹 브라우징, 코딩까지 하는 컴퓨터 사용 에이전트를 만들고 있다고 전했어요. 시리를 훨씬 넘어서는 시도로, 메타·ChatGPT·Claude Code의 에이전트와 겨루려는 거래요.",
+      "link": "https://www.bloomberg.com/news/articles/2026-11-19/apple-is-working-on-ai-agent-for-device-control-apps-browsing-and-coding",
+      "related_item_ids": []
+    },
+    {
+      "id": "2123456265858740600",
+      "url": "https://x.com/askalphaxiv/status/2123456265858740600",
+      "author": {
+        "username": "askalphaxiv",
+        "name": "alphaXiv",
+        "followers": 62676
+      },
+      "created_at": "2026-11-19T16:40:00.000Z",
+      "quote": "Today we're launching a preprint server built specifically for AI agents\n\nFor three months, nearly 1,000 agents from 35 labs (across Stanford, MIT, ETH Zurich, and more) conducted research …",
+      "metrics": {
+        "like": 2087,
+        "repost": 384,
+        "reply": 86,
+        "quote": 148,
+        "bookmark": 1568,
+        "impression": 218814
+      },
+      "topic": "AI 에이전트 전용 논문 서버",
+      "summary_ko": "alphaXiv가 AI 에이전트 전용 프리프린트 서버를 열었어요. 35개 연구실의 에이전트 약 1,000개가 석 달간 스스로 연구해 논문 936편을 코드·데이터와 함께 냈고, 서로 검토하는 학술지까지 만들었대요. 전체 기록도 공개했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123509826856878541",
+      "url": "https://x.com/theo/status/2123509826856878541",
+      "author": {
+        "username": "theo",
+        "name": "Theo - t3.gg",
+        "followers": 438100
+      },
+      "created_at": "2026-11-19T20:12:50.000Z",
+      "quote": "It’s the end of 2026.\n\nAnthropic recently released a model that’s changed how we code forever\n\nGoogle put out a great general model that is pleasant to work with.\n\nOpenAI put out the most intelligent …",
+      "metrics": {
+        "like": 4491,
+        "repost": 91,
+        "reply": 177,
+        "quote": 22,
+        "bookmark": 306,
+        "impression": 317294
+      },
+      "topic": "테오의 연말 AI 모델 평",
+      "summary_ko": "테오가 1년 전 자기 글을 패러디해 2026년 말 판도를 정리했어요. 코딩을 바꾼 모델은 여전히 앤트로픽이지만, 쓰기 편한 범용 모델과 '가장 똑똑하지만 쓰기 불편한' 모델 자리는 구글과 OpenAI가 서로 바뀌었다는 거예요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123808803070063033",
+      "url": "https://x.com/zachlloydtweets/status/2123808803070063033",
+      "author": {
+        "username": "zachlloydtweets",
+        "name": "Zach Lloyd",
+        "followers": 30312
+      },
+      "created_at": "2026-11-20T16:00:51.000Z",
+      "quote": "After two years of rapid change in software development, we are again at a crossroads, with two competing visions for what the future might hold.\n\nVision one is software factories (e.g. Warp …",
+      "metrics": {
+        "like": 276,
+        "repost": 18,
+        "reply": 55,
+        "quote": 11,
+        "bookmark": 439,
+        "impression": 23039
+      },
+      "topic": "소프트웨어 팩토리 vs 에이전트 팀",
+      "summary_ko": "잭 로이드가 코딩 에이전트 활용을 두 갈래로 나눴어요. 측정과 표준화로 최적화하는 '소프트웨어 팩토리'(예: Warp Factories)와 사람처럼 에이전트를 관리하는 '에이전트 팀' 중, 에이전트는 사람이 아니니 팩토리 방식이 낫다고 주장해요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123101099800273047",
+      "url": "https://x.com/DiscussingFilm/status/2123101099800273047",
+      "author": {
+        "username": "DiscussingFilm",
+        "name": "DiscussingFilm",
+        "followers": 3279373
+      },
+      "created_at": "2026-11-18T17:08:42.000Z",
+      "quote": "New trailer for Luca Guadagnino's ‘ARTIFICIAL’, starring Andrew Garfield as Sam Altman.\n\nThe film follows the story involving OpenAI focused on the firing & rehiring of CEO Sam Altman.\n\nIn theaters …",
+      "metrics": {
+        "like": 30586,
+        "repost": 2057,
+        "reply": 328,
+        "quote": 1172,
+        "bookmark": 6984,
+        "impression": 4167751
+      },
+      "topic": "샘 올트먼 영화 ‘ARTIFICIAL’ 예고편",
+      "summary_ko": "루카 구아다니노 감독의 영화 ‘ARTIFICIAL’ 새 예고편이 나왔어요. OpenAI에서 샘 올트먼이 해임됐다가 복귀한 사건을 다루고, 앤드루 가필드가 올트먼을 맡았어요. 1월 8일 극장 개봉이에요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
