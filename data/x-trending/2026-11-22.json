@@ -1,0 +1,253 @@
+{
+  "schema": "x-trending/v1",
+  "date": "2026-11-22",
+  "collected_at": "2026-11-22T07:14:06+09:00",
+  "collected_by": "Grok Bot",
+  "budget": {
+    "calls_used": 9
+  },
+  "posts": [
+    {
+      "id": "2124010579836768572",
+      "url": "https://x.com/emollick/status/2124010579836768572",
+      "author": {
+        "username": "emollick",
+        "name": "Ethan Mollick",
+        "followers": 424193
+      },
+      "created_at": "2026-11-21T05:22:39.000Z",
+      "quote": "It is amazing that human language turned out to be so unreasonably effective at modeling the universe that training a system to predict what comes next in a sentence would get us this far.",
+      "metrics": {
+        "like": 12095,
+        "repost": 798,
+        "reply": 433,
+        "quote": 156,
+        "bookmark": 1665,
+        "impression": 322625
+      },
+      "topic": "언어 예측의 의외의 힘",
+      "summary_ko": "이선 몰릭 교수가 문장의 다음 단어를 예측하도록 학습시키는 것만으로 여기까지 왔다는 건, 인간 언어가 세상을 모델링하는 데 놀랄 만큼 효과적이었다는 뜻이라고 감탄했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123888001684246752",
+      "url": "https://x.com/sui414/status/2123888001684246752",
+      "author": {
+        "username": "sui414",
+        "name": "danning",
+        "followers": 12291
+      },
+      "created_at": "2026-11-20T21:15:34.000Z",
+      "quote": "idk how to say this but Riemann being solved means the world after today is no longer the same world i grew up in. as a math student, the intellectual excitement of thinking about problems like this, …",
+      "metrics": {
+        "like": 6367,
+        "repost": 581,
+        "reply": 551,
+        "quote": 209,
+        "bookmark": 2218,
+        "impression": 559386
+      },
+      "topic": "리만 가설 증명 소식에 대한 수학도의 소회",
+      "summary_ko": "수학을 공부하는 작성자가 리만 가설이 풀렸다는 소식에 자기가 자란 세상과 달라졌다며, 과학자들이 삶의 의미를 두던 탐구의 무게가 사라졌다는 상실감을 길게 털어놨어요. 친구 말을 빌려 수학 수업이 체육 수업처럼 될 거라고도 했고, 인용 글과 답글에서는 반론도 나왔어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-3c80031f267affc8",
+        "trend-72b4adb909cd1f92"
+      ]
+    },
+    {
+      "id": "2124148853855117322",
+      "url": "https://x.com/GadSaad/status/2124148853855117322",
+      "author": {
+        "username": "GadSaad",
+        "name": "Gad Saad",
+        "followers": 1400438
+      },
+      "created_at": "2026-11-21T14:32:06.000Z",
+      "quote": "Is the use of AI to solve open problems in mathematics akin to using a telescope or an electronic microscope or is there something “impure” about applying it in pure mathematics?  What are your though …",
+      "metrics": {
+        "like": 226,
+        "repost": 16,
+        "reply": 133,
+        "quote": 6,
+        "bookmark": 13,
+        "impression": 22995
+      },
+      "topic": "AI로 순수수학 난제를 푸는 건 '불순'할까",
+      "summary_ko": "개드 사드가 AI로 수학 미해결 문제를 푸는 게 망원경이나 전자현미경을 쓰는 것과 같은지, 아니면 순수수학에 쓰기엔 '불순'한 무언가가 있는지 팔로워들에게 의견을 물었어요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-3c80031f267affc8",
+        "trend-72b4adb909cd1f92"
+      ]
+    },
+    {
+      "id": "2124241532605620708",
+      "url": "https://x.com/KobeissiLetter/status/2124241532605620708",
+      "author": {
+        "username": "KobeissiLetter",
+        "name": "The Kobeissi Letter",
+        "followers": 2787071
+      },
+      "created_at": "2026-11-21T20:40:22.000Z",
+      "quote": "What's happening with sentiment?\n\nIt's hard to remember a time with as much negativity as we are seeing now.\n\nThe world is in its biggest technological revolution in history, yet so many people want i …",
+      "metrics": {
+        "like": 1337,
+        "repost": 117,
+        "reply": 281,
+        "quote": 34,
+        "bookmark": 139,
+        "impression": 126037
+      },
+      "topic": "AI 하락장 속 비관론에 대한 반론",
+      "summary_ko": "코베이시 레터가 지금처럼 부정적인 분위기는 기억하기 어렵다며, AI가 큰 풍요를 가져올 수 있는데도 공포와 붕괴 예측이 대화를 지배한다고 지적했어요. 단기 시장 심리에 장기 기회를 놓치지 말라는 의견 글이에요.",
+      "link": null,
+      "related_item_ids": [
+        "trend-88c79b0821f5fb2a",
+        "trend-8465bedf8f259c1a"
+      ]
+    },
+    {
+      "id": "2124186131512119585",
+      "url": "https://x.com/business/status/2124186131512119585",
+      "author": {
+        "username": "business",
+        "name": "Bloomberg",
+        "followers": 10499101
+      },
+      "created_at": "2026-11-21T17:00:13.000Z",
+      "quote": "Is AI a bubble? Economists have gotten much better at spotting the warning signs. The problem is they still can’t tell you when — or even whether — it will burst. https://t.co/2xgmgWQ4HH",
+      "metrics": {
+        "like": 32,
+        "repost": 5,
+        "reply": 16,
+        "quote": 4,
+        "bookmark": 5,
+        "impression": 23230
+      },
+      "topic": "AI 버블, 경제학자는 어디까지 알 수 있나",
+      "summary_ko": "블룸버그가 경제학자들이 버블의 경고 신호를 찾는 능력은 좋아졌지만, 언제 터질지 혹은 터지기는 할지는 여전히 말하지 못한다는 기사를 공유했어요.",
+      "link": "https://www.bloomberg.com/news/articles/2026-11-20/is-ai-a-bubble-what-economists-know-about-market-bubbles",
+      "related_item_ids": [
+        "trend-88c79b0821f5fb2a",
+        "trend-8465bedf8f259c1a"
+      ]
+    },
+    {
+      "id": "2124042166506787113",
+      "url": "https://x.com/dhh/status/2124042166506787113",
+      "author": {
+        "username": "dhh",
+        "name": "DHH",
+        "followers": 961066
+      },
+      "created_at": "2026-11-21T07:28:09.000Z",
+      "quote": "The super powers of AI is putting the spirited individual in the center. The Idea Guy suddenly has an avenue to push their dreams that doesn't rely on raising big money or being a master programmer. T …",
+      "metrics": {
+        "like": 1818,
+        "repost": 139,
+        "reply": 156,
+        "quote": 31,
+        "bookmark": 307,
+        "impression": 64434
+      },
+      "topic": "AI가 '아이디어 가이'를 중심에 세운다",
+      "summary_ko": "DHH가 a16z 게시물을 인용하며, AI 덕분에 큰 투자나 뛰어난 프로그래밍 실력 없이도 아이디어를 가진 개인이 꿈을 밀어붙일 길이 생겼다고 반겼어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2124119876222742661",
+      "url": "https://x.com/arpit_bhayani/status/2124119876222742661",
+      "author": {
+        "username": "arpit_bhayani",
+        "name": "Arpit Bhayani",
+        "followers": 130522
+      },
+      "created_at": "2026-11-21T12:36:57.000Z",
+      "quote": "for god's sake, do not replace scripts with agents.",
+      "metrics": {
+        "like": 1033,
+        "repost": 47,
+        "reply": 96,
+        "quote": 23,
+        "bookmark": 47,
+        "impression": 40484
+      },
+      "topic": "스크립트를 에이전트로 바꾸지 마세요",
+      "summary_ko": "아르핏 바야니가 제발 스크립트를 에이전트로 대체하지 말라는 한 줄 글을 올려, 정해진 자동화까지 에이전트에 맡기는 흐름에 제동을 걸었어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123839118409109853",
+      "url": "https://x.com/gakonst/status/2123839118409109853",
+      "author": {
+        "username": "gakonst",
+        "name": "Georgios Konstantopoulos",
+        "followers": 214159
+      },
+      "created_at": "2026-11-20T18:01:19.000Z",
+      "quote": "EFFECTIVE SWARM RIDING FOR ENGINEERS\n\nI think we are entering an era where software development feels a lot more like magic.\n\nBut you need the right attitude, the right infra, and some incantations. …",
+      "metrics": {
+        "like": 1848,
+        "repost": 132,
+        "reply": 60,
+        "quote": 55,
+        "bookmark": 3863,
+        "impression": 189166
+      },
+      "topic": "엔지니어를 위한 에이전트 스웜 활용법",
+      "summary_ko": "게오르기오스 콘스탄토풀로스가 소프트웨어 개발이 마법처럼 느껴지는 시대로 들어서고 있다며, 여러 에이전트를 함께 굴릴 때 필요한 태도와 인프라, 요령을 정리한 스레드를 시작했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2124068573215862842",
+      "url": "https://x.com/dioscuri/status/2124068573215862842",
+      "author": {
+        "username": "dioscuri",
+        "name": "Henry Shevlin",
+        "followers": 39613
+      },
+      "created_at": "2026-11-21T09:13:05.000Z",
+      "quote": "The blind refusal of much of the AI ethics community to take LLMs seriously in the 2020-2025 period was a colossal strategic error, and amounted to squandering a once-in-a-generation opportunity to co …",
+      "metrics": {
+        "like": 760,
+        "repost": 65,
+        "reply": 37,
+        "quote": 10,
+        "bookmark": 99,
+        "impression": 55860
+      },
+      "topic": "AI 윤리 커뮤니티의 전략적 실수론",
+      "summary_ko": "헨리 셰블린이 2020~2025년에 AI 윤리 커뮤니티 상당수가 LLM을 진지하게 다루지 않은 건 큰 전략적 실수였고, 새 기술의 규범적 토대에 기여할 기회를 놓친 것이라고 주장했어요.",
+      "link": null,
+      "related_item_ids": []
+    },
+    {
+      "id": "2123230920626884849",
+      "url": "https://x.com/ashen_one/status/2123230920626884849",
+      "author": {
+        "username": "ashen_one",
+        "name": "ashen",
+        "followers": 57530
+      },
+      "created_at": "2026-11-19T01:44:33.000Z",
+      "quote": "show this video to anybody that is an old school programmer that hates AI\n\nthis is one of the best videos I’ve seen all month. https://t.co/tIKdCNjjiK",
+      "metrics": {
+        "like": 47477,
+        "repost": 6547,
+        "reply": 1138,
+        "quote": 1352,
+        "bookmark": 34754,
+        "impression": 4361149
+      },
+      "topic": "AI를 싫어하는 프로그래머에게 보여 줄 영상",
+      "summary_ko": "작성자가 AI를 싫어하는 옛날식 프로그래머에게 보여 주라며 이번 달 본 최고의 영상 중 하나라고 영상을 공유했어요. 노출 수가 430만 회를 넘었어요.",
+      "link": null,
+      "related_item_ids": []
+    }
+  ]
+}
