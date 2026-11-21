@@ -29,6 +29,22 @@ export const WIRE_SOURCES: readonly WireSource[] = [
   { id: "sec", name: "U.S. SEC", url: "https://www.sec.gov/news/pressreleases.rss", primary: true, region: "US", maxAgeHours: 48 },
   { id: "cnbc-finance", name: "CNBC", url: "https://www.cnbc.com/id/10000664/device/rss/rss.html", region: "US", maxAgeHours: 24 },
   { id: "coindesk", name: "CoinDesk", url: "https://www.coindesk.com/arc/outboundfeeds/rss/", region: "GLOBAL", maxAgeHours: 24 },
+  // 2026-11-21 FinancialJuice 근사: 1차 기관 발표를 직접 읽는다(1~2분 지연 = 엣지 캐시 60초 + 발행처 RSS 반영 시간).
+  // 2026-11-21 Mac mini curl(OIYO UA)로 항목·최신 시각을 확인한 것만 넣었다. 제외: 금융위원회(RSS "서비스 점검 중"),
+  // US Treasury(피드 주소 응답 없음, 구독은 이메일), IMF(뉴스 RSS 404, 이메일 구독만), EIA 주간 석유(RSS 가 2025-10 에서 멈춤).
+  // BLS 는 지표별 피드라 시장을 움직이는 넷(CPI·고용·PPI·JOLTS)만 받는다. 월 1회라 평소엔 0건이 정상이다.
+  { id: "bls-cpi", name: "BLS 소비자물가(CPI)", url: "https://www.bls.gov/feed/cpi.rss", primary: true, region: "US", maxAgeHours: 72 },
+  { id: "bls-empsit", name: "BLS 고용보고서", url: "https://www.bls.gov/feed/empsit.rss", primary: true, region: "US", maxAgeHours: 72 },
+  { id: "bls-ppi", name: "BLS 생산자물가(PPI)", url: "https://www.bls.gov/feed/ppi.rss", primary: true, region: "US", maxAgeHours: 72 },
+  { id: "bls-jolts", name: "BLS 구인·이직(JOLTS)", url: "https://www.bls.gov/feed/jolts.rss", primary: true, region: "US", maxAgeHours: 72 },
+  { id: "bea", name: "BEA 경제분석국", url: "https://apps.bea.gov/rss/rss.xml", primary: true, region: "US", maxAgeHours: 72 },
+  { id: "fed-speeches", name: "Fed 연설", url: "https://www.federalreserve.gov/feeds/speeches.xml", primary: true, region: "US", maxAgeHours: 48 },
+  { id: "eia", name: "EIA 에너지정보청", url: "https://www.eia.gov/about/new/WNtest3.php", primary: true, region: "US", maxAgeHours: 72 },
+  { id: "ecb", name: "ECB 유럽중앙은행", url: "https://www.ecb.europa.eu/rss/press.html", primary: true, region: "GLOBAL", maxAgeHours: 72 },
+  { id: "boj", name: "BOJ 일본은행", url: "https://www.boj.or.jp/en/rss/whatsnew.xml", primary: true, region: "GLOBAL", maxAgeHours: 48 },
+  { id: "boe", name: "BoE 영란은행", url: "https://www.bankofengland.co.uk/rss/news", primary: true, region: "GLOBAL", maxAgeHours: 48 },
+  // 통계청은 2025 국가데이터처(mods.go.kr)로 바뀌었다. kostat.go.kr 'RSS 안내' 페이지가 이 주소를 건다. pubDate 가 202611181350(KST) 꼴.
+  { id: "mods", name: "국가데이터처(통계청) 보도", url: "https://mods.go.kr/board.es?mid=a10301010000&bid=a103010100&act=rss", primary: true, region: "KR", maxAgeHours: 72 },
 ];
 
 export type WireTag = "rates" | "fx" | "stocks" | "crypto" | "realestate" | "commodities" | "macro" | "policy" | "earnings";
@@ -47,13 +63,15 @@ export const TAG_LABELS: Record<WireTag, string> = {
 
 // 한국어는 단어 경계가 없으니 부분 문자열, 영어는 \b 경계로 잡는다.
 const RULES: [WireTag, RegExp][] = [
-  ["rates", /기준금리|금리|federal open market committee|국채|채권|국고채|회사채|\b(?:rates?|yields?|treasur(?:y|ies)|bonds?|fomc|rate (?:cut|hike)s?)\b/i],
+  // 'rate' 단독은 금리로 보되 실업률·환율·참여율 같은 비율은 뺀다(BLS "unemployment rate" 가 금리로 잡히던 것, 2026-11-21).
+  ["rates", /기준금리|금리|federal open market committee|국채|채권|국고채|회사채|monetary policy (?:statement|decisions?|summary|report)|\b(?:(?<!(?:unemployment|participation|exchange|vacancy|savings|growth|inflation|tax|mortgage|birth|employment|quits|hires|layoffs and discharges) )rates?|yields?|treasur(?:y|ies)|bonds?|fomc|rate (?:cut|hike)s?|policy rate|bank rate|interest rates?)\b/i],
   ["fx", /환율|원[·.\s-]?달러|달러[화값]|엔화|엔저|위안화|외환|\b(?:dollar|yen|euro|yuan|currenc(?:y|ies)|forex|fx)\b/i],
   ["stocks", /코스피|코스닥|증시|주가|상장|공모주|나스닥|다우|\b(?:s&p|nasdaq|dow|stocks?|shares|equit(?:y|ies)|ipo|etfs?)\b/i],
   ["crypto", /비트코인|이더리움|가상자산|암호화폐|코인|스테이블코인|\b(?:bitcoin|ether(?:eum)?|crypto\w*|stablecoins?|btc|eth|xrp|solana)\b/i],
   ["realestate", /부동산|주담대|주택담보|아파트|전세|월세|주택|분양|집값|재건축|재개발|청약|\b(?:housing|mortgages?|real estate|home sales)\b/i],
   ["commodities", /유가(?!증권)|원유|휘발유|경유|기름값|석유|금값|금 ?가격|구리|원자재|\b(?:oil|crude|brent|wti|gold|copper|opec)\b/i],
-  ["macro", /가계부채|가계대출|물가|소비자물가|생산자물가|성장률|GDP|고용|실업률|수출|수입|무역수지|경상수지|\b(?:cpi|pce|ppi|gdp|inflation|payrolls?|jobs report|unemployment|retail sales|pmi)\b/i],
+  // 영어는 1차 기관 발표 제목(BLS·BEA·EIA)을 그대로 잡는다. "Consumer Price Index", "Employment Situation", "GDP (Advance Estimate)" 등.
+  ["macro", /가계부채|가계대출|물가|소비자물가|생산자물가|성장률|GDP|고용|실업률|수출|수입|무역수지|경상수지|경제동향|산업활동|가계동향|인구동향|\b(?:cpi|pce|ppi|gdp|jolts|inflation|payrolls?|jobs report|unemployment|retail sales|pmi|consumer price index|producer price index|employment situation|employment cost index|job openings|personal income|gross domestic product|international trade|trade (?:balance|deficit)|current account|industrial production|housing starts|durable goods|economic outlook|short-term energy outlook)\b/i],
   ["policy", /정부|재정경제부|기재부|금융위|금감원|한국은행|한은|세제|세법|규제|정책|법안|관세|추경|예산|\b(?:sec|fed|federal reserve|regulat\w*|tariffs?|sanctions?|policy|treasury secretary)\b/i],
   ["earnings", /실적|영업이익|순이익|매출|어닝|분기|배당|\b(?:earnings|revenue|profits?|quarterly results|dividends?)\b/i],
 ];
@@ -75,6 +93,8 @@ export interface WireItem {
   region: WireSource["region"];
   tags: WireTag[];
   impact: "high" | "normal";
+  /** 한국어 한 줄(영어 제목만). 런타임 LLM 이 아니라 Hermes 잡이 미리 KV "ko-lines" 에 넣은 것을 합친다. */
+  titleKo?: string;
 }
 
 export interface WireSourceStatus { id: string; name: string; ok: boolean; count: number }
@@ -107,6 +127,12 @@ function cleanTitle(s: string): string {
 
 function toIso(s: string): string | null {
   if (!s) return null;
+  // 국가데이터처 RSS 는 "202611181350" 처럼 숫자만 준다. 한국 기관이라 KST(+09:00)로 읽는다.
+  const c = s.trim().match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})?$/);
+  if (c) {
+    const t = Date.parse(`${c[1]}-${c[2]}-${c[3]}T${c[4]}:${c[5]}:${c[6] ?? "00"}+09:00`);
+    return Number.isFinite(t) ? new Date(t).toISOString() : null;
+  }
   const t = Date.parse(s.trim());
   return Number.isFinite(t) ? new Date(t).toISOString() : null;
 }
@@ -200,4 +226,19 @@ export function filterWire(items: readonly WireItem[], opts: { tag?: string; imp
     .filter((i) => !opts.impact || i.impact === opts.impact)
     .filter((i) => !opts.region || i.region === opts.region)
     .slice(0, opts.limit ?? items.length);
+}
+
+/** KV "ko-lines" 값 {itemId: "한국어 한 줄"} 을 와이어에 붙인다. 모양이 틀리면 원래 와이어 그대로. */
+export function applyKoLines(wire: Wire, lines: unknown): Wire {
+  if (!lines || typeof lines !== "object" || Array.isArray(lines)) return wire;
+  const map = lines as Record<string, unknown>;
+  let hit = false;
+  const items = wire.items.map((i) => {
+    const ko = map[i.id];
+    // 한국어 제목에는 붙이지 않는다(원제가 이미 한국어). 길이는 화면 한 줄 기준으로 자른다.
+    if (typeof ko !== "string" || !ko.trim() || /[가-힣]/.test(i.title)) return i;
+    hit = true;
+    return { ...i, titleKo: cleanTitle(ko).slice(0, 80) };
+  });
+  return hit ? { ...wire, items } : wire;
 }

@@ -13,7 +13,13 @@ export interface D1Database {
   batch(statements: D1PreparedStatement[]): Promise<D1Result<unknown>[]>;
 }
 
+export interface KVNamespace {
+  get(key: string, type: "json"): Promise<unknown>;
+}
+
 export interface Env {
+  /** 선택 KV. 키 "ko-lines" = {와이어 itemId: 한국어 한 줄}. Hermes 잡 oiyo-wire-ko 가 채운다(2026-11-21). */
+  WIRE_KO?: KVNamespace;
   /** D1 바인딩. 없으면 커뮤니티 전체가 꺼진 것으로 본다(사이트는 giscus 로 돌아감). */
   COMMUNITY_DB?: D1Database;
   /** "1" 일 때만 켠다. D1 이 붙어 있어도 이 값 없이는 공개되지 않는다. */

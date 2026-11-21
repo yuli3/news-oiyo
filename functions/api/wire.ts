@@ -4,11 +4,13 @@
 import { filterWire } from "../../server/econ-wire";
 import { BASE_HEADERS, loadWire, TTL } from "../../server/wire-edge";
 
-interface Ctx { request: Request; waitUntil?: (p: Promise<unknown>) => void }
+import type { Env } from "../../server/types";
 
-export const onRequestGet = async ({ request, waitUntil }: Ctx) => {
+interface Ctx { request: Request; env?: Pick<Env, "WIRE_KO">; waitUntil?: (p: Promise<unknown>) => void }
+
+export const onRequestGet = async ({ request, env, waitUntil }: Ctx) => {
   const url = new URL(request.url);
-  const wire = await loadWire(url.origin, waitUntil);
+  const wire = await loadWire(url.origin, waitUntil, env?.WIRE_KO);
   const limitRaw = Number(url.searchParams.get("limit") ?? "");
   const limit = Number.isInteger(limitRaw) && limitRaw >= 1 && limitRaw <= 120 ? limitRaw : undefined;
   const items = filterWire(wire.items, {
