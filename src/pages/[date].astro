@@ -43,8 +43,13 @@ const description = metaDescriptionFromSummary(
       "@type": "NewsArticle",
       headline: title,
       datePublished: `${day.date}T00:00:00+09:00`,
+      // 2026-11-21: Google Article rich result recommends image, author and dateModified.
+      dateModified: `${day.date}T00:00:00+09:00`,
       description,
       url,
+      mainEntityOfPage: url,
+      image: "https://news.oiyo.net/og-image.png",
+      author: { "@type": "Organization", name: "OIYO News", url: "https://news.oiyo.net/" },
       isPartOf: { "@id": "https://news.oiyo.net/#website" },
       publisher: { "@id": "https://oiyo.net/#organization" },
     })} /></Fragment>
