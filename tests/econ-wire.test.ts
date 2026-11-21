@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { applyKoLines, buildWire, classify, collectWire, filterWire, normTitle, parseFeed, WIRE_SOURCES, type WireSource } from "../server/econ-wire.ts";
+import { applyFlash, applyKoLines, buildWire, classify, collectWire, filterWire, normTitle, parseFeed, WIRE_SOURCES, type WireSource } from "../server/econ-wire.ts";
 import { handleRpc } from "../server/news-mcp.ts";
 
 const NOW = new Date("2026-11-14T07:00:00Z");
@@ -152,7 +152,7 @@ test("loadWire: KV 한 줄 합치기, KV 실패해도 와이어는 나간다", a
     const first = await loadWire("https://news.example");
     const id = first.items[0].id;
     let gets = 0;
-    const kv = { get: async (k: string) => { gets++; assert.equal(k, "ko-lines"); return { [id]: "연준 FOMC 성명" }; } };
+    const kv = { get: async (k: string) => { if (k === "flash") return null; gets++; assert.equal(k, "ko-lines"); return { [id]: "연준 FOMC 성명" }; } };
     const withKo = await loadWire("https://news.example", undefined, kv);
     assert.equal(withKo.items[0].titleKo, "연준 FOMC 성명");
     assert.equal(gets, 1);
@@ -170,4 +170,49 @@ test("MCP get_econ_wire: titleKo 포함", async () => {
   const deps = { loadEntries: async () => [], search: () => [], loadWire: async () => wire };
   const r = await handleRpc({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "get_econ_wire", arguments: {} } }, deps) as any;
   assert.equal(r.result.structuredContent.headlines[0].titleKo, "연준 금리 동결");
+});
+
+test("applyFlash: 공식 속보를 맨 위에, 같은 URL 은 하나로, 오래되거나 이상한 항목은 버림", () => {
+  const wire = buildWire([{ source: src("bls", { region: "US", primary: true }), xml: rss([["CPI for all items increases 0.4% in October", "https://www.bls.gov/news.release/cpi.nr0.htm", "2026-11-14T06:50:00Z"], ["Fed holds rates", "https://fed.example/r", "2026-11-14T06:40:00Z"]]) }], NOW);
+  wire.items[0].titleKo = "CPI 10월 0.4% 상승";
+  const flash = { items: [
+    { title: "CPI for all items increases 0.4% in October", url: "https://www.bls.gov/news.release/cpi.nr0.htm", publishedAt: "2026-11-14T06:55:00Z", source: "bls-cpi", sourceName: "BLS 소비자물가(CPI)", region: "US" },
+    { title: "Federal Reserve issues FOMC statement: maintain the target range for the federal funds rate at 3-3/4 to 4 percent", url: "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261114a.htm", publishedAt: "2026-11-14T06:58:00Z", source: "fomc", sourceName: "FOMC", region: "US", titleKo: "연준, 기준금리 3.75~4% 유지" },
+    { title: "옛 속보", url: "https://x.example/old", publishedAt: "2026-11-13T20:00:00Z" },
+    { title: "javascript", url: "javascript:alert(1)", publishedAt: "2026-11-14T06:58:00Z" },
+    { title: "", url: "https://x.example/empty", publishedAt: "2026-11-14T06:58:00Z" },
+  ] };
+  const out = applyFlash(wire, flash, NOW);
+  assert.deepEqual(out.items.map((i) => [i.source, !!i.flash]), [["fomc", true], ["bls-cpi", true], ["bls", false]]);
+  assert.equal(out.items[0].impact, "high");
+  assert.ok(out.items[0].tags.includes("rates"));
+  assert.equal(out.items[0].titleKo, "연준, 기준금리 3.75~4% 유지");
+  assert.equal(out.items[1].titleKo, "CPI 10월 0.4% 상승"); // RSS 쪽 한국어 한 줄을 이어받는다
+  assert.equal(out.items.filter((i) => i.url === "https://www.bls.gov/news.release/cpi.nr0.htm").length, 1);
+  // BLS 는 RSS 보관 주소가 달라도 같은 출처 6시간 안이면 한 건으로 친다
+  const bls2 = buildWire([{ source: src("bls-cpi", { region: "US", primary: true }), xml: rss([["CPI for all items increases 0.4% in October", "https://www.bls.gov/news.release/archives/cpi_11142026.htm", "2026-11-14T06:56:00Z"]]) }], NOW);
+  const merged = applyFlash(bls2, { items: [flash.items[0]] }, NOW);
+  assert.deepEqual(merged.items.map((i) => [i.url, !!i.flash]), [["https://www.bls.gov/news.release/cpi.nr0.htm", true]]);
+  assert.equal(applyFlash(wire, null, NOW), wire);
+  assert.equal(applyFlash(wire, { items: "x" }, NOW), wire);
+  assert.equal(applyFlash(wire, { items: [] }, NOW), wire);
+});
+
+test("loadWire: 속보는 cacheTtl 30 으로 따로 읽고, 실패해도 와이어는 나간다", async () => {
+  const { loadWire } = await import("../server/wire-edge.ts");
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = (async () => new Response("", { status: 200 })) as typeof fetch;
+  try {
+    const at = new Date().toISOString();
+    const calls: unknown[] = [];
+    const kv = { get: async (k: string, o: unknown) => { calls.push([k, o]); return k === "flash" ? { items: [{ title: "Employment Situation: payrolls rise 150,000", url: "https://www.bls.gov/news.release/empsit.nr0.htm", publishedAt: at, source: "bls-empsit", region: "US" }] } : null; } };
+    const w = await loadWire("https://news.example", undefined, kv as never);
+    assert.equal(w.items[0].flash, true);
+    assert.deepEqual(calls.find((c) => (c as unknown[])[0] === "flash"), ["flash", { type: "json", cacheTtl: 30 }]);
+    const broken = { get: async () => { throw new Error("down"); } };
+    const plain = await loadWire("https://news.example", undefined, broken as never);
+    assert.equal(plain.items.some((i) => i.flash), false);
+  } finally {
+    globalThis.fetch = realFetch;
+  }
 });

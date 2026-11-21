@@ -1,5 +1,6 @@
 // GET /api/wire — 실시간에 가까운 경제 헤드라인(제목·링크·출처·시각·분류). 로직은 server/econ-wire.ts.
 // 엣지 캐시 60초: 방문자가 많아도 발행처 피드는 데이터센터당 1분에 한 번만 읽는다.
+// 속보(공식, KV "flash")는 그 캐시 밖에서 10초 단위로 합친다(server/wire-edge.ts). 브라우저 캐시는 15초.
 // ?tag=rates|fx|... &impact=high &region=KR|US|GLOBAL &limit=1-120
 import { filterWire } from "../../server/econ-wire";
 import { BASE_HEADERS, loadWire, TTL } from "../../server/wire-edge";
@@ -20,6 +21,6 @@ export const onRequestGet = async ({ request, env, waitUntil }: Ctx) => {
     limit,
   });
   return new Response(JSON.stringify({ ...wire, items, notice: "Headlines and links only. Read the full story at the publisher." }), {
-    headers: { ...BASE_HEADERS, "Cache-Control": `public, max-age=30, s-maxage=${TTL}` },
+    headers: { ...BASE_HEADERS, "Cache-Control": `public, max-age=15, s-maxage=${TTL}` },
   });
 };

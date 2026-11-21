@@ -15,10 +15,12 @@ export interface D1Database {
 
 export interface KVNamespace {
   get(key: string, type: "json"): Promise<unknown>;
+  /** cacheTtl 은 30 이상(2026-01 Cloudflare 최소값). */
+  get(key: string, options: { type: "json"; cacheTtl?: number }): Promise<unknown>;
 }
 
 export interface Env {
-  /** 선택 KV. 키 "ko-lines" = {와이어 itemId: 한국어 한 줄}. Hermes 잡 oiyo-wire-ko 가 채운다(2026-11-21). */
+  /** 선택 KV. 키 "ko-lines" = {와이어 itemId: 한국어 한 줄}(Hermes oiyo-wire-ko), 키 "flash" = 속보(공식)(Hermes oiyo-wire-flash). 2026-11-21. */
   WIRE_KO?: KVNamespace;
   /** D1 바인딩. 없으면 커뮤니티 전체가 꺼진 것으로 본다(사이트는 giscus 로 돌아감). */
   COMMUNITY_DB?: D1Database;
