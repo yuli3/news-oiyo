@@ -99,6 +99,7 @@ const DETAIL_SEED_SOURCES = new Set([
   "karpathy-blog",
   "aitimes",
   "zdnet-kr",
+  "techcrunch",
   ...FINANCE_SOURCES,
   "geeknews",
   "github",
@@ -144,7 +145,7 @@ function applyCuratorFallback(item, reason) {
  * 원문 페이지를 못 읽을 때(Cloudflare challenge 403) detailOrigin=primary, excerptSource=feed 로 쓴다.
  * challenge 를 우회하지 않는다 — 발행처가 공개한 피드만 쓴다.
  */
-const FIRST_PARTY_FEEDS = new Set(["openai-news", "deepmind-blog", "karpathy-blog", "aitimes", "zdnet-kr", ...FINANCE_SOURCES]);
+const FIRST_PARTY_FEEDS = new Set(["openai-news", "deepmind-blog", "karpathy-blog", "aitimes", "zdnet-kr", "techcrunch", ...FINANCE_SOURCES]);
 
 function applyFeedFallback(item, reason) {
   const text = cleanText(item.feedExcerpt ?? (FIRST_PARTY_FEEDS.has(item.src) ? item.summary : "") ?? "", 4_000);
@@ -542,7 +543,7 @@ function select(items) {
 
 const SRC_TAG = { "hacker-news": "HN", lobsters: "lobsters", geeknews: "GeekNews", reddit: "Reddit",
   "openai-news": "OpenAI", "deepmind-blog": "DeepMind", "karpathy-blog": "Karpathy", github: "GitHub",
-  aitimes: "AI타임스", "zdnet-kr": "ZDNet", "hankyung-finance": "Hankyung", "hankyung-realestate": "HankyungRE",
+  aitimes: "AI타임스", "zdnet-kr": "ZDNet", techcrunch: "TechCrunch", "hankyung-finance": "Hankyung", "hankyung-realestate": "HankyungRE",
   "mk-economy": "MK", bok: "BOK", moef: "MOEF", "federal-reserve": "Fed", sec: "SEC", coindesk: "CoinDesk",
   "cnbc-finance": "CNBC" };
 // 대괄호로 시작하는 제목([Megathread] 등)이 마크다운 링크를 깨뜨린다.
@@ -598,12 +599,16 @@ function buildPublicSummary(items) {
 
 async function main() {
   const jobs = [
-    ["hacker-news", hackerNews], ["lobsters", lobsters], ["geeknews", geekNews], ["reddit", reddit], ["github", githubTrending],
+    // WHY 2026-11-21: Reddit 비로그인 .rss 가 11-18부터 모든 경로에서 404(rss.reddit.com "Not Found")라 뺐다.
+    // 로그인 API 는 토큰 발급(결재)이 필요하다. reddit() 은 피드가 돌아오면 다시 넣을 수 있게 남겨 둔다.
+    ["hacker-news", hackerNews], ["lobsters", lobsters], ["geeknews", geekNews], ["github", githubTrending],
     ["openai-news", () => rssFeed("openai-news", "https://openai.com/news/rss.xml")],
     ["deepmind-blog", () => rssFeed("deepmind-blog", "https://deepmind.google/blog/rss.xml")],
     ["karpathy-blog", () => rssFeed("karpathy-blog", "https://karpathy.bearblog.dev/feed/?type=rss")],
     ["aitimes", () => rssFeed("aitimes", "https://cdn.aitimes.com/rss/gn_rss_allArticle.xml")],
     ["zdnet-kr", () => rssFeed("zdnet-kr", "https://feeds.feedburner.com/zdkorea")],
+    // WHY 2026-11-21: 레지스트리에만 있고 수집기가 없어 08-29 뒤로 비었다. AI 분류 공식 RSS 로 다시 받는다.
+    ["techcrunch", () => rssFeed("techcrunch", "https://techcrunch.com/category/artificial-intelligence/feed/", { limit: 6, maxAgeHours: 48 })],
     ...FINANCE_FEEDS.map(([src, url, opts]) => [src, () => rssFeed(src, url, opts)]),
   ];
   if (RAW_ONLY) {
