@@ -35,8 +35,30 @@ function description(it: FeedItem): string {
   return raw.length > DESC_MAX ? `${raw.slice(0, DESC_MAX)}…` : raw;
 }
 
+export interface RssChannel {
+  title: string;
+  /** 사이트 안 경로, 예: "/ai/" */
+  path: string;
+  /** 피드 자신의 경로, 예: "/ai/rss.xml" */
+  selfPath: string;
+  description: string;
+}
+
+export const MAIN_CHANNEL: RssChannel = {
+  title: "오이요 뉴스",
+  path: "/",
+  selfPath: "/rss.xml",
+  description: "AI·개발·IT 소식을 한국어로 매일 정리합니다.",
+};
+
+// 2026-11-21: 주제별 피드. 섹션 판정은 화면(/ai/, /finance/)과 같은 storySections 를 쓴다.
+export const SECTION_CHANNELS: Record<"ai" | "finance", RssChannel> = {
+  ai: { title: "오이요 뉴스 · AI", path: "/ai/", selfPath: "/ai/rss.xml", description: "AI 모델·제품·연구 소식을 한국어로 매일 정리합니다." },
+  finance: { title: "오이요 뉴스 · 금융", path: "/finance/", selfPath: "/finance/rss.xml", description: "금리·증시·부동산·가상자산 소식을 한국어로 매일 정리합니다." },
+};
+
 /** 최신순 FeedItem 배열(flattenFeed 결과)을 RSS 2.0 문서로. */
-export function buildRss(items: readonly FeedItem[], now: Date = new Date()): string {
+export function buildRss(items: readonly FeedItem[], now: Date = new Date(), channel: RssChannel = MAIN_CHANNEL): string {
   const top = items.filter((it) => it.title?.trim()).slice(0, RSS_LIMIT);
   const last = top.length ? itemDate(top[0]) : now;
   const body = top
@@ -58,10 +80,10 @@ export function buildRss(items: readonly FeedItem[], now: Date = new Date()): st
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-<title>오이요 뉴스</title>
-<link>${SITE}/</link>
-<atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml"/>
-<description>AI·개발·IT 소식을 한국어로 매일 정리합니다.</description>
+<title>${escapeXml(channel.title)}</title>
+<link>${SITE}${channel.path}</link>
+<atom:link href="${SITE}${channel.selfPath}" rel="self" type="application/rss+xml"/>
+<description>${escapeXml(channel.description)}</description>
 <language>ko</language>
 <lastBuildDate>${last.toUTCString()}</lastBuildDate>
 ${body}

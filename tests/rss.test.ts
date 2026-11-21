@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { buildRss, escapeXml, itemLink, RSS_LIMIT } from "../src/lib/rss.ts";
+import { buildRss, escapeXml, itemLink, RSS_LIMIT, SECTION_CHANNELS } from "../src/lib/rss.ts";
 import type { FeedItem } from "../src/lib/feed.ts";
 
 const base = { src: "HN", score: 1, url: "https://ex.com/a?x=1&y=2", domain: "ex.com" };
@@ -24,4 +24,13 @@ test("RSS 문서: 개수 제한, 날짜, 출처", () => {
   assert.ok(xml.includes("<pubDate>Sat, 14 Nov 2026 01:00:00 GMT</pubDate>"));
   assert.ok(xml.includes('<source url="https://ex.com/a?x=1&amp;y=2">ex.com</source>'));
   assert.ok(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>'));
+});
+
+test("주제별 피드: 채널 제목·self 링크", () => {
+  const xml = buildRss([{ ...base, id: "a1", title: "모델 발표", date: "2026-11-21" }], new Date(0), SECTION_CHANNELS.ai);
+  assert.ok(xml.includes("<title>오이요 뉴스 · AI</title>"));
+  assert.ok(xml.includes('<atom:link href="https://news.oiyo.net/ai/rss.xml" rel="self"'));
+  assert.ok(xml.includes("<link>https://news.oiyo.net/ai/</link>"));
+  const main = buildRss([], new Date(0));
+  assert.ok(main.includes('<atom:link href="https://news.oiyo.net/rss.xml" rel="self"'));
 });
