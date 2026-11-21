@@ -2,8 +2,9 @@
 import { handleRpc } from "../server/news-mcp";
 import { searchEntries, type SearchEntry } from "../src/lib/search";
 import { loadWire } from "../server/wire-edge";
+import type { KVNamespace } from "../server/types";
 
-interface Ctx { request: Request; waitUntil?: (p: Promise<unknown>) => void; env: { ASSETS?: { fetch: (r: Request | string) => Promise<Response> } } }
+interface Ctx { request: Request; waitUntil?: (p: Promise<unknown>) => void; env: { ASSETS?: { fetch: (r: Request | string) => Promise<Response> }; WIRE_KO?: KVNamespace } }
 
 const HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
@@ -28,7 +29,7 @@ export const onRequestPost = async ({ request, env, waitUntil }: Ctx) => {
   let cache: SearchEntry[] | null = null;
   const deps = {
     search: searchEntries,
-    loadWire: () => loadWire(new URL(request.url).origin, waitUntil),
+    loadWire: () => loadWire(new URL(request.url).origin, waitUntil, env.WIRE_KO),
     loadEntries: async () => {
       if (cache) return cache;
       const url = new URL("/search-index.json", request.url);

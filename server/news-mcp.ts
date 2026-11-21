@@ -50,7 +50,7 @@ export const TOOLS = [
   {
     name: "get_econ_wire",
     title: "Get economy headline wire",
-    description: "Near-realtime economy/market headlines (refreshed about every minute) from public RSS of Korean and US publishers and central banks (Yonhap, Hankyung, Maeil, Bank of Korea, MOEF, Federal Reserve, SEC, CNBC, CoinDesk). Each item has the headline, publisher link, time, rule-based topic tags and an impact flag. Headlines only: open the link to read the story.",
+    description: "Near-realtime economy/market headlines (refreshed about every minute) from public RSS of Korean and US publishers and primary institutions (Yonhap, Hankyung, Maeil, Bank of Korea, MOEF, Statistics Korea/MODS, Federal Reserve, BLS, BEA, EIA, SEC, ECB, BOJ, Bank of England, CNBC, CoinDesk). Each item has the headline, publisher link, time, rule-based topic tags, an impact flag and, for some English headlines, a pre-translated one-line Korean gloss (titleKo). Official releases only: no rumors, exclusives or consensus forecasts. Headlines only: open the link to read the story.",
     inputSchema: {
       type: "object",
       properties: {
@@ -127,7 +127,7 @@ export async function callTool(name: string, args: Json, deps: Deps) {
     return toolResult({
       generatedAt: wire.generatedAt, count: items.length,
       page: `${SITE}/finance/live/?${UTM}`,
-      headlines: items.map((i) => ({ title: i.title, link: i.url, source: i.sourceName, publishedAt: i.publishedAt, tags: i.tags, impact: i.impact })),
+      headlines: items.map((i) => ({ title: i.title, ...(i.titleKo ? { titleKo: i.titleKo } : {}), link: i.url, source: i.sourceName, publishedAt: i.publishedAt, tags: i.tags, impact: i.impact })),
       note: "Headlines link to the original publisher. Cite the publisher, not OIYO, for the story itself.",
     });
   }

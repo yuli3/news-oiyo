@@ -129,7 +129,14 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
       em.textContent = TAG_LABELS[t as WireTag] ?? t;
       meta.append(em);
     }
-    body.append(a, meta);
+    // 영어 원제 아래 한국어 한 줄(있을 때만). 원제·링크가 정본이고 한 줄은 읽기 보조다.
+    if (i.titleKo) {
+      const ko = document.createElement("span");
+      ko.className = "ko";
+      ko.lang = "ko";
+      ko.textContent = i.titleKo;
+      body.append(a, ko, meta);
+    } else body.append(a, meta);
     li.append(time, body);
     return li;
   }
@@ -227,6 +234,7 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
   @keyframes wire-flash{from{background:var(--accent-soft)}to{background:transparent}}
   @media (prefers-reduced-motion:reduce){.wire-page .row.fresh{animation:none;background:var(--accent-soft)}}
   .wire-page .flag{display:inline-block;margin-right:6px;padding:0 6px;border-radius:4px;background:var(--accent);color:var(--card);font-size:12px;vertical-align:2px}
+  .wire-page .ko{display:block;margin-top:2px;color:var(--muted);font-size:14px;line-height:1.45}
   .wire-page .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;color:var(--muted);font-size:13px}
   .wire-page .meta em{font-style:normal;padding:0 6px;border:1px solid var(--border);border-radius:4px}
   .wire-page .empty{color:var(--muted)}

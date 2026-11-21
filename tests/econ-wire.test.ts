@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { buildWire, classify, collectWire, filterWire, normTitle, parseFeed, WIRE_SOURCES, type WireSource } from "../server/econ-wire.ts";
+import { applyKoLines, buildWire, classify, collectWire, filterWire, normTitle, parseFeed, WIRE_SOURCES, type WireSource } from "../server/econ-wire.ts";
 import { handleRpc } from "../server/news-mcp.ts";
 
 const NOW = new Date("2026-11-14T07:00:00Z");
@@ -84,4 +84,90 @@ test("MCP get_econ_wire: 필터·검증·링크는 발행처", async () => {
   assert.equal((await call({ limit: 0 })).result.isError, true);
   const none = await handleRpc({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "get_econ_wire", arguments: {} } }, { loadEntries: async () => [], search: () => [] }) as any;
   assert.equal(none.result.isError, true);
+});
+
+test("1차 기관 피드(2026-11-21): 등록, 영어 지표 제목 분류, 비율은 금리 아님", () => {
+  const ids = new Set(WIRE_SOURCES.map((s) => s.id));
+  for (const id of ["bls-cpi", "bls-empsit", "bls-ppi", "bls-jolts", "bea", "fed-speeches", "eia", "ecb", "boj", "boe", "mods"]) {
+    const s = WIRE_SOURCES.find((x) => x.id === id);
+    assert.ok(s && s.primary, id);
+    assert.ok(s!.maxAgeHours >= 48 && s!.maxAgeHours <= 72, id);
+  }
+  assert.ok(ids.has("bok") && ids.has("federal-reserve"));
+  const p = { primary: true };
+  const cases: [string, string][] = [
+    ["CPI for all items increases 0.4% in October; shelter rises", "macro"],
+    ["The Employment Situation — October 2026", "macro"],
+    ["Consumer Price Index Summary", "macro"],
+    ["PPI for final demand increases 0.3% in October", "macro"],
+    ["Job Openings and Labor Turnover Survey", "macro"],
+    ["GDP (Advance Estimate), 3rd Quarter 2026", "macro"],
+    ["U.S. International Trade in Goods and Services, September 2026", "macro"],
+    ["Short-Term Energy Outlook", "macro"],
+    ["Monetary Policy Statement", "rates"],
+    ["Monetary policy decisions", "rates"],
+    ["Bank Rate maintained at 4%", "rates"],
+  ];
+  for (const [title, tag] of cases) {
+    const c = classify(title, p);
+    assert.ok(c.tags.includes(tag as never), `${title} → ${c.tags}`);
+    assert.equal(c.impact, "high", title);
+  }
+  // 실업률·환율은 '금리'가 아니다
+  const emp = classify("Payroll employment rises by 165,000 in October; unemployment rate changes little at 4.1%", p);
+  assert.equal(emp.tags.includes("rates"), false);
+  assert.equal(emp.tags.includes("macro"), true);
+  assert.equal(classify("Fed holds rates steady").tags.includes("rates"), true);
+  // 연설·연구는 지표·금리가 아니면 '주목' 아님
+  assert.equal(classify("Cook, The U.S. Economy in Global Context", p).impact, "normal");
+  assert.equal(classify("Outdoor Recreation Economic Statistics, U.S. and States, 2025", p).impact, "normal");
+});
+
+test("parseFeed: 국가데이터처 숫자 pubDate 는 KST", () => {
+  const xml = `<rss><channel><item><title><![CDATA[2026년 10월 고용동향]]></title><link>https://mods.go.kr/board.es?mid=a1&amp;act=view&amp;list_no=1</link><pubDate>202611181350</pubDate></item></channel></rss>`;
+  const [h] = parseFeed(xml);
+  assert.equal(h.publishedAt, "2026-11-18T04:50:00.000Z");
+  assert.equal(h.url, "https://mods.go.kr/board.es?mid=a1&act=view&list_no=1");
+  assert.equal(classify(h.title, { primary: true }).impact, "high");
+});
+
+test("applyKoLines: 영어 제목에만 붙이고, 모양이 틀리면 그대로", () => {
+  const wire = buildWire([{ source: src("fed", { region: "US", primary: true }), xml: rss([["Federal Reserve issues FOMC statement", "https://fed.example/1", "2026-11-14T06:00:00Z"], ["한은 기준금리 동결", "https://bok.example/1", "2026-11-14T05:00:00Z"]]) }], NOW);
+  const [en, ko] = wire.items;
+  const out = applyKoLines(wire, { [en.id]: "  연준, FOMC 성명 발표 ", [ko.id]: "무시" });
+  assert.equal(out.items[0].titleKo, "연준, FOMC 성명 발표");
+  assert.equal(out.items[1].titleKo, undefined);
+  assert.equal(applyKoLines(wire, null), wire);
+  assert.equal(applyKoLines(wire, ["x"]), wire);
+  assert.equal(applyKoLines(wire, { [en.id]: 3 }), wire);
+});
+
+test("loadWire: KV 한 줄 합치기, KV 실패해도 와이어는 나간다", async () => {
+  const { loadWire } = await import("../server/wire-edge.ts");
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = (async (url: string) => new Response(String(url).includes("federalreserve.gov/feeds/press_all")
+    ? rss([["Federal Reserve issues FOMC statement", "https://www.federalreserve.gov/x", new Date().toUTCString()]])
+    : "", { status: 200 })) as typeof fetch;
+  try {
+    const first = await loadWire("https://news.example");
+    const id = first.items[0].id;
+    let gets = 0;
+    const kv = { get: async (k: string) => { gets++; assert.equal(k, "ko-lines"); return { [id]: "연준 FOMC 성명" }; } };
+    const withKo = await loadWire("https://news.example", undefined, kv);
+    assert.equal(withKo.items[0].titleKo, "연준 FOMC 성명");
+    assert.equal(gets, 1);
+    const broken = { get: async () => { throw new Error("kv down"); } };
+    const plain = await loadWire("https://news.example", undefined, broken);
+    assert.equal(plain.items[0].titleKo, undefined);
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+
+test("MCP get_econ_wire: titleKo 포함", async () => {
+  const wire = applyKoLines(buildWire([{ source: src("fed", { region: "US" }), xml: rss([["Fed holds rates", "https://fed.example/r", "2026-11-14T06:00:00Z"]]) }], NOW), {});
+  wire.items[0].titleKo = "연준 금리 동결";
+  const deps = { loadEntries: async () => [], search: () => [], loadWire: async () => wire };
+  const r = await handleRpc({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "get_econ_wire", arguments: {} } }, deps) as any;
+  assert.equal(r.result.structuredContent.headlines[0].titleKo, "연준 금리 동결");
 });
