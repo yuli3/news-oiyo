@@ -11,6 +11,7 @@ import { SOURCE_COLOR, flattenFeed, hasDetailPage, isCuratorSource, isRepoItem, 
 import { relativeKo } from "../../lib/relative-time";
 import { renderMarkdown } from "../../lib/markdown";
 import { topicFor, topicImage } from "../../lib/topic-art";
+import { storySections } from "../../../scripts/lib/story-scope.mjs";
 
 const SOURCE_LABEL: Record<string, string> = {
   "hacker-news": "Hacker News",
@@ -37,15 +38,22 @@ const SOURCE_LABEL: Record<string, string> = {
 
 export async function getStaticPaths() {
   const feed = flattenFeed(data.days as Day[], { includeRepos: true });
-  return feed
-    .filter(hasDetailPage)
-    .map((it) => ({
-      params: { id: it.id as string },
-      props: { item: it },
-    }));
+  // 2026-11-22: 상세 페이지가 막다른 길이었다. 같은 날·같은 분야의 다른 상세 기사 4개를 잇는다.
+  const withPage = feed.filter(hasDetailPage);
+  const byDate = new Map<string, FeedItem[]>();
+  for (const it of withPage) byDate.set(it.date, [...(byDate.get(it.date) ?? []), it]);
+  return withPage.map((it) => {
+    const mine = new Set(storySections(it));
+    const sameDay = (byDate.get(it.date) ?? []).filter((o) => o.id !== it.id && !isRepoItem(o));
+    const related = [
+      ...sameDay.filter((o) => storySections(o).some((x: string) => mine.has(x))),
+      ...sameDay.filter((o) => !storySections(o).some((x: string) => mine.has(x))),
+    ].slice(0, 4).map((o) => ({ id: o.id as string, title: o.title, src: o.src }));
+    return { params: { id: it.id as string }, props: { item: it, related } };
+  });
 }
 
-const { item } = Astro.props as { item: FeedItem };
+const { item, related = [] } = Astro.props as { item: FeedItem; related?: { id: string; title: string; src: string }[] };
 const id = item.id as string;
 const pageUrl = `https://news.oiyo.net/item/${id}/`;
 const label = SOURCE_LABEL[item.src] ?? item.src;
@@ -153,6 +161,14 @@ const jsonLd = {
     </p>
   </article>
 
+  {related.length > 0 && (
+    <nav class="related" aria-labelledby="related-heading">
+      <h2 id="related-heading">같은 날 함께 읽을 소식</h2>
+      <ul>{related.map((r) => <li><a href={`/item/${r.id}/`}><span class="related-src">{SOURCE_LABEL[r.src] ?? r.src}</span>{r.title}</a></li>)}</ul>
+      {item.date && <a class="related-more" href={`/${item.date}/`}>이 날 소식 전체 보기 →</a>}
+    </nav>
+  )}
+
   {/* 상세 페이지는 giscus 토론이 없었다. 자체 댓글이 켜졌을 때만 보인다. */}
   <Comments thread={`item:${id}`} />
 
@@ -211,6 +227,13 @@ const jsonLd = {
     .btn-primary:focus-visible, .btn-secondary:focus-visible {
       outline: 2px solid var(--accent); outline-offset: 3px;
     }
+    .related { max-width: 72ch; margin: 0 0 24px; }
+    .related h2 { font-size: 17px; margin: 8px 0 8px; }
+    .related ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+    .related li a { display: block; padding: 12px 2px; border-bottom: 1px solid var(--border); color: var(--ink); text-decoration: none; line-height: 1.5; overflow-wrap: anywhere; }
+    .related li a:hover { color: var(--accent); }
+    .related-src { display: block; font-size: 12px; color: var(--muted); font-weight: 700; }
+    .related-more { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
     .detail-attrib { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.5; max-width: 60ch; }
   </style>
 </BaseLayout>

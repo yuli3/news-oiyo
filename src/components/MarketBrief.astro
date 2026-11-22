@@ -118,8 +118,13 @@ const trendNote = maRows.length === 0 ? "" : aboveMa * 2 > maRows.length
   .down { color: #2360e8 }  /* 같은 이유로 5.00 → 4.49 → 4.65 */
   .flat { color: var(--muted) }
   .idx .s { font-size: 11px; color: var(--muted) }
-  details.stocks { font-size: 13px; margin: 2px 0 18px }
-  details.stocks summary { cursor: pointer; color: var(--accent); font-weight: 700; min-height: 44px; display: flex; align-items: center }
+  details.stocks { font-size: 13px; margin: 0; border-bottom: 1px solid var(--border) }
+  details.stocks:first-of-type { border-top: 1px solid var(--border); margin-top: 8px }
+  details.stocks[open] { padding-bottom: 12px }
+  details.stocks summary { cursor: pointer; color: var(--accent); font-weight: 700; min-height: 44px; display: flex; align-items: center; justify-content: space-between; list-style: none }
+  details.stocks summary::-webkit-details-marker { display: none }
+  details.stocks summary::after { content: "+"; font-size: 18px; color: var(--muted) }
+  details.stocks[open] summary::after { content: "−" }
   details.stocks table { width: 100%; border-collapse: collapse; margin-top: 8px; background: var(--card); border-radius: 10px }
   details.stocks th, details.stocks td { text-align: right; padding: 5px 10px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums }
   details.stocks th:first-child, details.stocks td:first-child { text-align: left }
