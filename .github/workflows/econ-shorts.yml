@@ -1,0 +1,65 @@
+name: Econ shorts
+
+# 2026-11-23: 매일 아침 경제 공식 발표 60초 세로 쇼츠를 만든다(scripts/render-econ-short.mjs).
+# 결과는 econ-shorts 브랜치에 최근 7일치만 둔다(커밋 하나를 매일 새로 만들어 덮어쓰는 봇 전용 브랜치,
+# 사람이 작업하지 않는다). Buffer 는 oiyo.net 주소를 못 가져가서 raw.githubusercontent.com 주소를 쓴다:
+#   https://raw.githubusercontent.com/yuli3/news-oiyo/econ-shorts/latest.json
+# 이 워크플로는 영상을 만들기만 한다. 공개 발행(Buffer 예약)은 따로 한다.
+
+on:
+  schedule:
+    - cron: "20 23 * * *" # 08:20 KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: econ-shorts
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: Tools (Korean font, numpy, Playwright Chromium)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk ffmpeg >/dev/null
+          python3 -m pip install --quiet numpy
+          npm i --no-save --prefix "$RUNNER_TEMP/pw" playwright@1.63.0 >/dev/null
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium >/dev/null
+      - name: Render
+        id: render
+        env:
+          NODE_PATH: ${{ runner.temp }}/pw/node_modules
+        run: node scripts/render-econ-short.mjs --out "$RUNNER_TEMP/out"
+      - name: Publish to econ-shorts branch (last 7 days)
+        if: steps.render.outputs.skip != 'true'
+        env:
+          DATE: ${{ steps.render.outputs.date }}
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/out"
+          KEEP="$RUNNER_TEMP/keep"
+          mkdir -p "$KEEP"
+          if git fetch --depth=1 origin econ-shorts 2>/dev/null; then
+            git --work-tree="$KEEP" checkout FETCH_HEAD -- . 2>/dev/null || true
+          fi
+          cp "$OUT/$DATE.mp4" "$OUT/$DATE.json" "$KEEP/"
+          cd "$KEEP"
+          rm -f latest.json .gitignore
+          ls *.mp4 | sort -r | tail -n +8 | while read -r f; do rm -f "$f" "${f%.mp4}.json"; done
+          node -e 'const fs=require("fs");const d=process.env.DATE;const m=JSON.parse(fs.readFileSync(d+".json","utf8"));m.videoUrl=`https://raw.githubusercontent.com/${process.env.GITHUB_REPOSITORY}/econ-shorts/${d}.mp4`;fs.writeFileSync("latest.json",JSON.stringify(m,null,2)+"\n")'
+          git init -q -b econ-shorts .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "econ shorts $DATE (최근 7일)"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" econ-shorts
+          ls -la
