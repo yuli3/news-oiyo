@@ -36,6 +36,7 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
     <span class="dot" id="wire-dot" aria-hidden="true"></span>
     <span id="wire-status">수집된 금융 기사를 보여 주고 있어요. 곧 최신 헤드라인으로 바꿔요.</span>
     <button type="button" id="wire-toggle" class="wire-btn" aria-pressed="false">일시정지</button>
+    <button type="button" id="wire-listen" class="wire-btn" aria-pressed="false" hidden>🔊 브리핑 듣기</button>
   </div>
 
   <div class="chips" role="group" aria-label="주제 거르기">
@@ -208,6 +209,42 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) { unread = 0; document.title = baseTitle; if (!paused) void refresh(); }
   });
+
+  // 2026-11-22 새 영역 #5: 지금 보이는 헤드라인 10개를 기기 음성(Web Speech API)으로 읽어 줘요. 서버·외부 TTS 없음.
+  const listen = document.getElementById("wire-listen") as HTMLButtonElement | null;
+  if (listen && "speechSynthesis" in window) {
+    listen.hidden = false;
+    const stopSpeak = () => { speechSynthesis.cancel(); listen.setAttribute("aria-pressed", "false"); listen.textContent = "🔊 브리핑 듣기"; };
+    listen.addEventListener("click", () => {
+      if (listen.getAttribute("aria-pressed") === "true") { stopSpeak(); return; }
+      const rows = (Array.from(list?.children ?? []) as HTMLElement[]).filter((li) => !li.hidden).slice(0, 10);
+      const lines = rows.map((li) => {
+        const ko = li.querySelector(".ko")?.textContent?.trim();
+        if (ko) return ko;
+        const a = li.querySelector("a");
+        const flag = a?.querySelector(".flag")?.textContent ?? "";
+        return (a?.textContent ?? "").replace(flag, "").trim();
+      }).filter(Boolean);
+      if (!lines.length) return;
+      const now = new Date(Date.now() + 9 * 3_600_000).toISOString().slice(11, 16);
+      const texts = [`오이요 경제 브리핑. ${now} 기준 헤드라인 ${lines.length}개예요.`, ...lines.map((l, i) => `${i + 1}. ${l}`), "브리핑을 마쳐요. 자세한 내용은 원문을 확인하세요."];
+      const voice = speechSynthesis.getVoices().find((v) => v.lang.startsWith("ko"));
+      speechSynthesis.cancel();
+      texts.forEach((t, i) => {
+        const u = new SpeechSynthesisUtterance(t);
+        u.lang = "ko-KR";
+        if (voice) u.voice = voice;
+        u.rate = 1.05;
+        if (i === texts.length - 1) u.onend = stopSpeak;
+        speechSynthesis.speak(u);
+      });
+      listen.setAttribute("aria-pressed", "true");
+      listen.textContent = "⏹ 그만 듣기";
+      const w = window as unknown as { gtag?: (...a: unknown[]) => void };
+      w.gtag?.("event", "wire_briefing_listen", { count: lines.length, filter });
+    });
+    window.addEventListener("pagehide", () => speechSynthesis.cancel());
+  }
 
   applyFilter();
   void refresh();
