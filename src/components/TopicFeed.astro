@@ -30,6 +30,8 @@ const entries = items.map((it,index) => ({ "@type":"ListItem",name:it.title,posi
 </script>
 <style>
   .news-board{list-style:none;margin:8px 0 0;padding:0;border-top:1px solid var(--border)}.source-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-  button{min-height:44px;padding:8px 14px;border:1px solid var(--border);border-radius:16px;background:transparent;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+  /* 2026-11-22: 좁은 화면에서는 칩이 두 줄로 밀려 첫 기사가 내려갔다. 한 줄 가로 스크롤로 둔다. */
+  @media(max-width:640px){.source-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-14px;padding:2px 14px}.source-chips::-webkit-scrollbar{display:none}.source-chips button{flex:none}}
+  button{min-height:44px;padding:8px 14px;border:1px solid var(--border);border-radius:999px;background:transparent;color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
   button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}[data-filter-empty]{color:var(--muted)}
 </style>

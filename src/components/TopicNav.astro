@@ -12,4 +12,6 @@ const ai = ["/ai/", "/analysis/", "/systems/"].some(prefix => path.startsWith(pr
   a+a{border-left:1px solid var(--border)}strong{font-size:24px;line-height:1.2}span{font-size:14px;color:var(--muted);line-height:1.5}
   a:hover,a[aria-current="page"]{background:var(--accent-soft)}a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   @media(max-width:420px){a{padding:14px 10px}span{font-size:13px}}
+  /* 2026-11-22: 640px 이하에서는 헤더 아래 섹션 줄이 같은 선택을 준다. 겹치는 두 칸을 숨겨 첫 기사를 올린다. */
+  @media(max-width:640px){.topic-nav{display:none}}
 </style>
