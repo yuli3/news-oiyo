@@ -22,7 +22,7 @@ const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList"
 <!doctype html>
 <html lang={lang === "zh" ? "zh-CN" : lang}>
   <head>
-    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="color-scheme" content="light" />
     <title>{title} | OIYO News</title><meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {LOCALES.map((l) => <link rel="alternate" hreflang={l === "zh" ? "zh-CN" : l} href={abs(paths[l])} />)}
