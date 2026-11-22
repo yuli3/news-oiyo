@@ -124,7 +124,7 @@ const family = [
     {/* AdSense Auto Ads, same tag as blog/wiki/game SEO.astro. Gated on
         !noindex so noindex pages carry no ads. */}
     {!adsOff && (
-      <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9541920090543312" crossorigin="anonymous"></script>
+      <script is:inline async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9541920090543312" data-overlays="bottom" crossorigin="anonymous"></script>
     )}
     <title>{fullTitle}</title>
     <slot name="head" />
