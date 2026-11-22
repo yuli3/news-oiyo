@@ -1,6 +1,6 @@
 ---
 // 2026-11-14 CHOSEUN: FinancialJuice·오선식 실시간 경제 헤드라인. 데이터는 /api/wire(엣지 60초 캐시).
-// 빌드 때는 최근 금융 데스크 항목으로 첫 화면을 채워 두고(자바스크립트가 없어도 읽힌다), 브라우저가 1분마다 갱신한다.
+// 빌드 때는 최근 금융 데스크 항목으로 첫 화면을 채워 두고(자바스크립트가 없어도 읽힌다), 브라우저가 30초마다 갱신한다.
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import TopicNav from "../../components/TopicNav.astro";
 import data from "../../data/news.json";
@@ -31,7 +31,7 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
 <BaseLayout title="실시간 경제 뉴스 헤드라인" description="금리·환율·증시·부동산·크립토 경제 헤드라인을 1분마다 모아 보여 줘요. 한국은행·Fed·재정경제부 발표와 국내외 경제지 속보를 주제별로 걸러 볼 수 있어요." canonical="https://news.oiyo.net/finance/live/" crumbs={[{ label: "금융", href: "/finance/" }, { label: "실시간 헤드라인" }]}>
   <div class="wire-page">
   <h1>실시간 경제 헤드라인</h1>
-  <p class="lede">국내외 경제지와 중앙은행·정부 발표의 헤드라인을 1분마다 모아요. 제목을 누르면 발행처 원문으로 가요.</p>
+  <p class="lede">국내외 경제지와 중앙은행·정부 발표의 헤드라인을 1분마다 모아요. 미국 물가·고용, FOMC, 한은 금통위처럼 발표 시각이 정해진 공식 지표는 발표 직후 기관 문장 그대로 '속보(공식)'로 먼저 보여 줘요. 제목을 누르면 발행처 원문으로 가요.</p>
   <TopicNav />
 
   <div class="wire-bar" role="status" aria-live="polite">
@@ -79,7 +79,7 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
   const empty = document.getElementById("wire-empty");
   const sourceList = document.getElementById("wire-sources");
   const baseTitle = document.title;
-  const INTERVAL = 60_000;
+  const INTERVAL = 30_000; // 2026-11-21 속보(공식)를 빨리 보이려고 60→30초. 서버 와이어 캐시는 그대로 60초.
   const store = {
     get: (k: string) => { try { return localStorage.getItem(k); } catch { return null; } },
     set: (k: string, v: string) => { try { localStorage.setItem(k, v); } catch { /* 저장 못 해도 동작은 같다 */ } },
@@ -114,7 +114,13 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
     a.href = i.url;
     a.target = "_blank";
     a.rel = "noopener";
-    if (i.impact === "high") {
+    if (i.flash) {
+      // 예정된 공식 발표를 발표 시각에 바로 잡은 항목. 문장은 기관 원문 그대로다.
+      const b = document.createElement("b");
+      b.className = "flag flash";
+      b.textContent = "속보(공식)";
+      a.append(b);
+    } else if (i.impact === "high") {
       const b = document.createElement("b");
       b.className = "flag";
       b.textContent = "주목";
@@ -171,7 +177,7 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
       document.title = unread ? `(${unread}) ${baseTitle}` : baseTitle;
       const at = new Date(Date.parse(wire.generatedAt) + 9 * 3_600_000).toISOString().slice(11, 19);
       const down = wire.sources.filter((s) => !s.ok).length;
-      status.textContent = `${at} 기준 헤드라인 ${wire.items.length}건${fresh.length ? ` · 새 소식 ${fresh.length}건` : ""}${down ? ` · 응답 없는 출처 ${down}곳` : ""} · 1분마다 갱신`;
+      status.textContent = `${at} 기준 헤드라인 ${wire.items.length}건${fresh.length ? ` · 새 소식 ${fresh.length}건` : ""}${down ? ` · 응답 없는 출처 ${down}곳` : ""} · 30초마다 갱신`;
       dot?.classList.add("live");
       sourceList?.querySelectorAll<HTMLElement>("li").forEach((li) => {
         const s = wire.sources.find((x) => x.id === li.dataset.src);
@@ -179,7 +185,7 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
       });
     } catch {
       dot?.classList.remove("live");
-      status.textContent = "지금은 최신 헤드라인을 받지 못했어요. 수집된 금융 기사를 보여 주고 있고, 1분 뒤에 다시 시도해요.";
+      status.textContent = "지금은 최신 헤드라인을 받지 못했어요. 수집된 금융 기사를 보여 주고 있고, 30초 뒤에 다시 시도해요.";
     }
   }
 
@@ -235,6 +241,7 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
   @media (prefers-reduced-motion:reduce){.wire-page .row.fresh{animation:none;background:var(--accent-soft)}}
   .wire-page .flag{display:inline-block;margin-right:6px;padding:0 6px;border-radius:4px;background:var(--accent);color:var(--card);font-size:12px;vertical-align:2px}
   .wire-page .ko{display:block;margin-top:2px;color:var(--muted);font-size:14px;line-height:1.45}
+  .wire-page .flag.flash{background:var(--ink)}
   .wire-page .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;color:var(--muted);font-size:13px}
   .wire-page .meta em{font-style:normal;padding:0 6px;border:1px solid var(--border);border-radius:4px}
   .wire-page .empty{color:var(--muted)}

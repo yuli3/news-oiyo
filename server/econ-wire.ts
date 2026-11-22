@@ -95,6 +95,8 @@ export interface WireItem {
   impact: "high" | "normal";
   /** 한국어 한 줄(영어 제목만). 런타임 LLM 이 아니라 Hermes 잡이 미리 KV "ko-lines" 에 넣은 것을 합친다. */
   titleKo?: string;
+  /** 예정된 공식 발표를 발표 시각에 집중 확인해 잡은 항목('속보(공식)'). KV "flash" 에서 온다. */
+  flash?: boolean;
 }
 
 export interface WireSourceStatus { id: string; name: string; ok: boolean; count: number }
@@ -168,7 +170,7 @@ export function normTitle(title: string): string {
   return title.toLowerCase().replace(/\[[^\]]{1,8}\]/g, "").replace(/\((?:종합|[1-9]보|상보|속보|일문일답)\d*\)/g, "").replace(/[^\p{L}\p{N}]+/gu, "");
 }
 
-function hashId(s: string): string {
+export function hashId(s: string): string {
   let h = 2166136261;
   for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
   return `w${(h >>> 0).toString(36)}`;
@@ -241,4 +243,50 @@ export function applyKoLines(wire: Wire, lines: unknown): Wire {
     return { ...i, titleKo: cleanTitle(ko).slice(0, 80) };
   });
   return hit ? { ...wire, items } : wire;
+}
+
+// 2026-11-21 발표 시각 집중 폴러(company-brain scripts/wire-flash.py)가 KV "flash" 에 넣는 모양.
+// 공식 일정(BLS·BEA·FOMC·한은 금통위·국가데이터처)에 맞춰 발표 1분 전~3분 뒤만 공식 페이지를 짧게 확인한 결과다.
+// 제목은 기관이 쓴 문장 그대로(컨센서스·해석 없음). 6시간 지난 것은 버린다.
+export const FLASH_MAX_AGE_MS = 6 * 3_600_000;
+
+export function applyFlash(wire: Wire, flash: unknown, now = new Date()): Wire {
+  const raw = (flash && typeof flash === "object" && Array.isArray((flash as { items?: unknown }).items)) ? (flash as { items: unknown[] }).items : null;
+  if (!raw?.length) return wire;
+  const out: WireItem[] = [];
+  for (const r of raw.slice(0, 20)) {
+    if (!r || typeof r !== "object") continue;
+    const f = r as Record<string, unknown>;
+    const title = typeof f.title === "string" ? cleanTitle(f.title) : "";
+    const url = typeof f.url === "string" ? f.url.trim() : "";
+    const publishedAt = typeof f.publishedAt === "string" ? toIso(f.publishedAt) : null;
+    if (!title || !/^https:\/\/[^\s<>"]+$/i.test(url) || !publishedAt) continue;
+    const age = now.getTime() - Date.parse(publishedAt);
+    if (age > FLASH_MAX_AGE_MS || age < -10 * 60_000) continue;
+    const region = f.region === "KR" || f.region === "US" || f.region === "GLOBAL" ? f.region : "GLOBAL";
+    const { tags } = classify(title, { primary: true });
+    const item: WireItem = {
+      id: hashId(url), title, url,
+      source: typeof f.source === "string" ? f.source.slice(0, 40) : "flash",
+      sourceName: typeof f.sourceName === "string" ? cleanTitle(f.sourceName).slice(0, 60) : "공식 발표",
+      publishedAt, region, tags, impact: "high", flash: true,
+    };
+    if (typeof f.titleKo === "string" && f.titleKo.trim() && !/[가-힣]/.test(title)) item.titleKo = cleanTitle(f.titleKo).slice(0, 80);
+    out.push(item);
+  }
+  if (!out.length) return wire;
+  // RSS 로 같은 발표가 들어오면 속보 쪽을 남긴다(같은 URL). BLS 는 속보가 보도자료 고정 주소(cpi.nr0.htm),
+  // RSS 가 보관 주소(archives/cpi_MMDDYYYY.htm)라 URL 이 달라서, 지표 하나짜리 피드(bls-*)는 6시간 안의 같은 출처를 같은 발표로 본다.
+  // 한국어 한 줄은 RSS 쪽에 이미 붙어 있으면 이어받는다.
+  const same = (f: WireItem, i: WireItem) => f.url === i.url ||
+    (f.source.startsWith("bls-") && f.source === i.source && !!i.publishedAt && Math.abs(Date.parse(i.publishedAt) - Date.parse(f.publishedAt!)) < FLASH_MAX_AGE_MS);
+  const rest = wire.items.filter((i) => {
+    const f = out.find((x) => same(x, i));
+    if (!f) return true;
+    if (!f.titleKo && i.titleKo) f.titleKo = i.titleKo;
+    return false;
+  });
+  const ts = (i: WireItem) => (i.publishedAt ? Math.min(Date.parse(i.publishedAt), now.getTime()) : -Infinity);
+  const items = [...out, ...rest].sort((a, b) => ts(b) - ts(a));
+  return { ...wire, items };
 }
