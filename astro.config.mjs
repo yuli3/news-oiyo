@@ -36,7 +36,7 @@ export default defineConfig({
       // 2026-10-12: /saved/ 는 브라우저 저장 목록(noindex)이라 사이트맵에서 뺀다.
       // 2026-11-09 세운 결정: 개별 기사(/item/)는 noindex + 사이트맵 제외. 색인은 날짜별 일일판·허브만.
       // 150개 표본에서 색인 1건(홈)뿐이고 /item/ 은 전부 발견됨–미색인이었다.
-      filter: (page) => !/\/page\/\d+\/?$/.test(page) && !/\/saved\/?$/.test(page)
+      filter: (page) => !/\/page\/\d+\/?$/.test(page) && !/\/saved\/?$/.test(page) && !/\/(account|community)(\/|$)/.test(new URL(page).pathname)
         && !/^\/item\//.test(new URL(page).pathname)
         && !/^\/subscribe\/.+/.test(new URL(page).pathname),
       serialize: (item) => {
