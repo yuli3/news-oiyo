@@ -155,8 +155,8 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
       if (!li.hidden) shown++;
     }
     if (empty) empty.hidden = shown > 0;
-    document.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
-    document.querySelectorAll<HTMLButtonElement>("[data-region]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.region === region)));
+    document.querySelectorAll<HTMLButtonElement>("button[data-filter]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
+    document.querySelectorAll<HTMLButtonElement>("button[data-region]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.region === region)));
   }
 
   async function refresh() {
@@ -192,10 +192,10 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
     if (!paused) timer = window.setInterval(() => { if (!document.hidden) void refresh(); }, INTERVAL);
   }
 
-  document.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => b.addEventListener("click", () => {
+  document.querySelectorAll<HTMLButtonElement>("button[data-filter]").forEach((b) => b.addEventListener("click", () => {
     filter = b.dataset.filter ?? "all"; store.set("wire-filter", filter); applyFilter();
   }));
-  document.querySelectorAll<HTMLButtonElement>("[data-region]").forEach((b) => b.addEventListener("click", () => {
+  document.querySelectorAll<HTMLButtonElement>("button[data-region]").forEach((b) => b.addEventListener("click", () => {
     region = b.dataset.region ?? "all"; store.set("wire-region", region); applyFilter();
   }));
   toggle?.addEventListener("click", () => {
