@@ -2,7 +2,6 @@
 // 2026-11-14 CHOSEUN: FinancialJuice·오선식 실시간 경제 헤드라인. 데이터는 /api/wire(엣지 60초 캐시).
 // 빌드 때는 최근 금융 데스크 항목으로 첫 화면을 채워 두고(자바스크립트가 없어도 읽힌다), 브라우저가 30초마다 갱신한다.
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import TopicNav from "../../components/TopicNav.astro";
 import data from "../../data/news.json";
 import { flattenFeed, type Day } from "../../lib/feed";
 import { storySections } from "../../../scripts/lib/story-scope.mjs";
@@ -32,7 +31,6 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
   <div class="wire-page">
   <h1>실시간 경제 헤드라인</h1>
   <p class="lede">국내외 경제지와 중앙은행·정부 발표의 헤드라인을 1분마다 모아요. 미국 물가·고용, FOMC, 한은 금통위처럼 발표 시각이 정해진 공식 지표는 발표 직후 기관 문장 그대로 '속보(공식)'로 먼저 보여 줘요. 제목을 누르면 발행처 원문으로 가요.</p>
-  <TopicNav />
 
   <div class="wire-bar" role="status" aria-live="polite">
     <span class="dot" id="wire-dot" aria-hidden="true"></span>
@@ -227,6 +225,8 @@ const filters: [string, string][] = [["all", "전체"], ["high", "주목"], ...O
   .wire-page .wire-btn,.wire-page .chip{min-height:44px;padding:0 14px;border:1px solid var(--border);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:14px;cursor:pointer}
   .wire-page .chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
   .wire-page .chip.small{min-height:36px;font-size:13px}
+  /* 2026-11-22: 모바일에서 주제 칩이 세 줄을 차지했다. 한 줄 가로 스크롤로 바꿔 첫 헤드라인을 올린다. */
+  @media(max-width:640px){.wire-page .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-14px;padding:2px 14px}.wire-page .chips::-webkit-scrollbar{display:none}.wire-page .chip{flex:none}.wire-page .lede{font-size:15px}}
   .wire-page .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--card)}
   .wire-page .chip:focus-visible,.wire-page .wire-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .wire-page .wire{list-style:none;margin:16px 0;padding:0;border-top:1px solid var(--border)}

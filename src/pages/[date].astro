@@ -23,6 +23,13 @@ export async function getStaticPaths() {
 }
 
 const { day, prev, next } = Astro.props as { day: Day; prev?: string; next?: string };
+// 2026-11-22: 제목은 읽기 쉬운 한국어 날짜로, ISO 날짜는 <time>에 남긴다.
+const koDate = (iso: string) => {
+  const [y, m, d] = iso.split("-").map(Number);
+  const wd = "일월화수목금토"[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+  return `${y}년 ${m}월 ${d}일 (${wd})`;
+};
+const shortKo = (iso: string) => { const [, m, d] = iso.split("-").map(Number); return `${m}월 ${d}일`; };
 const url = `https://news.oiyo.net/${day.date}/`;
 
 const title = `${day.date} 기술·경제 트렌드 요약 — OIYO News`;
@@ -61,7 +68,7 @@ const description = metaDescriptionFromSummary(
       .day-head h1 { font-size: 20px; margin: 0; }
       .summary {
         background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--accent);
-        border-radius: 10px; padding: 10px 14px; font-size: 13.5px; color: #4a4c42; margin-bottom: 12px;
+        border-radius: 10px; padding: 12px 16px; font-size: 15px; line-height: 1.7; color: #4a4c42; margin-bottom: 12px;
       }
       .news-list { list-style:none; margin: 0; padding: 0; border-top:1px solid var(--border); }
       .meta { font-size: 12px; color: var(--muted); margin-left: 6px; white-space: nowrap; }
@@ -69,7 +76,7 @@ const description = metaDescriptionFromSummary(
     </style>
       <section class="day">
         <div class="day-head">
-          <h1>{day.date}</h1>
+          <h1><time datetime={day.date}>{koDate(day.date)}</time></h1>
           <span class="meta">{news.length}건{repos.length > 0 && ` · 저장소 ${repos.length}개`}</span>
         </div>
         {summary && <p class="summary">{summary}</p>}
@@ -113,12 +120,14 @@ const description = metaDescriptionFromSummary(
       </section>
       <ShareButtons url={url} title={`${day.date} 기술·경제 뉴스 — OIYO News`} />
       <nav class="day-nav" aria-label="다른 날짜">
-        {prev ? <a href={`/${prev}/`} rel="prev">← {prev}</a> : <span />}
-        <a href="/archive/">날짜별 모아보기</a>
-        {next ? <a href={`/${next}/`} rel="next">{next} →</a> : <span />}
+        {prev ? <a href={`/${prev}/`} rel="prev" aria-label={`이전 날짜 ${prev}`}>← {shortKo(prev)}</a> : <span />}
+        <a href="/archive/">날짜별</a>
+        {next ? <a href={`/${next}/`} rel="next" aria-label={`다음 날짜 ${next}`}>{shortKo(next)} →</a> : <span />}
       </nav>
       <Comments thread={`day:${day.date}`} giscusTerm={day.date} />
       <style>
-        .day-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13.5px; }
+        .day-nav { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 14px; }
+        .day-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--ink); text-decoration: none; font-weight: 700; white-space: nowrap; }
+        .day-nav a:hover { border-color: var(--accent); color: var(--accent); }
       </style>
 </BaseLayout>
