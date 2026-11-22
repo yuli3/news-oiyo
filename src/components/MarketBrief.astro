@@ -60,7 +60,7 @@ const trendNote = maRows.length === 0 ? "" : aboveMa * 2 > maRows.length
       {trendNote && <p>{trendNote}</p>}
       <p class="note">종가·이동평균을 바탕으로 한 사실 요약이고, 개인화된 투자 권유가 아니에요. 원자료: 공개 시장 데이터 · 기준일 {briefDate}.</p>
     </section>
-    <div class="market">
+    <div class="market" tabindex="0" role="region" aria-label="주요 지수">
       {indices.map((r) => (
         <div class="idx">
           <div class="n">{r.name} <span style="font-weight:400">{r.date?.slice(5)}</span></div>
