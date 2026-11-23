@@ -21,6 +21,8 @@ export const NEWS_SOURCE_GROUPS: NewsSourceGroup[] = [
       { name: "OpenAI Newsroom", url: "https://openai.com/news/", note: "GPT·Sora 등 발표 원문. 블로그와 리서치 페이지까지 이어짐." },
       { name: "Anthropic News", url: "https://www.anthropic.com/news", note: "Claude 계열 발표와 안전 연구 공고." },
       { name: "Google DeepMind Blog", url: "https://deepmind.google/discover/blog/", note: "Gemini·Veo·알파폴드 등 구글 AI 발표." },
+      { name: "Google Developers Blog", url: "https://developers.googleblog.com/", note: "A2UI·ADK·Gemini API 등 구글 개발자 플랫폼 발표." },
+      { name: "NVIDIA Technical Blog", url: "https://developer.nvidia.com/blog/", note: "NIM·Auto Ontology·CUDA 라이브러리 등 엔비디아 개발자 발표." },
       { name: "Meta AI Blog", url: "https://ai.meta.com/blog/", note: "Llama 시리즈 오픈웨이트 발표의 공식 창구." },
       { name: "Hugging Face Blog", url: "https://huggingface.co/blog", note: "오픈소스 모델·라이브러리 동향의 허브. 커뮤니티 글도 강함." },
       { name: "Mistral AI News", url: "https://mistral.ai/news/", note: "유럽 오픈웨이트 진영의 발표." },

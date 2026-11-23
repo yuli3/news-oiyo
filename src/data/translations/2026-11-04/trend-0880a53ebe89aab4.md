@@ -2,45 +2,46 @@
 id: trend-0880a53ebe89aab4
 title: "NVIDIA Auto Ontology - 기업 데이터의 의미와 관계를 AI 에이전트에 연결하는 오픈소스 도구"
 sourceUrl: https://github.com/NVIDIA/auto-ontology
-summary: "NVIDIA Auto Ontology - 기업 데이터의 의미와 관계를 AI 에이전트에 연결하는 오픈소스 도구 — 1차 원문을 읽고 핵심만 한국어로 옮겼어요."
-translationStatus: "full"
-translatedBy: Grok Bot
-translatedAt: 2026-11-04
+summary: "엔비디아가 기업 데이터베이스의 메타데이터로 온톨로지(용어·매핑·관계·계산식·출처·검수)를 자동으로 만들어 MCP·CLI·API로 에이전트에 주는 오픈소스 라이브러리를 공개했어요. 답할 수 없는 질문은 먼저 걸러 내고, 답마다 SQL과 근거를 함께 돌려줘요."
+translationStatus: full
+translatedBy: Claude
+translatedAt: 2026-11-24
 ---
 
-1차 원문을 읽고 GeekNews식으로 한국어로 옮겼어요.
+GitHub 저장소 README 전체를 읽고 옮겼어요. (2026-11-24 다시 썼어요. 처음 실린 번역은 문장을 옮기지 않은 자리표시 문구였어요.)
 
-### 요지
+### 왜 필요한가
 
-**NVIDIA Auto Ontology - 기업 데이터의 의미와 관계를 AI 에이전트에 연결하는 오픈소스 도구** 글의 핵심만 원문 범위에서 한국어로 재구성했어요.
+에이전트는 문서를 찾고 DB에 질의할 수 있지만, 분석 업무에서는 **정확도가 관문**이에요. README는 "매출 수치를 더 빨리 답해도 숫자가 틀리면 가치가 없다"고 말해요. 정확히 답하려면 각 업무 개념이 무엇을 뜻하는지, 어디에 있고 어떻게 연결되며, 어떻게 계산하고, 어디서 왔으며, 믿어도 되는지를 알아야 해요. 이 맥락을 담는 것이 온톨로지, 즉 사람들이 묻는 개념과 그 뒤의 데이터를 잇는 공유·관리되는 지도예요.
 
-### 본문 번역
+NVIDIA Auto Ontology는 이 온톨로지를 기업 메타데이터에서 **자동으로** 만들고, 시스템마다 다른 정의를 맞추고, MCP·CLI·API로 어떤 에이전트 하네스에든 내주는 오픈 라이브러리예요. 고객이 이미 가진 시맨틱 모델을 보완하고, Apache Ossie로 이식성을 지켜요. README는 모호한 질문·지저분한 대형 DB에서 text-to-SQL 정확도를 재는 BIRD-Interact와 BEAVER 벤치마크에서 앞선다고 밝혀요.
 
-1. 원문: “GitHub - NVIDIA/auto-ontology: Auto Ontology is a Python framework for building semantic, graph-based reasoning layers over data. It enables deterministic query generation, better context retrieval, and more explainable AI for LLM and agent workflows. · GitHub”
-   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.
+### 할 수 있는 일
 
-2. 원문: “You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session.”
-   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.
+- **Discover**: 메타데이터로 온톨로지를 만들고, 기존 온톨로지·시맨틱 모델을 연결해요.
+- **Ground**: 지표·엔티티·관계에 믿을 수 있는 업무 의미를 주고 서로 다른 정의를 맞춰요.
+- **Validate**: 전문가가 승인하기 전에 실제 질문으로 초안을 시험하고, 생성된 쿼리를 카탈로그와 대조해요. 답마다 SQL과 단계를 돌려줘요.
+- **Expose / Learn**: MCP·CLI·API로 내주고, 승인된 수정과 사용 기록을 다시 온톨로지에 반영해요.
 
-3. 원문: “Folders and files Name Name Last commit message Last commit date .cursor/ rules”
-   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.
+README는 질문이 다양하고 모호할 때, 여러 소스의 정의가 겹치거나 충돌할 때, 모델의 맥락 예산이 문서 전체를 못 담을 때 온톨로지가 가장 쓸모 있다고 해요. 잘 정리된 소스 하나와 정해진 질문만 있다면 SQL을 바로 쓰는 편이 나을 수 있다고도 적어요.
 
-4. 원문: “Agents can retrieve documents and query databases, but reliability gates agentic analytics: a revenue metric answered faster is worth nothing if the number is wrong. Agents need a context layer that tells them where data lives, what it means, whether to use it”
-   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.
+### 온톨로지가 답하는 여섯 질문
 
-5. 원문: “Discover: generate enterprise ontologies from metadata; connect existing ontologies and semantic models; build AI-ready knowledge graphs.”
-   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.
+| 질문 | 요소 |
+|---|---|
+| 무슨 뜻인가 | 개념(용어·설명·동의어) |
+| 어디에 있나 | 매핑(테이블·컬럼) |
+| 무엇과 연결되나 | 관계(조인, 데이터로 확인된 추론 링크) |
+| 어떻게 계산하나 | 지표(검토된 SQL 속성) |
+| 어디서 왔나 | 계보(원천 테이블·컬럼, 답마다 SQL) |
+| 써도 되나 | 승인(전문가가 검수한 요소 표시) |
 
-6. 원문: “Ground: give agents trusted business meaning for metrics, entities, and relationships; reconcile inconsistent definitions across systems.”
-   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.
+### 동작 방식
 
-7. 원문: “Validate: check generated queries against certified definitions and lineage; return provenance with every answer.”
-   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.
+**생성**: 테이블·컬럼·키·뷰·쿼리 기록을 읽고(선택 시 개인정보 태깅), pgvector에 임베딩해요. 테이블별로 값을 SQL로 프로파일링하고 모델이 외래키 후보·설명·용어 이름을 제안해요. 테이블을 가로질러 용어 가족을 묶고, 데이터가 확인해 줄 때만 추론 링크를 남겨요. 결과는 Postgres에 저장되고 Ossie YAML로 가져오고 내보낼 수 있어요. 사람이 채팅이나 MCP의 `check_answerable`·`ask_question`으로 시험한 뒤 승인해요.
 
-8. 원문: “Expose: serve context to any agent harness through MCP, CLI, and API. Learn: fold certified corrections and usage back into the ontology, so shared context improves with every question.”
-   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.
+**답변**: 추론 모델이 도구를 하나씩 골라 반복해요. `retrieve`로 의미·이름 기준으로 개념과 조인 경로를 찾고, `run_sql`로 값을 보거나 초안을 시험하고(실행 전 카탈로그 대조), `submit`으로 최종 쿼리와 설명을 내요. 도구 호출 한도 안에 통과한 쿼리가 없으면 "이 데이터로는 답할 수 없다"고 보고해요. 예시에서 광고비 데이터가 없는 DB에 광고수익률(ROAS)을 물으면, 에이전트가 커버리지 0.5를 확인하고 매출만 줄지, 광고비가 있는 소스를 연결할지 되물어요.
 
-### 한계
+### 설치와 라이선스
 
-영어 원문을 한국어로 재구성할 때 숫자·고유명은 원문 표기를 유지했어요.
-소스 `geeknews`, 상태 `full`, Grok Bot / 2026-11-04.
+Docker Compose로 Postgres·웹앱·수집 워커·MCP 서버(읽기 전용, FastMCP)를 띄우고, 추론은 NVIDIA NIM(호스팅 API 키 또는 자체 NIM)을 써요. 예제 DB는 Microsoft의 Wide World Importers예요. 라이선스는 Apache 2.0이에요.

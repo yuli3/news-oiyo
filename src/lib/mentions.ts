@@ -35,6 +35,8 @@ const SHORT: Record<string, string> = {
   "openai-news": "OpenAI", openai: "OpenAI",
   "deepmind-blog": "DeepMind", deepmind: "DeepMind",
   "karpathy-blog": "Karpathy", karpathy: "Karpathy",
+  "google-developers": "Google Developers", googledev: "Google Developers",
+  "nvidia-developer": "NVIDIA Developer", nvidiadev: "NVIDIA Developer",
   "yahoo-finance": "Yahoo Finance", yahoofinance: "Yahoo Finance",
   techcrunch: "TechCrunch", tc: "TechCrunch",
   github: "GitHub", gh: "GitHub",

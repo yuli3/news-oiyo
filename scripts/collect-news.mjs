@@ -97,6 +97,8 @@ const DETAIL_SEED_SOURCES = new Set([
   "openai-news",
   "deepmind-blog",
   "karpathy-blog",
+  "google-developers",
+  "nvidia-developer",
   "aitimes",
   "zdnet-kr",
   "techcrunch",
@@ -145,7 +147,7 @@ function applyCuratorFallback(item, reason) {
  * 원문 페이지를 못 읽을 때(Cloudflare challenge 403) detailOrigin=primary, excerptSource=feed 로 쓴다.
  * challenge 를 우회하지 않는다 — 발행처가 공개한 피드만 쓴다.
  */
-const FIRST_PARTY_FEEDS = new Set(["openai-news", "deepmind-blog", "karpathy-blog", "aitimes", "zdnet-kr", "techcrunch", ...FINANCE_SOURCES]);
+const FIRST_PARTY_FEEDS = new Set(["openai-news", "deepmind-blog", "karpathy-blog", "google-developers", "nvidia-developer", "aitimes", "zdnet-kr", "techcrunch", ...FINANCE_SOURCES]);
 
 function applyFeedFallback(item, reason) {
   const text = cleanText(item.feedExcerpt ?? (FIRST_PARTY_FEEDS.has(item.src) ? item.summary : "") ?? "", 4_000);
@@ -463,6 +465,32 @@ async function rssFeed(src, url, { limit = 8, maxAgeHours = null } = {}) {
     .slice(0, limit);
 }
 
+// Atom 피드(<entry>) 판. NVIDIA Technical Blog 처럼 RSS 가 아닌 1차 발행처용(2026-11-24).
+async function atomFeed(src, url, { limit = 8, maxAgeHours = null } = {}) {
+  const xml = await get(url, { retries: 1 });
+  if (!xml) return [];
+  const now = Date.now();
+  return entries(xml, "entry").map((e) => {
+    const publishedAt = feedDate(pick(e, /<published>([\s\S]*?)<\/published>/) || pick(e, /<updated>([\s\S]*?)<\/updated>/));
+    const link = decodeEntities(pick(e, /<link[^>]*rel=['"]alternate['"][^>]*href=['"]([^'"]+)['"]/) || pick(e, /<link[^>]*href=['"]([^'"]+)['"]/)).replace(/^http:\/\//, "https://");
+    const summary = unwrap(pick(e, /<summary[^>]*>([\s\S]*?)<\/summary>/));
+    const content = unwrap(pick(e, /<content[^>]*>([\s\S]*?)<\/content>/));
+    return {
+      src,
+      title: cleanText(decodeEntities(unwrap(pick(e, /<title[^>]*>([\s\S]*?)<\/title>/))), 300),
+      url: link,
+      score: null,
+      comments: null,
+      publishedAt,
+      summary: clean(summary),
+      feedExcerpt: cleanText(content || summary, 4_000) || undefined,
+    };
+  })
+    .filter((x) => x.title && x.url)
+    .filter((x) => !maxAgeHours || !x.publishedAt || now - Date.parse(x.publishedAt) <= maxAgeHours * 3_600_000)
+    .slice(0, limit);
+}
+
 // 금융 데스크 피드(2026-10-16). 부동산·금·금융·투자·정책·주식·ETF·배당·크립토를 사람 손 없이 모은다.
 // 전부 발행처가 공개한 RSS 이고 Mac mini 에서 직접 받아지는 것만 둔다(검증 결과는 docs/finance-desk.md).
 // 이 소스의 항목은 FINANCE_SOURCES 라서 키워드가 없어도 금융 데스크에 실린다.
@@ -542,7 +570,7 @@ function select(items) {
 }
 
 const SRC_TAG = { "hacker-news": "HN", lobsters: "lobsters", geeknews: "GeekNews", reddit: "Reddit",
-  "openai-news": "OpenAI", "deepmind-blog": "DeepMind", "karpathy-blog": "Karpathy", github: "GitHub",
+  "openai-news": "OpenAI", "deepmind-blog": "DeepMind", "karpathy-blog": "Karpathy", "google-developers": "GoogleDev", "nvidia-developer": "NVIDIADev", github: "GitHub",
   aitimes: "AI타임스", "zdnet-kr": "ZDNet", techcrunch: "TechCrunch", "hankyung-finance": "Hankyung", "hankyung-realestate": "HankyungRE",
   "mk-economy": "MK", bok: "BOK", moef: "MOEF", "federal-reserve": "Fed", sec: "SEC", coindesk: "CoinDesk",
   "cnbc-finance": "CNBC" };
@@ -605,6 +633,11 @@ async function main() {
     ["openai-news", () => rssFeed("openai-news", "https://openai.com/news/rss.xml")],
     ["deepmind-blog", () => rssFeed("deepmind-blog", "https://deepmind.google/blog/rss.xml")],
     ["karpathy-blog", () => rssFeed("karpathy-blog", "https://karpathy.bearblog.dev/feed/?type=rss")],
+    // WHY 2026-11-24: 구글 A2UI 1.0(11-11)·엔비디아 Auto Ontology 같은 개발자 플랫폼 발표가 큐레이터(GeekNews)를
+    // 거쳐야만 들어오거나 아예 빠졌다. 두 회사의 공식 개발자 블로그를 직접 받는다. 일반 글이 많아 AI_SOURCES 에는
+    // 넣지 않고 제목·설명 AI 키워드 필터(story-scope)를 그대로 거친다.
+    ["google-developers", () => rssFeed("google-developers", "https://developers.googleblog.com/rss/", { limit: 6 })],
+    ["nvidia-developer", () => atomFeed("nvidia-developer", "https://developer.nvidia.com/blog/feed/", { limit: 6, maxAgeHours: 72 })],
     ["aitimes", () => rssFeed("aitimes", "https://cdn.aitimes.com/rss/gn_rss_allArticle.xml")],
     ["zdnet-kr", () => rssFeed("zdnet-kr", "https://feeds.feedburner.com/zdkorea")],
     // WHY 2026-11-21: 레지스트리에만 있고 수집기가 없어 08-29 뒤로 비었다. AI 분류 공식 RSS 로 다시 받는다.
