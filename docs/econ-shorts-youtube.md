@@ -46,3 +46,12 @@ https://support.google.com/youtube/contact/yt_api_form → "YouTube API Services
 
 ## 할당량
 기본 10,000 단위/일. 업로드 1회 1,600 + 채널 확인 1 → 하루 1개면 충분.
+
+## 나레이션 (2026-11-24)
+
+- 엔진: Supertonic 3 (PyPI `supertonic==1.3.1`, ONNX CPU, 가중치 OpenRAIL-M). Actions 에서 모델(약 385 MB)을 받아 캐시한다.
+- 읽을 문장은 `scripts/lib/econ-shorts.mjs` 의 `narration()` 이 화면 문구에서 만든다. 숫자·%·날짜·약어는 `speakKo()` 가 미리 한국어로 바꾼다(2.50% → "이 점 오 퍼센트", FOMC → "에프오엠씨").
+- 배경음은 0.32 배로 낮추고 음성을 얹는다. 나레이션이 실패하면 배경음만으로 영상을 만든다.
+- 나레이션이 들어간 영상은 유튜브 "합성 콘텐츠" 표시를 켜고 설명·끝 장면 음성에 AI 음성임을 밝힌다.
+- 끄기: 저장소 변수 `NARRATION=off`. 목소리 바꾸기: `NARRATION_VOICE` (M1~M5, F1~F5, 기본 F1).
+- 확인용 실행: Actions → Econ shorts → Run workflow → `dry_run` 켜기. 업로드·브랜치 게시 없이 영상·`voice.wav`·`reading-check.wav`(2.50%·FOMC·날짜 읽기)를 아티팩트로 남긴다.

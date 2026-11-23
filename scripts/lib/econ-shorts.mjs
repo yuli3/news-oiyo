@@ -160,3 +160,109 @@ export function timeline(n, { total = 58, intro = 3.5, outro = 5, fade = 0.5 } =
   for (const d of durs) { starts.push(Math.round(t * 100) / 100); t += d - fade; }
   return { durs, starts, length: Math.round((t + fade) * 100) / 100, fade };
 }
+
+// ── 나레이션 (2026-11-24) ────────────────────────────────────────────────
+// 음성 엔진(Supertonic 3)에 숫자·기호를 그대로 넘기면 "2.50%"를 "이 점 오공"처럼 읽을 수 있어,
+// 넘기기 전에 한국어 읽기로 바꿔 둔다. 화면 글자는 그대로 두고 소리만 바꾼다.
+
+const SINO = ["영", "일", "이", "삼", "사", "오", "육", "칠", "팔", "구"];
+const NATIVE = ["", "한", "두", "세", "네", "다섯", "여섯", "일곱", "여덟", "아홉"];
+const NATIVE_TENS = ["", "열", "스물", "서른", "마흔", "쉰", "예순", "일흔", "여든", "아흔"];
+
+/** 정수를 한자어 수로: 1234 → 천이백삼십사, 25000 → 이만 오천. */
+export function sino(n) {
+  n = Math.floor(Math.abs(Number(n)));
+  if (n === 0) return "영";
+  const small = (x) => {
+    let s = "";
+    for (const [v, u] of [[1000, "천"], [100, "백"], [10, "십"]]) {
+      const d = Math.floor(x / v) % 10;
+      if (d) s += (d === 1 ? "" : SINO[d]) + u;
+    }
+    const one = x % 10;
+    return s + (one ? SINO[one] : "");
+  };
+  const parts = [];
+  for (const [v, u] of [[1e12, "조"], [1e8, "억"], [1e4, "만"], [1, ""]]) {
+    const chunk = Math.floor(n / v) % 10000;
+    if (!chunk) continue;
+    parts.push((u === "만" && chunk === 1 ? "" : small(chunk)) + u);
+  }
+  return parts.join(" ");
+}
+
+/** 1~99 고유어 수(관형형): 3 → 세, 12 → 열두, 20 → 스무. */
+export function native(n) {
+  n = Math.floor(n);
+  if (n < 1 || n > 99) return sino(n);
+  if (n === 20) return "스무";
+  return NATIVE_TENS[Math.floor(n / 10)] + NATIVE[n % 10];
+}
+
+const DIGITS = (s) => [...s].map((d) => SINO[Number(d)]).join("");
+/** "2.50" → "이 점 오", "0.25" → "영 점 이오". 소수점 아래 끝 0 은 읽지 않는다(뉴스 낭독 관례). */
+function decimal(intPart, frac) {
+  const f = (frac || "").replace(/0+$/, "");
+  return sino(Number(intPart)) + (f ? ` 점 ${DIGITS(f)}` : "");
+}
+
+const LETTERS = { A: "에이", B: "비", C: "씨", D: "디", E: "이", F: "에프", G: "지", H: "에이치", I: "아이", J: "제이", K: "케이", L: "엘", M: "엠", N: "엔", O: "오", P: "피", Q: "큐", R: "알", S: "에스", T: "티", U: "유", V: "브이", W: "더블유", X: "엑스", Y: "와이", Z: "지" };
+// 글자로 읽지 않고 단어처럼 읽는 약어.
+const WORDS = { JOLTS: "졸츠", OPEC: "오펙", NASA: "나사", ASEAN: "아세안", BoE: "비오이", BoJ: "비오제이", BoK: "비오케이" };
+const NATIVE_COUNTERS = "개|명|곳|가지|시간|살|척|대";
+const MONTHS = { 6: "유월", 10: "시월" };
+
+/** 화면 문구를 소리 내어 읽을 문장으로 바꾼다. */
+export function speakKo(text) {
+  let s = String(text)
+    .replace(/[‘’“”"「」『』]/g, "")
+    .replace(/…/g, ". ")
+    .replace(/·/g, ", ")
+    .replace(/(\d),(?=\d{3}\b)/g, "$1");
+  for (const [w, r] of Object.entries(WORDS)) s = s.replace(new RegExp(`\\b${w}\\b`, "g"), r);
+  s = s
+    // 범위: 2~3% → 이에서 삼 퍼센트
+    .replace(/(\d+(?:\.\d+)?)\s*[~–-]\s*(?=\d)/g, "$1에서 ")
+    .replace(/(\d+)\.(\d+)\s*%p/g, (_, a, b) => `${decimal(a, b)} 퍼센트포인트`)
+    .replace(/(\d+)\s*%p/g, (_, a) => `${sino(a)} 퍼센트포인트`)
+    .replace(/(\d+)\.(\d+)\s*%/g, (_, a, b) => `${decimal(a, b)} 퍼센트`)
+    .replace(/(\d+)\s*%/g, (_, a) => `${sino(a)} 퍼센트`)
+    .replace(/(\d+)\s*bp\b/gi, (_, a) => `${sino(a)} 베이시스포인트`)
+    .replace(/\$\s*(\d+)(?:\.(\d+))?/g, (_, a, b) => `${decimal(a, b)} 달러`)
+    .replace(/(\d{1,2}):(\d{2})/g, (_, h, m) => `${Number(h) <= 12 && Number(h) > 0 ? native(Number(h)) : sino(h)} 시${Number(m) ? ` ${sino(m)} 분` : ""}`)
+    .replace(/(\d{4})\s*년/g, (_, y) => `${sino(y)}년`)
+    .replace(/(\d{1,2})\s*월/g, (_, m) => MONTHS[Number(m)] || `${sino(m)}월`)
+    .replace(new RegExp(`(\\d+)\\s*(${NATIVE_COUNTERS})`, "g"), (_, n, c) => `${native(Number(n))} ${c}`)
+    .replace(/(\d+)\.(\d+)/g, (_, a, b) => decimal(a, b))
+    .replace(/\d+/g, (n) => sino(n))
+    .replace(/\b[A-Z]{2,6}s?\b/g, (w) => [...w.replace(/s$/, "")].map((c) => LETTERS[c] || c).join(""))
+    .replace(/[#*_()[\]{}<>|/\\]/g, " ")
+    .replace(/\s+/g, " ")
+    .replace(/\s+([.,?!])/g, "$1")
+    .trim();
+  return s;
+}
+
+const hangulShare = (s) => (s.match(/[가-힣]/g) || []).length / Math.max(1, s.replace(/\s/g, "").length);
+
+/**
+ * 장면마다 읽을 문장과 시작 시각·최대 길이. 화면과 같은 사실만 읽는다.
+ * 영어 원제만 있는 발표는 제목을 읽지 않고 기관명만 말한다.
+ */
+export function narration(cards, now = new Date(), tl = timeline(cards.length)) {
+  const lines = [
+    `경제 공식 발표 ${cards.length}건입니다.`,
+    ...cards.map((c) => {
+      const org = c.org.split(" · ")[0].replace(/\s*\([^)]*\)/g, "");
+      return hangulShare(c.headline) >= 0.3 ? `${org}. ${c.headline}.` : `${org}의 새 발표입니다.`;
+    }),
+    "원문은 설명란 링크에서 확인하세요. AI 음성입니다.",
+  ];
+  const lead = 0.35;
+  return lines.map((text, i) => ({
+    text: speakKo(text),
+    shown: text,
+    start: Math.round((tl.starts[i] + lead) * 100) / 100,
+    max: Math.round((tl.durs[i] - lead - tl.fade - 0.25) * 100) / 100,
+  }));
+}
