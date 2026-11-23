@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { WIRE_SOURCES } from "../server/econ-wire.ts";
-import { buildMeta, card, isOfficial, koHint, OFFICIAL, selectItems, timeline } from "../scripts/lib/econ-shorts.mjs";
+import { buildMeta, card, isOfficial, koHint, narration, native, OFFICIAL, selectItems, sino, speakKo, timeline } from "../scripts/lib/econ-shorts.mjs";
 
 const wire = JSON.parse(readFileSync(new URL("./fixtures/wire-econ-shorts.json", import.meta.url), "utf8"));
 const now = new Date("2026-11-23T08:00:00+09:00");
@@ -73,4 +73,40 @@ test("videoResource: 기본 비공개, 아동용 아님, 제목 100자", async (
   assert.equal(r.snippet.title.length, 100);
   assert.equal(videoResource(meta, "public").status.privacyStatus, "public");
   assert.equal(videoResource(meta, "everyone").status.privacyStatus, "private");
+});
+
+test("speakKo: 퍼센트·소수·날짜·약어를 한국어 읽기로 바꾼다", () => {
+  assert.equal(speakKo("기준금리 2.50%로 동결"), "기준금리 이 점 오 퍼센트로 동결");
+  assert.equal(speakKo("0.25%p 인하"), "영 점 이오 퍼센트포인트 인하");
+  assert.equal(speakKo("FOMC 회의는 12월 16일"), "에프오엠씨 회의는 십이월 십육일");
+  assert.equal(speakKo("6월 CPI 3.0%"), "유월 씨피아이 삼 퍼센트");
+  assert.equal(speakKo("1,234억 원, 3개 기관"), "천이백삼십사억 원, 세 개 기관");
+  assert.equal(speakKo("08:30 발표"), "여덟 시 삼십 분 발표");
+  assert.equal(speakKo("BoE·ECB"), "비오이, 이씨비");
+  assert.equal(sino(25000), "이만 오천");
+  assert.equal(sino(10000), "만");
+  assert.equal(native(12), "열두");
+  assert.ok(!/\d|%/.test(speakKo("2026년 11월 24일 GDP 1.4% 성장, 25bp")));
+});
+
+test("narration: 장면마다 한 문장, 장면 안에서 시작·끝, 마지막에 AI 음성 고지", () => {
+  const cards = selectItems(wire, { now }).map(card);
+  const tl = timeline(cards.length);
+  const lines = narration(cards, now, tl);
+  assert.equal(lines.length, cards.length + 2);
+  lines.forEach((l, i) => {
+    assert.ok(l.start >= tl.starts[i] && l.start + l.max <= tl.starts[i] + tl.durs[i]);
+    assert.ok(l.max > 1.5);
+    assert.ok(!/\d/.test(l.text), l.text);
+  });
+  assert.match(lines[0].text, /경제 공식 발표/);
+  assert.match(lines.at(-1)!.shown, /AI 음성/);
+  assert.match(lines.at(-1)!.text, /에이아이 음성/);
+});
+
+test("videoResource: 나레이션이 있으면 합성 콘텐츠로 표시", async () => {
+  const { videoResource } = await import("../scripts/upload-econ-short.mjs");
+  const meta = buildMeta(selectItems(wire, { now }).map(card), now);
+  assert.equal(videoResource(meta).status.containsSyntheticMedia, false);
+  assert.equal(videoResource({ ...meta, youtube: { ...meta.youtube, containsSyntheticMedia: true } }).status.containsSyntheticMedia, true);
 });

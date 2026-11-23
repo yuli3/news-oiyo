@@ -11,7 +11,7 @@ import { appendFileSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import { createRequire } from "node:module";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildMeta, card, kst, selectItems, timeline } from "./lib/econ-shorts.mjs";
+import { buildMeta, card, kst, narration, selectItems, timeline } from "./lib/econ-shorts.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (name) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : undefined; };
@@ -131,6 +131,26 @@ async function main() {
   const seed = Number(meta.date.replaceAll("-", ""));
   execFileSync("python3", [join(root, "scripts/econ-shorts/music.py"), wav, String(tl.length), tl.starts.slice(1).map(String).join(","), String(seed)]);
 
+  // 나레이션(Supertonic 3). NARRATION=off 이면 끈다. 실패해도 배경음만으로 영상은 만든다.
+  let voice = null;
+  const lines = narration(cards, now, tl);
+  if ((process.env.NARRATION || "supertonic") !== "off") {
+    const segFile = join(tmp, "narration.json");
+    const vwav = join(tmp, "voice.wav");
+    writeFileSync(segFile, JSON.stringify(lines, null, 2));
+    try {
+      const rep = execFileSync("python3", [join(root, "scripts/econ-shorts/narrate.py"), segFile, vwav, String(tl.length), process.env.NARRATION_VOICE || "F1"], { encoding: "utf8", stdio: ["ignore", "pipe", "inherit"] });
+      voice = { wav: vwav, ...JSON.parse(rep.trim().split("\n").pop()) };
+      console.log(`나레이션: ${voice.voice}, 장면 ${voice.segments.length}개`);
+    } catch (e) {
+      console.warn("나레이션을 만들지 못해 배경음만 씁니다:", e.message?.split("\n")[0]);
+    }
+  }
+  if (voice) {
+    meta.youtube.containsSyntheticMedia = true;
+    meta.youtube.description = meta.youtube.description.replace("\n\n#", "\n\n나레이션: AI 음성(Supertonic)\n\n#");
+  }
+
   const fps = 30;
   const zoom = (i, d) => `[${i}:v]scale=${Math.round(W * 1.5)}:${Math.round(H * 1.5)},zoompan=z='min(zoom+0.0004,1.04)':d=${Math.round(d * fps)}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=${W}x${H}:fps=${fps},setsar=1,format=yuv420p[v${i}]`;
   const parts = tl.durs.map((d, i) => zoom(i, d));
@@ -143,10 +163,14 @@ async function main() {
   const mp4 = join(outDir, `${meta.date}.mp4`);
   execFileSync("ffmpeg", ["-v", "error", "-y",
     ...pngs.flatMap((p, i) => ["-loop", "1", "-t", String(tl.durs[i]), "-i", p]),
-    "-i", wav, "-filter_complex", parts.join(";"), "-map", "[v]", "-map", `${pngs.length}:a`,
+    "-i", wav, ...(voice ? ["-i", voice.wav] : []),
+    "-filter_complex", [...parts, voice
+      ? `[${pngs.length}:a]volume=0.32[m];[${pngs.length + 1}:a]aresample=44100,volume=1.0[n];[m][n]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.95[a]`
+      : `[${pngs.length}:a]anull[a]`].join(";"),
+    "-map", "[v]", "-map", "[a]",
     "-c:v", "libx264", "-preset", "medium", "-crf", "27", "-r", String(fps), "-pix_fmt", "yuv420p",
     "-c:a", "aac", "-b:a", "96k", "-t", String(tl.length), "-movflags", "+faststart", mp4]);
-  writeFileSync(join(outDir, `${meta.date}.json`), JSON.stringify({ ...meta, length: tl.length, video: `${meta.date}.mp4`, items: cards }, null, 2) + "\n");
+  writeFileSync(join(outDir, `${meta.date}.json`), JSON.stringify({ ...meta, length: tl.length, video: `${meta.date}.mp4`, items: cards, narration: voice ? { engine: "supertonic-3", voice: voice.voice, lines: lines.map((l, i) => ({ ...l, ...voice.segments[i] })) } : null }, null, 2) + "\n");
   console.log(mp4);
   setOut("date", meta.date);
 }

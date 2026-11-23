@@ -24,7 +24,7 @@ export function videoResource(meta, privacy = "private") {
     status: {
       privacyStatus: ["private", "unlisted", "public"].includes(privacy) ? privacy : "private",
       selfDeclaredMadeForKids: false,
-      containsSyntheticMedia: false,
+      containsSyntheticMedia: meta.youtube.containsSyntheticMedia === true,
       embeddable: true,
     },
   };

@@ -7,11 +7,18 @@ name: Econ shorts
 # 2026-11-23: Buffer 대신 유튜브 「OIYO 경제 속보」 채널에 직접 올린다(scripts/upload-econ-short.mjs).
 # 비밀값 YT_CLIENT_ID·YT_CLIENT_SECRET·YT_REFRESH_TOKEN 이 없으면 업로드는 건너뛴다. 공개 범위는 변수 YT_PRIVACY(기본 private),
 # 채널 확인은 변수 YT_CHANNEL_ID. 설정 안내: docs/econ-shorts-youtube.md
+# 2026-11-24: Supertonic 3(ONNX, CPU) 한국어 나레이션을 붙인다(scripts/econ-shorts/narrate.py). 끄려면 변수 NARRATION=off,
+# 목소리는 변수 NARRATION_VOICE(기본 F1). 수동 실행에서 dry_run 을 켜면 업로드·브랜치 게시 없이 영상·음성을 아티팩트로만 남긴다.
 
 on:
   schedule:
     - cron: "20 23 * * *" # 08:20 KST
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "업로드·게시 없이 아티팩트만 (나레이션 확인용)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -33,16 +40,39 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq fonts-noto-cjk ffmpeg >/dev/null
-          python3 -m pip install --quiet numpy
+          python3 -m pip install --quiet numpy supertonic==1.3.1
           npm i --no-save --prefix "$RUNNER_TEMP/pw" playwright@1.63.0 >/dev/null
           "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium >/dev/null
+      - name: Cache Supertonic model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/supertonic3
+          key: supertonic3-1.3.1
       - name: Render
         id: render
         env:
           NODE_PATH: ${{ runner.temp }}/pw/node_modules
+          NARRATION: ${{ vars.NARRATION }}
+          NARRATION_VOICE: ${{ vars.NARRATION_VOICE }}
         run: node scripts/render-econ-short.mjs --out "$RUNNER_TEMP/out"
+      - name: Dry run artifacts (video, voice, reading check)
+        if: ${{ inputs.dry_run && steps.render.outputs.skip != 'true' }}
+        env:
+          DATE: ${{ steps.render.outputs.date }}
+        run: |
+          set -euo pipefail
+          cp .tmp/econ-shorts/"$DATE"/voice.wav "$RUNNER_TEMP/out/" 2>/dev/null || true
+          node -e 'import("./scripts/lib/econ-shorts.mjs").then(m=>{const t=["한국은행이 기준금리를 2.50%로 동결했습니다.","FOMC 회의는 12월 16일, 소비자물가는 2.7% 올랐습니다."];console.log(JSON.stringify(t.map((x,i)=>({text:m.speakKo(x),start:0.3+i*5,max:4.6}))))})' > "$RUNNER_TEMP/check.json"
+          cat "$RUNNER_TEMP/check.json"
+          python3 scripts/econ-shorts/narrate.py "$RUNNER_TEMP/check.json" "$RUNNER_TEMP/out/reading-check.wav" 10
+      - name: Upload dry run artifacts
+        if: ${{ inputs.dry_run && steps.render.outputs.skip != 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: econ-shorts-dry-run
+          path: ${{ runner.temp }}/out/
       - name: Load econ-shorts branch (last 7 days)
-        if: steps.render.outputs.skip != 'true'
+        if: ${{ !inputs.dry_run && steps.render.outputs.skip != 'true' }}
         run: |
           mkdir -p "$RUNNER_TEMP/keep"
           if git fetch --depth=1 origin econ-shorts 2>/dev/null; then
@@ -50,7 +80,7 @@ jobs:
           fi
       - name: Upload to YouTube
         id: upload
-        if: steps.render.outputs.skip != 'true'
+        if: ${{ !inputs.dry_run && steps.render.outputs.skip != 'true' }}
         env:
           DATE: ${{ steps.render.outputs.date }}
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
@@ -61,7 +91,7 @@ jobs:
         run: node scripts/upload-econ-short.mjs --json "$RUNNER_TEMP/out/$DATE.json" --video "$RUNNER_TEMP/out/$DATE.mp4" --prev "$RUNNER_TEMP/keep/$DATE.json"
       # 업로드가 실패해도 영상은 브랜치에 남긴다(작업은 빨간색으로 끝나 실패가 보인다).
       - name: Publish to econ-shorts branch (last 7 days)
-        if: ${{ !cancelled() && steps.render.outcome == 'success' && steps.render.outputs.skip != 'true' }}
+        if: ${{ !cancelled() && !inputs.dry_run && steps.render.outcome == 'success' && steps.render.outputs.skip != 'true' }}
         env:
           DATE: ${{ steps.render.outputs.date }}
         run: |
