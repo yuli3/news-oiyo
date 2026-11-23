@@ -16,7 +16,7 @@ const clip = (s: string) => (s.length > 90 ? `${s.slice(0, 90)}…` : s);
 ---
 <BaseLayout title="날짜별 모아보기 — OIYO News" description={`${days.at(-1)?.date}부터 ${days[0]?.date}까지 하루 단위로 정리한 기술·경제 트렌드 요약 ${days.length}편.`} canonical="https://news.oiyo.net/archive/" crumbs={[{ label: "날짜별" }]}>
   <h1>날짜별 모아보기</h1>
-  <p class="lede">하루치 요약과 링크를 날짜마다 한 페이지로 남겨 두었어요. 최근 날짜부터 보여요.</p>
+  <p class="lede">하루치 요약과 링크를 날짜마다 한 페이지로 남겨 두었어요. 최근 날짜부터 보여요. 한 해를 한눈에 보려면 <a href="/review/2026/">2026 결산</a>을 보세요.</p>
   {/* 2026-11-22: 모든 달을 펼치면 모바일에서 12,000px였다. 최근 달만 펼치고 이전 달은 접는다(링크는 HTML에 그대로 남는다). */}
   <nav class="month-jump" aria-label="달 바로가기">{[...byMonth.keys()].map((m) => <a href={`#m-${m}`}>{Number(m.slice(5))}월</a>)}</nav>
   {[...byMonth].map(([month, list], mi) => (
