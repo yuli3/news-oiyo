@@ -27,7 +27,7 @@ const DOW = ["일", "월", "화", "수", "목", "금", "토"];
 const hasHangul = (s = "") => /[가-힣]/.test(s);
 
 // 공식 피드라도 시장과 상관없는 행정 공지(은행 합병 승인·제재 종료·인사·회의록 일정)는 쇼츠에서 뺀다.
-export const ROUTINE = /approval of (?:the )?(?:application|proposal)|enforcement action|termination of (?:an? )?enforcement|civil money penalty|announces? (?:the )?(?:appointment|retirement|departure)|discount rate meetings?|\b(?:charges|settles|obtains (?:final )?judgment)\b|인사|채용|입찰|공모전|행사 안내/i;
+export const ROUTINE = /college fed challenge|announces? (?:the )?winners|call for (?:papers|applications)|conference|symposium agenda|job openings at|approval of (?:the )?(?:application|proposal)|enforcement action|termination of (?:an? )?enforcement|civil money penalty|announces? (?:the )?(?:appointment|retirement|departure)|discount rate meetings?|\b(?:charges|settles|obtains (?:final )?judgment)\b|인사|채용|입찰|공모전|행사 안내/i;
 
 export function isOfficial(item) {
   return Boolean(item && (item.flash || Object.hasOwn(OFFICIAL, item.source)) && !ROUTINE.test(item.title || ""));
@@ -49,12 +49,41 @@ export function kst(iso) {
   };
 }
 
+// 영어 제목만 있는 1차 기관 발표 중 정형화된 것만 한국어 한 줄로 바꾼다(숫자·해석은 넣지 않는다).
+// /api/wire 의 titleKo(Hermes)가 있으면 그것이 먼저다. 연설은 "이름: 제목" 꼴이라 연사만 옮긴다.
+const KO_HINTS = [
+  [/^consumer price index/i, "미국 소비자물가지수(CPI) 발표"],
+  [/^employment situation/i, "미국 고용보고서 발표"],
+  [/^producer price index/i, "미국 생산자물가지수(PPI) 발표"],
+  [/^job openings and labor turnover/i, "미국 구인·이직 보고서(JOLTS) 발표"],
+  [/^real (?:average|earnings)/i, "미국 실질임금 발표"],
+  [/minutes of the federal open market committee/i, "미국 FOMC 의사록 공개"],
+  [/federal reserve issues fomc statement|^fomc statement/i, "미국 FOMC 성명 발표"],
+  [/^gdp|gross domestic product/i, "미국 국내총생산(GDP) 발표"],
+  [/^personal income and outlays/i, "미국 개인소득·지출(PCE 물가) 발표"],
+  [/^u\.?s\.? international trade in goods and services/i, "미국 무역수지 발표"],
+  [/^short-term energy outlook/i, "미국 단기 에너지 전망(STEO) 발표"],
+  [/^monetary policy decisions?$/i, "ECB 통화정책 결정 발표"],
+  [/^bank rate maintained|^bank rate (?:increased|reduced)/i, "영란은행 기준금리 결정"],
+  [/^statement on monetary policy/i, "일본은행 통화정책 성명"],
+];
+
+export function koHint(item) {
+  const t = (item.title || "").trim();
+  for (const [re, ko] of KO_HINTS) if (re.test(t)) return ko;
+  const sp = t.match(/^([A-Z][A-Za-z.' -]{2,40}):\s+(.{3,})$/);
+  if (sp && /speech|fed|ecb|boj|boe/.test(item.source + (item.sourceName || "").toLowerCase())) return `${sp[1]} 연설`;
+  return null;
+}
+
+const korean = (i) => hasHangul(i.title) || Boolean(i.titleKo) || Boolean(koHint(i));
+
 function score(item, now) {
   const age = (now - new Date(item.publishedAt).getTime()) / 3600_000;
   let s = 0;
   if (item.flash) s += 3;
   if (item.impact === "high") s += 2;
-  if (hasHangul(item.title) || item.titleKo) s += 1;
+  if (korean(item)) s += 1.5;
   if (item.region === "KR") s += 0.5;
   return s - age / 24;
 }
@@ -83,6 +112,9 @@ export function selectItems(wire, { now = new Date(), max = 5, min = 3 } = {}) {
       out.push(i);
       if (out.length >= max) break;
     }
+    // 한국어로 보여 줄 수 있는 발표가 min 건 이상이면 영어 원제뿐인 발표는 뺀다.
+    const ko = out.filter(korean);
+    if (ko.length >= min) return ko;
     if (out.length >= min) return out;
   }
   return [];
@@ -90,7 +122,7 @@ export function selectItems(wire, { now = new Date(), max = 5, min = 3 } = {}) {
 
 /** 장면 하나에 들어갈 문구. 영어 제목은 한국어 한 줄(titleKo)이 있으면 그걸 크게, 원제는 작게. */
 export function card(item) {
-  const ko = item.titleKo && !hasHangul(item.title) ? item.titleKo : null;
+  const ko = hasHangul(item.title) ? null : item.titleKo || koHint(item);
   return {
     org: orgName(item),
     when: kst(item.publishedAt).short,

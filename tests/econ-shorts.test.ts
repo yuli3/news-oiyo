@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 import { WIRE_SOURCES } from "../server/econ-wire.ts";
-import { buildMeta, card, isOfficial, OFFICIAL, selectItems, timeline } from "../scripts/lib/econ-shorts.mjs";
+import { buildMeta, card, isOfficial, koHint, OFFICIAL, selectItems, timeline } from "../scripts/lib/econ-shorts.mjs";
 
 const wire = JSON.parse(readFileSync(new URL("./fixtures/wire-econ-shorts.json", import.meta.url), "utf8"));
 const now = new Date("2026-11-23T08:00:00+09:00");
@@ -47,4 +47,19 @@ test("timeline: 60초 안", () => {
     assert.equal(t.durs.length, n + 2);
     assert.ok(t.length <= 59 && t.length >= 40, `${n}: ${t.length}`);
   }
+});
+
+test("koHint: 정형 발표·연설만 한국어로, 잡다한 공지는 빠진다", () => {
+  assert.equal(koHint({ title: "Employment Situation Summary", source: "bls-empsit" }), "미국 고용보고서 발표");
+  assert.equal(koHint({ title: "Christine Lagarde: Acting in time", source: "ecb", sourceName: "ECB 유럽중앙은행" }), "Christine Lagarde 연설");
+  assert.equal(koHint({ title: "Activities of U.S. Multinational Enterprises, 2024", source: "bea" }), null);
+  assert.equal(isOfficial({ title: "Federal Reserve announces College Fed Challenge winners", source: "federal-reserve" }), false);
+  const c = card({ id: "x", title: "Christine Lagarde: Acting in time", source: "ecb", sourceName: "ECB", url: "https://www.ecb.europa.eu/x", publishedAt: "2026-11-20T08:30:00Z" });
+  assert.equal(c.headline, "Christine Lagarde 연설");
+  assert.equal(c.original, "Christine Lagarde: Acting in time");
+});
+
+test("selectItems: 한국어 가능한 발표가 3건 이상이면 영어 원제뿐인 발표는 뺀다", () => {
+  const items = selectItems(wire, { now });
+  assert.ok(!items.some((i: { id: string }) => i.id === "a5"), "ECB 영문 원제뿐인 발표");
 });

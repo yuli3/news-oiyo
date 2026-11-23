@@ -20,12 +20,28 @@ const WIRE_URL = "https://news.oiyo.net/api/wire?limit=120";
 
 const esc = (s = "") => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
+const UA = "Mozilla/5.0 (compatible; OIYO-News-Wire/1.0; +https://news.oiyo.net/finance/live/)";
+
+// 1) news.oiyo.net/api/wire (한국어 한 줄·속보(공식) 포함). 2) 막히면(GitHub Actions 는 Cloudflare 가 403, 2026-11-23 실측)
+// 같은 순수 로직(server/econ-wire.ts)으로 1차 기관 RSS 를 직접 읽는다.
 async function loadWire() {
   const file = arg("--wire");
   if (file) return JSON.parse(readFileSync(file, "utf8"));
-  const res = await fetch(WIRE_URL, { headers: { "User-Agent": "OIYO-econ-shorts/1.0 (+https://news.oiyo.net/finance/live/)" } });
-  if (!res.ok) throw new Error(`wire ${res.status}`);
-  return res.json();
+  try {
+    const res = await fetch(WIRE_URL, { headers: { "User-Agent": UA } });
+    if (res.ok) return await res.json();
+    console.warn(`/api/wire ${res.status} → 기관 RSS 를 직접 읽습니다`);
+  } catch (e) {
+    console.warn(`/api/wire 실패(${e.message}) → 기관 RSS 를 직접 읽습니다`);
+  }
+  const { collectWire, WIRE_SOURCES } = await import("../server/econ-wire.ts");
+  const fetchFeed = async (url) => {
+    const res = await fetch(url, { headers: { "User-Agent": UA, Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml;q=0.9, */*;q=0.5" }, signal: AbortSignal.timeout(15000) });
+    return res.ok ? res.text() : null;
+  };
+  const wire = await collectWire(fetchFeed, WIRE_SOURCES.filter((s) => s.primary));
+  console.log("기관 RSS:", wire.sources.map((s) => `${s.id}:${s.ok ? s.count : "실패"}`).join(" "));
+  return wire;
 }
 
 const css = `*{margin:0;box-sizing:border-box;word-break:keep-all;overflow-wrap:anywhere}
