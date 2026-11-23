@@ -70,6 +70,24 @@
       ]
     },
     {
+      "id": "google-developers",
+      "name": "Google Developers Blog",
+      "homepage": "https://developers.googleblog.com",
+      "type": "primary",
+      "aliases": [
+        "GoogleDev"
+      ]
+    },
+    {
+      "id": "nvidia-developer",
+      "name": "NVIDIA Technical Blog",
+      "homepage": "https://developer.nvidia.com/blog",
+      "type": "primary",
+      "aliases": [
+        "NVIDIADev"
+      ]
+    },
+    {
       "id": "yahoo-finance",
       "name": "Yahoo Finance",
       "homepage": "https://finance.yahoo.com",

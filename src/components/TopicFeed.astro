@@ -5,7 +5,7 @@ interface Props { items: FeedItem[]; label: string; filters?: boolean; desk?: "a
 const { items, label, filters = false, desk = "ai" } = Astro.props;
 // 2026-11-22: 금융 목록에도 HN·Reddit 칩이 나왔다. 분야별 칩을 쓰고, 현재 목록에 하나도 없는 칩은 숨긴다.
 const SOURCES: Record<string, string[]> = {
-  hn:["hacker-news","hn"],geeknews:["geeknews"],reddit:["reddit"],official:["openai-news","openai","deepmind-blog","deepmind","karpathy-blog","karpathy"],kr:["aitimes","zdnet-kr","ai타임스","지디넷"],
+  hn:["hacker-news","hn"],geeknews:["geeknews"],reddit:["reddit"],official:["openai-news","openai","deepmind-blog","deepmind","karpathy-blog","karpathy","google-developers","googledev","nvidia-developer","nvidiadev"],kr:["aitimes","zdnet-kr","ai타임스","지디넷"],
   krpress:["hankyung-finance","mk-economy","hankyung-realestate","aitimes","zdnet-kr"],global:["cnbc-finance","yahoo-finance","techcrunch","coindesk"],policy:["federal-reserve","sec","moef","bok"],realestate:["hankyung-realestate"],crypto:["coindesk"],
 };
 const CHIPS: Record<string, [string, string][]> = {

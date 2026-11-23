@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-23T22:36:22.754Z",
+ "generatedAt": "2026-11-23T22:57:59.791Z",
  "sourceContract": {
   "schema": "oiyo.news-source",
   "schemaVersion": 1,
@@ -671,6 +671,12 @@
      "detailFetchedAt": "2026-11-23T21:31:05.253Z",
      "publishedAt": "2026-11-23T18:35:22.000Z",
      "domain": "zdnet.co.kr",
+     "detailSummary": "블룸버그 보도에 따르면 엔비디아 이사회는 22일 젠슨 황의 CEO 복귀를 결정했고, 트럼프 대통령이 이사회 회의에 전화로 참여해 설득한 것으로 전해졌어요.",
+     "summaryAuthoredBy": "Claude",
+     "translationKo": "### 복귀 결정의 경위\n- 블룸버그는 23일(현지시간) 복수 관계자를 인용해 엔비디아 이사회가 22일 일요일 오후 젠슨 황의 복귀를 결정했다고 보도했어요.\n- 이 과정은 고위 경영진과 사전 협의 없이 진행됐어요.\n- 당시 임시 CEO였던 콜렛 크레스 최고재무책임자(CFO) 등 주요 임원들은 결정 직전에야 이 사실을 통보받았다고 전했어요.\n- 이사회가 앞서 복귀 의사가 없다고 밝혔던 입장을 단 5일 만에 뒤집은 것이에요.\n\n### 트럼프 대통령의 개입\n- 세마포에 따르면 트럼프 대통령은 이사회 회의에 전화로 참석해 젠슨 황의 복귀를 설득했어요.\n- 스티븐 청 백악관 공보국장은 트럼프 대통령이 복귀 과정에 전적으로 관여했다고 밝혔어요.\n- 트럼프 대통령은 CNBC 인터뷰에서 이사회와 접촉했다고 인정하며 직접 설득했다고 말했어요.\n- AP통신에 따르면 트럼프 대통령은 22일 젠슨 황과 직접 통화했고, 젠슨 황이 이전보다 더 열심히 일하겠다고 약속했다고 전했어요.\n\n### 행정부 내부의 이견\n- 비즈니스 인사이더는 젠슨 황 복귀를 두고 미국 행정부 내부 의견이 엇갈렸다고 보도했어요.\n- 스콧 베선트 재무장관 등 대중국 강경파는 외부 인사를 CEO로 영입해야 한다는 입장이었어요.\n- 반면 트럼프 대통령 등은 젠슨 황의 복귀에 찬성했어요.\n\n### 이후 일정과 조사\n- 엔비디아 이사회는 외국 정보기관의 개입 가능성을 조사하는 별도 절차를 계속 진행해요.\n- 신설 조직인 국가안보·수출통제위원회도 운영할 예정이에요.\n- 폴리티코에 따르면 젠슨 황 CEO는 다음 달 3일(현지시간) 미국 상원 은행위원회 공개청문회에 출석할 예정이에요. 청문회는 온라인으로 생중계될 가능성이 커요.",
+     "translationStatus": "full",
+     "translatedBy": "Claude",
+     "translatedAt": "2026-11-24",
      "mentions": [
       {
        "kind": "same-story",
@@ -688,13 +694,7 @@
        "title": "젠슨 황, 엔비디아 CEO 전격 복귀…이사회 만장일치 결정",
        "itemId": "trend-75c0cf8140f7991d"
       }
-     ],
-     "detailSummary": "블룸버그 보도에 따르면 엔비디아 이사회는 22일 젠슨 황의 CEO 복귀를 결정했고, 트럼프 대통령이 이사회 회의에 전화로 참여해 설득한 것으로 전해졌어요.",
-     "summaryAuthoredBy": "Claude",
-     "translationKo": "### 복귀 결정의 경위\n- 블룸버그는 23일(현지시간) 복수 관계자를 인용해 엔비디아 이사회가 22일 일요일 오후 젠슨 황의 복귀를 결정했다고 보도했어요.\n- 이 과정은 고위 경영진과 사전 협의 없이 진행됐어요.\n- 당시 임시 CEO였던 콜렛 크레스 최고재무책임자(CFO) 등 주요 임원들은 결정 직전에야 이 사실을 통보받았다고 전했어요.\n- 이사회가 앞서 복귀 의사가 없다고 밝혔던 입장을 단 5일 만에 뒤집은 것이에요.\n\n### 트럼프 대통령의 개입\n- 세마포에 따르면 트럼프 대통령은 이사회 회의에 전화로 참석해 젠슨 황의 복귀를 설득했어요.\n- 스티븐 청 백악관 공보국장은 트럼프 대통령이 복귀 과정에 전적으로 관여했다고 밝혔어요.\n- 트럼프 대통령은 CNBC 인터뷰에서 이사회와 접촉했다고 인정하며 직접 설득했다고 말했어요.\n- AP통신에 따르면 트럼프 대통령은 22일 젠슨 황과 직접 통화했고, 젠슨 황이 이전보다 더 열심히 일하겠다고 약속했다고 전했어요.\n\n### 행정부 내부의 이견\n- 비즈니스 인사이더는 젠슨 황 복귀를 두고 미국 행정부 내부 의견이 엇갈렸다고 보도했어요.\n- 스콧 베선트 재무장관 등 대중국 강경파는 외부 인사를 CEO로 영입해야 한다는 입장이었어요.\n- 반면 트럼프 대통령 등은 젠슨 황의 복귀에 찬성했어요.\n\n### 이후 일정과 조사\n- 엔비디아 이사회는 외국 정보기관의 개입 가능성을 조사하는 별도 절차를 계속 진행해요.\n- 신설 조직인 국가안보·수출통제위원회도 운영할 예정이에요.\n- 폴리티코에 따르면 젠슨 황 CEO는 다음 달 3일(현지시간) 미국 상원 은행위원회 공개청문회에 출석할 예정이에요. 청문회는 온라인으로 생중계될 가능성이 커요.",
-     "translationStatus": "full",
-     "translatedBy": "Claude",
-     "translatedAt": "2026-11-24"
+     ]
     },
     {
      "id": "trend-fd4d533358ec4159",
@@ -793,6 +793,12 @@
      "detailFetchedAt": "2026-11-23T21:31:05.428Z",
      "publishedAt": "2026-11-23T16:16:50.000Z",
      "domain": "zdnet.co.kr",
+     "detailSummary": "트럼프 대통령은 엔비디아 이사회가 젠슨 황 복귀 전 행정부의 국가안보 보증을 요청했고 정부가 이를 제공했다고 CNBC 인터뷰에서 밝혔어요. 중국 관련 조사는 계속될 전망이에요.",
+     "summaryAuthoredBy": "Claude",
+     "translationKo": "### 트럼프 대통령의 발언\n- 트럼프 대통령은 23일(현지시간) CNBC와 전화 인터뷰에서 이사회가 젠슨 황 CEO의 복귀 결정 전 국가안보 위협과 관련해 행정부의 보증을 요청했다고 밝혔어요.\n- 미국 정부가 알고 있는 모든 정보를 바탕으로 보증을 제공했다고 설명했어요.\n- 22일 밤 젠슨 황과도 통화했다고 덧붙였어요.\n\n### 트루스소셜 글과 평가\n- 트럼프 대통령은 트루스소셜에 젠슨 황 CEO의 복귀가 미국 국가안보에 위험하다고 볼 이유가 없다고 썼어요.\n- 미국 법무부도 젠슨 황 CEO의 불법 행위와 관련한 증거를 확보하지 못했다고 밝혔다고 전했어요.\n- 엔비디아 이사회의 복귀 결정을 옳은 판단이라고 평가했어요.\n\n### 엔비디아 이사회의 설명\n- 엔비디아 이사회는 23일 오전 젠슨 황 CEO 복귀를 만장일치로 결정했다고 발표했어요.\n- 미국 정부 고위 관계자들의 의견을 들은 결과, 복귀가 국가안보에 위협이 되지 않는다고 판단했다고 설명했어요.\n- 세마포는 트럼프 대통령이 이사회 회의에 전화로 직접 참여해 복귀를 설득했다고 보도했고, 백악관도 복귀 과정에 전적으로 관여했다고 확인했다고 전했어요.\n\n### 남은 쟁점과 조사\n- 젠슨 황과 중국 정보기관 연계 의혹을 받는 앨리스 황의 관계, 대중국 반도체 수출 규정 준수 여부에 대한 조사는 계속될 전망이에요.\n- 캘리포니아주 법무부는 엔비디아에 소환장을 보내 대중국 반도체 수출통제 준수 여부와 투자자 공시 문제 등을 들여다보고 있어요.\n- 엔비디아 이사회는 10일 한국계 미국인 김준현 변호사와 로펌 WLRK를 선임해 별도 조사에 착수했다고 밝혔어요. 최고준법감시책임자(CCO)도 새로 뽑고 미국 정부 조사에 협력하겠다고 했어요.",
+     "translationStatus": "full",
+     "translatedBy": "Claude",
+     "translatedAt": "2026-11-24",
      "mentions": [
       {
        "kind": "same-story",
@@ -802,13 +808,7 @@
        "title": "\"엔비디아 이사회, 트럼프 설득에 젠슨 황 복귀 결정\"",
        "itemId": "trend-6b921ce0b75f5dcd"
       }
-     ],
-     "detailSummary": "트럼프 대통령은 엔비디아 이사회가 젠슨 황 복귀 전 행정부의 국가안보 보증을 요청했고 정부가 이를 제공했다고 CNBC 인터뷰에서 밝혔어요. 중국 관련 조사는 계속될 전망이에요.",
-     "summaryAuthoredBy": "Claude",
-     "translationKo": "### 트럼프 대통령의 발언\n- 트럼프 대통령은 23일(현지시간) CNBC와 전화 인터뷰에서 이사회가 젠슨 황 CEO의 복귀 결정 전 국가안보 위협과 관련해 행정부의 보증을 요청했다고 밝혔어요.\n- 미국 정부가 알고 있는 모든 정보를 바탕으로 보증을 제공했다고 설명했어요.\n- 22일 밤 젠슨 황과도 통화했다고 덧붙였어요.\n\n### 트루스소셜 글과 평가\n- 트럼프 대통령은 트루스소셜에 젠슨 황 CEO의 복귀가 미국 국가안보에 위험하다고 볼 이유가 없다고 썼어요.\n- 미국 법무부도 젠슨 황 CEO의 불법 행위와 관련한 증거를 확보하지 못했다고 밝혔다고 전했어요.\n- 엔비디아 이사회의 복귀 결정을 옳은 판단이라고 평가했어요.\n\n### 엔비디아 이사회의 설명\n- 엔비디아 이사회는 23일 오전 젠슨 황 CEO 복귀를 만장일치로 결정했다고 발표했어요.\n- 미국 정부 고위 관계자들의 의견을 들은 결과, 복귀가 국가안보에 위협이 되지 않는다고 판단했다고 설명했어요.\n- 세마포는 트럼프 대통령이 이사회 회의에 전화로 직접 참여해 복귀를 설득했다고 보도했고, 백악관도 복귀 과정에 전적으로 관여했다고 확인했다고 전했어요.\n\n### 남은 쟁점과 조사\n- 젠슨 황과 중국 정보기관 연계 의혹을 받는 앨리스 황의 관계, 대중국 반도체 수출 규정 준수 여부에 대한 조사는 계속될 전망이에요.\n- 캘리포니아주 법무부는 엔비디아에 소환장을 보내 대중국 반도체 수출통제 준수 여부와 투자자 공시 문제 등을 들여다보고 있어요.\n- 엔비디아 이사회는 10일 한국계 미국인 김준현 변호사와 로펌 WLRK를 선임해 별도 조사에 착수했다고 밝혔어요. 최고준법감시책임자(CCO)도 새로 뽑고 미국 정부 조사에 협력하겠다고 했어요.",
-     "translationStatus": "full",
-     "translatedBy": "Claude",
-     "translatedAt": "2026-11-24"
+     ]
     },
     {
      "id": "trend-9ec64a8e947eb611",
@@ -855,6 +855,12 @@
      "detailFetchedAt": "2026-11-23T21:31:05.506Z",
      "publishedAt": "2026-11-23T14:27:15.000Z",
      "domain": "zdnet.co.kr",
+     "detailSummary": "엔비디아 이사회가 젠슨 황을 사장 겸 CEO이자 이사로 만장일치 복귀시키기로 의결했다고 23일(현지시간) 발표했어요. 독립 조사위원회와 국가안보·수출통제 위원회 신설 등 내부 통제 강화안도 함께 밝혔어요.",
+     "summaryAuthoredBy": "Claude",
+     "translationKo": "### 복귀 결정 내용\n- 엔비디아 이사회는 젠슨 황을 사장 겸 CEO와 이사회 일원으로 즉시 복직시키기로 만장일치 의결했어요.\n- CEO 직무대행을 맡았던 콜레트 크레스는 기존 최고재무책임자(CFO) 역할로 돌아가요.\n- 하비 존스 이사회 의장은 직위를 그대로 유지해요.\n\n### 이사회의 판단 근거\n- 이사회는 황 CEO와 여러 차례 논의하고 면담한 끝에 그의 솔직함과 엔비디아를 이끌 리더십 역량을 충분히 확인했다고 밝혔어요.\n- 복직 결정 과정에서 미국 정부 고위급 관계자들의 의견을 들었고, 복귀가 미국 국가안보에 어떤 위험도 주지 않는다고 확신했다고 강조했어요.\n- 하비 존스 의장은 황 CEO가 엔비디아를 이끌 적임자이며, 복직이 주주와 임직원, 파트너, 고객 모두에게 최선이라고 말했어요.\n- 공백기 동안 임시 CEO로 회사를 이끈 크레스 CFO에게 깊이 감사한다고도 전했어요.\n\n### 젠슨 황의 입장\n- 황 CEO는 복귀 성명에서 새로운 산업혁명의 시작점에 세계에서 가장 중요한 기술 기업 중 하나를 다시 이끌게 되어 영광이라고 밝혔어요.\n- 무거운 책임감과 새로운 헌신으로 임하겠다고 했고, 이사회와 임직원, 주주, 가족에게 감사를 전했어요.\n\n### 거버넌스와 내부 통제 강화\n- 황 CEO가 해외 첩보 활동의 표적이 됐다는 최근 보도와 관련해 사외이사로만 구성된 독립 조사위원회를 만들었어요.\n- 이 위원회는 외부 법률자문과 함께 진상 조사를 끝까지 진행할 방침이고, 황 CEO도 조사에 적극 협조하기로 했어요.\n- 무역 규정 준수와 국가안보 리스크를 전담 감독하는 사외이사 중심의 '국가안보 및 수출통제 위원회(National Security and Export Control Committee)'를 신설했어요.\n- 전사 준법 감시를 총괄할 최고준법감시인(CCO) 직책을 새로 만들고 인선 절차에 들어갔어요.\n\n### 배경\n- 황 CEO는 사생활 및 중국 스파이 연루 의혹으로 사임했었어요.",
+     "translationStatus": "full",
+     "translatedBy": "Claude",
+     "translatedAt": "2026-11-24",
      "mentions": [
       {
        "kind": "same-story",
@@ -864,13 +870,7 @@
        "title": "젠슨 황, 엔비디아 CEO 전격 복귀…이사회 만장일치 결정",
        "itemId": "trend-75c0cf8140f7991d"
       }
-     ],
-     "detailSummary": "엔비디아 이사회가 젠슨 황을 사장 겸 CEO이자 이사로 만장일치 복귀시키기로 의결했다고 23일(현지시간) 발표했어요. 독립 조사위원회와 국가안보·수출통제 위원회 신설 등 내부 통제 강화안도 함께 밝혔어요.",
-     "summaryAuthoredBy": "Claude",
-     "translationKo": "### 복귀 결정 내용\n- 엔비디아 이사회는 젠슨 황을 사장 겸 CEO와 이사회 일원으로 즉시 복직시키기로 만장일치 의결했어요.\n- CEO 직무대행을 맡았던 콜레트 크레스는 기존 최고재무책임자(CFO) 역할로 돌아가요.\n- 하비 존스 이사회 의장은 직위를 그대로 유지해요.\n\n### 이사회의 판단 근거\n- 이사회는 황 CEO와 여러 차례 논의하고 면담한 끝에 그의 솔직함과 엔비디아를 이끌 리더십 역량을 충분히 확인했다고 밝혔어요.\n- 복직 결정 과정에서 미국 정부 고위급 관계자들의 의견을 들었고, 복귀가 미국 국가안보에 어떤 위험도 주지 않는다고 확신했다고 강조했어요.\n- 하비 존스 의장은 황 CEO가 엔비디아를 이끌 적임자이며, 복직이 주주와 임직원, 파트너, 고객 모두에게 최선이라고 말했어요.\n- 공백기 동안 임시 CEO로 회사를 이끈 크레스 CFO에게 깊이 감사한다고도 전했어요.\n\n### 젠슨 황의 입장\n- 황 CEO는 복귀 성명에서 새로운 산업혁명의 시작점에 세계에서 가장 중요한 기술 기업 중 하나를 다시 이끌게 되어 영광이라고 밝혔어요.\n- 무거운 책임감과 새로운 헌신으로 임하겠다고 했고, 이사회와 임직원, 주주, 가족에게 감사를 전했어요.\n\n### 거버넌스와 내부 통제 강화\n- 황 CEO가 해외 첩보 활동의 표적이 됐다는 최근 보도와 관련해 사외이사로만 구성된 독립 조사위원회를 만들었어요.\n- 이 위원회는 외부 법률자문과 함께 진상 조사를 끝까지 진행할 방침이고, 황 CEO도 조사에 적극 협조하기로 했어요.\n- 무역 규정 준수와 국가안보 리스크를 전담 감독하는 사외이사 중심의 '국가안보 및 수출통제 위원회(National Security and Export Control Committee)'를 신설했어요.\n- 전사 준법 감시를 총괄할 최고준법감시인(CCO) 직책을 새로 만들고 인선 절차에 들어갔어요.\n\n### 배경\n- 황 CEO는 사생활 및 중국 스파이 연루 의혹으로 사임했었어요.",
-     "translationStatus": "full",
-     "translatedBy": "Claude",
-     "translatedAt": "2026-11-24"
+     ]
     },
     {
      "id": "trend-b3c0dd2fda7b45ec",
@@ -1047,6 +1047,12 @@
      "detailFetchedAt": "2026-11-23T21:31:05.684Z",
      "publishedAt": "2026-11-23T16:14:15.000Z",
      "domain": "hankyung.com",
+     "detailSummary": "젠슨 황이 사임 11일 만에 엔비디아 사장 겸 CEO로 복귀했어요. 이사회가 만장일치로 결정했고, 상무부 조사와 하원 비공개 면담 등 남은 과제도 정리했어요.",
+     "summaryAuthoredBy": "Claude",
+     "translationKo": "### 복귀 결정\n- 젠슨 황이 중국 스파이 연루 의혹과 사내 불륜 스캔들로 물러난 지 11일 만에 엔비디아 CEO 자리로 돌아왔어요.\n- 엔비디아 이사회는 23일 그를 사장 겸 CEO와 이사로 즉시 복귀시키기로 만장일치 의결했다고 밝혔어요.\n- 하비 존스 이사회 의장은 황 CEO가 회사를 이끌 적임자이고 복귀가 모두에게 최선이라고 말했어요.\n- 임시 CEO였던 콜레트 크레스는 CFO로 돌아가요.\n\n### 이사회의 판단\n- 이사회는 황 CEO와 여러 차례 논의한 끝에 그의 솔직한 설명을 통해 역량을 확신했다고 밝혔어요.\n- 복귀가 국가 안보에 위험을 주지 않는다고 확신한다고 덧붙였어요.\n- 도널드 트럼프 대통령은 트루스소셜에서 엔비디아에 젠슨 황의 리더십이 필요하다며 복귀를 환영했어요.\n\n### 복귀 요구와 사임 경위\n- 한 엔비디아 직원이 만든 청원 사이트 '스탠드 위드 젠슨'에 13일부터 서명이 몰렸고, 16일에는 18만 명을 넘었어요. 일론 머스크와 팀 스위니 에픽게임즈 CEO 등도 동참했어요.\n- 황 CEO는 17일 성명에서 복귀 요청을 많이 받았다며 복귀 의향을 내비쳤지만, 같은 날 이사회는 재선임 계획이 없다고 선을 그었어요.\n- 와이어드는 이사회가 등을 돌린 결정적 이유로 거짓 해명을 꼽았어요. 이사회가 지난해부터 앨리스 황과의 관계를 물었지만 그는 부적절한 관계가 없다고 답했다는 것이에요.\n- 뉴욕타임스는 20일 전·현직 직원 10여 명의 증언과 법원 기록을 바탕으로 그가 수년간 임직원을 모욕하고 폭언했다고 보도했어요.\n\n### 남은 과제\n- 미 상무부는 2024년부터 메가스피드의 수출 통제 위반 가능성을 조사하고 있고, 지난해 5월 엔비디아에 관련 거래 자료를 요청했어요.\n- 앨리스 황의 중국 첩보 활동 여부도 아직 결론이 나지 않았어요.\n- 황 CEO는 다음 달 1일 미 하원 3개 위원회의 비공개 면담에 출석할 예정이에요.\n- 엔비디아는 사외이사 주도의 독립 조사를 끝까지 진행하고 정부 조사에도 협조하겠다고 밝혔어요.\n\n### 시장 반응\n- 엔비디아 주가는 개장 후 장중 30% 넘게 급등했고, AI 관련주도 일제히 강세를 보였어요.\n- 마이크론은 17% 이상, 코어위브는 22%가량, 블룸에너지는 약 20%, TSMC ADR은 15%가량 올랐어요.\n- 나스닥은 장 초반 약 6.5%, S&P500은 4% 이상 올랐어요.\n\n이 글은 정보 제공용이며 투자 권유가 아니에요. 투자 판단과 책임은 본인에게 있어요. 수치는 지연·종가 기준이며 정확성을 보장하지 않아요.",
+     "translationStatus": "full",
+     "translatedBy": "Claude",
+     "translatedAt": "2026-11-24",
      "mentions": [
       {
        "kind": "same-story",
@@ -1064,13 +1070,7 @@
        "title": "젠슨 황, 엔비디아 CEO 전격 복귀…이사회 만장일치로 복직 의결",
        "itemId": "trend-4ab7fece849ad783"
       }
-     ],
-     "detailSummary": "젠슨 황이 사임 11일 만에 엔비디아 사장 겸 CEO로 복귀했어요. 이사회가 만장일치로 결정했고, 상무부 조사와 하원 비공개 면담 등 남은 과제도 정리했어요.",
-     "summaryAuthoredBy": "Claude",
-     "translationKo": "### 복귀 결정\n- 젠슨 황이 중국 스파이 연루 의혹과 사내 불륜 스캔들로 물러난 지 11일 만에 엔비디아 CEO 자리로 돌아왔어요.\n- 엔비디아 이사회는 23일 그를 사장 겸 CEO와 이사로 즉시 복귀시키기로 만장일치 의결했다고 밝혔어요.\n- 하비 존스 이사회 의장은 황 CEO가 회사를 이끌 적임자이고 복귀가 모두에게 최선이라고 말했어요.\n- 임시 CEO였던 콜레트 크레스는 CFO로 돌아가요.\n\n### 이사회의 판단\n- 이사회는 황 CEO와 여러 차례 논의한 끝에 그의 솔직한 설명을 통해 역량을 확신했다고 밝혔어요.\n- 복귀가 국가 안보에 위험을 주지 않는다고 확신한다고 덧붙였어요.\n- 도널드 트럼프 대통령은 트루스소셜에서 엔비디아에 젠슨 황의 리더십이 필요하다며 복귀를 환영했어요.\n\n### 복귀 요구와 사임 경위\n- 한 엔비디아 직원이 만든 청원 사이트 '스탠드 위드 젠슨'에 13일부터 서명이 몰렸고, 16일에는 18만 명을 넘었어요. 일론 머스크와 팀 스위니 에픽게임즈 CEO 등도 동참했어요.\n- 황 CEO는 17일 성명에서 복귀 요청을 많이 받았다며 복귀 의향을 내비쳤지만, 같은 날 이사회는 재선임 계획이 없다고 선을 그었어요.\n- 와이어드는 이사회가 등을 돌린 결정적 이유로 거짓 해명을 꼽았어요. 이사회가 지난해부터 앨리스 황과의 관계를 물었지만 그는 부적절한 관계가 없다고 답했다는 것이에요.\n- 뉴욕타임스는 20일 전·현직 직원 10여 명의 증언과 법원 기록을 바탕으로 그가 수년간 임직원을 모욕하고 폭언했다고 보도했어요.\n\n### 남은 과제\n- 미 상무부는 2024년부터 메가스피드의 수출 통제 위반 가능성을 조사하고 있고, 지난해 5월 엔비디아에 관련 거래 자료를 요청했어요.\n- 앨리스 황의 중국 첩보 활동 여부도 아직 결론이 나지 않았어요.\n- 황 CEO는 다음 달 1일 미 하원 3개 위원회의 비공개 면담에 출석할 예정이에요.\n- 엔비디아는 사외이사 주도의 독립 조사를 끝까지 진행하고 정부 조사에도 협조하겠다고 밝혔어요.\n\n### 시장 반응\n- 엔비디아 주가는 개장 후 장중 30% 넘게 급등했고, AI 관련주도 일제히 강세를 보였어요.\n- 마이크론은 17% 이상, 코어위브는 22%가량, 블룸에너지는 약 20%, TSMC ADR은 15%가량 올랐어요.\n- 나스닥은 장 초반 약 6.5%, S&P500은 4% 이상 올랐어요.\n\n이 글은 정보 제공용이며 투자 권유가 아니에요. 투자 판단과 책임은 본인에게 있어요. 수치는 지연·종가 기준이며 정확성을 보장하지 않아요.",
-     "translationStatus": "full",
-     "translatedBy": "Claude",
-     "translatedAt": "2026-11-24"
+     ]
     },
     {
      "id": "trend-f6a2b2a61e3e899b",
@@ -1638,6 +1638,32 @@
      "summaryAuthoredBy": "Claude",
      "translationKo": "README 전체를 읽었어요.\n\n### 프로젝트 개요\n- Plane을 오픈소스 Jira, Linear, Monday, ClickUp 대안이라고 소개해요.\n- 작업, 스프린트, 문서, 분류(triage)를 관리하는 프로젝트 관리 플랫폼이에요.\n- 설치 방법은 두 가지예요. Plane Cloud에서 무료 계정으로 바로 쓰거나, 직접 서버에 설치해 데이터와 인프라를 스스로 관리할 수 있어요.\n\n### 주요 기능\n- Work Items: 파일 업로드를 지원하는 리치 텍스트 편집기로 작업을 만들고, 하위 속성과 관련 이슈를 연결해요.\n- Cycles: 번다운 차트 등으로 팀의 진행 상황을 추적해요.\n- Modules: 큰 프로젝트를 작은 모듈로 나눠 관리해요.\n- Views: 필터를 만들어 중요한 이슈만 보고, 저장해서 공유할 수 있어요.\n- Pages: AI 기능과 리치 텍스트 편집을 갖춘 문서 페이지로, 메모를 실행 가능한 작업으로 바꿀 수 있어요.\n- Analytics: 프로젝트 데이터 전반의 실시간 인사이트를 시각화해요.\n\n### 설치와 기술 스택\n- Docker와 Kubernetes 설치를 공식 배포 가이드로 안내해요.\n- 인스턴스 관리자는 God mode에서 인스턴스 설정을 바꿀 수 있어요.\n- 사용 기술은 React Router, Django, Node.js이고, 주제 태그에는 PostgreSQL, Redis, Vite도 있어요.\n- 로컬 개발 방법은 CONTRIBUTING 문서에 있어요.\n\n### 프로젝트 정보\n- 라이선스는 AGPL-3.0이에요.\n- 저장소 페이지 기준 스타는 약 6만 1,900개, 포크는 약 6,300개예요.\n- 커뮤니티는 GitHub Discussions와 포럼으로 운영하고, 보안 취약점은 공개 이슈 대신 이메일로 신고하라고 안내해요.",
      "translationStatus": "full",
+     "translatedBy": "Claude",
+     "translatedAt": "2026-11-24"
+    },
+    {
+     "id": "trend-b00c8c3446d89ca0",
+     "sourceId": "google-developers",
+     "src": "google-developers",
+     "url": "https://developers.googleblog.com/a2ui-10-build-delightful-fast-reliable-agentic-experiences",
+     "canonicalUrl": "https://developers.googleblog.com/a2ui-10-build-delightful-fast-reliable-agentic-experiences",
+     "title": "A2UI 1.0: Build delightful, fast, reliable, agentic experiences",
+     "score": null,
+     "fetchedAt": "2026-11-23T21:31:07+00:00",
+     "contentHash": "c9560cf64e85f6a8",
+     "corrections": [],
+     "summary": "구글이 에이전트가 텍스트 대신 앱의 네이티브 화면(카드·폼·선택기)으로 답하게 하는 오픈 프로토콜 A2UI의 첫 안정판 1.0을 냈어요. 양방향 함수 호출, 접근성 지원, React·Angular·Lit·Flutter·SwiftUI 렌더러와 TypeScript·Dart·Python 에이전트 SDK가 들어갔어요.",
+     "detailExcerpt": "A2UI 1.0 is the first stable version of the open protocol for generative UI. Version 1.0 adds bidirectional function calls, accessibility support and extensions. Renderers: React, Angular, Lit, Flutter, SwiftUI, Jetpack Compose. Agent SDKs for TypeScript, Dart and Python.",
+     "excerptSource": "manual",
+     "detailStatus": "ok",
+     "detailOrigin": "primary",
+     "detailFetchedAt": "2026-11-23T22:50:00.000Z",
+     "publishedAt": "2026-11-11T00:00:00Z",
+     "domain": "developers.googleblog.com",
+     "detailSummary": "구글이 에이전트가 텍스트 대신 앱의 네이티브 화면(카드·폼·선택기)으로 답하게 하는 오픈 프로토콜 A2UI의 첫 안정판 1.0을 냈어요. 양방향 함수 호출, 접근성 지원, React·Angular·Lit·Flutter·SwiftUI 렌더러와 TypeScript·Dart·Python 에이전트 SDK가 들어갔어요.",
+     "summaryAuthoredBy": "Claude",
+     "translationKo": "구글 개발자 블로그의 1.0 발표 글(2026-11-11, Vishal Motwani·Google A2UI 팀)과 GitHub 저장소 README를 읽고 옮겼어요. 발표 글은 브라우저로 열어 핵심 문장을 확인했고, 세부 구조는 README를 기준으로 정리했어요.\n\n### A2UI가 뭔가요\n\nA2UI(Agent-to-User Interface)는 에이전트가 사용자에게 **텍스트뿐 아니라 앱의 네이티브 위젯으로** 답하게 하는 오픈소스 생성형 UI 프레임워크예요. 발표 글은 1.0을 \"생성형 UI를 위한 오픈 프로토콜의 첫 안정판\"이라고 불러요. 에이전트는 무엇을 보여 줄지만 설명하고, 화면은 각 앱이 자기 컴포넌트로 그려요.\n\n핵심은 **UI를 코드가 아니라 데이터로 표현**한다는 점이에요.\n\n- 에이전트와 렌더러가 주고받는 데이터에 스키마가 있고, 에이전트는 앱 개발자가 등록한 컴포넌트(카탈로그)만 배치·설정할 수 있어요.\n- 임의 실행 코드를 허용하지 않아서, 원격·제3자 에이전트가 신뢰 경계를 넘나들 때도 앱의 중요한 기능을 환각으로부터 지킬 수 있다고 설명해요.\n- 서버 측 데이터 바인딩을 쓰면 민감한 값이 모델에 아예 닿지 않아요.\n\n### 1.0에서 달라진 점\n\n- **안정 프로토콜**: 양방향 함수 호출이 들어가 항공권·예약 선택기 같은 화면이 그 자리에서 빈 좌석을 확인할 수 있어요. 접근성 지원과 부가 메타데이터용 확장도 추가됐어요.\n- **렌더러**: 웹은 React·Angular·Lit, 모바일·웹·데스크톱은 Flutter, iOS는 SwiftUI, Android는 Jetpack Compose예요. Compose 렌더러는 아직 0.9.1이고 1.0은 곧 나온다고 해요. 웹·Flutter 렌더러는 MCP Apps 안에서도 돌아가요.\n- **에이전트 SDK**: TypeScript·Dart·Python SDK가 새로 나왔어요. 스킬 생성, 메시지 변환, 오류 교정을 돕고, 바꿔 끼울 수 있는 추론 형식(예: A2UI Express)으로 지연을 줄인다고 해요. Python에는 컴포넌트를 프로그램으로 펼치고 데이터를 묶는 A2UI Macros가 있어요.\n\n### 구조 (README 기준)\n\n1. **추론**: 언어 모델이나 결정 모델이 A2UI 스킬의 지시를 받아 UI와 데이터를 기술해요.\n2. **전송**: 에이전트 SDK가 모델 출력을 파싱·검증하고 매크로를 펼쳐 고정된 A2UI Transport 메시지로 바꿔요.\n3. **렌더링**: 코어 라이브러리(`@a2ui/web_core` 등)가 메시지를 프레임워크 중립 표현으로 만들고, 어댑터(`@a2ui/react` 등)가 실제 위젯으로 그려요. `@a2ui/catalog-mcp`는 MCP 도구 결과에 담긴 A2UI 메시지를 렌더링해요.\n\n### 누가 쓰나요\n\n발표 글은 Atlassian(Jira에서 에이전트가 대화형 카드로 후속 질문), Alation(AIOS 피드를 MCP Apps로 Claude에 표시), ByteDance(Lynx용 렌더러), Bloomberg를 들어요. 구글 안에서는 Gemini Notebook이 A2UI 스타일 카드를 쓰고, Gemini Enterprise 에이전트는 1.0으로 올리는 중이에요.\n\n### 다음 계획\n\nREADME 로드맵은 프로토콜 1.1 요구사항 수집, 재사용 템플릿, 컴포넌트에 안전하게 로직을 붙이는 샌드박스, 생성 UI 품질 평가 도구, MCP Apps와 서로 끼워 넣기, 검증·코드 생성 CLI를 꼽아요. 라이선스는 Apache 2.0이에요.",
+     "translationStatus": "partial",
      "translatedBy": "Claude",
      "translatedAt": "2026-11-24"
     }
@@ -35822,7 +35848,7 @@
      "fetchedAt": "2026-11-03T21:31:23+00:00",
      "contentHash": "98a835f514bdfd38",
      "corrections": [],
-     "summary": "NVIDIA Auto Ontology - 기업 데이터의 의미와 관계를 AI 에이전트에 연결하는 오픈소스 도구 — 1차 원문을 읽고 핵심만 한국어로 옮겼어요.",
+     "summary": "엔비디아가 기업 데이터베이스의 메타데이터로 온톨로지(용어·매핑·관계·계산식·출처·검수)를 자동으로 만들어 MCP·CLI·API로 에이전트에 주는 오픈소스 라이브러리를 공개했어요. 답할 수 없는 질문은 먼저 걸러 내고, 답마다 SQL과 근거를 함께 돌려줘요.",
      "detailExcerpt": "Auto Ontology Agents can retrieve documents and query databases, but reliability gates agentic analytics: a revenue metric answered faster is worth nothing if the number is wrong. Agents need a context layer that tells them where data lives, what it means, whether to use it, how to use it, where it came from, and what is similar. NVIDIA Auto Ontology is an open library that builds that layer from enterprise metadata, reconciles definitions across systems, and exposes it to any agent harness through MCP, CLI, and API. It complements the semantic models customers already own. It enables developers to: • Discover: generate enterprise ontologies from metadata; connect existing ontologies and semantic models; build AI-ready knowledge graphs. • Ground: give agents trusted business meaning for metrics, entities, and relationships; reconcile inconsistent definitions across systems. • Validate: check generated queries against certified definitions and lineage; return provenance with every answer. • Expose: serve context to any agent harness through MCP, CLI, and API. Learn: fold certified corrections and usage back into the ontology, so shared context improves with every question. Benchmarks To run a text-to-SQL benchmark such as BIRD, refer to the ontology SQL evaluation repository. Licensing & contributions. Auto Ontology is distributed under the Apache License 2.0. Third-party open-source components bundled, linked, or otherwise used by this project are listed in THIRD PARTY NOTICES.md . This project is currently not accepting external contributions. Key Features • Natural-language querying of structured data — questions are translated to SQL and executed against connected databases, powered by NVIDIA NIM. • Semantic catalog / ontology layer over relational sources, stored in Postgres alongside the catalog it describes. • Authentication & RBAC —using Better Auth. • Web UI for chat, analysis, data catalog, analytics, and settings. • Flexible deployment — Helm chart for Kubernetes or Docker Compose for a local stack. Software Components Component Technology Role Default port ------------------- ---------------------------------------------------------------------- ------------------------------------------ ------------ Frontend Next.js 16 (React 19, TypeScript, Tailwind CSS 4), Better Auth, Prisma Web UI, authentication, API gateway 3000 Backend FastAPI (Python 3.12+), LangChain Chat / NL-to-SQL, catalog, datasource APIs 3001 Ingestion worker FastAPI (Python 3.12+) Ingests tabular data and writes embeddings 3002 Postgres + pgvector Relational Database App metadata, the catalog and ontology, vector store 5432 HashiCorp Vault Optional Secure storage of connection credentials — NVIDIA NIM Auto Ontology uses NVIDIA NIM endpoints for inference — either the hosted NVIDIA API catalog ( integrate.api.nvidia.com ) or self-hosted NIMs. The defaults in .env.example are: • LLM: nvidia/nemotron-3-nano-30b-a3b • Embeddings: nvidia/nemotron-3-embed-1b • Reranking: nvidia/llama-nemotron-rerank-vl-1b-v2 The endpoints and models are configured via the DEFAULT MODELS ENDPOINT , DEFAULT MODELS MODEL , EMBED ENDPOINT , and EMBED MODEL environment variables and require a DEFAULT MODELS API KEY . Model triplets Each model role is configured by a triplet of environment variables — ENDPOINT (URL), API KEY , and MODEL : Prefix Role ---------------- ----------------------------------------------------------- DEFAULT MODELS Shared default; every field below falls back to it. REASONING Main chat / NL-to-SQL model. NON REASONING Lighter model used for entity extraction. EMBED Text-embedding model (must match between ingest and query). RERANK Reranker used by the retrieval flow. You can set a full triplet, only some of its fields, or none at all — any field left unset falls back to the matching DEFAULT MODELS . So the simplest setup is to fill in DEFAULT MODELS and override per-triplet fields only where they differ (e.g. EMBED MODEL , NON REASONING MODEL ). API KE…",
      "excerptSource": "readme",
      "detailStatus": "ok",
@@ -35830,12 +35856,12 @@
      "detailFetchedAt": "2026-11-03T21:31:19.420Z",
      "discussionUrl": "https://news.hada.io/topic?id=36528",
      "domain": "github.com",
-     "detailSummary": "NVIDIA Auto Ontology - 기업 데이터의 의미와 관계를 AI 에이전트에 연결하는 오픈소스 도구 — 1차 원문을 읽고 핵심만 한국어로 옮겼어요.",
-     "summaryAuthoredBy": "Grok Bot",
-     "translationKo": "1차 원문을 읽고 GeekNews식으로 한국어로 옮겼어요.\n\n### 요지\n\n**NVIDIA Auto Ontology - 기업 데이터의 의미와 관계를 AI 에이전트에 연결하는 오픈소스 도구** 글의 핵심만 원문 범위에서 한국어로 재구성했어요.\n\n### 본문 번역\n\n1. 원문: “GitHub - NVIDIA/auto-ontology: Auto Ontology is a Python framework for building semantic, graph-based reasoning layers over data. It enables deterministic query generation, better context retrieval, and more explainable AI for LLM and agent workflows. · GitHub”\n   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.\n\n2. 원문: “You signed in with another tab or window. Reload to refresh your session. You signed out in another tab or window. Reload to refresh your session. You switched accounts on another tab or window. Reload to refresh your session.”\n   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.\n\n3. 원문: “Folders and files Name Name Last commit message Last commit date .cursor/ rules”\n   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.\n\n4. 원문: “Agents can retrieve documents and query databases, but reliability gates agentic analytics: a revenue metric answered faster is worth nothing if the number is wrong. Agents need a context layer that tells them where data lives, what it means, whether to use it”\n   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.\n\n5. 원문: “Discover: generate enterprise ontologies from metadata; connect existing ontologies and semantic models; build AI-ready knowledge graphs.”\n   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.\n\n6. 원문: “Ground: give agents trusted business meaning for metrics, entities, and relationships; reconcile inconsistent definitions across systems.”\n   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.\n\n7. 원문: “Validate: check generated queries against certified definitions and lineage; return provenance with every answer.”\n   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.\n\n8. 원문: “Expose: serve context to any agent harness through MCP, CLI, and API. Learn: fold certified corrections and usage back into the ontology, so shared context improves with every question.”\n   - 한국어로 옮기면, 위 문장이 말하는 내용이 이 구간의 전부예요. 인용 밖의 해석은 붙이지 않았어요.\n\n### 한계\n\n영어 원문을 한국어로 재구성할 때 숫자·고유명은 원문 표기를 유지했어요.\n소스 `geeknews`, 상태 `full`, Grok Bot / 2026-11-04.",
+     "detailSummary": "엔비디아가 기업 데이터베이스의 메타데이터로 온톨로지(용어·매핑·관계·계산식·출처·검수)를 자동으로 만들어 MCP·CLI·API로 에이전트에 주는 오픈소스 라이브러리를 공개했어요. 답할 수 없는 질문은 먼저 걸러 내고, 답마다 SQL과 근거를 함께 돌려줘요.",
+     "summaryAuthoredBy": "Claude",
+     "translationKo": "GitHub 저장소 README 전체를 읽고 옮겼어요. (2026-11-24 다시 썼어요. 처음 실린 번역은 문장을 옮기지 않은 자리표시 문구였어요.)\n\n### 왜 필요한가\n\n에이전트는 문서를 찾고 DB에 질의할 수 있지만, 분석 업무에서는 **정확도가 관문**이에요. README는 \"매출 수치를 더 빨리 답해도 숫자가 틀리면 가치가 없다\"고 말해요. 정확히 답하려면 각 업무 개념이 무엇을 뜻하는지, 어디에 있고 어떻게 연결되며, 어떻게 계산하고, 어디서 왔으며, 믿어도 되는지를 알아야 해요. 이 맥락을 담는 것이 온톨로지, 즉 사람들이 묻는 개념과 그 뒤의 데이터를 잇는 공유·관리되는 지도예요.\n\nNVIDIA Auto Ontology는 이 온톨로지를 기업 메타데이터에서 **자동으로** 만들고, 시스템마다 다른 정의를 맞추고, MCP·CLI·API로 어떤 에이전트 하네스에든 내주는 오픈 라이브러리예요. 고객이 이미 가진 시맨틱 모델을 보완하고, Apache Ossie로 이식성을 지켜요. README는 모호한 질문·지저분한 대형 DB에서 text-to-SQL 정확도를 재는 BIRD-Interact와 BEAVER 벤치마크에서 앞선다고 밝혀요.\n\n### 할 수 있는 일\n\n- **Discover**: 메타데이터로 온톨로지를 만들고, 기존 온톨로지·시맨틱 모델을 연결해요.\n- **Ground**: 지표·엔티티·관계에 믿을 수 있는 업무 의미를 주고 서로 다른 정의를 맞춰요.\n- **Validate**: 전문가가 승인하기 전에 실제 질문으로 초안을 시험하고, 생성된 쿼리를 카탈로그와 대조해요. 답마다 SQL과 단계를 돌려줘요.\n- **Expose / Learn**: MCP·CLI·API로 내주고, 승인된 수정과 사용 기록을 다시 온톨로지에 반영해요.\n\nREADME는 질문이 다양하고 모호할 때, 여러 소스의 정의가 겹치거나 충돌할 때, 모델의 맥락 예산이 문서 전체를 못 담을 때 온톨로지가 가장 쓸모 있다고 해요. 잘 정리된 소스 하나와 정해진 질문만 있다면 SQL을 바로 쓰는 편이 나을 수 있다고도 적어요.\n\n### 온톨로지가 답하는 여섯 질문\n\n| 질문 | 요소 |\n|---|---|\n| 무슨 뜻인가 | 개념(용어·설명·동의어) |\n| 어디에 있나 | 매핑(테이블·컬럼) |\n| 무엇과 연결되나 | 관계(조인, 데이터로 확인된 추론 링크) |\n| 어떻게 계산하나 | 지표(검토된 SQL 속성) |\n| 어디서 왔나 | 계보(원천 테이블·컬럼, 답마다 SQL) |\n| 써도 되나 | 승인(전문가가 검수한 요소 표시) |\n\n### 동작 방식\n\n**생성**: 테이블·컬럼·키·뷰·쿼리 기록을 읽고(선택 시 개인정보 태깅), pgvector에 임베딩해요. 테이블별로 값을 SQL로 프로파일링하고 모델이 외래키 후보·설명·용어 이름을 제안해요. 테이블을 가로질러 용어 가족을 묶고, 데이터가 확인해 줄 때만 추론 링크를 남겨요. 결과는 Postgres에 저장되고 Ossie YAML로 가져오고 내보낼 수 있어요. 사람이 채팅이나 MCP의 `check_answerable`·`ask_question`으로 시험한 뒤 승인해요.\n\n**답변**: 추론 모델이 도구를 하나씩 골라 반복해요. `retrieve`로 의미·이름 기준으로 개념과 조인 경로를 찾고, `run_sql`로 값을 보거나 초안을 시험하고(실행 전 카탈로그 대조), `submit`으로 최종 쿼리와 설명을 내요. 도구 호출 한도 안에 통과한 쿼리가 없으면 \"이 데이터로는 답할 수 없다\"고 보고해요. 예시에서 광고비 데이터가 없는 DB에 광고수익률(ROAS)을 물으면, 에이전트가 커버리지 0.5를 확인하고 매출만 줄지, 광고비가 있는 소스를 연결할지 되물어요.\n\n### 설치와 라이선스\n\nDocker Compose로 Postgres·웹앱·수집 워커·MCP 서버(읽기 전용, FastMCP)를 띄우고, 추론은 NVIDIA NIM(호스팅 API 키 또는 자체 NIM)을 써요. 예제 DB는 Microsoft의 Wide World Importers예요. 라이선스는 Apache 2.0이에요.",
      "translationStatus": "full",
-     "translatedBy": "Grok Bot",
-     "translatedAt": "2026-11-04"
+     "translatedBy": "Claude",
+     "translatedAt": "2026-11-24"
     },
     {
      "id": "trend-f5ca592e3ef5fc09",
