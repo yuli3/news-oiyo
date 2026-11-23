@@ -63,3 +63,14 @@ test("selectItems: 한국어 가능한 발표가 3건 이상이면 영어 원제
   const items = selectItems(wire, { now });
   assert.ok(!items.some((i: { id: string }) => i.id === "a5"), "ECB 영문 원제뿐인 발표");
 });
+
+test("videoResource: 기본 비공개, 아동용 아님, 제목 100자", async () => {
+  const { videoResource } = await import("../scripts/upload-econ-short.mjs");
+  const meta = { youtube: { title: "가".repeat(120), description: "d", categoryId: "25" } };
+  const r = videoResource(meta);
+  assert.equal(r.status.privacyStatus, "private");
+  assert.equal(r.status.selfDeclaredMadeForKids, false);
+  assert.equal(r.snippet.title.length, 100);
+  assert.equal(videoResource(meta, "public").status.privacyStatus, "public");
+  assert.equal(videoResource(meta, "everyone").status.privacyStatus, "private");
+});
