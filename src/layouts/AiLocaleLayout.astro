@@ -78,7 +78,7 @@ const breadcrumb = { "@context": "https://schema.org", "@type": "BreadcrumbList"
 </html>
 <style is:global>
   /* Same olive tokens as BaseLayout/AnalysisLayout. */
-  :root{--bg:oklch(.951 .011 123.5);--card:oklch(.985 .007 124.4);--ink:oklch(.207 .020 138.8);--muted:oklch(.48 .028 132.3);--accent:oklch(.47 .095 133.2);--accent-soft:oklch(.915 .038 125.2);--border:oklch(.857 .030 126)}
+  :root{--bg:oklch(.951 .011 123.5);--card:oklch(.985 .007 124.4);--ink:oklch(.207 .020 138.8);--muted:oklch(.48 .028 132.3);--accent:oklch(.47 .095 133.2);--accent-soft:oklch(.915 .038 125.2);--border:oklch(.857 .030 126)}/* 패밀리 테마 A안(2026-11-24): 지면은 위 공통값 그대로, 사이트 색만 남색으로 덮어쓴다. 지면 대비 6.76:1. 색 감사는 첫 :root 값을 원본과 비교한다. */:root{--accent:oklch(.44 .09 255);--accent-soft:oklch(.93 .025 255)}
   *{box-sizing:border-box}html{background:var(--bg);color:var(--ink);font-family:system-ui,sans-serif;line-height:1.7}body{margin:0;background:var(--bg)}a{color:var(--accent);text-underline-offset:.2em;overflow-wrap:anywhere}a:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
   header,main,footer{max-width:900px;margin:auto;padding:16px}header{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--border);min-height:64px}header nav{display:flex;gap:16px;flex-wrap:wrap}header nav a{font-size:14px;font-weight:700;text-decoration:none}.brand{font-weight:800;text-decoration:none;color:var(--ink)}
   .skip{position:absolute;left:16px;top:-100px;background:var(--card);padding:12px}.skip:focus{top:8px}main{padding-bottom:48px}
