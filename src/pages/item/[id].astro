@@ -7,7 +7,7 @@ import Comments from "../../components/Comments.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
 import Mentions from "../../components/Mentions.astro";
 import { mentionChips } from "../../lib/mentions";
-import { SOURCE_COLOR, flattenFeed, hasDetailPage, isCuratorSource, isRepoItem, type Day, type FeedItem } from "../../lib/feed";
+import { SOURCE_COLOR, flattenFeed, hasDetailPage, isCuratorSource, isFoldedStory, isRepoItem, type Day, type FeedItem } from "../../lib/feed";
 import { relativeKo } from "../../lib/relative-time";
 import { renderMarkdown } from "../../lib/markdown";
 import { topicFor, topicImage } from "../../lib/topic-art";
@@ -41,25 +41,32 @@ const SOURCE_LABEL: Record<string, string> = {
 };
 
 export async function getStaticPaths() {
-  const feed = flattenFeed(data.days as Day[], { includeRepos: true });
+  // 2026-11-24: 같은 소식으로 묶인 기사(storyOf)도 옛 링크가 깨지지 않게 페이지는 남기고, 대표 기사로 안내한다.
+  const feed = flattenFeed(data.days as Day[], { includeRepos: true, includeFolded: true });
+  const byId = new Map(feed.map((it) => [it.id, it]));
   // 2026-11-22: 상세 페이지가 막다른 길이었다. 같은 날·같은 분야의 다른 상세 기사 4개를 잇는다.
   const withPage = feed.filter(hasDetailPage);
   const byDate = new Map<string, FeedItem[]>();
   for (const it of withPage) byDate.set(it.date, [...(byDate.get(it.date) ?? []), it]);
   return withPage.map((it) => {
     const mine = new Set(storySections(it));
-    const sameDay = (byDate.get(it.date) ?? []).filter((o) => o.id !== it.id && !isRepoItem(o));
+    const sameDay = (byDate.get(it.date) ?? []).filter((o) => o.id !== it.id && !isRepoItem(o) && !isFoldedStory(o) && o.id !== it.storyOf);
     const related = [
       ...sameDay.filter((o) => storySections(o).some((x: string) => mine.has(x))),
       ...sameDay.filter((o) => !storySections(o).some((x: string) => mine.has(x))),
     ].slice(0, 4).map((o) => ({ id: o.id as string, title: o.title, src: o.src }));
-    return { params: { id: it.id as string }, props: { item: it, related } };
+    const lead = it.storyOf ? byId.get(it.storyOf) : undefined;
+    const primary = lead ? { id: lead.id as string, title: lead.title, url: lead.url, hasPage: hasDetailPage(lead) } : undefined;
+    return { params: { id: it.id as string }, props: { item: it, related, primary } };
   });
 }
 
-const { item, related = [] } = Astro.props as { item: FeedItem; related?: { id: string; title: string; src: string }[] };
+type Primary = { id: string; title: string; url: string; hasPage: boolean };
+const { item, related = [], primary } = Astro.props as { item: FeedItem; related?: { id: string; title: string; src: string }[]; primary?: Primary };
 const id = item.id as string;
 const pageUrl = `https://news.oiyo.net/item/${id}/`;
+// 묶인 기사는 대표 기사 상세 페이지를 canonical로 둔다(대표에 상세가 없으면 자기 자신).
+const canonicalUrl = primary?.hasPage ? `https://news.oiyo.net/item/${primary.id}/` : pageUrl;
 const label = SOURCE_LABEL[item.src] ?? item.src;
 const when = relativeKo(item.publishedAt ?? item.fetchedAt ?? (item.date ? `${item.date}T00:00:00Z` : undefined));
 const summary = item.detailSummary!.trim();
@@ -106,7 +113,7 @@ const jsonLd = {
 <BaseLayout
   title={`${item.title} — OIYO News`}
   description={description}
-  canonical={pageUrl}
+  canonical={canonicalUrl}
   noindex
   ogImage={topicArt ? new URL(topicArt, "https://news.oiyo.net").href : undefined}
   type="article"
@@ -125,6 +132,14 @@ const jsonLd = {
       {item.score != null && <> · ▲{item.score}</>}
     </p>
     <h1>{item.title}</h1>
+    {primary && (
+      <p class="folded-note" lang="ko">
+        같은 소식을 다룬 기사가 여럿이라 한 건으로 묶었어요. 대표 기사:
+        {primary.hasPage
+          ? <a href={`/item/${primary.id}/`}>{primary.title}</a>
+          : <a href={primary.url} target="_blank" rel="noopener noreferrer">{primary.title}</a>}
+      </p>
+    )}
     {topicArt && <img class="detail-art" src={topicArt} alt="" width="1280" height="853" loading="eager" decoding="async" />}
 
     <div class="detail-summary" lang="ko">
@@ -146,7 +161,7 @@ const jsonLd = {
       </section>
     )}
 
-    <Mentions chips={mentionChips(item)} id="mentions" />
+    <Mentions chips={mentionChips(item)} mentions={item.mentions} id="mentions" open />
 
     <p class="detail-actions">
       <a class="btn-primary" href={item.url} target="_blank" rel="noopener noreferrer">{repo ? "저장소 보기" : "원문 읽기"}</a>
@@ -177,6 +192,8 @@ const jsonLd = {
   <Comments thread={`item:${id}`} />
 
   <style>
+    .folded-note { margin:8px 0 12px; padding:10px 12px; border:1px dashed var(--border); border-radius:10px; font-size:14px; line-height:1.5; color:var(--muted) }
+    .folded-note a { color:var(--accent); font-weight:700; margin-left:4px }
     .detail-art { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 12px; margin: 4px 0 20px; background: var(--accent-soft); }
     .detail { padding: 16px 0 32px; max-width: 72ch; }
     .eyebrow { margin: 0 0 8px; font-size: 12px; color: var(--muted); line-height: 1.45; }

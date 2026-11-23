@@ -11,7 +11,7 @@ import { createFileStore } from "../functions/lib/stores.mjs";
 const news = JSON.parse(await readFile(resolve(process.cwd(), "src/data/news.json"), "utf8"));
 const scopedDays = [...(news.days || [])]
   .filter((day) => /^\d{4}-\d{2}-\d{2}$/.test(day.date || ""))
-  .map((day) => ({ date: day.date, items: (day.items || []).filter((item) => itemInScope(item)) }));
+  .map((day) => ({ date: day.date, items: (day.items || []).filter((item) => !item.storyOf && itemInScope(item)) }));
 const week = selectWeeklyItems(scopedDays);
 if (!week.through) {
   console.error("날짜가 있는 뉴스가 없습니다.");

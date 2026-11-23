@@ -4,7 +4,7 @@
 // 날짜 목록 한 장이 모든 날짜 페이지에 인바운드 링크를 준다.
 import data from "../data/news.json";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { publicDaySummary, type Day } from "../lib/feed";
+import { publicDaySummary, visibleItems, type Day } from "../lib/feed";
 
 const days = [...(data.days as Day[])].sort((a, b) => b.date.localeCompare(a.date));
 const byMonth = new Map<string, Day[]>();
@@ -21,11 +21,11 @@ const clip = (s: string) => (s.length > 90 ? `${s.slice(0, 90)}…` : s);
   <nav class="month-jump" aria-label="달 바로가기">{[...byMonth.keys()].map((m) => <a href={`#m-${m}`}>{Number(m.slice(5))}월</a>)}</nav>
   {[...byMonth].map(([month, list], mi) => (
     <details class="month" id={`m-${month}`} open={mi === 0}>
-      <summary><h2 class="section-title">{month.replace("-", "년 ")}월 <span class="count">{list.length}일 · {list.reduce((n, d) => n + d.items.length, 0)}건</span></h2></summary>
+      <summary><h2 class="section-title">{month.replace("-", "년 ")}월 <span class="count">{list.length}일 · {list.reduce((n, d) => n + visibleItems(d.items).length, 0)}건</span></h2></summary>
       <ol class="days">
         {list.map((d) => (
           <li>
-            <a href={`/${d.date}/`}><strong>{d.date}</strong> <span class="count">{d.items.length}건</span></a>
+            <a href={`/${d.date}/`}><strong>{d.date}</strong> <span class="count">{visibleItems(d.items).length}건</span></a>
             {publicDaySummary(d.summary) && <p>{clip(publicDaySummary(d.summary))}</p>}
           </li>
         ))}

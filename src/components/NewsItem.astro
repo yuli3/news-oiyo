@@ -130,7 +130,7 @@ const when = relativeKo(publishedAt ?? fetchedAt ?? (date ? `${date}T00:00:00Z` 
     )}
     <SaveButton url={href} title={translation?.title ?? title} source={label} date={date} />
   </p>
-  <Mentions chips={chips} id={mentionsId} />
+  <Mentions chips={chips} mentions={mentions} id={mentionsId} />
   {translation && (
     <details class="translation">
       <summary>한국어 요약 읽기</summary>

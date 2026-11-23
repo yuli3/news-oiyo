@@ -125,6 +125,8 @@ export type NewsItemRecord = {
   discussionUrl?: string;
   /** 같은 원문·같은 소식을 다룬 다른 출처(2026-11-17). scripts/lib/mentions.mjs */
   mentions?: Mention[];
+  /** 같은 소식의 대표 기사 id(2026-11-24). 있으면 목록에서 빠지고 대표의 출처 배지로만 보인다. */
+  storyOf?: string;
 };
 
 export type Day = {
@@ -167,19 +169,37 @@ export function isRepoItem(item: Pick<NewsItemRecord, "src" | "sourceId">): bool
   return item.sourceId === "github" || item.src === "github" || item.src === "GitHub";
 }
 
+/** 다른 기사(대표)로 묶인 같은 소식인지(2026-11-24, scripts/lib/mentions.mjs clusterSameStories). */
+export function isFoldedStory(item: Pick<NewsItemRecord, "storyOf">): boolean {
+  return typeof item.storyOf === "string" && item.storyOf.length > 0;
+}
+
+/** 목록에 보이는 항목만(묶인 같은 소식 제외). 건수 표시에 쓴다. */
+export function visibleItems<T extends Pick<NewsItemRecord, "storyOf">>(items: T[]): T[] {
+  return items.filter((item) => !isFoldedStory(item));
+}
+
 export function splitDayItems(items: NewsItemRecord[]): { news: NewsItemRecord[]; repos: NewsItemRecord[] } {
   const news: NewsItemRecord[] = [];
   const repos: NewsItemRecord[] = [];
-  for (const item of items) (isRepoItem(item) ? repos : news).push(item);
+  for (const item of items) {
+    if (isFoldedStory(item)) continue;
+    (isRepoItem(item) ? repos : news).push(item);
+  }
   return { news, repos };
 }
 
-/** Main news flow. GitHub repos are excluded (see splitDayItems / RepoList). */
-export function flattenFeed(days: Day[], { includeRepos = false }: { includeRepos?: boolean } = {}): FeedItem[] {
+/**
+ * Main news flow. GitHub repos are excluded (see splitDayItems / RepoList).
+ * 같은 소식으로 묶인 기사(storyOf)는 대표 기사의 출처 배지로만 보이고 목록·RSS·검색에서 빠진다.
+ * 상세 페이지 라우트만 `includeFolded`로 남겨 옛 링크가 대표 기사로 이어지게 한다.
+ */
+export function flattenFeed(days: Day[], { includeRepos = false, includeFolded = false }: { includeRepos?: boolean; includeFolded?: boolean } = {}): FeedItem[] {
   const items: FeedItem[] = [];
   for (const day of days) {
     for (const item of day.items) {
       if (!includeRepos && isRepoItem(item)) continue;
+      if (!includeFolded && isFoldedStory(item)) continue;
       items.push({ ...item, date: day.date });
     }
   }

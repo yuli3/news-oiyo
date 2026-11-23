@@ -1,31 +1,40 @@
 ---
 // 언급 출처 배지(2026-11-17). 같은 원문·같은 소식을 다룬 곳을 각주처럼 한 줄에 모은다.
 // 원문(1차 출처) → 이 항목의 출처 → 같은 원문을 다룬 출처 → 같은 소식을 다룬 다른 기사.
-import type { MentionChip } from "../lib/mentions";
-import { mentionCount } from "../lib/mentions";
+// 2026-11-24: 같은 소식은 대표 기사 하나로 묶고(clusterSameStories) 나머지는 여기 배지로만 남긴다.
+// 배지마다 "뉴스·블로그·커뮤니티·기관·원문" 분류를 붙이고, 묶은 기사 제목은 펼침으로 보여 준다.
+import type { Mention, MentionChip } from "../lib/mentions";
+import { foldedStories, mentionCount } from "../lib/mentions";
 
 interface Props {
   chips: MentionChip[];
+  /** 같은 소식으로 묶인 기사 제목을 펼쳐 보여 줄 원본 mentions. */
+  mentions?: Mention[];
   /** 제목 옆 각주 표시(¹)가 가리킬 id. */
   id?: string;
+  /** 상세 페이지처럼 묶은 기사 목록을 처음부터 펼쳐 둘지. */
+  open?: boolean;
 }
-const { chips, id } = Astro.props;
+const { chips, mentions, id, open = false } = Astro.props;
 const count = mentionCount(chips);
+const folded = foldedStories(mentions);
 const meta = (chip: MentionChip) => [
   chip.score != null ? `▲${chip.score}` : "",
   chip.comments != null ? `+${chip.comments}` : "",
 ].filter(Boolean).join(" ");
 ---
 {chips.length > 0 && (
-  <div class="mentions" id={id} role="group" aria-label={`언급 출처 ${count}곳`}>
-    <span class="mentions-count"><b>{count}</b>곳에서 언급</span>
-    <ul class="mention-chips">
-      {chips.map((chip) => {
+  <div class="mentions" id={id} role="group" aria-label={folded.length ? `같은 소식 ${folded.length + 1}건, 출처 ${count}곳` : `언급 출처 ${count}곳`}>
+    <span class="mentions-count">
+      {folded.length > 0 ? <>같은 소식 <b>{folded.length + 1}</b>건 · 출처 <b>{count}</b>곳</> : <><b>{count}</b>곳에서 언급</>}
+    </span>
+    <ol class="mention-chips">
+      {chips.map((chip, index) => {
         const extra = meta(chip);
         const body = (
           <>
-            {chip.role === "origin" && <span class="chip-kind">원문</span>}
-            {chip.role === "story" && <span class="chip-kind">같은 소식</span>}
+            <span class="chip-no" aria-hidden="true">{index + 1}</span>
+            <span class="chip-kind">{chip.kind}</span>
             <span class="chip-label">{chip.label}</span>
             {extra && <span class="chip-num">{extra}</span>}
           </>
@@ -40,7 +49,20 @@ const meta = (chip: MentionChip) => [
           </li>
         );
       })}
-    </ul>
+    </ol>
+    {folded.length > 0 && (
+      <details class="folded" open={open}>
+        <summary>함께 묶은 기사 {folded.length}건 보기</summary>
+        <ul>
+          {folded.map((story) => (
+            <li>
+              <span class="folded-src">{story.kind} · {story.label}</span>
+              {story.href ? <a href={story.href} target="_blank" rel="noopener noreferrer">{story.title}</a> : <span>{story.title}</span>}
+            </li>
+          ))}
+        </ul>
+      </details>
+    )}
   </div>
 )}
 
@@ -50,19 +72,30 @@ const meta = (chip: MentionChip) => [
   .mentions-count b { color:var(--ink); font-weight:800 }
   .mention-chips { display:flex; flex-wrap:wrap; gap:6px; list-style:none; margin:0; padding:0 }
   .chip {
-    display:inline-flex; align-items:center; gap:5px; min-height:28px; padding:3px 10px;
+    display:inline-flex; align-items:center; gap:5px; min-height:28px; padding:3px 10px 3px 4px;
     border:1px solid var(--border); border-radius:999px; background:var(--card);
-    color:var(--muted); text-decoration:none; font-weight:700; white-space:nowrap; max-width:100%;
+    color:var(--ink); text-decoration:none; font-weight:700; white-space:nowrap; max-width:100%;
   }
-  .chip::before { content:""; width:.5em; height:.5em; border-radius:50%; background:var(--source-dot, var(--muted)); flex:none }
+  .chip-no {
+    display:inline-grid; place-items:center; min-width:18px; height:18px; padding:0 4px; border-radius:999px;
+    background:var(--source-dot, var(--muted)); color:#fff; font-size:10.5px; font-weight:800; font-variant-numeric:tabular-nums;
+  }
   a.chip:hover { color:var(--accent); border-color:var(--accent) }
   a.chip:focus-visible { outline:2px solid var(--accent); outline-offset:2px }
   .chip-label { overflow:hidden; text-overflow:ellipsis }
-  .chip-num { font-weight:600; font-variant-numeric:tabular-nums }
-  .chip-kind { font-weight:800; color:var(--accent) }
-  /* 원문은 점 대신 테두리 강조로 구분한다. */
+  .chip-num { font-weight:600; color:var(--muted); font-variant-numeric:tabular-nums }
+  .chip-kind { font-weight:650; color:var(--muted); font-size:11px }
+  /* 원문은 테두리 강조로 구분한다. */
   .chip-origin { border-color:var(--accent); background:var(--accent-soft) }
-  .chip-origin::before { display:none }
-  .chip-story { border-style:dashed }
+  .chip-origin .chip-no { background:var(--accent) }
+  .chip-origin .chip-kind { color:var(--accent); font-weight:800 }
+  .folded { flex-basis:100%; margin:2px 0 0 }
+  .folded summary { cursor:pointer; font-weight:700; color:var(--muted); min-height:28px; display:inline-flex; align-items:center }
+  .folded summary:hover { color:var(--accent) }
+  .folded ul { list-style:none; margin:4px 0 0; padding:0 0 0 2px; display:grid; gap:6px }
+  .folded li { display:flex; flex-wrap:wrap; gap:2px 8px; align-items:baseline; font-size:13px; line-height:1.45 }
+  .folded li a { color:var(--ink); text-decoration:none }
+  .folded li a:hover { color:var(--accent); text-decoration:underline }
+  .folded-src { font-size:11px; font-weight:800; color:var(--muted); white-space:nowrap }
   @media (max-width:480px) { .chip { min-height:32px } }
 </style>

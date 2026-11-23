@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import data from "../data/news.json";
-import { flattenFeed, hasDetailPage, publicDaySummary, type Day } from "../lib/feed";
+import { flattenFeed, hasDetailPage, publicDaySummary, visibleItems, type Day } from "../lib/feed";
 
 /**
  * Machine-readable Comprehensive LLM Context File (llms-full.txt)
@@ -46,7 +46,7 @@ export const GET: APIRoute = async () => {
     if (summary) {
       lines.push(`- Summary: ${summary.slice(0, 240)}`);
     }
-    lines.push(`- Curated Items: ${day.items.length}`);
+    lines.push(`- Curated Items: ${visibleItems(day.items).length}`);
     lines.push(``);
   }
 

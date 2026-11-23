@@ -55,6 +55,7 @@ export function countWeek(days, topics, start) {
   for (const day of days) {
     if (day.date < start || day.date > end) continue;
     for (const item of day.items) {
+      if (item.storyOf) continue; // 같은 소식으로 묶인 기사는 대표 한 건으로 센다
       items += 1;
       for (const id of tagItem(item, topics)) {
         const c = counts.get(id) ?? { items: 0, days: new Set(), examples: [] };

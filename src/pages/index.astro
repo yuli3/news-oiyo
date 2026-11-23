@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import TopicNav from "../components/TopicNav.astro";
 import TopicFeed from "../components/TopicFeed.astro";
 import ShowcaseWeeklyCard from "../components/ShowcaseWeeklyCard.astro";
-import { flattenFeed,type Day } from "../lib/feed";
+import { flattenFeed,visibleItems,type Day } from "../lib/feed";
 import { storySections } from "../../scripts/lib/story-scope.mjs";
 const feed=flattenFeed(data.days as Day[]);
 const ai=feed.filter(item=>storySections(item).includes("ai"));
@@ -17,7 +17,7 @@ const updated=kst?`${kst.getUTCMonth()+1}월 ${kst.getUTCDate()}일 ${String(kst
 ---
 <BaseLayout title="OIYO News — AI와 금융 소식을 한눈에" description="AI 모델·도구 소식과 금융 뉴스·시장 브리핑을 출처와 함께 읽어요. 관심 분야를 골라 바로 시작하세요." canonical="https://news.oiyo.net/">
   <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify({"@context":"https://schema.org","@type":"WebSite","@id":"https://news.oiyo.net/#website",name:"OIYO News",url:"https://news.oiyo.net",publisher:{"@id":"https://oiyo.net/#organization"}})} /></Fragment>
-  <div class="page-intro"><h1>AI와 금융 소식을<br />출처와 함께 읽어요.</h1><p class="lede">새 모델과 도구가 궁금하다면 AI, 시장 흐름이 궁금하다면 금융을 골라 주세요.</p>{latestDay && <p class="today-bar">{updated && <span class="stamp"><time datetime={new Date(stamp).toISOString()}>{updated}</time> 갱신</span>}<a href={`/${latestDay.date}/`}>{Number(latestDay.date.slice(5,7))}월 {Number(latestDay.date.slice(8,10))}일 소식 {latestDay.items.length}건</a><a href="/finance/live/"><i class="live" aria-hidden="true"></i>실시간 경제 헤드라인</a></p>}<TopicNav /></div>
+  <div class="page-intro"><h1>AI와 금융 소식을<br />출처와 함께 읽어요.</h1><p class="lede">새 모델과 도구가 궁금하다면 AI, 시장 흐름이 궁금하다면 금융을 골라 주세요.</p>{latestDay && <p class="today-bar">{updated && <span class="stamp"><time datetime={new Date(stamp).toISOString()}>{updated}</time> 갱신</span>}<a href={`/${latestDay.date}/`}>{Number(latestDay.date.slice(5,7))}월 {Number(latestDay.date.slice(8,10))}일 소식 {visibleItems(latestDay.items).length}건</a><a href="/finance/live/"><i class="live" aria-hidden="true"></i>실시간 경제 헤드라인</a></p>}<TopicNav /></div>
   <div class="desks">
     <section aria-labelledby="ai-heading"><h2 id="ai-heading"><a href="/ai/">AI 뉴스</a></h2><p class="desk-intro">모델 발표와 실무 도구, 기술 변화의 맥락을 살펴봐요.</p><TopicFeed items={ai.slice(0,8)} label="최신 AI 뉴스" filters /><a class="more" href="/ai/">AI 뉴스·분석 더 보기</a></section>
     <section aria-labelledby="finance-heading"><h2 id="finance-heading"><a href="/finance/">금융 뉴스</a></h2><p class="desk-intro">시장 브리핑과 금리·환율·기업 소식을 살펴봐요. 투자 권유는 아니에요.</p><TopicFeed items={finance.slice(0,5)} label="최근 금융 뉴스" /><a class="more" href="/finance/">금융 뉴스·시장 브리핑 보기</a></section>
