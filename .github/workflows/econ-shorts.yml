@@ -62,9 +62,9 @@ jobs:
         run: |
           set -euo pipefail
           cp .tmp/econ-shorts/"$DATE"/voice.wav "$RUNNER_TEMP/out/" 2>/dev/null || true
-          node -e 'import("./scripts/lib/econ-shorts.mjs").then(m=>{const t=["한국은행이 기준금리를 2.50%로 동결했습니다.","FOMC 회의는 12월 16일, 소비자물가는 2.7% 올랐습니다."];console.log(JSON.stringify(t.map((x,i)=>({text:m.speakKo(x),start:0.3+i*5,max:4.6}))))})' > "$RUNNER_TEMP/check.json"
+          node -e 'import("./scripts/lib/econ-shorts.mjs").then(m=>{const t=["한국은행이 기준금리를 2.50%로 동결했습니다.","FOMC 회의는 12월 16일, 소비자물가는 2.7% 올랐습니다."];console.log(JSON.stringify(t.map((x,i)=>({text:m.speakKo(x),start:0.3+i*7,max:6.5}))))})' > "$RUNNER_TEMP/check.json"
           cat "$RUNNER_TEMP/check.json"
-          python3 scripts/econ-shorts/narrate.py "$RUNNER_TEMP/check.json" "$RUNNER_TEMP/out/reading-check.wav" 10
+          python3 scripts/econ-shorts/narrate.py "$RUNNER_TEMP/check.json" "$RUNNER_TEMP/out/reading-check.wav" 14
       - name: Upload dry run artifacts
         if: ${{ inputs.dry_run && steps.render.outputs.skip != 'true' }}
         uses: actions/upload-artifact@v4
