@@ -1,0 +1,38 @@
+name: YouTube reactions
+
+# 2026-11-24: 매일 아침 유튜브 두 채널(「OIYO 경제 속보」, 집사 공감툰)의 새 댓글·최근 영상 통계를 읽어
+# 작업 요약(Job summary)과 로그에 남긴다(scripts/youtube-reactions.mjs). 읽기만 한다.
+# 매일 아침 반응 요약(프로젝트 스레드 「메일·소셜 반응 확인 자동화」, 08:47 KST)이 이 실행의 로그를 읽는다.
+# 비밀값은 경제 속보 업로더와 같다(YT_CLIENT_ID·YT_CLIENT_SECRET·YT_REFRESH_TOKEN). 지켜볼 채널을 바꾸려면 변수 YT_WATCH_CHANNELS.
+
+on:
+  schedule:
+    - cron: "33 23 * * *" # 08:33 KST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: Read YouTube reactions
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          YT_WATCH_CHANNELS: ${{ vars.YT_WATCH_CHANNELS }}
+        run: node scripts/youtube-reactions.mjs --out "$RUNNER_TEMP/out/youtube-reactions.json"
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: youtube-reactions
+          path: ${{ runner.temp }}/out/
+          retention-days: 7
+          if-no-files-found: ignore
