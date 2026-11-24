@@ -39,7 +39,8 @@ export function renderSummary(report) {
   const lines = [`# 유튜브 반응 (${report.since} 이후)`, ""];
   for (const ch of report.channels) {
     lines.push(`## ${ch.title} (${ch.id})`);
-    if (ch.error) { lines.push(`- 읽기 실패: ${ch.error}`, ""); continue; }
+    if (ch.error) lines.push(`- 읽기 실패: ${ch.error}`);
+    if (ch.views === undefined) { lines.push(""); continue; }
     lines.push(`- 구독자 ${ch.subscribers ?? "?"} · 총 조회 ${ch.views ?? "?"} · 영상 ${ch.videoCount ?? "?"}`);
     if (ch.commentsNote) lines.push(`- 댓글: ${ch.commentsNote}`);
     lines.push(`- 새 댓글 ${ch.comments.length}개`);
@@ -98,11 +99,20 @@ async function main() {
         const threads = await get(`commentThreads?part=snippet&allThreadsRelatedToChannelId=${id}&maxResults=50&order=time`);
         ch.comments = recentComments(threads.items, sinceMs);
       } catch (e) {
-        ch.commentsNote = `읽지 못함 (${e.message})`;
+        // youtube.readonly 토큰으로는 commentThreads 가 403(insufficientPermissions)이다. 영상별 댓글 수로 대신 본다.
+        ch.commentsNote = /insufficientPermissions/.test(e.message)
+          ? "본문은 권한(youtube.force-ssl) 없음 · 아래 영상별 댓글 수로 확인"
+          : `읽지 못함 (${e.message})`;
       }
       const uploads = info.contentDetails?.relatedPlaylists?.uploads;
       if (uploads) {
-        const items = (await get(`playlistItems?part=contentDetails&playlistId=${uploads}&maxResults=5`)).items || [];
+        let items = [];
+        try {
+          items = (await get(`playlistItems?part=contentDetails&playlistId=${uploads}&maxResults=5`)).items || [];
+        } catch (e) {
+          // 영상이 하나도 없거나 업로드 목록이 비공개면 404 playlistNotFound.
+          if (!/playlistNotFound/.test(e.message)) throw e;
+        }
         const vids = items.map((i) => i.contentDetails.videoId).join(",");
         if (vids) {
           const vs = (await get(`videos?part=snippet,statistics,status&id=${vids}`)).items || [];
