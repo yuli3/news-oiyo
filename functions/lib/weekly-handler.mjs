@@ -56,7 +56,7 @@ async function processWeeklyRequest(request, deps) {
     return reply(400, { ok: false, error: "invalid_date" });
   }
   if (!deps.news?.days) return reply(503, { ok: false, error: "news_unconfigured" });
-  const days = deps.news.days.map(day => ({ ...day, items: (day.items || []).filter(itemInScope) }));
+  const days = deps.news.days.map(day => ({ ...day, items: (day.items || []).filter(item => !item.storyOf && itemInScope(item)) }));
   const week = selectWeeklyItems(days, { end: through });
   const preview = buildDigest({ date: week.start, through: week.through, items: week.items, pageUrl: "https://news.oiyo.net/archive/", contact: deps.contact });
   if (data.send !== true) return reply(200, { ok: true, mode: "preview", from: week.start, through: week.through, digest: preview });

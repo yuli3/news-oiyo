@@ -142,7 +142,7 @@ if (!fs.existsSync(coverPath)) {
 }
 
 // 4. 뉴스 아이템 및 헤드라인 정리
-const items = (targetDay.items || []).filter((item) => item && item.title);
+const items = (targetDay.items || []).filter((item) => item && item.title && !item.storyOf); // storyOf = 같은 소식으로 묶인 기사(대표만 쓴다)
 const topHeadlines = items.slice(0, 5).map((item, idx) => {
   const clean = String(item.title).replace(/["'<>]/g, "").trim();
   return `${idx + 1}. ${clean}`;

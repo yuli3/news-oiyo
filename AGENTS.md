@@ -124,6 +124,6 @@ npm run audit:details  # 상세 페이지 = 한국어 요약 있는 항목
 
 ## 언급 출처 배지 (2026-11-17)
 - 같은 원문 URL·같은 제목은 예전처럼 한 항목만 남기되, 버리던 쪽을 남은 항목의 `mentions`(kind `same-link`)로 옮긴다(`collect-news.mjs` select, `news-pipeline-adapter.mjs`). 남는 항목·id·상세 페이지는 그대로다.
-- 같은 날 다른 기사가 같은 소식이면(제목 단어 3개+·자카드 0.5+) 합치지 않고 서로 `same-story`로 잇는다(`sync-news.mjs` → `linkSameStories`). 기준은 `scripts/lib/mentions.mjs` 하나다.
-- 화면: 제목 끝 각주 숫자 + "N곳에서 언급" 칩 줄(원문 → 자기 출처 → 같은 원문 출처 → 같은 소식). `src/lib/mentions.ts`·`Mentions.astro`, 테스트 `tests/mentions.test.ts`.
+- **같은 소식 묶기 (2026-11-24, 세운 "비슷한 것끼리는 원본을 남기고 나머지는 출처로").** 같은 날 다른 기사가 같은 소식이면(제목 단어 3개+·자카드 0.4+, 짧은 제목은 2개+·0.6+, 한·영 고유명 맞춤, `[연재 꼬리표]` 무시) 대표 기사 하나만 목록에 남기고 나머지는 대표의 `mentions`(kind `same-story`) 출처 배지로 묶는다(`sync-news.mjs` → `clusterSameStories`). 대표는 `storyRank`: 공식 블로그·기관 > 언론 > 큐레이터, 한국어 상세 요약·본문 번역이 있으면 크게 더함, 같으면 먼저 나온 기사. 비교는 대표 제목하고만 한다(사슬 금지). 묶인 기사는 지우지 않고 `storyOf: <대표 id>`만 단다 — 목록·RSS·검색·메일·쇼츠·토픽 집계에서 빠지고, `/item/<id>/`는 남아 대표로 canonical·안내. 기준은 `scripts/lib/mentions.mjs` 하나다. 기준을 바꾸면 `npm run cluster`로 기존 `news.json`에 다시 적용한다(멱등, trends 폴더 불필요).
+- 화면: 제목 끝 각주 숫자 + 번호 매긴 출처 배지 줄(원문 → 자기 출처 → 같은 원문 출처 → 같은 소식). 배지마다 분류(원문·뉴스·블로그·커뮤니티·기관·저장소), 같은 출처는 배지 하나. 묶은 기사가 있으면 "같은 소식 N건 · 출처 M곳"과 "함께 묶은 기사 보기" 펼침(제목·링크). `src/lib/mentions.ts`·`Mentions.astro`, 테스트 `tests/mentions.test.ts`.
 - 큐레이터 항목의 토론 링크가 다른 큐레이터 스레드면(옛 `enrichExisting` 버그: URL만 보고 Lobsters 스레드·점수를 덮어씀) sync가 걷어 낸다. 보강은 이제 출처까지 같아야 한다.

@@ -39,7 +39,7 @@ const cleanText = (s = "") =>
     .replace(/\s+/g, " ")
     .trim();
 
-const items = (targetDay.items || []).filter((item) => item && item.title);
+const items = (targetDay.items || []).filter((item) => item && item.title && !item.storyOf); // storyOf = 같은 소식으로 묶인 기사(대표만 쓴다)
 const aiItems = items
   .filter((item) => storySections(item).includes("ai"))
   .sort((a, b) => Number(hasHangul(b.summary)) - Number(hasHangul(a.summary)))

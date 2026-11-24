@@ -7,8 +7,8 @@
 // 두 종류가 있다.
 //   same-link  — 같은 원문 URL 또는 같은 제목. 확실한 중복이라 한 항목으로 합친다.
 //   same-story — 같은 날 다른 기사가 같은 소식을 다룬 것(제목 단어가 많이 겹침).
-//                추정이므로 합치지 않고 서로 "같은 소식" 배지로 잇기만 한다.
-//                (합치면 흡수된 항목의 /item/<id>/ 상세 페이지가 사라진다.)
+//                2026-11-24부터 대표 기사 하나만 목록에 남기고 나머지는 대표의 출처 배지로 묶는다
+//                (clusterSameStories). 묶인 기사는 `storyOf`만 달고 데이터·상세 페이지는 남긴다.
 //
 // 순수 함수만 둔다. collect-news.mjs · news-pipeline-adapter.mjs · sync-news.mjs가 쓴다.
 
@@ -129,45 +129,128 @@ export function sanitizeMentions(raw) {
 // --- same-story: 제목 단어 겹침 ------------------------------------------------
 
 const STOP = new Set(("the and for with from that this into your you are was has have how why what new its our not but all can will " +
-  "about over more than show ask tell just now get got use using via after before").split(" "));
+  "about over more than show ask tell just now get got use using via after before hugging face paper models").split(" "));
 const KO_PARTICLE = /(으로|에서|에게|까지|부터|은|는|이|가|을|를|의|에|와|과|도|로|만)$/;
 
-/** 비교용 단어 집합. 한글 2자+, 영문 3자+, 숫자. 조사·흔한 영단어는 뺀다. */
+// 한·영 표기가 갈리는 고유명은 한 단어로 맞춘다(엔비디아 = nvidia). 한글 기사와 영문 큐레이터 글이
+// 같은 소식일 때 단어가 겹치게 하려는 것이라 자주 나오는 이름만 둔다.
+const ALIAS = {
+  "엔비디아": "nvidia", "젠슨": "jensen", "오픈ai": "openai", "구글": "google", "애플": "apple",
+  "마이크로소프트": "microsoft", "메타": "meta", "앤트로픽": "anthropic", "앤스로픽": "anthropic",
+  "클로드": "claude", "제미나이": "gemini", "챗gpt": "chatgpt", "삼성": "samsung", "삼성전자": "samsung",
+  "테슬라": "tesla", "아마존": "amazon", "딥마인드": "deepmind", "딥시크": "deepseek", "퀜": "qwen",
+  "트럼프": "trump", "연준": "fed", "비트코인": "bitcoin", "깃허브": "github", "인텔": "intel", "tsmc": "tsmc",
+};
+
+/** 비교용 단어 집합. 한글 2자+, 영문 3자+, 숫자. 조사·흔한 영단어·[연재 꼬리표]는 뺀다. */
 export function titleTokens(title) {
   const words = String(title ?? "").toLowerCase().normalize("NFKC")
+    .replace(/\[[^\]]{0,40}\]/g, " ")
     .match(/[가-힣]{2,}|[a-z][a-z0-9.+-]{2,}|\d+(?:\.\d+)?/g) ?? [];
   const out = new Set();
   for (const raw of words) {
     const w = raw.replace(KO_PARTICLE, "").replace(/[.+-]+$/, "");
-    if (w.length >= 2 && !STOP.has(w)) out.add(w);
+    const word = ALIAS[w] ?? w;
+    if (word.length >= 2 && !STOP.has(word)) out.add(word);
   }
   return out;
 }
 
-/** 두 제목이 같은 소식인지. 보수적으로 — 공유 단어 3개 이상 + 자카드 0.5 이상. */
-export function sameStory(a, b, { minShared = 3, minJaccard = 0.5 } = {}) {
+/**
+ * 두 제목이 같은 소식인지. 공유 단어 3개+·자카드 0.4+, 또는 짧은 제목은 공유 2개+·자카드 0.6+.
+ * (11-17의 3개+·0.5+는 일주일에 4건만 잡았다. 11-24 젠슨 황 복귀 기사 7건이 따로 떴다.)
+ */
+export function sameStory(a, b, { minShared = 3, minJaccard = 0.4, shortShared = 2, shortJaccard = 0.6 } = {}) {
   let shared = 0;
   for (const w of a) if (b.has(w)) shared++;
-  if (shared < minShared) return false;
-  return shared / (a.size + b.size - shared) >= minJaccard;
+  if (shared < Math.min(minShared, shortShared)) return false;
+  const jaccard = shared / (a.size + b.size - shared);
+  return (shared >= minShared && jaccard >= minJaccard) || (shared >= shortShared && jaccard >= shortJaccard);
+}
+
+function overlap(a, b) {
+  let shared = 0;
+  for (const w of a) if (b.has(w)) shared++;
+  return shared / (a.size + b.size - shared || 1);
+}
+
+// 대표 기사 고르기 — "가장 원본에 가깝고 읽을거리가 많은 것".
+// 공식 1차 출처(회사 블로그·기관) > 언론 > 큐레이터(HN·GeekNews 등). 한국어 상세 요약·본문 번역이
+// 있으면 크게 더한다(독자가 실제로 읽을 수 있는 쪽). 점수가 같으면 먼저 나온 기사(원 보도)가 이긴다.
+const OFFICIAL_SOURCES = new Set(["openai-news", "deepmind-blog", "google-developers", "nvidia-developer", "karpathy-blog",
+  "bok", "moef", "federal-reserve", "sec"]);
+
+export function storyRank(item) {
+  const id = String(item?.sourceId ?? item?.src ?? "").toLowerCase();
+  let rank = OFFICIAL_SOURCES.has(id) ? 30 : CURATOR_HOSTS[id] || id.startsWith("r-") ? 10 : 20;
+  if (typeof item.detailSummary === "string" && item.detailSummary.trim()) rank += 25;
+  if (item.translationStatus === "full") rank += 5;
+  else if (typeof item.translationKo === "string" && item.translationKo.trim()) rank += 3;
+  if (item.detailOrigin === "primary") rank += 3;
+  const score = finite(item.score);
+  if (score) rank += Math.min(5, Math.log10(score + 1) * 2);
+  if (typeof item.summary === "string") rank += Math.min(3, item.summary.trim().length / 80);
+  return rank;
+}
+
+function stampOf(item) {
+  const t = Date.parse(item?.publishedAt ?? item?.fetchedAt ?? "");
+  return Number.isNaN(t) ? Infinity : t;
+}
+
+/** 묶이기 전 상태로 되돌린다(다시 돌려도 같은 결과가 나오게). */
+function resetCluster(item) {
+  delete item.storyOf;
+  if (!Array.isArray(item.mentions)) return;
+  const kept = item.mentions.filter((m) => m?.kind !== "same-story");
+  if (kept.length) item.mentions = kept;
+  else delete item.mentions;
 }
 
 /**
- * 같은 날 항목들 사이의 same-story 언급을 서로 단다(항목 수는 그대로).
- * GitHub 저장소는 별도 섹션이라 대상에서 뺀다.
+ * 같은 날 같은 소식을 한 묶음으로 만든다(2026-11-24, 세운 "비슷한 것끼리는 원본을 남기고 나머지는 출처로").
+ * - 대표 기사(storyRank 최고)는 그대로 두고, 나머지는 대표의 `mentions`(kind same-story)에 출처 배지로 들어간다.
+ * - 묶인 기사는 지우지 않고 `storyOf: <대표 id>`만 단다. 목록·RSS·검색에서는 빠지고(feed.ts),
+ *   /item/<id>/ 상세 페이지는 남아 대표 기사로 canonical을 건다(링크가 깨지지 않게).
+ * - 비교는 대표 제목하고만 한다(사슬로 이어 붙이지 않는다). 그래야 "황 복귀"와 "황 청문회"가 한 덩어리가 되지 않는다.
+ * - 묶인 기사가 가진 same-link 언급(HN·GeekNews 토론 등)도 대표의 배지로 올린다.
+ * 다시 돌려도 결과가 같다. GitHub 저장소는 별도 섹션이라 뺀다.
  */
-export function linkSameStories(items, options = {}) {
-  const pool = items.filter((it) => it && it.sourceId !== "github" && it.src !== "github");
-  const tokens = pool.map((it) => titleTokens(it.title));
-  let links = 0;
-  for (let i = 0; i < pool.length; i++) {
-    for (let j = i + 1; j < pool.length; j++) {
-      if (pool[i].canonicalUrl && pool[i].canonicalUrl === pool[j].canonicalUrl) continue;
-      if (!sameStory(tokens[i], tokens[j], options)) continue;
-      addMentions(pool[i], [mentionOf(pool[j], "same-story")]);
-      addMentions(pool[j], [mentionOf(pool[i], "same-story")]);
-      links++;
+export function clusterSameStories(items, options = {}) {
+  for (const it of items) if (it && typeof it === "object") resetCluster(it);
+  const pool = items
+    .map((it, index) => ({ it, index }))
+    .filter(({ it }) => it && it.sourceId !== "github" && it.src !== "github" && typeof it.title === "string");
+  pool.sort((a, b) => storyRank(b.it) - storyRank(a.it) || stampOf(a.it) - stampOf(b.it) || a.index - b.index);
+  const clusters = [];
+  for (const { it } of pool) {
+    const tokens = titleTokens(it.title);
+    let best = null;
+    let bestScore = 0;
+    for (const c of clusters) {
+      if (c.primary.canonicalUrl && c.primary.canonicalUrl === it.canonicalUrl) continue;
+      if (!sameStory(c.tokens, tokens, options)) continue;
+      const score = overlap(c.tokens, tokens);
+      if (score > bestScore) { best = c; bestScore = score; }
     }
+    if (best) best.members.push(it);
+    else clusters.push({ primary: it, tokens, members: [] });
   }
-  return links;
+  let absorbed = 0;
+  let grouped = 0;
+  for (const { primary, members } of clusters) {
+    if (!members.length) continue;
+    grouped++;
+    const incoming = [];
+    for (const member of members) {
+      if (typeof primary.id === "string") member.storyOf = primary.id;
+      incoming.push(mentionOf(member, "same-story"));
+      for (const m of Array.isArray(member.mentions) ? member.mentions : []) {
+        if (m?.kind === "same-link") incoming.push({ ...m, kind: "same-story", title: member.title.trim().slice(0, 160), ...(member.id ? { itemId: member.id } : {}) });
+      }
+      absorbed++;
+    }
+    addMentions(primary, incoming);
+  }
+  return { grouped, absorbed };
 }

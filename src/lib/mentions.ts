@@ -24,7 +24,25 @@ export type MentionChip = {
   comments?: number;
   color: string;
   title: string;
+  /** 배지 앞 작은 분류(2026-11-24): 원문·뉴스·블로그·커뮤니티·기관·저장소 */
+  kind: string;
+  /** 같은 소식으로 묶인 기사의 제목(role story) */
+  storyTitle?: string;
+  /** 묶인 기사의 OIYO 상세 페이지 id */
+  itemId?: string;
 };
+
+// 배지 분류. 짧은 이름 기준. 모르는 이름은 "뉴스"로 둔다(레지스트리 밖 출처는 sync가 버린다).
+const KIND: Record<string, string> = {
+  HN: "커뮤니티", GeekNews: "커뮤니티", Lobsters: "커뮤니티", Reddit: "커뮤니티",
+  OpenAI: "블로그", DeepMind: "블로그", Karpathy: "블로그", "Google Developers": "블로그", "NVIDIA Developer": "블로그",
+  "한국은행": "기관", Fed: "기관", SEC: "기관", "재정경제부": "기관",
+  GitHub: "저장소",
+};
+
+export function sourceKind(label: string): string {
+  return KIND[label] ?? "뉴스";
+}
 
 // 배지는 좁은 폭에서 한 줄에 여러 개가 들어가야 해서 짧은 이름을 쓴다.
 const SHORT: Record<string, string> = {
@@ -83,12 +101,16 @@ type ItemLike = {
 
 const CURATORS = new Set(["HN", "GeekNews", "Lobsters", "Reddit"]);
 
-/** 같은 출처(짧은 이름)가 여러 번이면 점수·댓글이 큰 쪽 하나로 합친다. */
+/**
+ * 같은 출처(짧은 이름)가 여러 번이면 점수·댓글이 큰 쪽 하나로 합친다.
+ * 2026-11-24: 같은 소식으로 묶인 기사도 출처가 같으면 배지 하나(퍼플렉시티 출처 칩처럼 "어디에서"만).
+ * 기사 제목은 foldedStories()가 따로 보여 준다.
+ */
 function mergeByLabel(chips: MentionChip[]): MentionChip[] {
   const out: MentionChip[] = [];
   const at = new Map<string, number>();
   for (const chip of chips) {
-    const k = `${chip.role === "story" ? "story" : "src"}|${chip.label}|${chip.role === "story" ? chip.href ?? chip.key : ""}`;
+    const k = `${chip.role === "origin" ? "origin" : "src"}|${chip.label}`;
     const i = at.get(k);
     if (i === undefined) { at.set(k, out.length); out.push(chip); continue; }
     const prev = out[i];
@@ -111,14 +133,14 @@ export function mentionChips(item: ItemLike): MentionChip[] {
   if (item.domain) {
     chips.push({
       key: "origin", role: "origin", label: item.domain, href: item.url, color: "var(--accent)",
-      title: `원문(1차 출처): ${item.domain}`,
+      title: `원문(1차 출처): ${item.domain}`, kind: "원문",
     });
   }
   chips.push({
     key: "own", role: "mention", label: ownLabel,
     href: CURATORS.has(ownLabel) ? item.discussionUrl : item.discussionUrl ?? item.url,
     score: item.score ?? undefined, comments: item.comments ?? undefined,
-    color: sourceDot(ownLabel), title: `${ownLabel}에서 언급`,
+    color: sourceDot(ownLabel), title: `${ownLabel}에서 언급`, kind: sourceKind(ownLabel),
   });
   const sameLink = mentions
     .filter((m) => m.kind !== "same-story")
@@ -128,17 +150,33 @@ export function mentionChips(item: ItemLike): MentionChip[] {
     const label = shortSourceLabel(m.sourceId ?? m.src);
     chips.push({
       key: `m${i}`, role: "mention", label, href: m.url, score: m.score, comments: m.comments,
-      color: sourceDot(label), title: `${label}에서도 같은 원문을 다뤘어요`,
+      color: sourceDot(label), title: `${label}에서도 같은 원문을 다뤘어요`, kind: sourceKind(label),
     });
   }
   for (const [i, m] of mentions.filter((x) => x.kind === "same-story").entries()) {
     const label = shortSourceLabel(m.sourceId ?? m.src);
     chips.push({
       key: `s${i}`, role: "story", label, href: m.url, score: m.score, comments: m.comments,
-      color: sourceDot(label), title: m.title ? `같은 소식: ${m.title}` : `${label}의 같은 소식`,
+      color: sourceDot(label), title: m.title ? `같은 소식: ${m.title}` : `${label}의 같은 소식`, kind: sourceKind(label),
+      storyTitle: m.title, itemId: m.itemId,
     });
   }
   return mergeByLabel(chips);
+}
+
+/** 같은 소식으로 묶여 이 기사 아래로 들어온 다른 기사(제목 있는 것). 목록의 "묶은 기사" 펼침에 쓴다. */
+export function foldedStories(mentions: Mention[] | undefined): { label: string; kind: string; title: string; href?: string; itemId?: string }[] {
+  const out: { label: string; kind: string; title: string; href?: string; itemId?: string }[] = [];
+  const seen = new Set<string>();
+  for (const m of Array.isArray(mentions) ? mentions : []) {
+    if (m.kind !== "same-story" || !m.title) continue;
+    const key = m.itemId ?? m.title;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const label = shortSourceLabel(m.sourceId ?? m.src);
+    out.push({ label, kind: sourceKind(label), title: m.title, href: m.url, itemId: m.itemId });
+  }
+  return out;
 }
 
 /** "N곳에서 언급" 의 N — 원문 칩을 뺀, 서로 다른 출처·기사 수. */

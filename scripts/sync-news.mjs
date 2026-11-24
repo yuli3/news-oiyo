@@ -7,7 +7,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { adaptTrendSignals } from "./lib/news-pipeline-adapter.mjs";
 import { loadTranslations, applyTranslation } from "./lib/translations.mjs";
-import { linkSameStories } from "./lib/mentions.mjs";
+import { clusterSameStories } from "./lib/mentions.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const BRAIN = join(process.env.HOME, "coding", "company-brain");
@@ -28,7 +28,8 @@ const seenCanonicalUrls = new Set();
 const seenContentHashes = new Set();
 let dropped = 0;
 let evergreenProposalCount = 0;
-let sameStoryLinks = 0;
+let storyGroups = 0;
+let storyAbsorbed = 0;
 
 const dateFiles = readdirSync(TRENDS).filter((x) => /^\d{4}-\d{2}-\d{2}\.md$/.test(x)).sort();
 
@@ -108,8 +109,10 @@ for (const f of dateFiles.slice().reverse()) {
     items.push(out);
   }
 
-  // 같은 날 다른 기사가 같은 소식을 다루면 서로 "같은 소식" 배지로 잇는다(합치지 않음).
-  sameStoryLinks += linkSameStories(items);
+  // 같은 날 같은 소식은 대표 기사 하나로 묶고 나머지는 출처 배지로 남긴다(2026-11-24).
+  const clustered = clusterSameStories(items);
+  storyGroups += clustered.grouped;
+  storyAbsorbed += clustered.absorbed;
 
   const ideas = [];
   const ideaBlock = (md.match(/## 도출된 아이디어[^\n]*\s+([\s\S]*?)$/) || [])[1] ?? "";
@@ -135,4 +138,4 @@ const sourceContract = {
 const payload = { generatedAt: new Date().toISOString(), sourceContract, days, market };
 const dryRun = process.env.NEWS_SYNC_DRY_RUN === "1";
 if (!dryRun) writeFileSync(OUT, JSON.stringify(payload, null, 1), "utf8");
-console.log(`${dryRun ? "validated" : "synced"} ${days.length} day(s), ${days.reduce((s, d) => s + d.items.length, 0)} items (deduped/dropped ${dropped}), evergreen proposals=${evergreenProposalCount} (not published), market=${market ? "ok" : "none"}, translations=${translated}, same-story links=${sameStoryLinks}${dryRun ? "" : " → src/data/news.json"}`);
+console.log(`${dryRun ? "validated" : "synced"} ${days.length} day(s), ${days.reduce((s, d) => s + d.items.length, 0)} items (deduped/dropped ${dropped}), evergreen proposals=${evergreenProposalCount} (not published), market=${market ? "ok" : "none"}, translations=${translated}, same-story groups=${storyGroups} (absorbed ${storyAbsorbed})${dryRun ? "" : " → src/data/news.json"}`);
