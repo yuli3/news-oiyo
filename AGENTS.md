@@ -127,3 +127,9 @@ npm run audit:details  # 상세 페이지 = 한국어 요약 있는 항목
 - **같은 소식 묶기 (2026-11-24, 세운 "비슷한 것끼리는 원본을 남기고 나머지는 출처로").** 같은 날 다른 기사가 같은 소식이면(제목 단어 3개+·자카드 0.4+, 짧은 제목은 2개+·0.6+, 한·영 고유명 맞춤, `[연재 꼬리표]` 무시) 대표 기사 하나만 목록에 남기고 나머지는 대표의 `mentions`(kind `same-story`) 출처 배지로 묶는다(`sync-news.mjs` → `clusterSameStories`). 대표는 `storyRank`: 공식 블로그·기관 > 언론 > 큐레이터, 한국어 상세 요약·본문 번역이 있으면 크게 더함, 같으면 먼저 나온 기사. 비교는 대표 제목하고만 한다(사슬 금지). 묶인 기사는 지우지 않고 `storyOf: <대표 id>`만 단다 — 목록·RSS·검색·메일·쇼츠·토픽 집계에서 빠지고, `/item/<id>/`는 남아 대표로 canonical·안내. 기준은 `scripts/lib/mentions.mjs` 하나다. 기준을 바꾸면 `npm run cluster`로 기존 `news.json`에 다시 적용한다(멱등, trends 폴더 불필요).
 - 화면: 제목 끝 각주 숫자 + 번호 매긴 출처 배지 줄(원문 → 자기 출처 → 같은 원문 출처 → 같은 소식). 배지마다 분류(원문·뉴스·블로그·커뮤니티·기관·저장소), 같은 출처는 배지 하나. 묶은 기사가 있으면 "같은 소식 N건 · 출처 M곳"과 "함께 묶은 기사 보기" 펼침(제목·링크). `src/lib/mentions.ts`·`Mentions.astro`, 테스트 `tests/mentions.test.ts`.
 - 큐레이터 항목의 토론 링크가 다른 큐레이터 스레드면(옛 `enrichExisting` 버그: URL만 보고 Lobsters 스레드·점수를 덮어씀) sync가 걷어 낸다. 보강은 이제 출처까지 같아야 한다.
+
+## AI로 만든 놀라운 것 N선 (2026-11-25)
+- 주간 호 `src/data/ai-wow/<YYYY-Www>.json` → `/ai/wow/<week>/`·`/ai/wow/`(빌드 때 `validateIssue` 검사, 정본 `scripts/lib/ai-wow.mjs`). 근거: company-brain `projects/research/ai-builders-video-social-2026-11-25.md` 적용 2번(모음 포맷이 조회수 증폭기).
+- **규칙**: 항목마다 만든 사람(handle·플랫폼)과 원문 https 링크 필수. 원작 영상·이미지·스크린샷은 다시 올리지 않는다(`media` 필드는 검사가 막는다). 조회수·비용·시간은 `claim` 칸에만, 화면에 "주장"으로 표시. 원문을 직접 못 열었으면 모음 기사를 `via`로 밝힌다. 기기 잠금 해제·몰카 탐지처럼 법적 회색지대는 싣지 않는다. 빼 달라는 요청(support@oiyo.net)은 바로 뺀다.
+- 쇼츠: 새 호가 main 에 들어오면 `.github/workflows/ai-wow-shorts.yml`이 앞 7개를 글자 카드 58초 쇼츠로 렌더(`scripts/render-ai-wow-short.mjs`, 경제 쇼츠의 music.py·narrate.py 공용) → 봇 브랜치 `ai-wow-shorts`의 `latest.json`(videoUrl·유튜브/인스타/X 문구). 게시는 Buffer(유튜브 「OIYO」 쇼츠·인스타 릴스·X)로 큐레이션 세션이 한다. 경제 속보 채널에는 올리지 않는다.
+- 주간 절차(수요일): 지난 월~일 X·Reddit·HN·GeekNews·유튜브에서 "AI로 처음 해 본 것" 8~10개 → 새 JSON → `npm test` → PR·merge → 워크플로 성공 확인 → Buffer 게시.

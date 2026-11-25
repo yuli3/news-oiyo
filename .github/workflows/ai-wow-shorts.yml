@@ -1,0 +1,87 @@
+name: AI wow shorts
+
+# 2026-11-25: 「이번 주 AI로 만든 놀라운 것 N선」 60초 세로 쇼츠(scripts/render-ai-wow-short.mjs).
+# 새 호(src/data/ai-wow/<week>.json)가 main 에 들어오면 가장 최근 호를 렌더해 봇 전용 브랜치 ai-wow-shorts 에
+# 최근 8주치만 둔다(커밋 하나를 덮어쓰는 브랜치, 사람이 작업하지 않는다). Buffer 는 이 주소를 가져간다:
+#   https://raw.githubusercontent.com/yuli3/news-oiyo/ai-wow-shorts/latest.json  (videoUrl·youtube·instagram·x 문구)
+# 게시(유튜브 OIYO·인스타 릴스·X)는 매주 큐레이션 세션이 Buffer 로 한다. 원작자 영상은 쓰지 않는다.
+
+on:
+  push:
+    branches: [main]
+    paths: ["src/data/ai-wow/**"]
+  workflow_dispatch:
+    inputs:
+      week:
+        description: "렌더할 호(예: 2026-W48). 비우면 가장 최근 호"
+        type: string
+        default: ""
+      dry_run:
+        description: "브랜치 게시 없이 아티팩트만"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-wow-shorts
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+      - name: Tools (Korean font, numpy, Playwright Chromium)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk ffmpeg >/dev/null
+          python3 -m pip install --quiet numpy supertonic==1.3.1
+          npm i --no-save --prefix "$RUNNER_TEMP/pw" playwright@1.63.0 >/dev/null
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium >/dev/null
+      - name: Cache Supertonic model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/supertonic3
+          key: supertonic3-1.3.1
+      - name: Render
+        id: render
+        env:
+          NODE_PATH: ${{ runner.temp }}/pw/node_modules
+          NARRATION: ${{ vars.NARRATION }}
+          NARRATION_VOICE: ${{ vars.NARRATION_VOICE }}
+          WEEK: ${{ inputs.week }}
+        run: node scripts/render-ai-wow-short.mjs --out "$RUNNER_TEMP/out" ${WEEK:+--week "$WEEK"}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-wow-short
+          path: ${{ runner.temp }}/out/
+      - name: Publish to ai-wow-shorts branch (last 8 weeks)
+        if: ${{ !inputs.dry_run }}
+        env:
+          WEEK: ${{ steps.render.outputs.week }}
+        run: |
+          set -euo pipefail
+          KEEP="$RUNNER_TEMP/keep"
+          mkdir -p "$KEEP"
+          if git fetch --depth=1 origin ai-wow-shorts 2>/dev/null; then
+            git --work-tree="$KEEP" checkout FETCH_HEAD -- . 2>/dev/null || true
+          fi
+          cp "$RUNNER_TEMP/out/$WEEK.mp4" "$RUNNER_TEMP/out/$WEEK.json" "$KEEP/"
+          cd "$KEEP"
+          rm -f latest.json
+          ls *.mp4 | sort -r | tail -n +9 | while read -r f; do rm -f "$f" "${f%.mp4}.json"; done
+          node -e 'const fs=require("fs");const w=process.env.WEEK;const m=JSON.parse(fs.readFileSync(w+".json","utf8"));m.videoUrl=`https://raw.githubusercontent.com/${process.env.GITHUB_REPOSITORY}/ai-wow-shorts/${w}.mp4`;fs.writeFileSync("latest.json",JSON.stringify(m,null,2)+"\n")'
+          git init -q -b ai-wow-shorts .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "ai wow shorts $WEEK (최근 8주)"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" ai-wow-shorts
+          ls -la
