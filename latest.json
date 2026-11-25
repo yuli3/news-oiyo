@@ -1,0 +1,30 @@
+{
+  "week": "2026-W48",
+  "url": "https://news.oiyo.net/ai/wow/2026-W48/",
+  "youtube": {
+    "title": "이번 주 AI로 만든 놀라운 것 7선 (11월 18~24일) #shorts",
+    "description": "11월 18~24일 사람들이 AI로 처음 해 본 일 7가지. 영상 속 화면은 OIYO가 직접 만든 글자 카드이고, 원작자의 영상·이미지는 쓰지 않았어요. 원문은 아래 링크에서 보세요.\n\n1. 분양 브로셔 평면도 한 장 → 가구 배치 3D 계획\n   만든 사람: @Nyxera0x · X\n   원문: https://x.com/i/status/2125236477667758136\n2. 30석 카페 설계도에 덕트·배관·전선까지 그리고 건축 규정으로 검사\n   만든 사람: @0xKitsui · X\n   원문: https://x.com/i/status/2125231026888716505\n3. \"외계 정글 행성과 우주선\" 한 줄 → Blender로 3,120프레임 렌더\n   만든 사람: @0xKenny1st · X\n   원문: https://x.com/i/status/2124978516596822261\n4. 날아다닐 수 있는 아틀란티스 도시를 HTML 파일 하나(96KB)에\n   만든 사람: u/Any-Reputation8118 · Reddit (XDA Developers 소개 기사)\n   원문: https://www.xda-developers.com/someone-used-claude-code-to-build-hourglass-one-of-five-projects/\n5. 취미로 NASA 공개 데이터를 뒤져 행성 후보 2개를 찾음\n   만든 사람: Pavel Rabtsevich · Reddit (XDA Developers 소개 기사)\n   원문: https://www.xda-developers.com/someone-used-claude-code-to-build-hourglass-one-of-five-projects/\n6. 뒤집으면 휴대폰 방해 앱이 잠기는 실물 모래시계\n   만든 사람: u/RamonvanDijk · Reddit (XDA Developers 소개 기사)\n   원문: https://www.xda-developers.com/someone-used-claude-code-to-build-hourglass-one-of-five-projects/\n7. 한 문장 → 포스터 속으로 카메라가 날아드는 3D 루프 영상\n   만든 사람: @doodi_dev · X\n   원문: https://x.com/i/status/2123600969518723215\n\n전체 10선과 자세한 설명: https://news.oiyo.net/ai/wow/2026-W48/\n조회수·비용·시간은 게시자 주장이에요.\n\n나레이션: AI 음성(Supertonic)\n\n#AI #클로드코드 #바이브코딩 #AI활용",
+    "tags": [
+      "AI",
+      "클로드코드",
+      "바이브코딩",
+      "AI활용",
+      "Claude Code"
+    ],
+    "categoryId": "28",
+    "containsSyntheticMedia": true
+  },
+  "instagram": {
+    "caption": "이번 주 AI로 만든 놀라운 것 7선 (11월 18~24일)\n\n1. 분양 브로셔 평면도 한 장 → 가구 배치 3D 계획 — @Nyxera0x\n2. 30석 카페 설계도에 덕트·배관·전선까지 그리고 건축 규정으로 검사 — @0xKitsui\n3. \"외계 정글 행성과 우주선\" 한 줄 → Blender로 3,120프레임 렌더 — @0xKenny1st\n4. 날아다닐 수 있는 아틀란티스 도시를 HTML 파일 하나(96KB)에 — u/Any-Reputation8118\n5. 취미로 NASA 공개 데이터를 뒤져 행성 후보 2개를 찾음 — Pavel Rabtsevich\n6. 뒤집으면 휴대폰 방해 앱이 잠기는 실물 모래시계 — u/RamonvanDijk\n7. 한 문장 → 포스터 속으로 카메라가 날아드는 3D 루프 영상 — @doodi_dev\n\n원문 링크 전부: news.oiyo.net/ai/wow/2026-W48\n#AI #클로드코드 #바이브코딩 #AI활용 #개발자"
+  },
+  "x": {
+    "text": "이번 주 AI로 만든 놀라운 것 10선 (11월 18~24일)\n\n· 분양 브로셔 평면도 한 장 → 가구 배치 3D 계획 (@Nyxera0x)\n· 30석 카페 설계도에 덕트·배관·전선까지 그리고 건축 규정으로 검사 (@0xKitsui)\n· \"외계 정글 행성과 우주선\" 한 줄 → Blender로 3,120프레임 렌더 (@0xKenny1st)\n\n만든 사람·원문 링크 전부 👇\nhttps://news.oiyo.net/ai/wow/2026-W48/"
+  },
+  "length": 57.7,
+  "video": "2026-W48.mp4",
+  "narration": {
+    "engine": "supertonic-3",
+    "voice": "F1"
+  },
+  "videoUrl": "https://raw.githubusercontent.com/yuli3/news-oiyo/ai-wow-shorts/2026-W48.mp4"
+}
