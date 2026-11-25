@@ -31,3 +31,4 @@ wrangler.toml
 # 2026-11-23 경제 속보 쇼츠: 장면 PNG·음원 임시 폴더와 로컬 결과물(배포본은 econ-shorts 브랜치)
 .tmp/
 reports/econ-shorts/
+reports/ai-wow-shorts/

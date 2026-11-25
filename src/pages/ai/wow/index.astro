@@ -1,0 +1,27 @@
+---
+// 「이번 주 AI로 만든 놀라운 것 N선」 목록 (2026-11-25).
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { wowIssues } from "../../../lib/ai-wow";
+import { weekLabel } from "../../../../scripts/lib/ai-wow.mjs";
+const title = "AI로 만든 놀라운 것 — 매주 N선";
+const description = "사람들이 AI로 처음 해 본 일을 매주 골라 만든 사람과 원문 링크와 함께 소개해요. 평면도로 가구 배치, 코드로 만든 영화, 취미로 찾은 행성 후보 같은 것들이요.";
+---
+<BaseLayout title={title} description={description} canonical="https://news.oiyo.net/ai/wow/" crumbs={[{ label: "AI", href: "/ai/" }, { label: "AI로 만든 놀라운 것" }]}>
+  <h1>AI로 만든 놀라운 것</h1>
+  <p class="lede">{description}</p>
+  <ul class="list">
+    {wowIssues.map((issue) => (
+      <li>
+        <a href={`/ai/wow/${issue.week}/`}><strong>{weekLabel(issue)} · {issue.items.length}선</strong><span>{issue.items.slice(0, 3).map((it) => it.title).join(" / ")}</span></a>
+      </li>
+    ))}
+  </ul>
+  <p class="note">매주 수요일에 새 호가 올라와요. 같은 내용을 60초 쇼츠로도 만들어요. 원작 영상은 다시 올리지 않고 링크만 걸어요.</p>
+  <style>
+    .list { list-style: none; padding: 0; display: grid; gap: 8px; }
+    .list a { display: flex; flex-direction: column; gap: 4px; min-height: 44px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); color: var(--ink); text-decoration: none; }
+    .list a:hover { border-color: var(--accent); }
+    .list span { font-size: 13px; color: var(--muted); }
+    .note { font-size: 13px; color: var(--muted); }
+  </style>
+</BaseLayout>

@@ -1,0 +1,79 @@
+---
+// 「이번 주 AI로 만든 놀라운 것 N선」 주간 호 (2026-11-25). 데이터 src/data/ai-wow/<week>.json.
+// 만든 사람과 원문 링크를 항목마다 단다. 남의 영상·이미지는 넣지 않는다(링크만).
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { wowIssues, type WowIssue } from "../../../lib/ai-wow";
+import { CATEGORIES, host, weekLabel } from "../../../../scripts/lib/ai-wow.mjs";
+
+export function getStaticPaths() {
+  return wowIssues.map((issue) => ({ params: { week: issue.week }, props: { issue } }));
+}
+const { issue } = Astro.props as { issue: WowIssue };
+const idx = wowIssues.findIndex((i) => i.week === issue.week);
+const newer = wowIssues[idx - 1];
+const older = wowIssues[idx + 1];
+const canonical = `https://news.oiyo.net/ai/wow/${issue.week}/`;
+const title = `${issue.title} (${weekLabel(issue)})`;
+const cat = CATEGORIES as Record<string, { label: string; color: string }>;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: title,
+  url: canonical,
+  numberOfItems: issue.items.length,
+  itemListElement: issue.items.map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it.title, url: it.url })),
+};
+---
+<BaseLayout title={title} description={issue.lede} canonical={canonical} crumbs={[{ label: "AI", href: "/ai/" }, { label: "AI로 만든 놀라운 것", href: "/ai/wow/" }, { label: weekLabel(issue) }]}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <p class="kicker">매주 수요일 · {weekLabel(issue)}</p>
+  <h1>{issue.title}</h1>
+  <p class="lede">{issue.lede}</p>
+  <p class="note">영상·이미지는 다시 올리지 않고 원문 링크만 걸었어요. 원작은 만든 사람의 게시물에서 보세요. 조회수·비용·시간은 게시자 주장이에요.</p>
+  <ol class="wow">
+    {issue.items.map((it, i) => (
+      <li id={it.id} style={`--c:${cat[it.category].color}`}>
+        <div class="head"><span class="no">{i + 1}</span><span class="cat">{cat[it.category].label}</span>{it.kr && <span class="kr">한국</span>}<span class="date">{it.date.slice(5).replace("-", ".")}</span></div>
+        <h2><a href={it.url} rel="noopener nofollow" target="_blank">{it.title}</a></h2>
+        <p class="by">만든 사람 {it.creator.profile ? <a href={it.creator.profile} rel="noopener nofollow" target="_blank">{it.creator.handle}</a> : <strong>{it.creator.handle}</strong>} · {it.creator.platform}</p>
+        <dl>
+          <div><dt>무엇을</dt><dd>{it.what}</dd></div>
+          <div><dt>어떻게</dt><dd>{it.how}</dd></div>
+          <div><dt>왜 놀라운가</dt><dd>{it.why}</dd></div>
+          {it.claim && <div><dt>숫자</dt><dd>{it.claim} <span class="muted">(주장)</span></dd></div>}
+        </dl>
+        <a class="src" href={it.url} rel="noopener nofollow" target="_blank">원문 보기 · {it.via ?? host(it.url)}</a>
+      </li>
+    ))}
+  </ol>
+  <nav class="issues" aria-label="다른 주">
+    {older ? <a href={`/ai/wow/${older.week}/`}>← {weekLabel(older)}</a> : <span />}
+    <a href="/ai/wow/">모든 주 보기</a>
+    {newer ? <a href={`/ai/wow/${newer.week}/`}>{weekLabel(newer)} →</a> : <span />}
+  </nav>
+  <p class="note">소개를 원하지 않는 만든 사람은 support@oiyo.net으로 알려 주면 바로 빼요. 이번 주에 본 놀라운 작업이 있으면 같은 주소로 보내 주세요.</p>
+  <style>
+    .kicker { color: var(--muted); font-size: 13px; margin: 0; }
+    .note { font-size: 13px; color: var(--muted); }
+    .wow { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px; }
+    .wow li { border: 1px solid var(--border); border-left: 4px solid var(--c); border-radius: 12px; padding: 14px 16px; background: var(--card); }
+    .head { display: flex; gap: 8px; align-items: center; font-size: 12.5px; color: var(--muted); }
+    .no { font-weight: 800; font-size: 18px; color: var(--ink); min-width: 22px; }
+    .cat { font-weight: 700; }
+    .kr { border: 1px solid var(--border); border-radius: 999px; padding: 0 8px; }
+    .date { margin-left: auto; }
+    .wow h2 { font-size: 17px; line-height: 1.4; margin: 6px 0 2px; }
+    .wow h2 a { color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+    .wow h2 a:hover { text-decoration: underline; }
+    .by { font-size: 13px; color: var(--muted); margin: 0 0 8px; }
+    .wow dl { margin: 0; display: grid; gap: 6px; }
+    .wow dl div { display: grid; grid-template-columns: 76px 1fr; gap: 8px; font-size: 14px; line-height: 1.55; }
+    .wow dt { color: var(--muted); font-weight: 700; font-size: 13px; }
+    .wow dd { margin: 0; }
+    .muted { color: var(--muted); font-size: 12px; }
+    .src { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; font-size: 14px; }
+    .issues { display: flex; justify-content: space-between; gap: 8px; margin: 20px 0 8px; }
+    .issues a { display: inline-flex; align-items: center; min-height: 44px; }
+    @media (max-width: 480px) { .wow dl div { grid-template-columns: 1fr; gap: 0; } }
+  </style>
+</BaseLayout>
