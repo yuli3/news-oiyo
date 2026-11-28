@@ -1,0 +1,114 @@
+{
+  "date": "2026-11-25",
+  "youtube": {
+    "title": "11월 25일 경제 공식 발표 3건 · 2026년 9월 및 3분기 인구동향(출생, 사망, 혼인, 이혼) #Shorts",
+    "description": "11월 25일(수) 경제 공식 발표 3건\n\n• [국가데이터처(통계청)] 2026년 9월 및 3분기 인구동향(출생, 사망, 혼인, 이혼)\n  https://mods.go.kr/board.es?mid=a10301020300&act=view&bid=204&list_no=448084\n• [국가데이터처(통계청)] 지식재산 데이터, 국가데이터와 만나 새로운 가치를 만든다\n  https://mods.go.kr/board.es?mid=a10301150000&act=view&bid=246&list_no=448109\n• [재정경제부] 2026 다자개발은행(MDB) 프로젝트 플라자 개최\n  https://mofe.go.kr/nw/nes/detailNesDtaView.do?searchBbsId=MOSFBBS_000000000028&menuNo=4010100&searchNttId=MOSF_000000000080029\n\n실시간 경제 속보: https://news.oiyo.net/finance/live/\n\n중앙은행·정부·통계기관이 낸 공식 발표의 제목만 모았습니다. 내용은 각 기관 원문에서 확인하세요. 투자 권유가 아닙니다.\n\n나레이션: AI 음성(Supertonic)\n\n#경제뉴스 #경제속보 #공식발표 #금리 #환율 #Shorts",
+    "categoryId": "25",
+    "isAiGenerated": false,
+    "containsSyntheticMedia": true
+  },
+  "instagram": {
+    "caption": "11월 25일 경제 공식 발표 3건 📊\n\n• [국가데이터처(통계청)] 2026년 9월 및 3분기 인구동향(출생, 사망, 혼인, 이혼)\n• [국가데이터처(통계청)] 지식재산 데이터, 국가데이터와 만나 새로운 가치를 만든다\n• [재정경제부] 2026 다자개발은행(MDB) 프로젝트 플라자 개최\n\n👉 실시간 속보: 프로필 링크 → news.oiyo.net/finance/live\n\n중앙은행·정부·통계기관이 낸 공식 발표의 제목만 모았습니다. 내용은 각 기관 원문에서 확인하세요. 투자 권유가 아닙니다.\n\n#경제뉴스 #경제속보 #공식발표 #OIYO"
+  },
+  "link": "https://news.oiyo.net/finance/live/",
+  "length": 42.5,
+  "video": "2026-11-25.mp4",
+  "items": [
+    {
+      "org": "국가데이터처(통계청)",
+      "when": "11/24(화) 10:32",
+      "headline": "2026년 9월 및 3분기 인구동향(출생, 사망, 혼인, 이혼)",
+      "original": null,
+      "tags": [
+        "경제지표",
+        "실적"
+      ],
+      "flash": false,
+      "host": "mods.go.kr",
+      "url": "https://mods.go.kr/board.es?mid=a10301020300&act=view&bid=204&list_no=448084"
+    },
+    {
+      "org": "국가데이터처(통계청)",
+      "when": "11/25(수) 10:10",
+      "headline": "지식재산 데이터, 국가데이터와 만나 새로운 가치를 만든다",
+      "original": null,
+      "tags": [],
+      "flash": false,
+      "host": "mods.go.kr",
+      "url": "https://mods.go.kr/board.es?mid=a10301150000&act=view&bid=246&list_no=448109"
+    },
+    {
+      "org": "재정경제부",
+      "when": "11/24(화) 09:00",
+      "headline": "2026 다자개발은행(MDB) 프로젝트 플라자 개최",
+      "original": null,
+      "tags": [],
+      "flash": false,
+      "host": "mofe.go.kr",
+      "url": "https://mofe.go.kr/nw/nes/detailNesDtaView.do?searchBbsId=MOSFBBS_000000000028&menuNo=4010100&searchNttId=MOSF_000000000080029"
+    }
+  ],
+  "narration": {
+    "engine": "supertonic-3",
+    "voice": "F1",
+    "lines": [
+      {
+        "text": "경제 공식 발표 삼건입니다.",
+        "shown": "경제 공식 발표 3건입니다.",
+        "start": 0.35,
+        "max": 2.4,
+        "room": 2.4,
+        "spoken": 2.37,
+        "speed": 1.17,
+        "cut": false
+      },
+      {
+        "text": "국가데이터처. 이천이십육년 구월 및 삼분기 인구동향 출생, 사망, 혼인, 이혼.",
+        "shown": "국가데이터처. 2026년 9월 및 3분기 인구동향(출생, 사망, 혼인, 이혼).",
+        "start": 3.35,
+        "max": 10.9,
+        "room": 10.9,
+        "spoken": 7.17,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "국가데이터처. 지식재산 데이터, 국가데이터와 만나 새로운 가치를 만든다.",
+        "shown": "국가데이터처. 지식재산 데이터, 국가데이터와 만나 새로운 가치를 만든다.",
+        "start": 14.85,
+        "max": 10.9,
+        "room": 10.9,
+        "spoken": 6.55,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "재정경제부. 이천이십육 다자개발은행 엠디비 프로젝트 플라자 개최.",
+        "shown": "재정경제부. 2026 다자개발은행(MDB) 프로젝트 플라자 개최.",
+        "start": 26.35,
+        "max": 10.9,
+        "room": 10.9,
+        "spoken": 5.99,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "원문은 설명란 링크에서 확인하세요. 에이아이 음성입니다.",
+        "shown": "원문은 설명란 링크에서 확인하세요. AI 음성입니다.",
+        "start": 37.85,
+        "max": 3.9,
+        "room": 3.9,
+        "spoken": 3.9,
+        "speed": 1.45,
+        "cut": true
+      }
+    ]
+  },
+  "youtubeUpload": {
+    "id": "yk0OeQWuLbo",
+    "url": "https://youtu.be/yk0OeQWuLbo",
+    "channelId": "UCjaNOdol7qDNX_Hpxm5TaWg",
+    "privacy": "private",
+    "uploadedAt": "2026-11-25T05:30:38.097Z"
+  }
+}

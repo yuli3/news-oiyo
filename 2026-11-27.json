@@ -1,0 +1,138 @@
+{
+  "date": "2026-11-27",
+  "youtube": {
+    "title": "11월 27일 경제 공식 발표 4건 · 개인투자용 국채 12월 발행 미실시 #Shorts",
+    "description": "11월 27일(금) 경제 공식 발표 4건\n\n• [재정경제부] 개인투자용 국채 12월 발행 미실시\n  https://mofe.go.kr/nw/nes/detailNesDtaView.do?searchBbsId=MOSFBBS_000000000028&menuNo=4010100&searchNttId=MOSF_000000000080049\n• [재정경제부] [보도참고] 2026년 3/4분기 가계동향조사 결과\n  https://mofe.go.kr/nw/nes/detailNesDtaView.do?searchBbsId=MOSFBBS_000000000028&menuNo=4010100&searchNttId=MOSF_000000000080050\n• [국가데이터처(통계청)] 국가데이터처, 유엔마약범죄사무소(UNODC)와 범죄분류 공동세미나 개최\n  https://mods.go.kr/board.es?mid=a10301150000&act=view&bid=246&list_no=448137\n• [한국은행] 통화정책방향(2026.11.26)\n  https://www.bok.or.kr/portal/bbs/P0000559/view.do?nttId=11067084&menuNo=200690\n\n실시간 경제 속보: https://news.oiyo.net/finance/live/\n\n중앙은행·정부·통계기관이 낸 공식 발표의 제목만 모았습니다. 내용은 각 기관 원문에서 확인하세요. 투자 권유가 아닙니다.\n\n나레이션: AI 음성(Supertonic)\n\n#경제뉴스 #경제속보 #공식발표 #금리 #환율 #Shorts",
+    "categoryId": "25",
+    "isAiGenerated": false,
+    "containsSyntheticMedia": true
+  },
+  "instagram": {
+    "caption": "11월 27일 경제 공식 발표 4건 📊\n\n• [재정경제부] 개인투자용 국채 12월 발행 미실시\n• [재정경제부] [보도참고] 2026년 3/4분기 가계동향조사 결과\n• [국가데이터처(통계청)] 국가데이터처, 유엔마약범죄사무소(UNODC)와 범죄분류 공동세미나 개최\n• [한국은행] 통화정책방향(2026.11.26)\n\n👉 실시간 속보: 프로필 링크 → news.oiyo.net/finance/live\n\n중앙은행·정부·통계기관이 낸 공식 발표의 제목만 모았습니다. 내용은 각 기관 원문에서 확인하세요. 투자 권유가 아닙니다.\n\n#경제뉴스 #경제속보 #공식발표 #OIYO"
+  },
+  "link": "https://news.oiyo.net/finance/live/",
+  "length": 54,
+  "video": "2026-11-27.mp4",
+  "items": [
+    {
+      "org": "재정경제부",
+      "when": "11/26(목) 19:00",
+      "headline": "개인투자용 국채 12월 발행 미실시",
+      "original": null,
+      "tags": [
+        "금리"
+      ],
+      "flash": false,
+      "host": "mofe.go.kr",
+      "url": "https://mofe.go.kr/nw/nes/detailNesDtaView.do?searchBbsId=MOSFBBS_000000000028&menuNo=4010100&searchNttId=MOSF_000000000080049"
+    },
+    {
+      "org": "재정경제부",
+      "when": "11/26(목) 09:00",
+      "headline": "[보도참고] 2026년 3/4분기 가계동향조사 결과",
+      "original": null,
+      "tags": [
+        "경제지표",
+        "실적"
+      ],
+      "flash": false,
+      "host": "mofe.go.kr",
+      "url": "https://mofe.go.kr/nw/nes/detailNesDtaView.do?searchBbsId=MOSFBBS_000000000028&menuNo=4010100&searchNttId=MOSF_000000000080050"
+    },
+    {
+      "org": "국가데이터처(통계청)",
+      "when": "11/26(목) 13:25",
+      "headline": "국가데이터처, 유엔마약범죄사무소(UNODC)와 범죄분류 공동세미나 개최",
+      "original": null,
+      "tags": [],
+      "flash": false,
+      "host": "mods.go.kr",
+      "url": "https://mods.go.kr/board.es?mid=a10301150000&act=view&bid=246&list_no=448137"
+    },
+    {
+      "org": "한국은행",
+      "when": "11/26(목) 10:30",
+      "headline": "통화정책방향(2026.11.26)",
+      "original": null,
+      "tags": [
+        "정책"
+      ],
+      "flash": false,
+      "host": "bok.or.kr",
+      "url": "https://www.bok.or.kr/portal/bbs/P0000559/view.do?nttId=11067084&menuNo=200690"
+    }
+  ],
+  "narration": {
+    "engine": "supertonic-3",
+    "voice": "F1",
+    "lines": [
+      {
+        "text": "경제 공식 발표 사건입니다.",
+        "shown": "경제 공식 발표 4건입니다.",
+        "start": 0.35,
+        "max": 2.4,
+        "room": 2.4,
+        "spoken": 2.37,
+        "speed": 1.13,
+        "cut": false
+      },
+      {
+        "text": "재정경제부. 개인투자용 국채 십이월 발행 미실시.",
+        "shown": "재정경제부. 개인투자용 국채 12월 발행 미실시.",
+        "start": 3.35,
+        "max": 10.9,
+        "room": 10.9,
+        "spoken": 4.74,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "재정경제부. 보도참고 이천이십육년 삼 사분기 가계동향조사 결과.",
+        "shown": "재정경제부. [보도참고] 2026년 3/4분기 가계동향조사 결과.",
+        "start": 14.85,
+        "max": 10.9,
+        "room": 10.9,
+        "spoken": 6.13,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "국가데이터처. 국가데이터처, 유엔마약범죄사무소 유엔오디씨 와 범죄분류 공동세미나 개최.",
+        "shown": "국가데이터처. 국가데이터처, 유엔마약범죄사무소(UNODC)와 범죄분류 공동세미나 개최.",
+        "start": 26.35,
+        "max": 10.9,
+        "room": 10.9,
+        "spoken": 8.22,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "한국은행. 통화정책방향 이천이십육 점 일일.이십육.",
+        "shown": "한국은행. 통화정책방향(2026.11.26).",
+        "start": 37.85,
+        "max": 10.9,
+        "room": 10.9,
+        "spoken": 5.09,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "원문은 설명란 링크에서 확인하세요. 에이아이 음성입니다.",
+        "shown": "원문은 설명란 링크에서 확인하세요. AI 음성입니다.",
+        "start": 49.35,
+        "max": 3.9,
+        "room": 3.9,
+        "spoken": 3.9,
+        "speed": 1.45,
+        "cut": true
+      }
+    ]
+  },
+  "youtubeUpload": {
+    "id": "FdT1ydPf6ls",
+    "url": "https://youtu.be/FdT1ydPf6ls",
+    "channelId": "UCjaNOdol7qDNX_Hpxm5TaWg",
+    "privacy": "private",
+    "uploadedAt": "2026-11-27T05:10:27.265Z"
+  }
+}

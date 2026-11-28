@@ -1,0 +1,154 @@
+{
+  "date": "2026-11-28",
+  "youtube": {
+    "title": "11월 28일 경제 공식 발표 5건 · 시장상황점검회의 개최 #Shorts",
+    "description": "11월 28일(토) 경제 공식 발표 5건\n\n• [재정경제부] 시장상황점검회의 개최\n  https://mofe.go.kr/nw/nes/detailNesDtaView.do?searchBbsId=MOSFBBS_000000000028&menuNo=4010100&searchNttId=MOSF_000000000080084\n• [유럽중앙은행(ECB)] Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)\n  https://www.ecb.europa.eu//press/govcdec/otherdec/2026/html/ecb.gc261127~13ecadc0f2.en.html\n• [유럽중앙은행(ECB)] ECB Consumer Expectations Survey results – October 2026\n  https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261127~2e53af695e.en.html\n• [일본은행(BOJ)] (BOJ Review) Developments in JGB Market-Making Business by Securities Companies\n  https://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e14.htm\n• [일본은행(BOJ)] Keynote speech by Executive Director KAMIYAMA at the IMF MCM-OAP Seminar in Tokyo (Digital Money and Payments: Transitioning Toward a New Paradigm)\n  https://www.boj.or.jp/en/about/press/koen_2026/ko261127a.htm\n\n실시간 경제 속보: https://news.oiyo.net/finance/live/\n\n중앙은행·정부·통계기관이 낸 공식 발표의 제목만 모았습니다. 내용은 각 기관 원문에서 확인하세요. 투자 권유가 아닙니다.\n\n나레이션: AI 음성(Supertonic)\n\n#경제뉴스 #경제속보 #공식발표 #금리 #환율 #Shorts",
+    "categoryId": "25",
+    "isAiGenerated": false,
+    "containsSyntheticMedia": true
+  },
+  "instagram": {
+    "caption": "11월 28일 경제 공식 발표 5건 📊\n\n• [재정경제부] 시장상황점검회의 개최\n• [유럽중앙은행(ECB)] Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)\n• [유럽중앙은행(ECB)] ECB Consumer Expectations Survey results – October 2026\n• [일본은행(BOJ)] (BOJ Review) Developments in JGB Market-Making Business by Securities Companies\n• [일본은행(BOJ)] Keynote speech by Executive Director KAMIYAMA at the IMF MCM-OAP Seminar in Tokyo (Digital Money and Payments: Transitioning Toward a New Paradigm)\n\n👉 실시간 속보: 프로필 링크 → news.oiyo.net/finance/live\n\n중앙은행·정부·통계기관이 낸 공식 발표의 제목만 모았습니다. 내용은 각 기관 원문에서 확인하세요. 투자 권유가 아닙니다.\n\n#경제뉴스 #경제속보 #공식발표 #OIYO"
+  },
+  "link": "https://news.oiyo.net/finance/live/",
+  "length": 58,
+  "video": "2026-11-28.mp4",
+  "items": [
+    {
+      "org": "재정경제부",
+      "when": "11/27(금) 23:20",
+      "headline": "시장상황점검회의 개최",
+      "original": null,
+      "tags": [],
+      "flash": false,
+      "host": "mofe.go.kr",
+      "url": "https://mofe.go.kr/nw/nes/detailNesDtaView.do?searchBbsId=MOSFBBS_000000000028&menuNo=4010100&searchNttId=MOSF_000000000080084"
+    },
+    {
+      "org": "유럽중앙은행(ECB)",
+      "when": "11/27(금) 23:00",
+      "headline": "Decisions taken by the Governing Council of the ECB (in addition to decisions setting interest rates)",
+      "original": null,
+      "tags": [
+        "금리"
+      ],
+      "flash": false,
+      "host": "ecb.europa.eu",
+      "url": "https://www.ecb.europa.eu//press/govcdec/otherdec/2026/html/ecb.gc261127~13ecadc0f2.en.html"
+    },
+    {
+      "org": "유럽중앙은행(ECB)",
+      "when": "11/27(금) 18:00",
+      "headline": "ECB Consumer Expectations Survey results – October 2026",
+      "original": null,
+      "tags": [],
+      "flash": false,
+      "host": "ecb.europa.eu",
+      "url": "https://www.ecb.europa.eu//press/pr/date/2026/html/ecb.pr261127~2e53af695e.en.html"
+    },
+    {
+      "org": "일본은행(BOJ)",
+      "when": "11/27(금) 14:00",
+      "headline": "(BOJ Review) Developments in JGB Market-Making Business by Securities Companies",
+      "original": null,
+      "tags": [],
+      "flash": false,
+      "host": "boj.or.jp",
+      "url": "https://www.boj.or.jp/en/research/wps_rev/rev_2026/rev26e14.htm"
+    },
+    {
+      "org": "일본은행(BOJ)",
+      "when": "11/27(금) 10:15",
+      "headline": "Keynote speech by Executive Director KAMIYAMA at the IMF MCM-OAP Seminar in Tokyo (Digital Money and Payments: Transitioning Toward a New Paradigm)",
+      "original": null,
+      "tags": [],
+      "flash": false,
+      "host": "boj.or.jp",
+      "url": "https://www.boj.or.jp/en/about/press/koen_2026/ko261127a.htm"
+    }
+  ],
+  "narration": {
+    "engine": "supertonic-3",
+    "voice": "F1",
+    "lines": [
+      {
+        "text": "경제 공식 발표 오건입니다.",
+        "shown": "경제 공식 발표 5건입니다.",
+        "start": 0.35,
+        "max": 2.4,
+        "room": 2.4,
+        "spoken": 2.37,
+        "speed": 1.13,
+        "cut": false
+      },
+      {
+        "text": "재정경제부. 시장상황점검회의 개최.",
+        "shown": "재정경제부. 시장상황점검회의 개최.",
+        "start": 3.35,
+        "max": 9.4,
+        "room": 9.4,
+        "spoken": 3.76,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "유럽중앙은행의 새 발표입니다.",
+        "shown": "유럽중앙은행의 새 발표입니다.",
+        "start": 13.35,
+        "max": 9.4,
+        "room": 9.4,
+        "spoken": 2.79,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "유럽중앙은행의 새 발표입니다.",
+        "shown": "유럽중앙은행의 새 발표입니다.",
+        "start": 23.35,
+        "max": 9.4,
+        "room": 9.4,
+        "spoken": 2.79,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "일본은행의 새 발표입니다.",
+        "shown": "일본은행의 새 발표입니다.",
+        "start": 33.35,
+        "max": 9.4,
+        "room": 9.4,
+        "spoken": 2.44,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "일본은행의 새 발표입니다.",
+        "shown": "일본은행의 새 발표입니다.",
+        "start": 43.35,
+        "max": 9.4,
+        "room": 9.4,
+        "spoken": 2.44,
+        "speed": 1.05,
+        "cut": false
+      },
+      {
+        "text": "원문은 설명란 링크에서 확인하세요. 에이아이 음성입니다.",
+        "shown": "원문은 설명란 링크에서 확인하세요. AI 음성입니다.",
+        "start": 53.35,
+        "max": 3.9,
+        "room": 3.9,
+        "spoken": 3.9,
+        "speed": 1.45,
+        "cut": true
+      }
+    ]
+  },
+  "youtubeUpload": {
+    "id": "oQf2jRAVbC8",
+    "url": "https://youtu.be/oQf2jRAVbC8",
+    "channelId": "UCjaNOdol7qDNX_Hpxm5TaWg",
+    "privacy": "private",
+    "uploadedAt": "2026-11-28T04:48:11.699Z"
+  },
+  "videoUrl": "https://raw.githubusercontent.com/yuli3/news-oiyo/econ-shorts/2026-11-28.mp4"
+}
