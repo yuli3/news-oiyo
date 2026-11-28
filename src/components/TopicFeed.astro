@@ -1,6 +1,6 @@
 ---
 import NewsItem from "./NewsItem.astro";
-import { hasDetailPage, SOURCE_COLOR, type FeedItem } from "../lib/feed";
+import { displayTitle, hasDetailPage, SOURCE_COLOR, type FeedItem } from "../lib/feed";
 interface Props { items: FeedItem[]; label: string; filters?: boolean; desk?: "ai" | "finance" }
 const { items, label, filters = false, desk = "ai" } = Astro.props;
 // 2026-11-22: 금융 목록에도 HN·Reddit 칩이 나왔다. 분야별 칩을 쓰고, 현재 목록에 하나도 없는 칩은 숨긴다.
@@ -14,7 +14,7 @@ const CHIPS: Record<string, [string, string][]> = {
 };
 const srcOf = (it: FeedItem) => (it.src || "").toLowerCase();
 const chips = [["all","전체"] as [string,string], ...CHIPS[desk].filter(([key]) => items.some((it) => SOURCES[key].includes(srcOf(it))))];
-const entries = items.map((it,index) => ({ "@type":"ListItem",name:it.title,position:index+1,url:hasDetailPage(it)?new URL(`/item/${it.id}/`,Astro.site).href:it.url }));
+const entries = items.map((it,index) => ({ "@type":"ListItem",name:displayTitle(it),position:index+1,url:hasDetailPage(it)?new URL(`/item/${it.id}/`,Astro.site).href:it.url }));
 ---
 <div data-topic-feed>
   {filters && items.length > 0 && <div class="source-chips" role="group" aria-label={`${label} 출처 필터`} data-sources={JSON.stringify(SOURCES)}>

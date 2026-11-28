@@ -15,6 +15,7 @@
 ---
 id: trend-0123456789abcdef
 title: "원문 제목 (JSON 문자열)"
+titleKo: "한국어 제목 (JSON 문자열)"              # 원제에 한글이 없으면 필수 (2026-11-29~)
 sourceUrl: https://example.com/post        # news.json의 item.url과 같아야 해요
 summary: 직접 쓴 한국어 요약 (최대 240자)
 translationStatus: full                     # full | partial | blocked
@@ -26,7 +27,24 @@ translatedAt: 2026-10-13
 본문(markdown)…
 ```
 
-sync가 채우는 필드는 `summary`, `detailSummary`(같은 요약), `summaryAuthoredBy`, `detailStatus: ok`, `translationKo`, `translationStatus`, `translatedBy`, `translatedAt`이에요. `detailSummary`가 있으면 상세 페이지가 생겨요.
+sync가 채우는 필드는 `summary`, `detailSummary`(같은 요약), `summaryAuthoredBy`, `detailStatus: ok`, `translationKo`, `translationStatus`, `translatedBy`, `translatedAt`, `titleKo`이에요. `detailSummary`가 있으면 상세 페이지가 생겨요.
+
+### 한국어 제목 `titleKo` (2026-11-28 세운 "news 제목도 한글화")
+
+- 원제에 한글이 없으면 `titleKo`를 써요. `translations:pending` 출력의 `needsTitleKo: true`가 그 항목이에요. 원제가 이미 한국어면 쓰지 않아요(sync가 무시해요).
+- 원문을 읽은 김에 같이 써요. 원제의 사실만 옮기고 낚시성 표현·원제에 없는 숫자·평가를 보태지 않아요. 제품·모델·회사 이름은 자연스러우면 영어 그대로 둬요. 최대 120자.
+- `title`(원제)은 그대로 둬요. 중복 제거·같은 소식 묶기·출처 대조가 원제를 기준으로 해요.
+- 화면: 목록·상세 `<h1>`·`<title>`·RSS·검색 팔레트(`/search-index.json`, `/mcp`)·저장·쇼츠 대본이 한국어 제목을 먼저 쓰고, 목록과 상세에는 원제를 아래에 작게 보여요. `llms-full.txt`는 영어 원제를 유지해요.
+- `translations:check`는 2026-11-29 이후 날짜에서 `titleKo`가 빠지거나 한글이 없거나 sync가 안 됐으면 실패해요. 과거 날짜는 소급하지 않아요.
+
+## 토큰 아끼기 (2026-11-28)
+
+최근 10일 Claude Code 로그에서 news 세션 하나가 6일 동안 이어지며 컨텍스트가 약 966K까지 차고, 모델 호출 2,583번 동안 캐시 토큰 13억을 다시 읽었어요. 비용 대부분은 번역 글자 수가 아니라 **긴 세션이 매 호출마다 전체 대화를 다시 읽는 것**이었어요.
+
+- 날짜 하나 = 세션 하나. 그날 `translations:check`가 PASS면 세션을 끝내고, 이어서 할 일은 파일로 남겨요.
+- 항목 번역은 항목마다 서브에이전트(새 컨텍스트)로 돌리고, 본 세션에는 "파일 경로 + PASS/FAIL" 한 줄만 돌려받아요.
+- 원문은 `node scripts/fetch-source.mjs <url> --max-chars 12000`처럼 상한을 걸어 읽어요. 빌드·테스트 출력은 파일로 남기고 실패 구간만 읽어요.
+- `translations:pending -- --json`은 excerpt까지 나와 길어요. 목록만 필요하면 `--json` 없이 써요.
 
 ### translationStatus
 

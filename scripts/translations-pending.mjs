@@ -8,7 +8,7 @@
 import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadTranslations } from "./lib/translations.mjs";
+import { loadTranslations, needsTitleKo } from "./lib/translations.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const news = JSON.parse(readFileSync(join(__dirname, "..", "src", "data", "news.json"), "utf8"));
@@ -22,7 +22,7 @@ const done = loadTranslations({ date });
 const pending = day.items.filter((it) => !done.has(it.id));
 console.error(`${date}: ${pending.length} pending of ${day.items.length} (translated ${day.items.length - pending.length})`);
 for (const it of pending) {
-  const row = { id: it.id, file: `src/data/translations/${date}/${it.id}.md`, title: it.title, url: it.url, src: it.src, discussionUrl: it.discussionUrl ?? null, detailOrigin: it.detailOrigin ?? null };
+  const row = { id: it.id, file: `src/data/translations/${date}/${it.id}.md`, title: it.title, needsTitleKo: needsTitleKo(it.title), url: it.url, src: it.src, discussionUrl: it.discussionUrl ?? null, detailOrigin: it.detailOrigin ?? null };
   if (argv.includes("--json")) Object.assign(row, { detailExcerpt: it.detailExcerpt ?? "", listSummary: it.summary ?? "" });
   console.log(JSON.stringify(row));
 }

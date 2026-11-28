@@ -4,7 +4,7 @@
 // 달별 "가장 많이 본" 순위는 같은 원문을 다룬 출처 수(언급)를 먼저, 그다음 댓글 수로 정렬한다.
 import data from "../../data/news.json";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { flattenFeed, hasDetailPage, isRepoItem, publicDaySummary, type Day, type FeedItem } from "../../lib/feed";
+import { displayTitle, flattenFeed, hasDetailPage, isRepoItem, publicDaySummary, type Day, type FeedItem } from "../../lib/feed";
 import { mentionChips, mentionCount, shortSourceLabel } from "../../lib/mentions";
 
 const YEAR = "2026";
@@ -59,7 +59,7 @@ const description = `${first}부터 ${last}까지 OIYO News가 정리한 ${feed.
   <ol class="rank">
     {top.map((it) => (
       <li>
-        <a href={hrefOf(it)}>{it.title}</a>
+        <a href={hrefOf(it)}>{displayTitle(it)}</a>
         <span class="meta">{it.date} · {shortSourceLabel(it.src)}{weight(it) > 1 ? ` 외 ${weight(it) - 1}곳` : ""}{it.comments ? ` · 댓글 ${it.comments.toLocaleString("ko-KR")}` : ""}</span>
         {blurb(it) && <p>{blurb(it)}</p>}
       </li>
@@ -76,7 +76,7 @@ const description = `${first}부터 ${last}까지 OIYO News가 정리한 ${feed.
         {lead && <p class="lead">가장 기사가 많던 날 <a href={`/${lead.date}/`}>{lead.date}</a>: {lead.text}</p>}
         <ol class="rank small">
           {rank(byMonth.get(m)!).slice(0, 5).map((it) => (
-            <li><a href={hrefOf(it)}>{it.title}</a> <span class="meta">{it.date.slice(5)} · {shortSourceLabel(it.src)}</span></li>
+            <li><a href={hrefOf(it)}>{displayTitle(it)}</a> <span class="meta">{it.date.slice(5)} · {shortSourceLabel(it.src)}</span></li>
           ))}
         </ol>
       </section>

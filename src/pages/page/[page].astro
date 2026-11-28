@@ -31,6 +31,7 @@ const title = `기술·경제 트렌드 아카이브 ${pageNum + 1}페이지 —
           {items.map((it) => (
             <NewsItem
               title={it.title}
+              titleKo={it.titleKo}
               href={it.url}
               source={it.src}
               sourceColor={SOURCE_COLOR[it.src]}
