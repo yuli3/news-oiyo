@@ -9,7 +9,7 @@
 import { readFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { loadTranslations, bodyChars, MIN_BODY_CHARS, MIN_BODY_CHARS_SHORT_SOURCE, SUMMARY_MAX, TRANSLATION_STATUSES } from "./lib/translations.mjs";
+import { loadTranslations, bodyChars, MIN_BODY_CHARS, MIN_BODY_CHARS_SHORT_SOURCE, SUMMARY_MAX, TRANSLATION_STATUSES, TITLE_KO_SINCE, TITLE_KO_MAX, hasHangul, needsTitleKo } from "./lib/translations.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const news = JSON.parse(readFileSync(join(__dirname, "..", "src", "data", "news.json"), "utf8"));
@@ -36,6 +36,14 @@ for (const it of day.items) {
   lengths.push(n);
   const min = rec.sourceShort === "true" ? MIN_BODY_CHARS_SHORT_SOURCE : (MIN_BODY_CHARS[status] ?? MIN_BODY_CHARS.full);
   if (n < min) problems.push(`${it.id} translation ${n} chars < ${min} (${status})`);
+  // Older days predate titleKo; only gate days from TITLE_KO_SINCE so past checks stay reproducible.
+  if (date >= TITLE_KO_SINCE && needsTitleKo(it.title)) {
+    const titleKo = String(rec.titleKo ?? "").trim();
+    if (!titleKo) problems.push(`${it.id} missing titleKo (original title has no Hangul)`);
+    else if (!hasHangul(titleKo)) problems.push(`${it.id} titleKo has no Hangul`);
+    else if (titleKo.length > TITLE_KO_MAX) problems.push(`${it.id} titleKo ${titleKo.length} > ${TITLE_KO_MAX} chars`);
+    else if (it.titleKo !== titleKo) problems.push(`${it.id} titleKo not synced — run npm run sync`);
+  }
   if (!rec.translatedBy || !rec.translatedAt) problems.push(`${it.id} missing translatedBy/translatedAt`);
   if (rec.sourceUrl && rec.sourceUrl !== it.url) problems.push(`${it.id} sourceUrl differs from item url`);
   if (it.translationKo !== rec.body) problems.push(`${it.id} news.json not synced — run npm run sync`);

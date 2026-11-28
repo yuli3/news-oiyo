@@ -15,6 +15,12 @@ export const MIN_BODY_CHARS = { full: 600, partial: 400, blocked: 300 };
 export const SUMMARY_MAX = 240;
 /** Floor when the original itself is short (e.g. a 5-line Reddit post); set `sourceShort: true`. Never pad. */
 export const MIN_BODY_CHARS_SHORT_SOURCE = 300;
+/** Korean display title (2026-11-28 세운 "news 제목도 한글화"). Days from this date must have one. */
+export const TITLE_KO_SINCE = "2026-11-29";
+export const TITLE_KO_MAX = 120;
+export const hasHangul = (s) => /[가-힣]/.test(String(s ?? ""));
+/** A Korean title is only needed when the original title has no Hangul. */
+export const needsTitleKo = (title) => !hasHangul(title);
 
 function parseScalar(raw) {
   const v = raw.trim();
@@ -58,6 +64,9 @@ export function bodyChars(text) {
 /** Overlay a translation record onto a news item (mutates and returns item). */
 export function applyTranslation(item, rec) {
   if (!rec) return item;
+  // `title` stays the original (dedup, clustering, sourceUrl checks key on it); titleKo is display-only.
+  const titleKo = String(rec.titleKo ?? "").replace(/\s+/g, " ").trim();
+  if (titleKo && hasHangul(titleKo) && needsTitleKo(item.title)) item.titleKo = titleKo.slice(0, TITLE_KO_MAX);
   if (rec.summary) {
     item.summary = rec.summary;
     item.detailSummary = rec.summary;

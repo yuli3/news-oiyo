@@ -99,6 +99,8 @@ export type NewsItemRecord = {
   sourceId?: string;
   score: number | null;
   title: string;
+  /** 원제에 한글이 없을 때 번역 파일이 주는 한국어 제목(2026-11-28~). 화면·RSS·검색은 이것을 먼저 쓴다. */
+  titleKo?: string;
   /** 제목 아래 한 줄. 수집 시점에 원문 소스가 준 설명만 담는다(2026-09-20~). */
   summary?: string;
   /** Agent-written Korean detail summary (public). Empty until agent-batch fills. */
@@ -150,6 +152,16 @@ function stamp(item: FeedItem): number {
 // 목록의 "자세히 읽기" 링크와 getStaticPaths 가 이 함수 하나를 같이 쓴다.
 export function hasDetailPage(item: Pick<NewsItemRecord, "detailSummary"> & { id?: string }): boolean {
   return typeof item.id === "string" && item.id.length > 0 && Boolean(item.detailSummary?.trim());
+}
+
+/** 보이는 제목: 한국어 제목이 있으면 그것, 없으면 원제(2026-11-28 세운 "news 제목도 한글화"). */
+export function displayTitle(item: Pick<NewsItemRecord, "title" | "titleKo">): string {
+  return item.titleKo?.trim() || item.title;
+}
+
+/** 한국어 제목을 보일 때만 원제를 작게 같이 보인다. 원문 링크·원제가 정본이다. */
+export function originalTitle(item: Pick<NewsItemRecord, "title" | "titleKo">): string | undefined {
+  return item.titleKo?.trim() ? item.title : undefined;
 }
 
 /**

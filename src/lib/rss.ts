@@ -67,7 +67,7 @@ export function buildRss(items: readonly FeedItem[], now: Date = new Date(), cha
       const desc = description(it);
       return [
         "<item>",
-        `<title>${escapeXml(it.title.trim())}</title>`,
+        `<title>${escapeXml((it.titleKo?.trim() || it.title).trim())}</title>`,
         `<link>${escapeXml(link)}</link>`,
         `<guid isPermaLink="${hasDetailPage(it)}">${escapeXml(hasDetailPage(it) ? link : `${SITE}/#${it.id ?? it.url}`)}</guid>`,
         `<pubDate>${itemDate(it).toUTCString()}</pubDate>`,

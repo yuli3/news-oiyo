@@ -77,7 +77,8 @@ picked.forEach((entry, idx) => {
   const startSec = cursorSec;
   const endSec = cursorSec + dur;
   cursorSec = endSec;
-  const title = cleanText(entry.item.title);
+  // 한국어 TTS가 영어 원제를 읽지 않게 한국어 제목을 먼저 쓴다(2026-11-28).
+  const title = cleanText(entry.item.titleKo || entry.item.title);
   const summary = cleanText(entry.item.detailSummary || entry.item.summary || entry.item.title).slice(0, 140);
   const sourceLabel = cleanText(entry.item.source || entry.item.sourceId || "출처 확인");
 
@@ -125,7 +126,7 @@ const spec = {
   socialMetadata: {
     youtubeShortsTitle: `[${targetDay.date}] 오늘의 AI·금융 1분 핵심 브리핑 | OIYO News #Shorts`,
     instagramReelsCaption: `📌 ${targetDay.date} AI·금융 60초 핵심 브리핑\n\n${picked
-      .map((p, i) => `${i + 1}. [${p.desk}] ${cleanText(p.item.title)}`)
+      .map((p, i) => `${i + 1}. [${p.desk}] ${cleanText(p.item.titleKo || p.item.title)}`)
       .join("\n")}\n\n🔗 원문 출처·상세 요약: ${socialAttributionUrl("news", "instagram", targetDay.date)}\n✨ AI 창작 쇼케이스: ${socialAttributionUrl("show", "instagram", targetDay.date)}\n#AI뉴스 #금융브리핑 #생성형AI #재테크 #OIYO`,
   },
   scenes,
@@ -237,7 +238,7 @@ const html = `<!doctype html>
         (entry) => `
     <article class="scene-card">
       <div class="scene-badge">${escapeHtml(entry.desk)} #${entry.rank} · ${escapeHtml(entry.item.source || entry.item.sourceId || "")}</div>
-      <h2 class="scene-title">${escapeHtml(cleanText(entry.item.title))}</h2>
+      <h2 class="scene-title">${escapeHtml(cleanText(entry.item.titleKo || entry.item.title))}</h2>
       <p class="scene-sub">${escapeHtml(cleanText(entry.item.detailSummary || entry.item.summary || "").slice(0, 110))}</p>
     </article>`
       )
